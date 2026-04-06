@@ -21,6 +21,31 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className="scroll-smooth">
       <body className="bg-bg text-text-primary antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Emir Sakarya",
+              jobTitle: "Full Stack Developer",
+              url: "https://emirsakarya.dev",
+              sameAs: [
+                "https://github.com/iWeslax83",
+                "https://linkedin.com/in/emirsakarya",
+              ],
+              worksFor: {
+                "@type": "EducationalOrganization",
+                name: "Tofaş Fen Lisesi",
+              },
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Bursa",
+                addressCountry: "TR",
+              },
+            }),
+          }}
+        />
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
