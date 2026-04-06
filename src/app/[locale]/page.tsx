@@ -1,14 +1,24 @@
 import { fetchGitHubStats } from "@/lib/github";
+import Nav from "@/components/nav";
+import Hero from "@/components/hero";
+import Projects from "@/components/projects";
+import Skills from "@/components/skills";
+import GitHub from "@/components/github";
+import Contact from "@/components/contact";
+import Footer from "@/components/footer";
 
 export default async function Home() {
   const githubStats = await fetchGitHubStats();
 
   return (
-    <main className="relative">
-      {/* Components will be added in Tasks 7-13 */}
-      <section id="home" className="min-h-screen flex items-center justify-center">
-        <p className="font-mono text-text-muted">Portfolio loading...</p>
-      </section>
+    <main>
+      <Nav />
+      <Hero />
+      <Projects />
+      <Skills />
+      <GitHub stats={githubStats} />
+      <Contact />
+      <Footer />
     </main>
   );
 }
