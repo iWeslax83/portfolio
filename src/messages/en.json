@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "home": "~/home",
+    "projects": "~/projects",
+    "skills": "~/skills",
+    "github": "~/github",
+    "contact": "~/contact"
+  },
+  "hero": {
+    "prompt": "$ whoami",
+    "name": "Emir Sakarya",
+    "subtitle": "Full Stack Developer · Electronics & Software Captain",
+    "location": "Tofaş Fen Lisesi · Bursa, Türkiye",
+    "projects": "projects",
+    "technologies": "technologies",
+    "competitions": "competitions",
+    "viewProjects": "view projects",
+    "getInTouch": "get in touch",
+    "scroll": "scroll"
+  },
+  "projects": {
+    "prompt": "$ ls projects/ --featured",
+    "title": "Featured Work",
+    "allPrompt": "$ ls projects/ --all",
+    "caseStudy": "case study",
+    "sourceCode": "source code",
+    "liveDemoLabel": "live demo"
+  },
+  "skills": {
+    "prompt": "$ cat skills.json",
+    "title": "Tech Stack"
+  },
+  "github": {
+    "prompt": "$ gh api user --jq '.public_repos, .followers'",
+    "title": "GitHub",
+    "publicRepos": "public repos",
+    "contributions": "contributions",
+    "languages": "languages",
+    "activity": "contribution activity — last 12 months",
+    "languageBreakdown": "language breakdown"
+  },
+  "contact": {
+    "prompt": "$ cat contact.md",
+    "title": "Get in Touch",
+    "subtitle": "Open to internships, collaborations, and interesting projects.",
+    "email": "Email",
+    "githubLabel": "GitHub",
+    "linkedin": "LinkedIn"
+  },
+  "footer": {
+    "builtWith": "emir.sakarya · built with Next.js · deployed on Vercel",
+    "exit": "$ exit 0"
+  }
+}
