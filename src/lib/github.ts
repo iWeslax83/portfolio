@@ -74,9 +74,12 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
     ]);
 
     const langBytes: Record<string, number> = {};
-    for (const repo of repos) {
-      if (repo.language) {
-        langBytes[repo.language] = (langBytes[repo.language] || 0) + (repo.size || 0);
+    const langResponses = await Promise.all(
+      repos.map((repo: { languages_url: string }) => githubFetch(repo.languages_url))
+    );
+    for (const repoLangs of langResponses) {
+      for (const [lang, bytes] of Object.entries(repoLangs) as [string, number][]) {
+        langBytes[lang] = (langBytes[lang] || 0) + bytes;
       }
     }
 
