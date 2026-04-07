@@ -28,8 +28,8 @@ export default async function LocaleLayout({
             "@context": "https://schema.org",
             "@type": "Person",
             name: "Emir Sakarya",
-            jobTitle: "Full Stack Developer",
-            url: "https://emirsakarya.dev",
+            jobTitle: "Software Architect | Node.js & Scalable Web Apps",
+            url: "https://emirsakarya.vercel.app",
             sameAs: [
               "https://github.com/iWeslax83",
               "https://linkedin.com/in/emirsakarya",

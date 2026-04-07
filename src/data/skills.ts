@@ -14,11 +14,11 @@ export const skills: SkillCategory[] = [
   {
     key: "ai_embedded",
     label: '"ai_&_embedded":',
-    items: ["Python", "Ollama", "Arduino", "Flight Controllers", "SolidWorks"],
+    items: ["Python", "Ollama", "Flight Controllers", "PCB Design"],
   },
   {
     key: "devops",
     label: '"devops":',
-    items: ["Docker", "Kubernetes", "GitHub Actions", "Nginx", "Linux", "Vercel"],
+    items: ["Docker", "Kubernetes", "GitHub Actions", "Linux", "Vercel"],
   },
 ];

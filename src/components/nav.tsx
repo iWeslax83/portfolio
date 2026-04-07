@@ -3,14 +3,15 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
 import MobileNav from "./mobile-nav";
 
 const navItems = [
-  { key: "home", href: "#home" },
-  { key: "projects", href: "#projects" },
-  { key: "skills", href: "#skills" },
-  { key: "github", href: "#github" },
-  { key: "contact", href: "#contact" },
+  { key: "home", href: "#home", num: "00" },
+  { key: "projects", href: "#projects", num: "01" },
+  { key: "skills", href: "#skills", num: "02" },
+  { key: "github", href: "#github", num: "03" },
+  { key: "contact", href: "#contact", num: "04" },
 ];
 
 export default function Nav() {
@@ -19,6 +20,7 @@ export default function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   const currentLocale = pathname.startsWith("/tr") ? "tr" : "en";
 
@@ -26,6 +28,27 @@ export default function Nav() {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const sectionIds = navItems.map((item) => item.href.slice(1));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   function switchLocale(locale: string) {
@@ -51,9 +74,14 @@ export default function Nav() {
               <a
                 key={item.key}
                 href={item.href}
-                className="font-mono text-xs text-text-muted hover:text-text-secondary transition-colors"
+                className={`font-mono text-xs transition-colors ${
+                  activeSection === item.href.slice(1)
+                    ? "text-accent"
+                    : "text-text-muted hover:text-text-secondary"
+                }`}
               >
-                {t(item.key)}
+                <span className="text-text-muted/50">{item.num}.</span>
+                {t(item.key).replace("~/", "")}
               </a>
             ))}
 
@@ -84,10 +112,10 @@ export default function Nav() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden font-mono text-text-secondary text-sm"
+            className="md:hidden text-text-secondary"
             aria-label="Open menu"
           >
-            ≡
+            <Menu size={18} />
           </button>
         </div>
       </nav>

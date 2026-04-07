@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { ChevronDown } from "lucide-react";
 import AnimatedCounter from "./animated-counter";
 import { staggerContainer, fadeInUp } from "@/lib/motion";
 
@@ -96,7 +97,7 @@ export default function Hero() {
         transition={{ duration: 2.5, repeat: Infinity }}
       >
         <p className="font-mono text-xs text-text-muted">{t("scroll")}</p>
-        <p className="font-mono text-xs text-text-muted mt-1">↓</p>
+        <ChevronDown size={14} className="text-text-muted mx-auto mt-1" />
       </motion.div>
     </section>
   );

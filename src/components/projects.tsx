@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
-import Image from "next/image";
 import { featuredProjects, secondaryProjects } from "@/data/projects";
 import { Project } from "@/lib/types";
 import SectionHeader from "./section-header";
@@ -80,19 +79,16 @@ function SpotlightCard({ project }: { project: Project }) {
           <div className="flex items-center gap-4 mt-4">
             <ProjectLinks links={project.links} />
             <span className="font-mono text-xs text-text-muted">
-              · Role: Electronics & Software Captain @ TMT
+              · Role: Electronics & Software Captain
             </span>
           </div>
         </div>
         {project.image && (
           <div className="w-full md:w-44 h-28 bg-white/[0.03] border border-card-border rounded-lg overflow-hidden flex-shrink-0">
-            <Image
+            <img
               src={project.image}
               alt={project.title}
-              width={180}
-              height={120}
               className="object-cover w-full h-full"
-              priority
             />
           </div>
         )}

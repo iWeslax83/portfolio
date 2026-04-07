@@ -2,14 +2,15 @@
 
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
 import { spring } from "@/lib/motion";
 
 const navItems = [
-  { key: "home", href: "#home" },
-  { key: "projects", href: "#projects" },
-  { key: "skills", href: "#skills" },
-  { key: "github", href: "#github" },
-  { key: "contact", href: "#contact" },
+  { key: "home", href: "#home", num: "00" },
+  { key: "projects", href: "#projects", num: "01" },
+  { key: "skills", href: "#skills", num: "02" },
+  { key: "github", href: "#github", num: "03" },
+  { key: "contact", href: "#contact", num: "04" },
 ];
 
 export default function MobileNav({
@@ -45,10 +46,10 @@ export default function MobileNav({
           >
             <button
               onClick={onClose}
-              className="self-end font-mono text-text-muted text-sm"
+              className="self-end text-text-muted hover:text-text-secondary transition-colors"
               aria-label="Close menu"
             >
-              ✕
+              <X size={18} />
             </button>
 
             {navItems.map((item) => (
@@ -58,7 +59,8 @@ export default function MobileNav({
                 onClick={onClose}
                 className="font-mono text-sm text-text-secondary hover:text-text-primary transition-colors"
               >
-                {t(item.key)}
+                <span className="text-text-muted/50 mr-2">{item.num}.</span>
+                {t(item.key).replace("~/", "")}
               </a>
             ))}
 

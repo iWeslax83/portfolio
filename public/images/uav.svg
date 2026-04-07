@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280" fill="none">
+  <defs>
+    <!-- Grid pattern for tech feel -->
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(212,163,115,0.06)" stroke-width="0.5"/>
+    </pattern>
+    <!-- Glow filter for propellers -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Stronger glow for accent elements -->
+    <filter id="accentGlow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Radial gradient for center body -->
+    <radialGradient id="bodyGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d4a373" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#d4a373" stop-opacity="0.05"/>
+    </radialGradient>
+    <!-- Propeller spin gradient -->
+    <radialGradient id="propGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d4a373" stop-opacity="0.4"/>
+      <stop offset="60%" stop-color="#d4a373" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#d4a373" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background grid -->
+  <rect width="400" height="280" fill="rgba(12,12,12,0.6)"/>
+  <rect width="400" height="280" fill="url(#grid)"/>
+
+  <!-- Crosshair guides -->
+  <line x1="200" y1="30" x2="200" y2="250" stroke="rgba(212,163,115,0.08)" stroke-width="0.5" stroke-dasharray="4 4"/>
+  <line x1="40" y1="140" x2="360" y2="140" stroke="rgba(212,163,115,0.08)" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+  <!-- Drone arms -->
+  <!-- Top-left arm -->
+  <line x1="200" y1="140" x2="105" y2="75" stroke="#a0a0a0" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Top-right arm -->
+  <line x1="200" y1="140" x2="295" y2="75" stroke="#a0a0a0" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Bottom-left arm -->
+  <line x1="200" y1="140" x2="105" y2="205" stroke="#a0a0a0" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Bottom-right arm -->
+  <line x1="200" y1="140" x2="295" y2="205" stroke="#a0a0a0" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Propeller discs (spinning blur effect) -->
+  <circle cx="105" cy="75" r="38" fill="url(#propGrad)" filter="url(#glow)"/>
+  <circle cx="295" cy="75" r="38" fill="url(#propGrad)" filter="url(#glow)"/>
+  <circle cx="105" cy="205" r="38" fill="url(#propGrad)" filter="url(#glow)"/>
+  <circle cx="295" cy="205" r="38" fill="url(#propGrad)" filter="url(#glow)"/>
+
+  <!-- Propeller rings -->
+  <circle cx="105" cy="75" r="38" stroke="#d4a373" stroke-width="0.8" fill="none" opacity="0.3"/>
+  <circle cx="295" cy="75" r="38" stroke="#d4a373" stroke-width="0.8" fill="none" opacity="0.3"/>
+  <circle cx="105" cy="205" r="38" stroke="#d4a373" stroke-width="0.8" fill="none" opacity="0.3"/>
+  <circle cx="295" cy="205" r="38" stroke="#d4a373" stroke-width="0.8" fill="none" opacity="0.3"/>
+
+  <!-- Motor hubs -->
+  <circle cx="105" cy="75" r="6" fill="#1a1a1a" stroke="#d4a373" stroke-width="1.2"/>
+  <circle cx="295" cy="75" r="6" fill="#1a1a1a" stroke="#d4a373" stroke-width="1.2"/>
+  <circle cx="105" cy="205" r="6" fill="#1a1a1a" stroke="#d4a373" stroke-width="1.2"/>
+  <circle cx="295" cy="205" r="6" fill="#1a1a1a" stroke="#d4a373" stroke-width="1.2"/>
+
+  <!-- Motor hub center dots -->
+  <circle cx="105" cy="75" r="2" fill="#d4a373" opacity="0.8"/>
+  <circle cx="295" cy="75" r="2" fill="#d4a373" opacity="0.8"/>
+  <circle cx="105" cy="205" r="2" fill="#d4a373" opacity="0.8"/>
+  <circle cx="295" cy="205" r="2" fill="#d4a373" opacity="0.8"/>
+
+  <!-- Central body -->
+  <rect x="175" y="118" width="50" height="44" rx="8" fill="url(#bodyGrad)" stroke="#d4a373" stroke-width="1"/>
+
+  <!-- Body detail lines -->
+  <line x1="183" y1="130" x2="217" y2="130" stroke="rgba(212,163,115,0.3)" stroke-width="0.5"/>
+  <line x1="183" y1="137" x2="210" y2="137" stroke="rgba(212,163,115,0.2)" stroke-width="0.5"/>
+  <line x1="183" y1="144" x2="205" y2="144" stroke="rgba(212,163,115,0.15)" stroke-width="0.5"/>
+  <line x1="183" y1="151" x2="217" y2="151" stroke="rgba(212,163,115,0.3)" stroke-width="0.5"/>
+
+  <!-- Front indicator (direction) -->
+  <polygon points="200,110 195,118 205,118" fill="#d4a373" opacity="0.6"/>
+
+  <!-- GPS/sensor module on top -->
+  <circle cx="200" cy="140" r="4" fill="#1a1a1a" stroke="#d4a373" stroke-width="0.8"/>
+  <circle cx="200" cy="140" r="1.5" fill="#d4a373" opacity="0.9" filter="url(#accentGlow)"/>
+
+  <!-- Status LEDs on arms -->
+  <circle cx="140" cy="100" r="1.5" fill="#d4a373" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="260" cy="100" r="1.5" fill="#d4a373" opacity="0.9">
+    <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+  </circle>
+  <circle cx="140" cy="180" r="1.5" fill="#e24a4a" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.2;0.8" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="260" cy="180" r="1.5" fill="#e24a4a" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.2;0.8" dur="1.5s" repeatCount="indefinite" begin="0.75s"/>
+  </circle>
+
+  <!-- HUD overlay text -->
+  <text x="15" y="20" font-family="monospace" font-size="8" fill="#d4a373" opacity="0.5">ALT: 120m</text>
+  <text x="15" y="32" font-family="monospace" font-size="8" fill="#555555" opacity="0.5">SPD: 14.2 m/s</text>
+  <text x="15" y="44" font-family="monospace" font-size="8" fill="#555555" opacity="0.5">BAT: 78%</text>
+
+  <text x="315" y="20" font-family="monospace" font-size="8" fill="#d4a373" opacity="0.5">GPS: 3D</text>
+  <text x="315" y="32" font-family="monospace" font-size="8" fill="#555555" opacity="0.5">SAT: 14</text>
+  <text x="315" y="44" font-family="monospace" font-size="8" fill="#555555" opacity="0.5">MODE: AUTO</text>
+
+  <!-- Bottom status bar -->
+  <text x="130" y="270" font-family="monospace" font-size="7" fill="#555555" opacity="0.4">OTONOM DÖNER KANAT İHA</text>
+
+  <!-- Corner brackets (HUD frame) -->
+  <path d="M10,10 L10,30" stroke="rgba(212,163,115,0.2)" stroke-width="0.8"/>
+  <path d="M10,10 L30,10" stroke="rgba(212,163,115,0.2)" stroke-width="0.8"/>
+  <path d="M390,10 L390,30" stroke="rgba(212,163,115,0.2)" stroke-width="0.8"/>
+  <path d="M390,10 L370,10" stroke="rgba(212,163,115,0.2)" stroke-width="0.8"/>
+  <path d="M10,270 L10,250" stroke="rgba(212,163,115,0.2)" stroke-width="0.8"/>
+  <path d="M10,270 L30,270" stroke="rgba(212,163,115,0.2)" stroke-width="0.8"/>
+  <path d="M390,270 L390,250" stroke="rgba(212,163,115,0.2)" stroke-width="0.8"/>
+  <path d="M390,270 L370,270" stroke="rgba(212,163,115,0.2)" stroke-width="0.8"/>
+</svg>
