@@ -9,7 +9,7 @@
   "hero": {
     "prompt": "$ whoami",
     "name": "Emir Sakarya",
-    "subtitle": "Software Architect · Electronics & Software Captain",
+    "subtitle": "Software Architect · Electronics & Software",
     "location": "Tofaş Fen Lisesi · Bursa, Türkiye",
     "projects": "projects",
     "technologies": "technologies",
@@ -48,7 +48,7 @@
     "linkedin": "LinkedIn"
   },
   "footer": {
-    "builtWith": "emir.sakarya · built with Next.js · deployed on Vercel",
+    "builtWith": "emir.sakarya",
     "exit": "$ exit 0"
   }
 }

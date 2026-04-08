@@ -9,7 +9,7 @@
   "hero": {
     "prompt": "$ whoami",
     "name": "Emir Sakarya",
-    "subtitle": "Yazılım Mimarı · Elektronik & Yazılım Kaptanı",
+    "subtitle": "Yazılım Mimarı · Elektronik & Yazılım",
     "location": "Tofaş Fen Lisesi · Bursa, Türkiye",
     "projects": "proje",
     "technologies": "teknoloji",
@@ -43,12 +43,12 @@
     "prompt": "$ cat iletişim.md",
     "title": "İletişime Geç",
     "subtitle": "Staj, iş birliği ve ilginç projeler için açığım.",
-    "email": "E-posta",
+    "email": "E-Posta",
     "githubLabel": "GitHub",
     "linkedin": "LinkedIn"
   },
   "footer": {
-    "builtWith": "emir.sakarya · Next.js ile yapıldı · Vercel'de yayında",
+    "builtWith": "emir.sakarya",
     "exit": "$ exit 0"
   }
 }
