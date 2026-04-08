@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import MobileNav from "./mobile-nav";
 
@@ -16,13 +15,9 @@ const navItems = [
 
 export default function Nav() {
   const t = useTranslations("nav");
-  const router = useRouter();
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-
-  const currentLocale = pathname.startsWith("/tr") ? "tr" : "en";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -50,11 +45,6 @@ export default function Nav() {
 
     return () => observer.disconnect();
   }, []);
-
-  function switchLocale(locale: string) {
-    const newPath = pathname.replace(/^\/(en|tr)/, `/${locale}`);
-    router.push(newPath);
-  }
 
   return (
     <>
@@ -84,29 +74,6 @@ export default function Nav() {
                 {t(item.key).replace("~/", "")}
               </a>
             ))}
-
-            <div className="flex gap-2 ml-3 pl-3 border-l border-card-border">
-              <button
-                onClick={() => switchLocale("en")}
-                className={`font-mono text-xs px-2 py-0.5 rounded ${
-                  currentLocale === "en"
-                    ? "bg-accent/10 text-accent"
-                    : "text-text-muted hover:text-text-secondary"
-                }`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => switchLocale("tr")}
-                className={`font-mono text-xs px-2 py-0.5 rounded ${
-                  currentLocale === "tr"
-                    ? "bg-accent/10 text-accent"
-                    : "text-text-muted hover:text-text-secondary"
-                }`}
-              >
-                TR
-              </button>
-            </div>
           </div>
 
           {/* Mobile hamburger */}
@@ -123,8 +90,6 @@ export default function Nav() {
       <MobileNav
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
-        currentLocale={currentLocale}
-        onSwitchLocale={switchLocale}
       />
     </>
   );

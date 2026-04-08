@@ -16,13 +16,9 @@ const navItems = [
 export default function MobileNav({
   open,
   onClose,
-  currentLocale,
-  onSwitchLocale,
 }: {
   open: boolean;
   onClose: () => void;
-  currentLocale: string;
-  onSwitchLocale: (locale: string) => void;
 }) {
   const t = useTranslations("nav");
 
@@ -63,35 +59,6 @@ export default function MobileNav({
                 {t(item.key).replace("~/", "")}
               </a>
             ))}
-
-            <div className="flex gap-3 mt-4 pt-4 border-t border-card-border">
-              <button
-                onClick={() => {
-                  onSwitchLocale("en");
-                  onClose();
-                }}
-                className={`font-mono text-xs px-3 py-1 rounded ${
-                  currentLocale === "en"
-                    ? "bg-accent/10 text-accent"
-                    : "text-text-muted"
-                }`}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => {
-                  onSwitchLocale("tr");
-                  onClose();
-                }}
-                className={`font-mono text-xs px-3 py-1 rounded ${
-                  currentLocale === "tr"
-                    ? "bg-accent/10 text-accent"
-                    : "text-text-muted"
-                }`}
-              >
-                TR
-              </button>
-            </div>
           </motion.div>
         </>
       )}

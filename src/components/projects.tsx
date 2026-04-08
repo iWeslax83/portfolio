@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { featuredProjects, secondaryProjects } from "@/data/projects";
 import { Project } from "@/lib/types";
 import SectionHeader from "./section-header";
@@ -58,9 +58,6 @@ function ProjectLinks({ links }: { links: Project["links"] }) {
 }
 
 function SpotlightCard({ project }: { project: Project }) {
-  const locale = useLocale();
-  const description = locale === "tr" ? project.descriptionTr : project.description;
-
   return (
     <motion.div
       variants={fadeInUp}
@@ -73,7 +70,7 @@ function SpotlightCard({ project }: { project: Project }) {
             {project.title}
           </h3>
           <p className="font-sans text-sm text-text-muted mt-2 leading-relaxed max-w-lg">
-            {description}
+            {project.description}
           </p>
           <TechPills pills={project.techPills} />
           <div className="flex items-center gap-4 mt-4">
@@ -98,9 +95,6 @@ function SpotlightCard({ project }: { project: Project }) {
 }
 
 function FeaturedCard({ project }: { project: Project }) {
-  const locale = useLocale();
-  const description = locale === "tr" ? project.descriptionTr : project.description;
-
   return (
     <motion.div
       variants={fadeInUp}
@@ -111,7 +105,7 @@ function FeaturedCard({ project }: { project: Project }) {
         {project.title}
       </h3>
       <p className="font-sans text-xs text-text-muted mt-2 leading-relaxed">
-        {description}
+        {project.description}
       </p>
       <TechPills pills={project.techPills} />
       <ProjectLinks links={project.links} />

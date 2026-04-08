@@ -5,6 +5,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     { url: `${baseUrl}/en`, lastModified: new Date(), priority: 1.0 },
-    { url: `${baseUrl}/tr`, lastModified: new Date(), priority: 0.8 },
   ];
 }

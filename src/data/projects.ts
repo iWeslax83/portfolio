@@ -3,16 +3,13 @@ import { Project } from "@/lib/types";
 export const projects: Project[] = [
   {
     slug: "otonom-iha",
-    title: "Otonom Döner Kanat İHA",
+    title: "Autonomous Rotary-Wing Multicopter UAV",
     description:
       "Autonomous quadcopter for Teknofest Liseler Arası İnsansız Hava Araçları Yarışması. Custom-built UAV with autonomous flight, precision navigation, and mission execution capabilities. Electronics & Software Captain — responsible for flight controller integration, sensor systems, and autonomous mission planning.",
-    descriptionTr:
-      "Teknofest Liseler Arası İnsansız Hava Araçları Yarışması için otonom quadcopter. Otonom uçuş, hassas navigasyon ve görev yürütme yeteneklerine sahip özel yapım İHA. Elektronik & Yazılım Kaptanı — uçuş kontrol entegrasyonu, sensör sistemleri ve otonom görev planlamasından sorumlu.",
     tag: "competition",
     tagDetail: "TEKNOFEST 2026 · Rotary-Wing",
     techPills: ["autonomous flight", "flight controller", "navigation", "electronics", "machine learning"],
     links: [{ label: "case study", href: "#", isPrimary: true }],
-    image: "/images/uav.svg",
     featured: true,
     order: 1,
   },
@@ -21,8 +18,6 @@ export const projects: Project[] = [
     title: "Tofaş Fen Webapp",
     description:
       "Production school management system. 22 MongoDB models, 6 user roles, JWT + 2FA auth, GraphQL, WebSocket, Kubernetes deployment.",
-    descriptionTr:
-      "Üretim düzeyinde okul yönetim sistemi. 22 MongoDB modeli, 6 kullanıcı rolü, JWT + 2FA kimlik doğrulama, GraphQL, WebSocket, Kubernetes dağıtımı.",
     tag: "full-stack",
     tagDetail: "private repo",
     techPills: ["React 19", "Express", "MongoDB", "K8s"],
@@ -35,8 +30,6 @@ export const projects: Project[] = [
     title: "Local AI Assistant",
     description:
       'WhatsApp-based "Jarvis" running Llama 3.1 8B locally on RTX 3060 Ti. Task management, calendar, habit tracking, expense tracking, mood journal.',
-    descriptionTr:
-      'RTX 3060 Ti üzerinde yerel olarak Llama 3.1 8B çalıştıran WhatsApp tabanlı "Jarvis". Görev yönetimi, takvim, alışkanlık takibi, harcama takibi, ruh hali günlüğü.',
     tag: "AI",
     tagDetail: "open source",
     techPills: ["Python", "FastAPI", "Ollama"],
@@ -50,7 +43,6 @@ export const projects: Project[] = [
     slug: "genesis",
     title: "Genesis",
     description: "Closed-loop space agriculture life support simulator for TUA Astro Hackathon.",
-    descriptionTr: "TUA Astro Hackathon için kapalı döngü uzay tarımı yaşam destek simülatörü.",
     tag: "hackathon",
     tagDetail: "TUA Astro 2026",
     techPills: ["JavaScript", "AI prediction", "Biology-based"],
@@ -65,7 +57,6 @@ export const projects: Project[] = [
     slug: "tmt-website",
     title: "TMT Website",
     description: "Official website for TMT — team showcase and project pages.",
-    descriptionTr: "TMT resmi web sitesi — takım tanıtımı ve proje sayfaları.",
     tag: "web",
     tagDetail: "Next.js · Team showcase",
     techPills: ["Next.js", "Tailwind", "Advertisement"],
@@ -77,7 +68,6 @@ export const projects: Project[] = [
     slug: "fpv-drone",
     title: "FPV Drone",
     description: "FPV UAV for MEB Robot competition with real-time video transmission.",
-    descriptionTr: "MEB Robot yarışması için gerçek zamanlı video aktarımlı FPV İHA.",
     tag: "competition",
     tagDetail: "MEB Robot · FPV racing",
     techPills: ["FPV", "electronics"],
@@ -89,7 +79,6 @@ export const projects: Project[] = [
     slug: "vex-robotics",
     title: "VEX Robotics",
     description: "Competition-level robot with custom mechanical design and sensor integration.",
-    descriptionTr: "Özel mekanik tasarım ve sensör entegrasyonuna sahip yarışma düzeyinde robot.",
     tag: "competition",
     tagDetail: "V5 Pushback · Competition",
     techPills: ["VEX V5", "sensors"],
@@ -101,7 +90,6 @@ export const projects: Project[] = [
     slug: "zero-g-pharma",
     title: "Zero-G Pharma",
     description: "Space drug crystal growth simulator in microgravity vs Earth gravity, made for NASA Space Apps Challange 2025.",
-    descriptionTr: "Mikro yerçekimi ve Dünya yerçekiminde uzay ilaç kristal büyüme simülatörü, NASA Space Apps Challange 2026 için yapıldı",
     tag: "simulation",
     tagDetail: "Python · VPython 3D sim",
     techPills: ["Python", "VPython"],

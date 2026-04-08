@@ -2,7 +2,6 @@ export interface Project {
   slug: string;
   title: string;
   description: string;
-  descriptionTr: string;
   tag: string;
   tagDetail: string;
   techPills: string[];
