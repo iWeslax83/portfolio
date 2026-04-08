@@ -5,11 +5,28 @@ import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
 import AnimatedCounter from "./animated-counter";
 import { staggerContainer, fadeInUp } from "@/lib/motion";
+import { projects } from "@/data/projects";
+import { skills } from "@/data/skills";
 
 const stats = [
-  { key: "projects", value: 7, suffix: "+", borderColor: "border-accent/12" },
-  { key: "technologies", value: 8, suffix: "+", borderColor: "border-text-muted/20" },
-  { key: "competitions", value: 3, suffix: "", borderColor: "border-text-secondary/15" },
+  {
+    key: "projects",
+    value: projects.length,
+    suffix: "+",
+    borderColor: "border-accent/12",
+  },
+  {
+    key: "technologies",
+    value: skills.flatMap((s) => s.items).length,
+    suffix: "+",
+    borderColor: "border-text-muted/20",
+  },
+  {
+    key: "competitions",
+    value: projects.filter((p) => p.tag === "competition").length,
+    suffix: "",
+    borderColor: "border-text-secondary/15",
+  },
 ];
 
 export default function Hero() {

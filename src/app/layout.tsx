@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,14 +23,46 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const messages = await getMessages();
+
   return (
-    <html className="scroll-smooth">
-      <body className="bg-bg text-text-primary antialiased">{children}</body>
+    <html lang="en" className="scroll-smooth">
+      <body className="bg-bg text-text-primary antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Emir Sakarya",
+              jobTitle: "Software Architect | Node.js & Scalable Web Apps",
+              url: "https://emirsakarya.vercel.app",
+              sameAs: [
+                "https://github.com/iWeslax83",
+                "https://linkedin.com/in/emirsakarya",
+              ],
+              worksFor: {
+                "@type": "EducationalOrganization",
+                name: "Tofaş Fen Lisesi",
+              },
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Bursa",
+                addressCountry: "TR",
+              },
+            }),
+          }}
+        />
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
+        <Analytics />
+      </body>
     </html>
   );
 }

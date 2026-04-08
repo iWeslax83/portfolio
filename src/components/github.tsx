@@ -15,14 +15,18 @@ const activityColors = [
   "bg-accent/85",
 ];
 
-function ContributionGraph({ graph }: { graph: number[][] }) {
+function ContributionGraph({
+  graph,
+  label,
+}: {
+  graph: number[][];
+  label: string;
+}) {
   if (graph.length === 0) return null;
 
   return (
     <div className="bg-card-bg border border-card-border rounded-lg p-5 mt-4">
-      <p className="font-mono text-xs text-text-muted mb-3">
-        contribution activity — last 12 months
-      </p>
+      <p className="font-mono text-xs text-text-muted mb-3">{label}</p>
       <div className="flex gap-[3px] overflow-x-auto pb-2">
         {graph.map((week, wi) => (
           <div key={wi} className="flex flex-col gap-[3px]">
@@ -39,12 +43,16 @@ function ContributionGraph({ graph }: { graph: number[][] }) {
   );
 }
 
-function LanguageBar({ languages }: { languages: GitHubStats["languages"] }) {
+function LanguageBar({
+  languages,
+  label,
+}: {
+  languages: GitHubStats["languages"];
+  label: string;
+}) {
   return (
     <div className="bg-card-bg border border-card-border rounded-lg p-5 mt-4">
-      <p className="font-mono text-xs text-text-muted mb-3">
-        language breakdown
-      </p>
+      <p className="font-mono text-xs text-text-muted mb-3">{label}</p>
       <div className="flex gap-0.5 h-1.5 rounded-full overflow-hidden mb-3">
         {languages.map((lang) => (
           <div
@@ -100,11 +108,17 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
         </motion.div>
 
         <motion.div variants={fadeInUp}>
-          <ContributionGraph graph={stats.contributionGraph} />
+          <ContributionGraph
+            graph={stats.contributionGraph}
+            label={t("activity")}
+          />
         </motion.div>
 
         <motion.div variants={fadeInUp}>
-          <LanguageBar languages={stats.languages} />
+          <LanguageBar
+            languages={stats.languages}
+            label={t("languageBreakdown")}
+          />
         </motion.div>
       </motion.div>
     </section>

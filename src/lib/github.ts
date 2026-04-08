@@ -2,6 +2,20 @@ import { GitHubStats } from "./types";
 
 const GITHUB_USERNAME = "iWeslax83";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const REVALIDATE_SECONDS = 86400;
+const MAX_REPOS_FOR_LANG_BREAKDOWN = 30;
+
+const FALLBACK_STATS: GitHubStats = {
+  publicRepos: 7,
+  contributions: 0,
+  languages: [
+    { name: "TypeScript", percentage: 45, color: "#d4a373" },
+    { name: "JavaScript", percentage: 30, color: "#a08060" },
+    { name: "Python", percentage: 18, color: "#777777" },
+    { name: "Other", percentage: 7, color: "#444444" },
+  ],
+  contributionGraph: [],
+};
 
 async function githubFetch(url: string) {
   const headers: Record<string, string> = {
@@ -10,25 +24,33 @@ async function githubFetch(url: string) {
   if (GITHUB_TOKEN) {
     headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
   }
-  const res = await fetch(url, { headers, next: { revalidate: 86400 } });
+  const res = await fetch(url, {
+    headers,
+    next: { revalidate: REVALIDATE_SECONDS },
+  });
   if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
   return res.json();
 }
 
-async function fetchContributionGraph(): Promise<number[][]> {
+type ContributionDay = { contributionCount: number };
+type ContributionWeek = { contributionDays: ContributionDay[] };
+
+async function fetchContributions(): Promise<{
+  graph: number[][];
+  total: number;
+}> {
   if (!GITHUB_TOKEN) {
-    return [];
+    return { graph: [], total: 0 };
   }
 
   const query = `
-    query {
-      user(login: "${GITHUB_USERNAME}") {
+    query($login: String!) {
+      user(login: $login) {
         contributionsCollection {
           contributionCalendar {
             weeks {
               contributionDays {
                 contributionCount
-                date
               }
             }
           }
@@ -43,19 +65,21 @@ async function fetchContributionGraph(): Promise<number[][]> {
       Authorization: `Bearer ${GITHUB_TOKEN}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ query }),
-    next: { revalidate: 86400 },
+    body: JSON.stringify({ query, variables: { login: GITHUB_USERNAME } }),
+    next: { revalidate: REVALIDATE_SECONDS },
   });
 
-  if (!res.ok) return [];
+  if (!res.ok) return { graph: [], total: 0 };
 
   const data = await res.json();
-  const weeks =
+  const weeks: ContributionWeek[] =
     data.data?.user?.contributionsCollection?.contributionCalendar?.weeks ?? [];
 
-  return weeks.map((week: { contributionDays: { contributionCount: number }[] }) =>
+  let total = 0;
+  const graph = weeks.map((week) =>
     week.contributionDays.map((day) => {
       const count = day.contributionCount;
+      total += count;
       if (count === 0) return 0;
       if (count <= 2) return 1;
       if (count <= 5) return 2;
@@ -63,67 +87,79 @@ async function fetchContributionGraph(): Promise<number[][]> {
       return 4;
     })
   );
+
+  return { graph, total };
+}
+
+async function fetchLanguageBreakdown(
+  repos: { languages_url: string; pushed_at: string }[]
+): Promise<GitHubStats["languages"]> {
+  // Unauthenticated GitHub API is 60 req/hr — skip per-repo language fan-out
+  // entirely when no token is configured (one call per repo would burn the quota).
+  if (!GITHUB_TOKEN) {
+    return FALLBACK_STATS.languages;
+  }
+
+  const topRepos = [...repos]
+    .sort((a, b) => +new Date(b.pushed_at) - +new Date(a.pushed_at))
+    .slice(0, MAX_REPOS_FOR_LANG_BREAKDOWN);
+
+  const results = await Promise.allSettled(
+    topRepos.map((repo) => githubFetch(repo.languages_url))
+  );
+
+  const langBytes: Record<string, number> = {};
+  for (const result of results) {
+    if (result.status !== "fulfilled") continue;
+    for (const [lang, bytes] of Object.entries(result.value) as [
+      string,
+      number,
+    ][]) {
+      langBytes[lang] = (langBytes[lang] || 0) + bytes;
+    }
+  }
+
+  const totalBytes = Object.values(langBytes).reduce((a, b) => a + b, 0);
+  if (totalBytes === 0) return FALLBACK_STATS.languages;
+
+  const langColors: Record<string, string> = {
+    TypeScript: "#d4a373",
+    JavaScript: "#a08060",
+    Python: "#777777",
+    HTML: "#555555",
+    CSS: "#444444",
+  };
+
+  return Object.entries(langBytes)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 4)
+    .map(([name, bytes]) => ({
+      name,
+      percentage: Math.round((bytes / totalBytes) * 100),
+      color: langColors[name] || "#444444",
+    }));
 }
 
 export async function fetchGitHubStats(): Promise<GitHubStats> {
   try {
-    const [user, repos, contributionGraph] = await Promise.all([
+    const [user, repos, contributions] = await Promise.all([
       githubFetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
-      githubFetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`),
-      fetchContributionGraph(),
+      githubFetch(
+        `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`
+      ),
+      fetchContributions(),
     ]);
 
-    const langBytes: Record<string, number> = {};
-    const langResponses = await Promise.all(
-      repos.map((repo: { languages_url: string }) => githubFetch(repo.languages_url))
-    );
-    for (const repoLangs of langResponses) {
-      for (const [lang, bytes] of Object.entries(repoLangs) as [string, number][]) {
-        langBytes[lang] = (langBytes[lang] || 0) + bytes;
-      }
-    }
-
-    const totalBytes = Object.values(langBytes).reduce((a, b) => a + b, 0);
-    const langColors: Record<string, string> = {
-      TypeScript: "#d4a373",
-      JavaScript: "#a08060",
-      Python: "#777777",
-      HTML: "#555555",
-      CSS: "#444444",
-    };
-
-    const languages = Object.entries(langBytes)
-      .sort(([, a], [, b]) => b - a)
-      .slice(0, 4)
-      .map(([name, bytes]) => ({
-        name,
-        percentage: Math.round((bytes / totalBytes) * 100),
-        color: langColors[name] || "#444444",
-      }));
-
-    const totalContributions = contributionGraph.flat().reduce((sum, level) => {
-      const estimates = [0, 1, 3, 7, 12];
-      return sum + (estimates[level] || 0);
-    }, 0);
+    const languages = await fetchLanguageBreakdown(repos);
 
     return {
       publicRepos: user.public_repos,
-      contributions: totalContributions || 0,
+      contributions: contributions.total,
       languages,
-      contributionGraph,
+      contributionGraph: contributions.graph,
     };
   } catch (error) {
     console.error("Failed to fetch GitHub stats:", error);
-    return {
-      publicRepos: 7,
-      contributions: 0,
-      languages: [
-        { name: "TypeScript", percentage: 45, color: "#d4a373" },
-        { name: "JavaScript", percentage: 30, color: "#a08060" },
-        { name: "Python", percentage: 18, color: "#777777" },
-        { name: "Other", percentage: 7, color: "#444444" },
-      ],
-      contributionGraph: [],
-    };
+    return FALLBACK_STATS;
   }
 }

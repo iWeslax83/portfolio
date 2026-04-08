@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Menu } from "lucide-react";
 import MobileNav from "./mobile-nav";
 
@@ -29,13 +30,14 @@ export default function Nav() {
     const sectionIds = navItems.map((item) => item.href.slice(1));
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        }
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length === 0) return;
+        const top = visible.reduce((a, b) =>
+          b.intersectionRatio > a.intersectionRatio ? b : a
+        );
+        setActiveSection(top.target.id);
       },
-      { rootMargin: "-40% 0px -55% 0px" }
+      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
     );
 
     for (const id of sectionIds) {
@@ -54,8 +56,18 @@ export default function Nav() {
         }`}
       >
         <div className="max-w-5xl mx-auto px-6 md:px-10 flex items-center justify-between h-14">
-          <a href="#home" className="font-mono text-sm font-semibold text-text-primary">
-            emir<span className="text-accent">.</span>sakarya
+          <a href="#home" className="flex items-center gap-2 font-mono text-sm font-semibold text-text-primary">
+            <Image
+              src="/images/logo.webp"
+              alt="Emir Sakarya logo"
+              width={24}
+              height={24}
+              priority
+              className="h-6 w-6 rounded-sm"
+            />
+            <span>
+              emir<span className="text-accent">.</span>sakarya
+            </span>
           </a>
 
           {/* Desktop nav */}

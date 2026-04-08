@@ -48,7 +48,7 @@
     "linkedin": "LinkedIn"
   },
   "footer": {
-    "builtWith": "emir.sakarya",
+    "author": "emir.sakarya",
     "exit": "$ exit 0"
   }
 }

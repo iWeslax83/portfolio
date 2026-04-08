@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { featuredProjects, secondaryProjects } from "@/data/projects";
@@ -81,11 +82,13 @@ function SpotlightCard({ project }: { project: Project }) {
           </div>
         </div>
         {project.image && (
-          <div className="w-full md:w-44 h-28 bg-white/[0.03] border border-card-border rounded-lg overflow-hidden flex-shrink-0">
-            <img
+          <div className="w-full md:w-44 h-28 bg-white/[0.03] border border-card-border rounded-lg overflow-hidden flex-shrink-0 relative">
+            <Image
               src={project.image}
               alt={project.title}
-              className="object-cover w-full h-full"
+              fill
+              sizes="(min-width: 768px) 176px, 100vw"
+              className="object-cover"
             />
           </div>
         )}

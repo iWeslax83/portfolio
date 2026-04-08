@@ -16,22 +16,25 @@ export default function AnimatedCounter({
 
   useEffect(() => {
     if (!isInView) return;
+    if (target <= 0) {
+      setCount(target);
+      return;
+    }
 
     const duration = 600;
-    const steps = 30;
-    const increment = target / steps;
-    let current = 0;
-    const interval = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(interval);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, duration / steps);
+    const start = performance.now();
+    let raf = 0;
 
-    return () => clearInterval(interval);
+    const tick = (now: number) => {
+      const progress = Math.min(1, (now - start) / duration);
+      setCount(Math.round(progress * target));
+      if (progress < 1) {
+        raf = requestAnimationFrame(tick);
+      }
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [isInView, target]);
 
   return (
