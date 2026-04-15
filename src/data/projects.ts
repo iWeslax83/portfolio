@@ -19,9 +19,9 @@ export const projects: Project[] = [
     description:
       "Production school management system. 22 MongoDB models, 6 user roles, JWT + 2FA auth, GraphQL, WebSocket, Kubernetes deployment.",
     tag: "full-stack",
-    tagDetail: "private repo",
+    tagDetail: "open source",
     techPills: ["React 19", "Express", "MongoDB", "K8s"],
-    links: [],
+    links: [{ label: "source code", href: "https://github.com/iWeslax83/tofas-fen-webapp", isPrimary: true },],
     featured: true,
     order: 2,
   },
@@ -89,7 +89,7 @@ export const projects: Project[] = [
   {
     slug: "zero-g-pharma",
     title: "Zero-G Pharma",
-    description: "Space drug crystal growth simulator in microgravity vs Earth gravity, made for NASA Space Apps Challange 2025.",
+    description: "Space drug crystal growth simulator in microgravity vs Earth gravity, Top 5 in Turkey NASA Space Apps Challange 2025.",
     tag: "simulation",
     tagDetail: "Python · VPython 3D sim",
     techPills: ["Python", "VPython"],
