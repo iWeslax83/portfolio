@@ -9,10 +9,10 @@ const FALLBACK_STATS: GitHubStats = {
   publicRepos: 7,
   contributions: 0,
   languages: [
-    { name: "TypeScript", percentage: 45, color: "#d4a373" },
-    { name: "JavaScript", percentage: 30, color: "#a08060" },
-    { name: "Python", percentage: 18, color: "#777777" },
-    { name: "Other", percentage: 7, color: "#444444" },
+    { name: "TypeScript", percentage: 45, color: "#e8a05c" },
+    { name: "JavaScript", percentage: 30, color: "#c98a4e" },
+    { name: "Python", percentage: 18, color: "#8b8c94" },
+    { name: "Other", percentage: 7, color: "#55565e" },
   ],
   contributionGraph: [],
 };
@@ -94,7 +94,7 @@ async function fetchContributions(): Promise<{
 async function fetchLanguageBreakdown(
   repos: { languages_url: string; pushed_at: string }[]
 ): Promise<GitHubStats["languages"]> {
-  // Unauthenticated GitHub API is 60 req/hr — skip per-repo language fan-out
+  // Unauthenticated GitHub API is 60 req/hr - skip per-repo language fan-out
   // entirely when no token is configured (one call per repo would burn the quota).
   if (!GITHUB_TOKEN) {
     return FALLBACK_STATS.languages;
@@ -123,11 +123,11 @@ async function fetchLanguageBreakdown(
   if (totalBytes === 0) return FALLBACK_STATS.languages;
 
   const langColors: Record<string, string> = {
-    TypeScript: "#d4a373",
-    JavaScript: "#a08060",
-    Python: "#777777",
-    HTML: "#555555",
-    CSS: "#444444",
+    TypeScript: "#e8a05c",
+    JavaScript: "#c98a4e",
+    Python: "#8b8c94",
+    HTML: "#6a6b73",
+    CSS: "#55565e",
   };
 
   return Object.entries(langBytes)
@@ -136,7 +136,7 @@ async function fetchLanguageBreakdown(
     .map(([name, bytes]) => ({
       name,
       percentage: Math.round((bytes / totalBytes) * 100),
-      color: langColors[name] || "#444444",
+      color: langColors[name] || "#55565e",
     }));
 }
 
