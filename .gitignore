@@ -44,3 +44,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 CODE_REVIEW.md
+
+# Superpowers visual brainstorm working dir
+.superpowers/

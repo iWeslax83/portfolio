@@ -14,6 +14,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Pin the workspace root so Turbopack doesn't infer a parent dir when stray
+  // lockfiles exist higher up the tree (otherwise module resolution breaks).
+  turbopack: {
+    root: import.meta.dirname,
+  },
   images: {
     formats: ["image/webp"],
   },
