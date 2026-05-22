@@ -1,54 +1,71 @@
 {
   "nav": {
-    "home": "~/home",
-    "projects": "~/projects",
-    "skills": "~/skills",
-    "github": "~/github",
-    "contact": "~/contact"
+    "home": "home",
+    "stratos": "stratos",
+    "projects": "work",
+    "skills": "stack",
+    "github": "github",
+    "contact": "contact"
   },
   "hero": {
-    "prompt": "$ whoami",
+    "whoami": "whoami",
+    "roleTag": "FOUNDER & HEAD OF ELECTRONICS & SOFTWARE",
+    "roleOrg": "STRATOS İHA",
     "name": "Emir Sakarya",
-    "subtitle": "Software Architect · Electronics & Software",
-    "location": "Tofaş Fen Lisesi · Bursa, Türkiye",
+    "h0": "I founded a",
+    "h1": "UAV team and engineer the autonomous",
+    "h2": "systems that fly it - and the",
+    "h3": "software behind them.",
+    "altDrone": "autonomous drone",
+    "altBoard": "flight-controller PCB",
+    "altBrowser": "web dashboard",
+    "subtitle": "Embedded-systems & full-stack engineer · Tofaş Fen Lisesi, Bursa, Türkiye · TEKNOFEST competitor.",
     "projects": "projects",
     "technologies": "technologies",
-    "competitions": "competitions",
-    "viewProjects": "view projects",
-    "getInTouch": "get in touch",
-    "scroll": "scroll"
+    "competitions": "competition programs",
+    "viewProjects": "view work",
+    "getInTouch": "get in touch"
+  },
+  "stratos": {
+    "command": "cat stratos.md",
+    "title": "STRATOS İHA",
+    "roleBadge": "Founder & Head of Electronics & Software",
+    "body": "I founded STRATOS İHA, a student TEKNOFEST UAV community at Tofaş Fen Lisesi that designs, builds and programs its own aircraft. I lead Electronics & Software - autonomous quadrotors with real-time target detection and precision landing, FPV racing drones, and VEX robots - and grew the team to four departments and seven core members.",
+    "departments": "departments",
+    "members": "core members",
+    "founded": "founded",
+    "unitsLabel": "what we build",
+    "visit": "stratosiha.vercel.app"
   },
   "projects": {
-    "prompt": "$ ls projects/ --featured",
-    "title": "Featured Work",
-    "allPrompt": "$ ls projects/ --all",
-    "caseStudy": "case study",
-    "sourceCode": "source code",
-    "liveDemoLabel": "live demo"
+    "command": "ls projects/ --featured",
+    "title": "Selected Work",
+    "allCommand": "ls projects/ --all",
+    "role": "Role: Electronics & Software Captain"
   },
   "skills": {
-    "prompt": "$ cat skills.json",
+    "command": "cat skills.json",
     "title": "Tech Stack"
   },
   "github": {
-    "prompt": "$ gh api user --jq '.public_repos, .followers'",
+    "command": "gh api user --jq '.public_repos, .followers'",
     "title": "GitHub",
     "publicRepos": "public repos",
     "contributions": "contributions",
     "languages": "languages",
-    "activity": "contribution activity — last 12 months",
+    "activity": "contribution activity - last 12 months",
     "languageBreakdown": "language breakdown"
   },
   "contact": {
-    "prompt": "$ cat contact.md",
+    "command": "cat contact.md",
     "title": "Get in Touch",
-    "subtitle": "Open to internships, collaborations, and interesting projects.",
+    "subtitle": "Open to internships, collaborations, and interesting problems.",
     "email": "Email",
     "githubLabel": "GitHub",
     "linkedin": "LinkedIn"
   },
   "footer": {
     "author": "emir.sakarya",
-    "exit": "$ exit 0"
+    "exit": "exit 0"
   }
 }

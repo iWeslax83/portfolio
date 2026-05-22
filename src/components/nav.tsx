@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import MobileNav from "./mobile-nav";
 
-const navItems = [
+export const navItems = [
   { key: "home", href: "#home", num: "00" },
-  { key: "projects", href: "#projects", num: "01" },
-  { key: "skills", href: "#skills", num: "02" },
-  { key: "github", href: "#github", num: "03" },
-  { key: "contact", href: "#contact", num: "04" },
+  { key: "stratos", href: "#stratos", num: "01" },
+  { key: "projects", href: "#projects", num: "02" },
+  { key: "skills", href: "#skills", num: "03" },
+  { key: "github", href: "#github", num: "04" },
+  { key: "contact", href: "#contact", num: "05" },
 ];
 
 export default function Nav() {
@@ -22,6 +24,7 @@ export default function Nav() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -44,19 +47,23 @@ export default function Nav() {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     }
-
     return () => observer.disconnect();
   }, []);
 
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-40 transition-colors duration-200 ${
-          scrolled ? "bg-bg/80 backdrop-blur-md" : "bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-300 ${
+          scrolled
+            ? "bg-bg/70 backdrop-blur-xl border-b border-card-border"
+            : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className="max-w-5xl mx-auto px-6 md:px-10 flex items-center justify-between h-14">
-          <a href="#home" className="flex items-center gap-2 font-mono text-sm font-semibold text-text-primary">
+        <div className="max-w-[1320px] mx-auto px-6 md:px-10 flex items-center justify-between h-16">
+          <a
+            href="#home"
+            className="flex items-center gap-2 font-mono text-sm font-semibold text-text-primary"
+          >
             <Image
               src="/images/logo.webp"
               alt="Emir Sakarya logo"
@@ -70,25 +77,31 @@ export default function Nav() {
             </span>
           </a>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <a
-                key={item.key}
-                href={item.href}
-                className={`font-mono text-xs transition-colors ${
-                  activeSection === item.href.slice(1)
-                    ? "text-accent"
-                    : "text-text-muted hover:text-text-secondary"
-                }`}
-              >
-                <span className="text-text-muted/50">{item.num}.</span>
-                {t(item.key).replace("~/", "")}
-              </a>
-            ))}
+          <div className="hidden md:flex items-center gap-7">
+            {navItems.map((item) => {
+              const active = activeSection === item.href.slice(1);
+              return (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className={`relative font-mono text-xs pb-1 transition-colors ${
+                    active ? "text-accent" : "text-text-muted hover:text-text-secondary"
+                  }`}
+                >
+                  <span className="text-text-muted/40 mr-1">{item.num}.</span>
+                  {t(item.key)}
+                  {active && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute left-0 right-0 -bottom-0.5 h-px bg-accent"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </a>
+              );
+            })}
           </div>
 
-          {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(true)}
             className="md:hidden text-text-secondary"
@@ -99,10 +112,7 @@ export default function Nav() {
         </div>
       </nav>
 
-      <MobileNav
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-      />
+      <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </>
   );
 }

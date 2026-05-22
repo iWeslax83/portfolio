@@ -17,6 +17,11 @@ export interface SkillCategory {
   items: string[];
 }
 
+export interface StratosUnit {
+  name: string;
+  detail: string;
+}
+
 export interface GitHubStats {
   publicRepos: number;
   contributions: number;

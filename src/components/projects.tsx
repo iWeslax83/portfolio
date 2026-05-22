@@ -3,92 +3,104 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { ArrowUpRight, Star } from "lucide-react";
 import { featuredProjects, secondaryProjects } from "@/data/projects";
 import { Project } from "@/lib/types";
-import SectionHeader from "./section-header";
-import { staggerContainer, fadeInUp } from "@/lib/motion";
+import SectionMarker from "./ui/section-marker";
+import TiltCard from "./ui/tilt-card";
+import {
+  staggerContainer,
+  staggerFast,
+  scaleUp,
+  flipUp,
+  popIn,
+  fadeInUp,
+  viewportOnce,
+} from "@/lib/motion";
 
-function ProjectTag({ tag, detail }: { tag: string; detail: string }) {
+function Tag({ tag, detail }: { tag: string; detail: string }) {
   return (
-    <div className="flex items-center gap-2.5 mb-2.5">
-      <span className="font-mono text-xs bg-accent/10 text-accent px-2 py-0.5 rounded">
+    <div className="flex items-center gap-2.5 mb-3">
+      <span className="font-mono text-[11px] bg-accent-soft text-accent px-2.5 py-0.5 rounded-md">
         {tag}
       </span>
-      <span className="font-mono text-xs text-text-muted">{detail}</span>
+      <span className="font-mono text-[11px] text-text-muted">{detail}</span>
     </div>
   );
 }
 
-function TechPills({ pills }: { pills: string[] }) {
+function Pills({ pills }: { pills: string[] }) {
   return (
-    <div className="flex flex-wrap gap-1.5 mt-3">
-      {pills.map((pill) => (
+    <div className="flex flex-wrap gap-1.5 mt-4">
+      {pills.map((p) => (
         <span
-          key={pill}
-          className="font-mono text-[10px] text-text-secondary bg-white/[0.04] px-2 py-0.5 rounded"
+          key={p}
+          className="font-mono text-[10px] text-text-secondary bg-white/[0.04] border border-card-border px-2 py-0.5 rounded"
         >
-          {pill}
+          {p}
         </span>
       ))}
     </div>
   );
 }
 
-function ProjectLinks({ links }: { links: Project["links"] }) {
+function Links({ links }: { links: Project["links"] }) {
   if (links.length === 0) return null;
-
   return (
-    <div className="flex items-center gap-4 mt-4">
+    <div className="flex items-center gap-4 mt-5">
       {links.map((link) => (
         <a
           key={link.label}
           href={link.href}
           target={link.href.startsWith("http") ? "_blank" : undefined}
           rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-          className={`font-mono text-xs ${
+          className={`link-shimmer inline-flex items-center gap-1 font-mono text-xs transition-colors ${
             link.isPrimary
               ? "text-accent hover:text-accent/80"
               : "text-text-muted hover:text-text-secondary"
-          } transition-colors`}
+          }`}
         >
-          {link.label} →
+          {link.label}
+          <ArrowUpRight size={13} />
         </a>
       ))}
     </div>
   );
 }
 
-function SpotlightCard({ project }: { project: Project }) {
+function Spotlight({ project, role }: { project: Project; role: string }) {
   return (
     <motion.div
-      variants={fadeInUp}
-      className="bg-accent/[0.04] border border-accent/12 rounded-xl p-7 mb-4"
+      variants={scaleUp}
+      whileHover={{ y: -4 }}
+      className="group relative overflow-hidden rounded-2xl border border-accent/20 bg-gradient-to-br from-accent-soft to-transparent p-7 md:p-9 mb-5 transition-shadow hover:shadow-[0_24px_70px_-20px_rgba(232,160,92,0.25)]"
     >
-      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
+      <span className="absolute right-6 top-6 hidden sm:inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-bg/50 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.15em] text-accent">
+        <Star size={11} className="fill-accent" /> flagship
+      </span>
+      <div className="flex flex-col md:flex-row md:items-start gap-7">
         <div className="flex-1">
-          <ProjectTag tag={project.tag} detail={project.tagDetail} />
-          <h3 className="font-mono text-xl font-semibold text-text-primary">
+          <Tag tag={project.tag} detail={project.tagDetail} />
+          <h3 className="font-display text-2xl md:text-3xl font-semibold text-text-primary">
             {project.title}
           </h3>
-          <p className="font-sans text-sm text-text-muted mt-2 leading-relaxed max-w-lg">
+          <p className="font-body text-sm md:text-base text-text-secondary mt-3 leading-relaxed max-w-xl">
             {project.description}
           </p>
-          <TechPills pills={project.techPills} />
-          <div className="flex items-center gap-4 mt-4">
-            <ProjectLinks links={project.links} />
-            <span className="font-mono text-xs text-text-muted">
-              · Role: Electronics & Software Captain
-            </span>
+          <Pills pills={project.techPills} />
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-5">
+            <Links links={project.links} />
+            <span className="font-mono text-[11px] text-text-muted">· {role}</span>
           </div>
         </div>
         {project.image && (
-          <div className="w-full md:w-44 h-28 bg-white/[0.03] border border-card-border rounded-lg overflow-hidden flex-shrink-0 relative">
+          <div className="relative w-full md:w-52 h-36 flex-shrink-0 rounded-xl border border-card-border bg-bg/40 overflow-hidden">
             <Image
               src={project.image}
               alt={project.title}
               fill
-              sizes="(min-width: 768px) 176px, 100vw"
-              className="object-cover"
+              sizes="(min-width: 768px) 208px, 100vw"
+              className="object-contain p-5 transition-transform duration-500 group-hover:scale-105"
             />
           </div>
         )}
@@ -97,37 +109,60 @@ function SpotlightCard({ project }: { project: Project }) {
   );
 }
 
-function FeaturedCard({ project }: { project: Project }) {
+function Card({ project }: { project: Project }) {
   return (
-    <motion.div
-      variants={fadeInUp}
-      className="bg-card-bg border border-card-border rounded-xl p-6 hover:border-card-border-hover transition-colors"
+    <TiltCard
+      variants={flipUp}
+      className="group relative h-full overflow-hidden rounded-xl border border-card-border bg-card-bg p-6 transition-colors hover:border-card-border-hover"
     >
-      <ProjectTag tag={project.tag} detail={project.tagDetail} />
-      <h3 className="font-mono text-lg font-semibold text-text-primary">
+      <span className="absolute left-0 top-0 h-full w-[3px] origin-top scale-y-0 bg-accent transition-transform duration-300 group-hover:scale-y-100" />
+      <Tag tag={project.tag} detail={project.tagDetail} />
+      <h3 className="font-display text-lg font-semibold text-text-primary">
         {project.title}
       </h3>
-      <p className="font-sans text-xs text-text-muted mt-2 leading-relaxed">
+      <p className="font-body text-sm text-text-secondary mt-2 leading-relaxed">
         {project.description}
       </p>
-      <TechPills pills={project.techPills} />
-      <ProjectLinks links={project.links} />
-    </motion.div>
+      <Pills pills={project.techPills} />
+      <Links links={project.links} />
+    </TiltCard>
   );
 }
 
-function SecondaryCard({ project }: { project: Project }) {
-  return (
-    <motion.div
-      variants={fadeInUp}
-      className="border border-white/[0.05] rounded-lg p-4 hover:border-card-border-hover transition-colors"
+function MiniTile({ project }: { project: Project }) {
+  const link = project.links.find((l) => l.isPrimary) ?? project.links[0];
+  const className =
+    "group block rounded-lg border border-white/[0.05] p-4 transition-colors hover:border-card-border-hover";
+  const content = (
+    <>
+      <div className="flex items-start justify-between gap-2">
+        <h4 className="font-display text-sm font-medium text-text-secondary transition-colors group-hover:text-text-primary">
+          {project.title}
+        </h4>
+        {link && (
+          <ArrowUpRight
+            size={13}
+            className="flex-shrink-0 text-text-muted opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-accent"
+          />
+        )}
+      </div>
+      <p className="font-mono text-[11px] text-text-muted mt-1.5">{project.tagDetail}</p>
+    </>
+  );
+
+  return link ? (
+    <motion.a
+      variants={popIn}
+      href={link.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
     >
-      <h4 className="font-mono text-sm font-medium text-text-secondary">
-        {project.title}
-      </h4>
-      <p className="font-mono text-xs text-text-muted mt-1">
-        {project.tagDetail}
-      </p>
+      {content}
+    </motion.a>
+  ) : (
+    <motion.div variants={popIn} className={className}>
+      {content}
     </motion.div>
   );
 }
@@ -137,42 +172,38 @@ export default function Projects() {
   const [spotlight, ...sideFeatured] = featuredProjects;
 
   return (
-    <section id="projects" className="py-20 px-6 md:px-10 max-w-5xl mx-auto">
-      <SectionHeader prompt={t("prompt")} title={t("title")} />
+    <section id="projects" className="py-24 md:py-32 px-6 md:px-10 max-w-[1320px] mx-auto">
+      <SectionMarker command={t("command")} title={t("title")} index="02" />
 
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-60px" }}
+        viewport={viewportOnce}
         variants={staggerContainer}
+        style={{ perspective: 1200 }}
       >
-        <SpotlightCard project={spotlight} />
-
-        <div className="grid md:grid-cols-2 gap-4">
+        <Spotlight project={spotlight} role={t("role")} />
+        <div className="grid md:grid-cols-2 gap-5">
           {sideFeatured.map((project) => (
-            <FeaturedCard key={project.slug} project={project} />
+            <Card key={project.slug} project={project} />
           ))}
         </div>
       </motion.div>
 
-      {/* Secondary grid */}
+      {/* Secondary */}
       <motion.div
-        className="mt-8"
+        className="mt-10"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-60px" }}
-        variants={staggerContainer}
+        viewport={viewportOnce}
+        variants={staggerFast}
       >
-        <motion.p
-          variants={fadeInUp}
-          className="font-mono text-xs text-text-muted mb-4"
-        >
-          <span className="text-accent">$</span>{" "}
-          {t("allPrompt").replace("$ ", "")}
+        <motion.p variants={fadeInUp} className="font-mono text-xs text-text-muted mb-4">
+          <span className="text-accent">$</span> {t("allCommand")}
         </motion.p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {secondaryProjects.map((project) => (
-            <SecondaryCard key={project.slug} project={project} />
+            <MiniTile key={project.slug} project={project} />
           ))}
         </div>
       </motion.div>
