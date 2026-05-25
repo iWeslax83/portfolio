@@ -162,7 +162,7 @@ export default function Hero() {
         {/* Headline with inline image punctuation */}
         <motion.h1
           variants={staggerFast}
-          className="font-display text-[2.1rem] sm:text-5xl md:text-[3.6rem] font-bold tracking-tight text-text-primary flex flex-wrap items-center gap-x-[0.28em] gap-y-1.5"
+          className="font-display text-[2.1rem] sm:text-5xl md:text-[3.6rem] font-bold tracking-tight leading-[1.08] text-text-primary flex flex-wrap items-center gap-x-[0.28em] gap-y-3 md:gap-y-4"
         >
           <Words text={t("h0")} />
           <Tile label={t("altDrone")}>{DroneIcon}</Tile>

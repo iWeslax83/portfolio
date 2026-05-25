@@ -5,10 +5,11 @@ export const projects: Project[] = [
     slug: "otonom-iha",
     title: "Autonomous Rotary-Wing Multicopter UAV",
     description:
-      "Custom-built quadcopter for the TEKNOFEST İnsansız Hava Araçları competition - autonomous flight, precision navigation, computer-vision target detection and full mission execution. As Electronics & Software Captain I own flight-controller integration, the sensor stack, and autonomous mission planning.",
+      "Quadcopter built for the TEKNOFEST İnsansız Hava Araçları competition. Autonomous flight, precision navigation, and computer-vision target detection. As Electronics & Software Captain I own flight-controller integration, the sensor stack, and autonomous mission planning.",
     tag: "competition",
     tagDetail: "TEKNOFEST 2026 · Rotary-Wing",
     techPills: [
+      "embedded systems",
       "autonomous flight",
       "flight controller",
       "computer vision",
@@ -121,9 +122,9 @@ export const projects: Project[] = [
     slug: "zero-g-pharma",
     title: "Zero-G Pharma",
     description:
-      "Drug-crystal growth simulator comparing microgravity vs Earth gravity. Top 5 in Turkey - NASA Space Apps Challenge 2025.",
+      "Drug-crystal growth simulator comparing microgravity vs Earth gravity. Winner, Türkiye - NASA Space Apps Challenge 2025.",
     tag: "simulation",
-    tagDetail: "Top 5 TR · NASA Space Apps 2025",
+    tagDetail: "Winner TR · NASA Space Apps 2025",
     techPills: ["Python", "VPython"],
     links: [
       {
