@@ -1,11 +1,5 @@
 import { StratosUnit } from "@/lib/types";
 
-export const stratosStats = [
-  { value: 4, suffix: "", key: "departments" },
-  { value: 7, suffix: "", key: "members" },
-  { value: 2026, suffix: "", key: "founded", raw: true },
-];
-
 export const stratosUnits: StratosUnit[] = [
   {
     name: "Autonomous Quadrotor",

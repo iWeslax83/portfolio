@@ -2,61 +2,61 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { FolderGit2, Activity, Code2, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { GitHubStats } from "@/lib/types";
-import SectionMarker from "./ui/section-marker";
-import AnimatedCounter from "./animated-counter";
-import { staggerContainer, fadeInUp, scaleUp, viewportOnce } from "@/lib/motion";
+import FigureMarker from "./ui/figure-marker";
+import {
+  staggerContainer,
+  staggerFast,
+  fadeRise,
+  ruleDraw,
+  viewportOnce,
+} from "@/lib/motion";
 
-const activityColors = [
-  "bg-white/[0.04]",
-  "bg-accent/25",
-  "bg-accent/45",
-  "bg-accent/65",
-  "bg-accent/90",
-];
-
-const column = {
-  hidden: { opacity: 0, scaleY: 0.15 },
-  visible: { opacity: 1, scaleY: 1, transition: { duration: 0.25 } },
-};
+// Monochrome activity scale: ink for low days, amber signal as it intensifies.
+const cellTone = ["bg-rule", "bg-ink-3", "bg-ink-2", "bg-accent/55", "bg-accent"];
 
 function ContributionGraph({ graph, label }: { graph: number[][]; label: string }) {
   if (graph.length === 0) return null;
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-5 mt-5">
-      <p className="font-mono text-xs text-text-muted mb-4">{label}</p>
+    <figure className="border border-rule p-5 md:p-6 mt-6">
       <motion.div
-        className="flex gap-[3px] overflow-x-auto pb-2"
+        className="flex gap-[3px] overflow-x-auto pb-1"
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        variants={{ visible: { transition: { staggerChildren: 0.012 } } }}
+        variants={{ visible: { transition: { staggerChildren: 0.01 } } }}
       >
         {graph.map((week, wi) => (
           <motion.div
             key={wi}
-            variants={column}
+            variants={{
+              hidden: { opacity: 0, scaleY: 0.2 },
+              visible: { opacity: 1, scaleY: 1, transition: { duration: 0.25 } },
+            }}
             className="flex flex-col gap-[3px] origin-bottom"
           >
             {week.map((level, di) => (
-              <div
+              <span
                 key={di}
                 title={`activity level ${level}`}
-                className={`w-[11px] h-[11px] rounded-sm ${activityColors[level]} transition-transform hover:scale-[1.6]`}
+                className={`h-[10px] w-[10px] ${cellTone[level]} transition-transform hover:scale-150`}
               />
             ))}
           </motion.div>
         ))}
       </motion.div>
-      <div className="mt-3 flex items-center justify-end gap-1.5 font-mono text-[10px] text-text-muted">
-        <span>Less</span>
-        {activityColors.map((c, i) => (
-          <span key={i} className={`w-[10px] h-[10px] rounded-sm ${c}`} />
-        ))}
-        <span>More</span>
-      </div>
-    </div>
+      <figcaption className="mt-4 flex items-center justify-between annotate">
+        <span>{label}</span>
+        <span className="flex items-center gap-1.5">
+          <span>less</span>
+          {cellTone.map((c, i) => (
+            <span key={i} className={`h-[9px] w-[9px] ${c}`} />
+          ))}
+          <span>more</span>
+        </span>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -68,46 +68,50 @@ function LanguageBar({
   label: string;
 }) {
   return (
-    <div className="rounded-xl border border-card-border bg-card-bg p-5 mt-5">
-      <p className="font-mono text-xs text-text-muted mb-4">{label}</p>
+    <figure className="mt-6">
       <motion.div
-        className="flex gap-0.5 h-2 rounded-full overflow-hidden mb-4"
+        className="flex h-1.5 overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
+        variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
       >
         {languages.map((lang) => (
           <motion.div
             key={lang.name}
             style={{ flex: lang.percentage, backgroundColor: lang.color, transformOrigin: "left" }}
-            variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } }}
+            variants={{
+              hidden: { scaleX: 0 },
+              visible: { scaleX: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+            }}
           />
         ))}
       </motion.div>
-      <div className="flex flex-wrap gap-5 font-mono text-xs">
+      <figcaption className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1.5">
+        <span className="annotate mr-2">{label}</span>
         {languages.map((lang) => (
-          <span key={lang.name} className="text-text-secondary">
-            <span style={{ color: lang.color }}>●</span> {lang.name}
+          <span key={lang.name} className="font-mono text-[11px] text-ink-2">
+            <span style={{ color: lang.color }}>{"■"}</span> {lang.name}{" "}
+            <span className="text-ink-3">{lang.percentage}%</span>
           </span>
         ))}
-      </div>
-    </div>
+      </figcaption>
+    </figure>
   );
 }
 
 export default function GitHub({ stats }: { stats: GitHubStats }) {
   const t = useTranslations("github");
 
-  const statCards = [
-    { label: t("publicRepos"), value: stats.publicRepos, suffix: "", Icon: FolderGit2 },
-    { label: t("contributions"), value: stats.contributions, suffix: "", Icon: Activity },
-    { label: t("languages"), value: stats.languages.length, suffix: "+", Icon: Code2 },
+  const specs = [
+    { value: stats.publicRepos, label: t("publicRepos") },
+    { value: stats.contributions, label: t("contributions") },
+    { value: stats.languages.length, label: t("languages") },
   ];
 
   return (
-    <section id="github" className="py-24 md:py-32 px-6 md:px-10 max-w-[1320px] mx-auto">
-      <SectionMarker command={t("command")} title={t("title")} index="04" />
+    <section id="github" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
+      <FigureMarker code="FIG. 04" title={t("title")} annotation={t("kicker")} />
 
       <motion.div
         initial="hidden"
@@ -115,40 +119,38 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
         viewport={viewportOnce}
         variants={staggerContainer}
       >
-        <div className="flex flex-col sm:flex-row gap-4">
-          {statCards.map((stat) => (
-            <motion.div
-              key={stat.label}
-              variants={scaleUp}
-              className="flex-1 rounded-xl border border-card-border bg-card-bg px-6 py-5 text-center transition-colors hover:border-card-border-hover"
-            >
-              <stat.Icon size={18} strokeWidth={1.8} className="mx-auto mb-2 text-accent/70" />
-              <div className="font-mono text-2xl md:text-3xl font-bold text-accent">
-                <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-              </div>
-              <div className="font-mono text-[11px] text-text-muted mt-1">{stat.label}</div>
+        {/* Static spec row */}
+        <motion.dl variants={staggerFast} className="grid grid-cols-3 border-t border-rule pt-6 max-w-2xl">
+          {specs.map((s) => (
+            <motion.div key={s.label} variants={fadeRise}>
+              <dt className="font-display text-4xl md:text-5xl font-semibold text-ink tabular-nums tracking-tight">
+                {s.value}
+              </dt>
+              <dd className="annotate mt-2">{s.label}</dd>
             </motion.div>
           ))}
-        </div>
+        </motion.dl>
 
-        <motion.div variants={fadeInUp}>
+        <motion.div variants={fadeRise}>
           <ContributionGraph graph={stats.contributionGraph} label={t("activity")} />
         </motion.div>
-        <motion.div variants={fadeInUp}>
+        <motion.div variants={fadeRise}>
           <LanguageBar languages={stats.languages} label={t("languageBreakdown")} />
         </motion.div>
 
-        <motion.div variants={fadeInUp} className="mt-5">
-          <a
+        <div className="flex items-center gap-4 mt-8">
+          <motion.a
+            variants={fadeRise}
             href="https://github.com/iWeslax83"
             target="_blank"
             rel="noopener noreferrer"
-            className="link-shimmer inline-flex items-center gap-1.5 font-mono text-xs text-accent transition-colors hover:text-accent/80"
+            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs text-accent transition-colors hover:text-accent/80"
           >
             github.com/iWeslax83
-            <ArrowUpRight size={14} />
-          </a>
-        </motion.div>
+            <ArrowUpRight size={13} />
+          </motion.a>
+          <motion.span variants={ruleDraw} className="h-px flex-1 origin-left bg-rule" />
+        </div>
       </motion.div>
     </section>
   );

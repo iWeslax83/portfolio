@@ -50,50 +50,53 @@ export default function Nav() {
     return () => observer.disconnect();
   }, []);
 
+  const activeNum =
+    navItems.find((i) => i.href.slice(1) === activeSection)?.num ?? "00";
+
   return (
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-300 ${
           scrolled
-            ? "bg-bg/70 backdrop-blur-xl border-b border-card-border"
+            ? "bg-bg/80 backdrop-blur-xl border-b border-rule"
             : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className="max-w-[1320px] mx-auto px-6 md:px-10 flex items-center justify-between h-16">
-          <a
-            href="#home"
-            className="flex items-center gap-2 font-mono text-sm font-semibold text-text-primary"
-          >
+        <div className="max-w-[1320px] mx-auto px-6 md:px-10 lg:px-14 flex items-center justify-between h-16">
+          <a href="#home" className="group flex items-center gap-2.5">
             <Image
               src="/images/logo.webp"
               alt="Emir Sakarya logo"
-              width={24}
-              height={24}
+              width={22}
+              height={22}
               priority
-              className="h-6 w-6 rounded-sm"
+              className="h-[22px] w-[22px]"
             />
-            <span>
+            <span className="font-display text-sm font-semibold text-ink">
               emir<span className="text-accent">.</span>sakarya
+            </span>
+            <span className="hidden sm:inline font-mono text-[10px] tracking-[0.18em] text-ink-3 ml-1">
+              [{activeNum}]
             </span>
           </a>
 
           <div className="hidden md:flex items-center gap-7">
-            {navItems.map((item) => {
+            {navItems.slice(1).map((item) => {
               const active = activeSection === item.href.slice(1);
               return (
                 <a
                   key={item.key}
                   href={item.href}
                   className={`relative font-mono text-xs pb-1 transition-colors ${
-                    active ? "text-accent" : "text-text-muted hover:text-text-secondary"
+                    active ? "text-accent" : "text-ink-3 hover:text-ink-2"
                   }`}
                 >
-                  <span className="text-text-muted/40 mr-1">{item.num}.</span>
+                  <span className="text-ink-3 mr-1.5">{item.num}</span>
                   {t(item.key)}
                   {active && (
                     <motion.span
                       layoutId="nav-underline"
-                      className="absolute left-0 right-0 -bottom-0.5 h-px bg-accent"
+                      className="absolute left-0 right-0 -bottom-px h-px bg-accent"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -104,7 +107,7 @@ export default function Nav() {
 
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden text-text-secondary"
+            className="md:hidden text-ink-2"
             aria-label="Open menu"
           >
             <Menu size={18} />

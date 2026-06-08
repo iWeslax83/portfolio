@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Manrope, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Manrope, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const display = Space_Grotesk({
+// Display: Bricolage Grotesque - an editorial grotesk with real character,
+// set tight and large. Deliberately not the Space-Grotesk/Inter default.
+const display = Bricolage_Grotesque({
   subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700"],
-  variable: "--font-space-grotesk",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -18,6 +20,7 @@ const body = Manrope({
   display: "swap",
 });
 
+// Mono carries the drafting language: figure codes, dimension callouts, part labels.
 const mono = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
@@ -55,9 +58,9 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable} scroll-smooth`}
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
     >
-      <body className="bg-bg text-text-primary antialiased">
+      <body className="bg-bg text-ink antialiased">
         <a href="#home" className="skip-link">
           skip to content
         </a>

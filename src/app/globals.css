@@ -1,27 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Surfaces ───────────────────────────────────────────── */
-  --color-bg: #0b0b0d;
-  --color-panel: #131418;
-  --color-panel-2: #1a1b20;
+  /* ── Canvas: warm near-black, never cold, never pure black ── */
+  --color-bg: #0a0a0b;
+  --color-panel: #101012;
+  --color-panel-2: #16161a;
 
-  /* ── Text ───────────────────────────────────────────────── */
-  --color-text-primary: #ececee;
-  --color-text-secondary: #8b8c94;
-  --color-text-muted: #55565e;
+  /* ── Ink: warm whites and steels ──────────────────────────── */
+  --color-ink: #ece9e1;
+  --color-ink-2: #98948a;
+  /* ink-3 is the drafting-annotation tone. Kept warm and tertiary but lifted to
+     clear WCAG AA contrast (4.9:1 on the near-black canvas) for the small mono text. */
+  --color-ink-3: #837e73;
 
-  /* ── Accent (the single signal color) ───────────────────── */
+  /* ── Accent: ember amber, used scarcely as a single signal ── */
   --color-accent: #e8a05c;
-  --color-accent-soft: rgba(232, 160, 92, 0.12);
+  --color-accent-soft: rgba(232, 160, 92, 0.1);
 
-  /* ── Structure ──────────────────────────────────────────── */
-  --color-card-bg: #131418;
-  --color-card-border: rgba(255, 255, 255, 0.07);
-  --color-card-border-hover: rgba(232, 160, 92, 0.35);
+  /* ── Drafting structure ───────────────────────────────────── */
+  --color-rule: rgba(236, 233, 225, 0.12);
+  --color-rule-strong: rgba(236, 233, 225, 0.22);
+  --color-card: #101012;
+  --color-card-border: rgba(236, 233, 225, 0.09);
+  --color-card-border-hover: rgba(232, 160, 92, 0.4);
 
-  /* ── Type ───────────────────────────────────────────────── */
-  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  /* ── Type ─────────────────────────────────────────────────── */
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
@@ -29,21 +33,21 @@
 
 html {
   scroll-behavior: smooth;
-  /* clip (not hidden) avoids creating a scroll container that would break
-     position:sticky and window scroll tracking, while still containing the
-     off-screen translateX of the slide-in reveal animations. */
+  /* clip (not hidden) contains off-screen reveal transforms without breaking
+     position:sticky or window scroll tracking. */
   overflow-x: clip;
 }
 
 body {
   background-color: var(--color-bg);
-  color: var(--color-text-primary);
+  color: var(--color-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overflow-x: clip;
 }
 
-/* ── Ambient atmosphere: faint engineering grid + vignette ── */
+/* ── Ambient: a faint drafting-paper baseline grid, masked at the top ── */
 body::before {
   content: "";
   position: fixed;
@@ -51,21 +55,21 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 80%);
+    linear-gradient(to right, rgba(236, 233, 225, 0.014) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(236, 233, 225, 0.014) 1px, transparent 1px);
+  background-size: 90px 90px;
+  mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, #000 35%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, #000 35%, transparent 85%);
 }
 
-/* Subtle film grain to kill banding on the dark canvas */
+/* Film grain to kill banding on the dark canvas */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -74,99 +78,125 @@ main {
   z-index: 2;
 }
 
-/* Offset anchored sections so the fixed nav doesn't cover their tops */
 section[id] {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 6rem;
 }
 
-/* ── Selection ──────────────────────────────────────────── */
+/* ── Selection & focus ────────────────────────────────────── */
 ::selection {
   background: var(--color-accent);
   color: var(--color-bg);
 }
 
-/* ── Keyboard focus ─────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
-/* ── Skip link (visible only on keyboard focus) ─────────── */
+/* ── Skip link ────────────────────────────────────────────── */
 .skip-link {
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translate(-50%, -120%);
+  left: 1.5rem;
+  transform: translateY(-130%);
   z-index: 70;
   background: var(--color-accent);
   color: var(--color-bg);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   padding: 0.5rem 1rem;
-  border-radius: 0 0 0.5rem 0.5rem;
   transition: transform 0.2s ease;
 }
 .skip-link:focus {
-  transform: translate(-50%, 0);
+  transform: translateY(0);
   outline: none;
 }
 
-/* ── Custom scrollbar ───────────────────────────────────── */
+/* ── Scrollbar ────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 9px;
 }
 ::-webkit-scrollbar-track {
   background: var(--color-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #26272e;
-  border-radius: 8px;
+  background: #25241f;
   border: 2px solid var(--color-bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #34353d;
+  background: #34322b;
 }
 
-/* ── Perpetual micro-motion keyframes ───────────────────── */
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-.animate-blink {
-  animation: blink 1.1s step-end infinite;
+/* ── Drafting language ────────────────────────────────────── */
+
+/* Mono label set in small caps, the drafting annotation voice */
+.annotate {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
 }
 
-@keyframes float-y {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+/* Corner registration mark - an L-shaped tick used at section corners */
+.reg-mark {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  opacity: 0.55;
 }
-.animate-float {
-  animation: float-y 5s ease-in-out infinite;
+.reg-mark::before,
+.reg-mark::after {
+  content: "";
+  position: absolute;
+  background: var(--color-rule-strong);
+}
+.reg-mark::before {
+  width: 100%;
+  height: 1px;
+  top: 0;
+}
+.reg-mark::after {
+  width: 1px;
+  height: 100%;
+  left: 0;
+}
+.reg-tr {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1);
+}
+.reg-bl {
+  bottom: 0;
+  left: 0;
+  transform: scaleY(-1);
+}
+.reg-br {
+  bottom: 0;
+  right: 0;
+  transform: scale(-1, -1);
 }
 
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 rgba(232, 160, 92, 0.35); }
-  70% { box-shadow: 0 0 0 10px rgba(232, 160, 92, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(232, 160, 92, 0); }
-}
-.animate-pulse-ring {
-  animation: pulse-ring 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee var(--marquee-duration, 36s) linear infinite;
+/* Tick rule - a measurement edge with evenly spaced marks */
+.tick-rule {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-rule) 0,
+    var(--color-rule) 1px,
+    transparent 1px,
+    transparent 9px
+  );
 }
 
-/* Link shimmer underline */
-.link-shimmer {
+/* Link underline that draws from the left on hover */
+.link-draw {
   position: relative;
 }
-.link-shimmer::after {
+.link-draw::after {
   content: "";
   position: absolute;
   left: 0;
@@ -176,11 +206,28 @@ section[id] {
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.link-shimmer:hover::after {
+.link-draw:hover::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+/* ── Micro-motion ─────────────────────────────────────────── */
+@keyframes drift-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+.animate-drift {
+  animation: drift-y 6s ease-in-out infinite;
+}
+
+@keyframes signal {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+.animate-signal {
+  animation: signal 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,130 +1,84 @@
 import type { Variants, Transition } from "framer-motion";
 
 /**
- * Shared spring. Variety in technique, consistency in physics - every section
- * animates differently but with the same weighty spring feel binding them.
+ * Motion vocabulary for the engineering-monograph layout. Variety in technique,
+ * one consistent spring binding it together. Reveals read like a technical sheet
+ * being drafted: rules draw across, figure lines lift in, headlines unmask.
  */
 export const spring: Transition = {
   type: "spring",
-  stiffness: 100,
+  stiffness: 110,
   damping: 20,
 };
 
-export const springSnappy: Transition = {
-  type: "spring",
-  stiffness: 260,
-  damping: 24,
-};
+const ease = [0.22, 1, 0.36, 1] as const;
 
-/* Generic in-view trigger - fire once at ~75% into viewport */
-export const viewportOnce = { once: true, margin: "-15% 0px -15% 0px" } as const;
+/* Fire once, a touch before the block reaches center */
+export const viewportOnce = { once: true, margin: "-12% 0px -12% 0px" } as const;
 
-/* ── Stagger orchestrators ─────────────────────────────────── */
+/* ── Stagger orchestrators ───────────────────────────────────── */
 export const staggerContainer: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } },
 };
 
 export const staggerFast: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.045 } },
+  visible: { transition: { staggerChildren: 0.04 } },
 };
 
-/* ── 1. Hero - boot sequence primitives ───────────────────── */
-export const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 18 },
+/* ── Primitives ──────────────────────────────────────────────── */
+
+/* General fade + rise - body copy, annotations, spec rows */
+export const fadeRise: Variants = {
+  hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: spring },
 };
 
-export const wordReveal: Variants = {
-  hidden: { opacity: 0, y: "0.5em", filter: "blur(6px)" },
+/* Hairline rule that draws in from the left */
+export const ruleDraw: Variants = {
+  hidden: { scaleX: 0 },
+  visible: {
+    scaleX: 1,
+    transition: { duration: 0.7, ease },
+  },
+};
+
+/* Headline line unmasking upward - one per physical line */
+export const lineReveal: Variants = {
+  hidden: { opacity: 0, y: "0.5em", clipPath: "inset(0 0 100% 0)" },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
-    transition: { type: "spring", stiffness: 140, damping: 18 },
+    clipPath: "inset(0 0 -10% 0)",
+    transition: { duration: 0.75, ease },
   },
 };
 
-export const imageUnblur: Variants = {
-  hidden: { opacity: 0, scale: 0.6, filter: "blur(8px)" },
+/* Figure codes / part labels - index in with a small lift */
+export const markIn: Variants = {
+  hidden: { opacity: 0, y: 8, letterSpacing: "0.4em" },
   visible: {
     opacity: 1,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: { type: "spring", stiffness: 180, damping: 16 },
+    y: 0,
+    letterSpacing: "0.22em",
+    transition: { duration: 0.5, ease },
   },
 };
 
-/* ── 2. STRATOS - cinematic side-sweep ────────────────────── */
+/* Plate / figure block - subtle scale + lift, never a pop */
+export const plateIn: Variants = {
+  hidden: { opacity: 0, y: 28, scale: 0.985 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: spring },
+};
+
+/* Lateral entrances for asymmetric two-column composition */
 export const slideInLeft: Variants = {
-  hidden: { opacity: 0, x: -56 },
+  hidden: { opacity: 0, x: -40 },
   visible: { opacity: 1, x: 0, transition: spring },
 };
 
 export const slideInRight: Variants = {
-  hidden: { opacity: 0, x: 56 },
+  hidden: { opacity: 0, x: 40 },
   visible: { opacity: 1, x: 0, transition: spring },
-};
-
-export const maskWipe: Variants = {
-  hidden: { clipPath: "inset(0 100% 0 0)", opacity: 0 },
-  visible: {
-    clipPath: "inset(0 0% 0 0)",
-    opacity: 1,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-/* ── 3. Selected Work - depth stack ───────────────────────── */
-export const scaleUp: Variants = {
-  hidden: { opacity: 0, scale: 0.92, y: 30 },
-  visible: { opacity: 1, scale: 1, y: 0, transition: spring },
-};
-
-export const flipUp: Variants = {
-  hidden: { opacity: 0, rotateX: -12, y: 40, transformPerspective: 1000 },
-  visible: {
-    opacity: 1,
-    rotateX: 0,
-    y: 0,
-    transformPerspective: 1000,
-    transition: spring,
-  },
-};
-
-/* ── 4. Stack - pop & drift ───────────────────────────────── */
-export const popIn: Variants = {
-  hidden: { opacity: 0, scale: 0.5 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { type: "spring", stiffness: 320, damping: 16 },
-  },
-};
-
-/* ── 6. Contact - lift in ─────────────────────────────────── */
-export const liftIn: Variants = {
-  hidden: { opacity: 0, y: 50, rotateX: -18, transformPerspective: 1200 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    transformPerspective: 1200,
-    transition: spring,
-  },
-};
-
-export const charReveal: Variants = {
-  hidden: { opacity: 0, y: "0.4em" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { type: "spring", stiffness: 200, damping: 18 },
-  },
-};
-
-export const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.4 } },
 };

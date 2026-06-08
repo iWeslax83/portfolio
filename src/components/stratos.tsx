@@ -2,28 +2,33 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { ArrowUpRight, Crosshair, Radio, Bot } from "lucide-react";
-import SectionMarker from "./ui/section-marker";
-import AnimatedCounter from "./animated-counter";
+import { ArrowUpRight } from "lucide-react";
+import FigureMarker from "./ui/figure-marker";
 import { stratosUnits, STRATOS_URL } from "@/data/stratos";
 import {
   staggerContainer,
+  staggerFast,
+  fadeRise,
   slideInLeft,
   slideInRight,
-  fadeInUp,
+  ruleDraw,
   viewportOnce,
 } from "@/lib/motion";
-
-const unitIcons = [Crosshair, Radio, Bot];
 
 export default function Stratos() {
   const t = useTranslations("stratos");
 
-  return (
-    <section id="stratos" className="py-24 md:py-32 px-6 md:px-10 max-w-[1320px] mx-auto">
-      <SectionMarker command={t("command")} title={t("title")} index="01" />
+  const stats = [
+    { value: "04", label: t("departments") },
+    { value: "07", label: t("members") },
+    { value: "2026", label: t("founded") },
+  ];
 
-      <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-12 items-start">
+  return (
+    <section id="stratos" className="relative py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
+      <FigureMarker code="FIG. 01" title={t("title")} annotation={t("kicker")} />
+
+      <div className="grid lg:grid-cols-[1.08fr_0.92fr] gap-12 lg:gap-20 items-start">
         {/* Left - the story */}
         <motion.div
           initial="hidden"
@@ -31,101 +36,79 @@ export default function Stratos() {
           viewport={viewportOnce}
           variants={staggerContainer}
         >
-          <motion.span
-            variants={slideInLeft}
-            className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent-soft px-4 py-1.5 font-mono text-[11px] tracking-wide text-accent"
-          >
+          <motion.p variants={slideInLeft} className="annotate text-accent">
             {t("roleBadge")}
-          </motion.span>
+          </motion.p>
 
           <motion.p
             variants={slideInLeft}
-            className="font-body text-base md:text-lg text-text-secondary leading-relaxed mt-6 max-w-xl"
+            className="font-body text-lg md:text-xl text-ink mt-6 leading-relaxed max-w-xl"
           >
             {t("body")}
           </motion.p>
 
-          {/* Mini stats */}
-          <motion.div variants={fadeInUp} className="flex gap-8 mt-9">
-            <div>
-              <div className="font-mono text-2xl font-semibold text-accent">
-                <AnimatedCounter target={4} />
+          {/* Stat spec row */}
+          <motion.dl
+            variants={fadeRise}
+            className="mt-10 grid grid-cols-3 max-w-md border-t border-rule pt-6"
+          >
+            {stats.map((s) => (
+              <div key={s.label}>
+                <dt className="font-display text-3xl md:text-4xl font-semibold text-ink tracking-tight">
+                  {s.value}
+                </dt>
+                <dd className="annotate mt-1.5">{s.label}</dd>
               </div>
-              <div className="font-mono text-[11px] text-text-muted mt-1">
-                {t("departments")}
-              </div>
-            </div>
-            <div>
-              <div className="font-mono text-2xl font-semibold text-accent">
-                <AnimatedCounter target={7} />
-              </div>
-              <div className="font-mono text-[11px] text-text-muted mt-1">
-                {t("members")}
-              </div>
-            </div>
-            <div>
-              <div className="font-mono text-2xl font-semibold text-accent">2026</div>
-              <div className="font-mono text-[11px] text-text-muted mt-1">
-                {t("founded")}
-              </div>
-            </div>
-          </motion.div>
+            ))}
+          </motion.dl>
+
+          <motion.a
+            variants={fadeRise}
+            href={STRATOS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs text-accent mt-9 hover:text-accent/80 transition-colors"
+          >
+            {t("visit")}
+            <ArrowUpRight size={13} />
+          </motion.a>
         </motion.div>
 
-        {/* Right - the standout amber-bordered panel */}
+        {/* Right - parts manifest */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          variants={staggerContainer}
-          className="rounded-2xl border border-accent/25 bg-gradient-to-b from-accent-soft to-transparent p-6 md:p-7"
+          variants={staggerFast}
         >
-          <motion.p
-            variants={slideInRight}
-            className="font-mono text-[11px] uppercase tracking-[0.18em] text-text-muted mb-5"
-          >
-            {t("unitsLabel")}
-          </motion.p>
-
-          <div className="space-y-3">
-            {stratosUnits.map((unit, i) => {
-              const Icon = unitIcons[i % unitIcons.length];
-              return (
-                <motion.div
-                  key={unit.name}
-                  variants={slideInRight}
-                  className="group flex items-center gap-3.5 rounded-xl border border-card-border bg-bg/40 px-4 py-3.5 transition-colors hover:border-card-border-hover"
-                >
-                  <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-accent-soft text-accent transition-transform group-hover:scale-110">
-                    <Icon size={16} strokeWidth={1.8} />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="font-display text-base font-medium text-text-primary">
-                      {unit.name}
-                    </div>
-                    <div className="font-mono text-[11px] text-text-secondary mt-0.5">
-                      {unit.detail}
-                    </div>
-                  </div>
-                  <ArrowUpRight
-                    size={15}
-                    className="flex-shrink-0 text-text-muted opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-accent"
-                  />
-                </motion.div>
-              );
-            })}
+          <div className="flex items-center gap-4 mb-2">
+            <motion.span variants={slideInRight} className="annotate">
+              {t("unitsLabel")}
+            </motion.span>
+            <motion.span variants={ruleDraw} className="h-px flex-1 origin-left bg-rule" />
           </div>
 
-          <motion.a
-            variants={slideInRight}
-            href={STRATOS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-shimmer inline-flex items-center gap-1.5 font-mono text-xs text-accent mt-6 hover:text-accent/80 transition-colors"
-          >
-            {t("visit")}
-            <ArrowUpRight size={14} />
-          </motion.a>
+          <ul>
+            {stratosUnits.map((unit, i) => (
+              <motion.li
+                key={unit.name}
+                variants={slideInRight}
+                className="group grid grid-cols-[auto_1fr] gap-x-5 items-baseline border-b border-rule py-5 transition-colors hover:border-rule-strong"
+              >
+                <span className="font-mono text-xs text-accent tabular-nums">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-xl font-medium text-ink transition-colors group-hover:text-accent">
+                    {unit.name}
+                  </h3>
+                  <p className="font-mono text-[11px] text-ink-3 mt-1.5 leading-relaxed">
+                    {unit.detail}
+                  </p>
+                </div>
+              </motion.li>
+            ))}
+          </ul>
         </motion.div>
       </div>
     </section>

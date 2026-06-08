@@ -8,64 +8,61 @@
     "contact": "contact"
   },
   "hero": {
-    "whoami": "whoami",
-    "roleTag": "FOUNDER & HEAD OF ELECTRONICS & SOFTWARE",
-    "roleOrg": "STRATOS İHA",
-    "name": "Emir Sakarya",
-    "h0": "I founded a",
-    "h1": "UAV team and build the",
-    "h2": "flight electronics and",
-    "h3": "software around them.",
-    "altDrone": "autonomous drone",
-    "altBoard": "flight-controller PCB",
-    "altBrowser": "web dashboard",
-    "subtitle": "Embedded-systems & full-stack engineer · NASA Space Apps Challenge 2025 winner, Türkiye · Tofaş Fen Lisesi, Bursa · TEKNOFEST competitor.",
-    "projects": "projects",
-    "technologies": "technologies",
-    "competitions": "competition programs",
-    "viewProjects": "view work",
-    "getInTouch": "get in touch"
+    "role": "Founder · Head of Electronics & Software",
+    "org": "STRATOS İHA",
+    "hLine1": "I build the drones,",
+    "hLine2": "and the software they fly on.",
+    "rev": "NASA Space Apps 2025 · Winner, Türkiye",
+    "lead": "Embedded-systems and full-stack engineer. I founded a TEKNOFEST UAV team and engineer the autonomous flight electronics, computer vision, and production software end to end.",
+    "cred1": "Flight controllers, sensor fusion, autonomous mission planning",
+    "cred2": "Production full-stack: React, Node, GraphQL, Kubernetes",
+    "cred3": "Tofaş Fen Lisesi, Bursa · TEKNOFEST competitor",
+    "viewWork": "View work",
+    "getInTouch": "Get in touch"
   },
   "stratos": {
-    "command": "cat stratos.md",
     "title": "STRATOS İHA",
-    "roleBadge": "Founder & Head of Electronics & Software",
+    "kicker": "TEKNOFEST UAV community",
+    "roleBadge": "Founder · Head of Electronics & Software",
     "body": "I founded STRATOS İHA, a student TEKNOFEST UAV community at Tofaş Fen Lisesi. I lead Electronics & Software across autonomous quadrotors, FPV racing drones, and VEX robotics, and grew the team to four departments and seven core members.",
     "departments": "departments",
     "members": "core members",
-    "founded": "founded",
+    "founded": "established",
     "unitsLabel": "what we build",
     "visit": "stratosiha.vercel.app"
   },
   "projects": {
-    "command": "ls projects/ --featured",
     "title": "Selected Work",
-    "allCommand": "ls projects/ --all",
-    "role": "Role: Electronics & Software Captain"
+    "count": "10 projects",
+    "role": "Electronics & Software Captain",
+    "alsoLabel": "also shipped"
   },
   "skills": {
-    "command": "cat skills.json",
-    "title": "Tech Stack"
+    "title": "Tech Stack",
+    "kicker": "capability matrix"
   },
   "github": {
-    "command": "gh api user --jq '.public_repos, .followers'",
     "title": "GitHub",
+    "kicker": "live telemetry",
     "publicRepos": "public repos",
     "contributions": "contributions",
     "languages": "languages",
-    "activity": "contribution activity - last 12 months",
-    "languageBreakdown": "language breakdown"
+    "activity": "12-month activity",
+    "languageBreakdown": "language mix"
   },
   "contact": {
-    "command": "cat contact.md",
     "title": "Get in Touch",
-    "subtitle": "Open to internships and engineering collaborations.",
+    "kicker": "open to work",
+    "ctaLine1": "Let's build something",
+    "ctaLine2": "that flies.",
+    "subtitle": "Open to internships and engineering collaborations in embedded systems, autonomous robotics, and full-stack software.",
+    "availability": "Based in Bursa, Türkiye · usually replies within a day",
     "email": "Email",
     "githubLabel": "GitHub",
     "linkedin": "LinkedIn"
   },
   "footer": {
-    "author": "emir.sakarya",
-    "exit": "exit 0"
+    "colophon": "Designed and built by Emir Sakarya in Bursa, Türkiye.",
+    "meta": "Next.js · 2026"
   }
 }

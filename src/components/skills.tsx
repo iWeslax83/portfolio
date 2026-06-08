@@ -2,96 +2,69 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { LayoutDashboard, Server, Cpu, Boxes, type LucideIcon } from "lucide-react";
 import { skills } from "@/data/skills";
-import SectionMarker from "./ui/section-marker";
-
-const categoryIcons: Record<string, LucideIcon> = {
-  frontend: LayoutDashboard,
-  backend: Server,
-  ai_embedded: Cpu,
-  devops: Boxes,
-};
+import FigureMarker from "./ui/figure-marker";
 import {
   staggerContainer,
   staggerFast,
-  popIn,
-  slideInLeft,
-  slideInRight,
+  fadeRise,
+  markIn,
   viewportOnce,
 } from "@/lib/motion";
 
-const allItems = skills.flatMap((s) => s.items);
+const categoryLabels: Record<string, string> = {
+  frontend: "Frontend",
+  backend: "Backend",
+  ai_embedded: "AI & Embedded",
+  devops: "DevOps & Infra",
+};
 
 export default function Skills() {
   const t = useTranslations("skills");
 
   return (
-    <section id="skills" className="py-24 md:py-32 px-6 md:px-10 max-w-[1320px] mx-auto">
-      <SectionMarker command={t("command")} title={t("title")} index="03" />
+    <section id="skills" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
+      <FigureMarker code="FIG. 03" title={t("title")} annotation={t("kicker")} />
 
       <motion.div
-        className="grid md:grid-cols-2 gap-5"
+        className="border-t border-rule"
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer}
       >
-        {skills.map((category, idx) => {
-          const Icon = categoryIcons[category.key] ?? Cpu;
-          return (
-            <motion.div
-              key={category.key}
-              variants={idx % 2 === 0 ? slideInLeft : slideInRight}
-              className="rounded-xl border border-card-border bg-card-bg p-6 transition-colors hover:border-card-border-hover"
-            >
-              <div className="flex items-center gap-2.5 mb-4">
-                <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent-soft text-accent">
-                  <Icon size={14} strokeWidth={1.9} />
-                </span>
-                <p className="font-mono text-xs text-accent">{category.label}</p>
-              </div>
-              <motion.div
-                className="flex flex-wrap gap-2"
-                variants={staggerFast}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOnce}
-              >
-                {category.items.map((item) => (
-                  <motion.span
-                    key={item}
-                    variants={popIn}
-                    className="font-mono text-xs text-text-secondary bg-white/[0.04] border border-card-border px-3 py-1.5 rounded-md transition-colors hover:border-accent/40 hover:text-text-primary"
-                  >
-                    {item}
-                  </motion.span>
-                ))}
-              </motion.div>
-            </motion.div>
-          );
-        })}
-      </motion.div>
+        {skills.map((category) => (
+          <motion.div
+            key={category.key}
+            variants={fadeRise}
+            className="group grid md:grid-cols-[14rem_1fr] gap-x-10 gap-y-3 border-b border-rule py-7 transition-colors hover:border-rule-strong"
+          >
+            <div className="flex items-baseline gap-3">
+              <span className="font-mono text-[11px] text-accent tabular-nums">
+                {String(category.items.length).padStart(2, "0")}
+              </span>
+              <h3 className="font-display text-xl font-medium text-ink">
+                {categoryLabels[category.key] ?? category.key}
+              </h3>
+            </div>
 
-      {/* Perpetual drift marquee */}
-      <div
-        className="relative mt-8 overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
-        aria-hidden
-      >
-        <div
-          className="flex w-max animate-marquee gap-3"
-          style={{ "--marquee-duration": "42s" } as React.CSSProperties}
-        >
-          {[...allItems, ...allItems].map((item, i) => (
-            <span
-              key={`${item}-${i}`}
-              className="font-mono text-[11px] text-text-muted/70 border border-card-border rounded-full px-3.5 py-1.5 whitespace-nowrap"
+            <motion.ul
+              className="flex flex-wrap gap-x-7 gap-y-2.5"
+              variants={staggerFast}
             >
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
+              {category.items.map((item) => (
+                <motion.li
+                  key={item}
+                  variants={markIn}
+                  className="font-mono text-sm text-ink-2 transition-colors hover:text-ink"
+                >
+                  {item}
+                </motion.li>
+              ))}
+            </motion.ul>
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   );
 }
