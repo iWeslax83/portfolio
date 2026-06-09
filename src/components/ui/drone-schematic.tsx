@@ -46,7 +46,7 @@ export default function DroneSchematic() {
       viewBox="0 0 400 400"
       fill="none"
       role="img"
-      aria-label="Technical line drawing of an autonomous quadrotor airframe with a 1240 millimetre rotor span"
+      aria-label="Technical line drawing of an autonomous quadrotor airframe with a 520 millimetre rotor span"
       className="w-full h-auto text-ink-3"
       initial="hidden"
       whileInView="visible"
@@ -144,8 +144,8 @@ export default function DroneSchematic() {
         className="fill-accent"
         style={{ fontFamily: "var(--font-mono)", fontSize: "13px", letterSpacing: "0.1em" }}
       >
-        1240 mm
-      </motion.text>
+        520 mm
+</motion.text>
 
       {/* Part labels */}
       <motion.text
