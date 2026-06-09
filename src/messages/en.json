@@ -13,7 +13,7 @@
     "hLine1": "I build the drones,",
     "hLine2": "and the software they fly on.",
     "rev": "NASA Space Apps 2025 · Winner, Türkiye",
-    "lead": "Embedded-systems and full-stack engineer. I founded a TEKNOFEST UAV team and engineer the autonomous flight electronics, computer vision, and production software end to end.",
+    "lead": "Embedded-systems and full-stack engineer, now going deep on ML/AI engineering. I founded a TEKNOFEST UAV team and engineer the autonomous flight electronics, computer vision, and production software end to end.",
     "cred1": "Flight controllers, sensor fusion, autonomous mission planning",
     "cred2": "Production full-stack: React, Node, GraphQL, Kubernetes",
     "cred3": "Tofaş Fen Lisesi, Bursa · TEKNOFEST competitor",
@@ -33,7 +33,7 @@
   },
   "projects": {
     "title": "Selected Work",
-    "count": "10 projects",
+    "count": "9 projects",
     "role": "Electronics & Software Captain",
     "alsoLabel": "also shipped"
   },

@@ -40,6 +40,29 @@ export const projects: Project[] = [
     order: 2,
   },
   {
+    slug: "blackbox",
+    title: "Blackbox - Agent Accountability",
+    description:
+      "Flight recorder and autonomous compliance tribunal for AI agents: a tamper-evident audit log, a multi-agent EU AI Act policy tribunal, and auditor-ready evidence packs.",
+    tag: "AI",
+    tagDetail: "live · LangGraph + Claude",
+    techPills: ["LangGraph", "Claude", "FastAPI", "Python"],
+    links: [
+      {
+        label: "live",
+        href: "https://blackbox-agent-accountability.vercel.app",
+        isPrimary: true,
+      },
+      {
+        label: "source code",
+        href: "https://github.com/iWeslax83/blackbox-agent-accountability",
+        isPrimary: false,
+      },
+    ],
+    featured: true,
+    order: 3,
+  },
+  {
     slug: "local-ai-assistant",
     title: "Local AI Assistant",
     description:
@@ -55,7 +78,7 @@ export const projects: Project[] = [
       },
     ],
     featured: true,
-    order: 3,
+    order: 4,
   },
   {
     slug: "stratos-website",
@@ -74,49 +97,7 @@ export const projects: Project[] = [
       },
     ],
     featured: true,
-    order: 4,
-  },
-  {
-    slug: "izin-sistemi",
-    title: "İzin Sistemi",
-    description:
-      "Permission and leave-management system for the Tofaş Fen Innovation Workshop - request flows, approvals, and tracking.",
-    tag: "full-stack",
-    tagDetail: "live",
-    techPills: ["JavaScript", "Node.js"],
-    links: [
-      { label: "live", href: "https://izinsistemi.vercel.app", isPrimary: true },
-      {
-        label: "source code",
-        href: "https://github.com/iWeslax83/izinsistemi",
-        isPrimary: false,
-      },
-    ],
-    featured: true,
     order: 5,
-  },
-  {
-    slug: "genesis",
-    title: "Genesis",
-    description:
-      "Closed-loop space-agriculture life-support simulator built for the TUA Astro Hackathon - biology-driven modelling with AI prediction.",
-    tag: "hackathon",
-    tagDetail: "TUA Astro 2026",
-    techPills: ["JavaScript", "AI prediction", "simulation"],
-    links: [
-      {
-        label: "live demo",
-        href: "https://genesis-nu-flame.vercel.app",
-        isPrimary: true,
-      },
-      {
-        label: "source code",
-        href: "https://github.com/iWeslax83/Genesis",
-        isPrimary: false,
-      },
-    ],
-    featured: true,
-    order: 6,
   },
   {
     slug: "zero-g-pharma",
