@@ -56,9 +56,9 @@ export default function Nav() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color] duration-300 ${
           scrolled
-            ? "bg-bg/80 backdrop-blur-xl border-b border-rule"
+            ? "bg-bg border-b border-rule"
             : "bg-transparent border-b border-transparent"
         }`}
       >

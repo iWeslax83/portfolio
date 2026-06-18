@@ -26,7 +26,7 @@ export default function BackToTop() {
           exit={{ opacity: 0, scale: 0.6, y: 10 }}
           whileHover={{ y: -3 }}
           transition={{ type: "spring", stiffness: 300, damping: 22 }}
-          className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center border border-rule bg-panel/80 text-accent backdrop-blur-md transition-colors hover:border-rule-strong"
+          className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center border border-rule bg-panel text-accent transition-colors hover:border-rule-strong"
         >
           <ArrowUp size={18} />
         </motion.button>
