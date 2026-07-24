@@ -1,6 +1,13 @@
 # emirsakarya.vercel.app
 
-Personal portfolio website for Emir Sakarya — Software Architect & Electronics/Software Captain at Tofas Fen Lisesi, Bursa.
+Personal portfolio for Emir Sakarya - Founder & Head of Electronics & Software at
+STRATOS İHA, Bursa. Embedded systems, autonomous UAVs, AI agent systems, and
+production full-stack work.
+
+The design concept is an **engineering monograph**: the site reads like a
+precision-printed technical spec sheet for a person, using aerospace drafting
+conventions (figure codes, dimension callouts, registration marks) rather than the
+usual developer-terminal motif. The full design system lives in [DESIGN.md](DESIGN.md).
 
 ## Tech Stack
 
@@ -9,17 +16,19 @@ Personal portfolio website for Emir Sakarya — Software Architect & Electronics
 - **Animations**: [Framer Motion](https://www.framer.com/motion)
 - **Internationalization**: [next-intl](https://next-intl.dev) (English)
 - **Icons**: [Lucide React](https://lucide.dev)
-- **Font**: JetBrains Mono
+- **Fonts**: Bricolage Grotesque (display), Manrope (body), JetBrains Mono (drafting annotation)
 - **Analytics**: [Vercel Analytics](https://vercel.com/analytics)
 - **Deployment**: [Vercel](https://vercel.com)
 
 ## Features
 
-- Terminal-inspired UI with monospace typography and dark theme
-- Animated stat counters, staggered section reveals
-- Live GitHub activity via GitHub API (contribution graph, language breakdown)
-- SEO-optimized with JSON-LD structured data, sitemap, and robots.txt
-- Fully responsive with dedicated mobile navigation
+- Indexed work catalogue: a bordered flagship plate plus drafting-style figure rows
+- Animated quadrotor schematic that drafts itself stroke by stroke via SVG `pathLength`
+- Choreographed section reveals: rules draw, headlines unmask, figures index in
+- Live GitHub activity via the GitHub API (contribution graph, language breakdown)
+- SEO: JSON-LD structured data, sitemap, robots.txt
+- Responsive, with dedicated mobile navigation
+- Respects `prefers-reduced-motion` in both CSS and Framer Motion
 
 ## Getting Started
 
@@ -42,18 +51,21 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 ```
 src/
   app/
-    layout.tsx      # Root layout (NextIntlClientProvider, JSON-LD, Analytics)
+    layout.tsx      # Root layout (NextIntlClientProvider, MotionProvider, JSON-LD, Analytics)
     page.tsx        # Single-page portfolio
     robots.ts       # SEO robots.txt
     sitemap.ts      # SEO sitemap
     globals.css     # Tailwind 4 @theme tokens + base styles
   components/       # UI components (hero, nav, projects, skills, contact, etc.)
-  data/             # Static data (projects, skills)
+  data/             # Static data (projects, skills, stratos)
   lib/              # Utilities, types, motion variants
   messages/         # i18n translation files (en.json)
 i18n/               # next-intl routing config
 public/images/      # Logo and project assets
 ```
+
+Project content is data-driven: add or edit entries in `src/data/projects.ts` and the
+work catalogue, project count, and secondary index all follow.
 
 ## Environment Variables
 
