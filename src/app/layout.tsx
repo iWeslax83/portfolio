@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Manrope, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
+import MotionProvider from "@/components/ui/motion-provider";
 import "./globals.css";
 
 // Display: Bricolage Grotesque - an editorial grotesk with real character,
@@ -77,11 +78,12 @@ export default async function RootLayout({
               sameAs: [
                 "https://github.com/iWeslax83",
                 "https://linkedin.com/in/emirsakarya",
-                "https://stratosiha.vercel.app",
+                "https://www.stratosiha.com",
               ],
               worksFor: {
                 "@type": "Organization",
                 name: "STRATOS İHA",
+                url: "https://www.stratosiha.com",
               },
               alumniOf: {
                 "@type": "EducationalOrganization",
@@ -96,7 +98,7 @@ export default async function RootLayout({
           }}
         />
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <MotionProvider>{children}</MotionProvider>
         </NextIntlClientProvider>
         <Analytics />
       </body>
