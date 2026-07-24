@@ -29,6 +29,7 @@ export default function Hero() {
     t("cred1"),
     t("cred2"),
     t("cred3"),
+    t("cred4"),
   ];
 
   return (

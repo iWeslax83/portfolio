@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
-import { featuredProjects, secondaryProjects } from "@/data/projects";
+import { projects, featuredProjects, secondaryProjects } from "@/data/projects";
 import { Project } from "@/lib/types";
 import FigureMarker from "./ui/figure-marker";
 import {
@@ -115,13 +115,14 @@ function WorkRow({ project, index }: { project: Project; index: number }) {
   return (
     <motion.article
       variants={plateIn}
-      className="group grid md:grid-cols-[4.5rem_1fr] gap-x-6 border-t border-rule py-8 transition-colors"
+      className="group grid md:grid-cols-[10rem_1fr] gap-x-8 border-t border-rule py-8 transition-colors"
     >
-      <div className="flex md:flex-col items-baseline md:items-start gap-3">
+      <div className="flex flex-wrap md:flex-col items-baseline md:items-start gap-x-3 gap-y-1.5">
         <span className="font-display text-3xl md:text-4xl font-semibold text-ink-3 leading-none tabular-nums transition-colors group-hover:text-accent">
           {String(index).padStart(2, "0")}
         </span>
         <span className="annotate md:mt-3">{project.tag}</span>
+        <span className="annotate text-ink-3 md:mt-1.5">{project.tagDetail}</span>
       </div>
 
       <div>
@@ -157,7 +158,11 @@ export default function Projects() {
 
   return (
     <section id="projects" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
-      <FigureMarker code="FIG. 02" title={t("title")} annotation={t("count")} />
+      <FigureMarker
+        code="FIG. 02"
+        title={t("title")}
+        annotation={t("count", { count: projects.length })}
+      />
 
       <motion.div
         initial="hidden"

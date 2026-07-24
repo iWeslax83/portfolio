@@ -13,10 +13,11 @@
     "hLine1": "I build the drones,",
     "hLine2": "and the software they fly on.",
     "rev": "NASA Space Apps 2025 · Winner, Türkiye",
-    "lead": "Embedded-systems and full-stack engineer, now going deep on ML/AI engineering. I founded a TEKNOFEST UAV team and engineer the autonomous flight electronics, computer vision, and production software end to end.",
+    "lead": "Embedded-systems and full-stack engineer. I founded a TEKNOFEST UAV team and own its flight electronics, computer vision, and mission software end to end. Off the airframe I ship production platforms and AI agent systems built to prove what they did.",
     "cred1": "Flight controllers, sensor fusion, autonomous mission planning",
-    "cred2": "Production full-stack: React, Node, GraphQL, Kubernetes",
-    "cred3": "Tofaş Fen Lisesi, Bursa · TEKNOFEST competitor",
+    "cred2": "Agent systems: typed task-graphs, verify gates, audit trails",
+    "cred3": "Production full-stack: React, Node, GraphQL, Postgres, Kubernetes",
+    "cred4": "Tofaş Fen Lisesi, Bursa · TEKNOFEST competitor",
     "viewWork": "View work",
     "getInTouch": "Get in touch"
   },
@@ -29,11 +30,11 @@
     "members": "core members",
     "founded": "established",
     "unitsLabel": "what we build",
-    "visit": "stratosiha.vercel.app"
+    "visit": "stratosiha.com"
   },
   "projects": {
     "title": "Selected Work",
-    "count": "9 projects",
+    "count": "{count} projects",
     "role": "Electronics & Software Captain",
     "alsoLabel": "also shipped"
   },
@@ -55,7 +56,7 @@
     "kicker": "open to work",
     "ctaLine1": "Let's build something",
     "ctaLine2": "that flies.",
-    "subtitle": "Open to internships and engineering collaborations in embedded systems, autonomous robotics, and full-stack software.",
+    "subtitle": "Open to internships and engineering collaborations in embedded systems, autonomous robotics, AI, and full-stack software.",
     "availability": "Based in Bursa, Türkiye · usually replies within a day",
     "email": "Email",
     "githubLabel": "GitHub",

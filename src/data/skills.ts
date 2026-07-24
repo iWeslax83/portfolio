@@ -7,11 +7,18 @@ export const skills: SkillCategory[] = [
   },
   {
     key: "backend",
-    items: ["Node.js", "Express", "FastAPI", "GraphQL", "MongoDB", "Redis"],
+    items: ["Node.js", "Express", "FastAPI", "GraphQL", "MongoDB", "Postgres", "Supabase", "Redis"],
   },
   {
     key: "ai_embedded",
-    items: ["Python", "Ollama", "Flight Controllers", "PCB Design"],
+    items: [
+      "Python",
+      "LangGraph",
+      "Ollama",
+      "MediaPipe",
+      "Flight Controllers",
+      "PCB Design",
+    ],
   },
   {
     key: "devops",

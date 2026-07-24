@@ -15,4 +15,4 @@ export const stratosUnits: StratosUnit[] = [
   },
 ];
 
-export const STRATOS_URL = "https://stratosiha.vercel.app";
+export const STRATOS_URL = "https://www.stratosiha.com";
