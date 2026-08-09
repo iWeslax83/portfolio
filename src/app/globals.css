@@ -45,7 +45,7 @@ body {
   overflow-x: clip;
 }
 
-/* Ambient drafting grid + film grain removed — flat canvas (no decorative gradients/noise) */
+/* Ambient drafting grid + film grain removed: flat canvas (no decorative gradients/noise) */
 
 main {
   position: relative;

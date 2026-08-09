@@ -148,7 +148,7 @@ renamed/reframed for the new vocabulary but the same physics.
 - Exactly one accent primary CTA ("View work") + one `.link-draw` secondary ("Get in touch").
 - Right column: the animated quadrotor technical drawing, now inside a
   bordered instrument panel with a readout-strip caption
-  (`OBJECT · AUTONOMOUS QUADROTOR — STATUS · FLIGHT-READY`) instead of a `Fig. 00` caption.
+  (`OBJECT · AUTONOMOUS QUADROTOR · STATUS · FLIGHT-READY`) instead of a `Fig. 00` caption.
 - No cursor-follow light, no fake console, no inline-image-in-headline gimmick,
   no stat counters in the hero.
 
