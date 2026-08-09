@@ -89,6 +89,19 @@ with no deliberate choice behind it, decorative serifs.
 - **Status indicator:** one small square (not circular) accent dot + mono
   label (e.g. `SYSTEM · ONLINE`), used once, in the hero or nav. Replaces the
   old amber signal dot 1:1 in role, restyled in shape.
+- **GitHub dashboard:** the system's flagship proof surface (Section 1) reads
+  as an instrument cluster, not a typographic list. Three small bordered
+  panels (repos, contributions, languages) sit beside two wide bordered
+  panels (activity graph, language mix), all sharing the same
+  `border border-rule` + mono-label chrome as every other panel in the
+  system. Replaces the single `<dl>` spec-row + stacked-graph layout.
+- **Nav section index:** the active-section marker (`[00]`) becomes a small
+  bordered mono chip (`border border-rule`, rectangular corners) instead of
+  bare bracketed text - a small readout, not a pill.
+- **Row hover sweep:** bordered catalogue rows (project rows, STRATOS units,
+  contact channels, skill categories) gain a flat `--color-accent-soft`
+  background that sweeps in from the left on hover (`scaleX`, same mechanic
+  as `ruleDraw`). Flat fill only, no gradient, no blur.
 - **No pill clouds, no icon-chip cards, no marquee, no figure codes, no
   registration marks, no tick-rules.**
 
@@ -132,6 +145,19 @@ renamed/reframed for the new vocabulary but the same physics.
 - **Perpetual micro-motion:** one square accent status indicator, one thin
   accent scroll-progress rule at the top of the viewport. That is the full
   budget - keep it quiet.
+- **Boot sequence:** on initial load, the hero's stagger already sequences
+  top-to-bottom; the nav bar and scroll-progress rule now fade in with a
+  short delay after the hero's first elements resolve, and the hero's
+  `panelReadout` line fires one `.animate-signal` flicker (not looping) once
+  the drone schematic finishes drawing. Reads as one instrument powering on
+  in sequence, not simultaneous popcorn.
+- **Readout settle (numeric):** a `readoutSettle` variant (`scale 1.04 -> 1`,
+  opacity `0 -> 1`, same spring) for GitHub's real numeric values - distinct
+  from `markIn`, which is for tracked-out mono labels, not numerals. Still
+  real data only, still never a count-up-from-zero tween.
+- **Row hover sweep:** a `scaleX` background sweep (`--color-accent-soft`,
+  `transform-origin: left`, ~0.3s) behind bordered catalogue rows on hover.
+  Transform-only, same discipline as `ruleDraw`.
 - **Performance:** animate only `transform` / `opacity`. Respect
   `prefers-reduced-motion` (collapse to instant).
 
