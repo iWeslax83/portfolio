@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { GitHubStats } from "@/lib/types";
-import FigureMarker from "./ui/figure-marker";
+import SectionHeader from "./ui/section-header";
 import {
   staggerContainer,
   staggerFast,
@@ -111,7 +111,7 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
 
   return (
     <section id="github" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
-      <FigureMarker code="FIG. 04" title={t("title")} annotation={t("kicker")} />
+      <SectionHeader kicker={t("kicker")} title={t("title")} />
 
       <motion.div
         initial="hidden"
