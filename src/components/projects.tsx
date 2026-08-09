@@ -112,7 +112,7 @@ function WorkRow({ project, index }: { project: Project; index: number }) {
   return (
     <motion.article
       variants={plateIn}
-      className="group grid md:grid-cols-[10rem_1fr] gap-x-8 border-t border-rule py-8 transition-colors"
+      className="row-sweep group grid md:grid-cols-[10rem_1fr] gap-x-8 border-t border-rule py-8 px-4 -mx-4 transition-colors"
     >
       <div className="flex flex-wrap md:flex-col items-baseline md:items-start gap-x-3 gap-y-1.5">
         <span className="font-display text-3xl md:text-4xl font-semibold text-ink-3 leading-none tabular-nums transition-colors group-hover:text-accent">
@@ -215,7 +215,7 @@ export default function Projects() {
                 href={primary.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block border-t border-rule pt-4 transition-colors hover:border-rule-strong"
+                className="row-sweep group block border-t border-rule pt-4 px-3 -mx-3 transition-colors hover:border-rule-strong"
               >
                 {inner}
               </motion.a>
@@ -223,7 +223,7 @@ export default function Projects() {
               <motion.div
                 key={project.slug}
                 variants={fadeRise}
-                className="group block border-t border-rule pt-4"
+                className="row-sweep group block border-t border-rule pt-4 px-3 -mx-3"
               >
                 {inner}
               </motion.div>

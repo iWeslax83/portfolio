@@ -93,7 +93,7 @@ export default function Stratos() {
               <motion.li
                 key={unit.name}
                 variants={slideInRight}
-                className="group grid grid-cols-[auto_1fr] gap-x-5 items-baseline border-b border-rule py-5 transition-colors hover:border-rule-strong"
+                className="row-sweep group grid grid-cols-[auto_1fr] gap-x-5 items-baseline border-b border-rule py-5 px-4 -mx-4 transition-colors hover:border-rule-strong"
               >
                 <span className="font-mono text-xs text-accent tabular-nums">
                   {String(i + 1).padStart(2, "0")}
