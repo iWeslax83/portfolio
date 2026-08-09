@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { skills } from "@/data/skills";
-import FigureMarker from "./ui/figure-marker";
+import SectionHeader from "./ui/section-header";
 import {
   staggerContainer,
   staggerFast,
@@ -24,7 +24,7 @@ export default function Skills() {
 
   return (
     <section id="skills" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
-      <FigureMarker code="FIG. 03" title={t("title")} annotation={t("kicker")} />
+      <SectionHeader kicker={t("kicker")} title={t("title")} />
 
       <motion.div
         className="border-t border-rule"
