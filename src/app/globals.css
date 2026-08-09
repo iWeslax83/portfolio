@@ -145,6 +145,31 @@ section[id] {
   transform-origin: left;
 }
 
+/* Flat accent-soft background that sweeps in from the left on hover.
+   z-index:-1 on the pseudo-element keeps it behind row content; the row
+   itself needs position:relative + an explicit z-index:0 to contain that
+   negative stack level so it can't slip behind a neighboring row. The
+   existing prefers-reduced-motion block below already zeroes this
+   transition's duration - no separate override needed here. */
+.row-sweep {
+  position: relative;
+  z-index: 0;
+}
+.row-sweep::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-accent-soft);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.row-sweep:hover::before {
+  transform: scaleX(1);
+}
+
 /* ── Micro-motion ─────────────────────────────────────────── */
 @keyframes drift-y {
   0%, 100% { transform: translateY(0); }

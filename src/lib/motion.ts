@@ -83,3 +83,11 @@ export const slideInRight: Variants = {
   hidden: { opacity: 0, x: 40 },
   visible: { opacity: 1, x: 0, transition: spring },
 };
+
+/* Numeric readout locking into its final value - distinct from markIn
+   (which is for tracked-out mono labels, not numerals). Real data only,
+   never a count-up-from-zero tween. */
+export const readoutSettle: Variants = {
+  hidden: { opacity: 0, scale: 1.04 },
+  visible: { opacity: 1, scale: 1, transition: spring },
+};
