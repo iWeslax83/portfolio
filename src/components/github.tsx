@@ -9,6 +9,7 @@ import {
   staggerContainer,
   staggerFast,
   fadeRise,
+  readoutSettle,
   ruleDraw,
   viewportOnce,
 } from "@/lib/motion";
@@ -19,7 +20,8 @@ const cellTone = ["bg-rule", "bg-ink-3", "bg-ink-2", "bg-accent/55", "bg-accent"
 function ContributionGraph({ graph, label }: { graph: number[][]; label: string }) {
   if (graph.length === 0) return null;
   return (
-    <figure className="border border-rule p-5 md:p-6 mt-6">
+    <figure>
+      <figcaption className="annotate mb-4">{label}</figcaption>
       <motion.div
         className="flex gap-[3px] overflow-x-auto pb-1"
         initial="hidden"
@@ -46,16 +48,13 @@ function ContributionGraph({ graph, label }: { graph: number[][]; label: string 
           </motion.div>
         ))}
       </motion.div>
-      <figcaption className="mt-4 flex items-center justify-between annotate">
-        <span>{label}</span>
-        <span className="flex items-center gap-1.5">
-          <span>less</span>
-          {cellTone.map((c, i) => (
-            <span key={i} className={`h-[9px] w-[9px] ${c}`} />
-          ))}
-          <span>more</span>
-        </span>
-      </figcaption>
+      <div className="mt-4 flex items-center justify-end gap-1.5 annotate">
+        <span>less</span>
+        {cellTone.map((c, i) => (
+          <span key={i} className={`h-[9px] w-[9px] ${c}`} />
+        ))}
+        <span>more</span>
+      </div>
     </figure>
   );
 }
@@ -68,7 +67,8 @@ function LanguageBar({
   label: string;
 }) {
   return (
-    <figure className="mt-6">
+    <figure>
+      <figcaption className="annotate mb-4">{label}</figcaption>
       <motion.div
         className="flex h-1.5 overflow-hidden"
         initial="hidden"
@@ -87,15 +87,14 @@ function LanguageBar({
           />
         ))}
       </motion.div>
-      <figcaption className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1.5">
-        <span className="annotate mr-2">{label}</span>
+      <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1.5">
         {languages.map((lang) => (
           <span key={lang.name} className="font-mono text-[11px] text-ink-2">
             <span style={{ color: lang.color }}>{"■"}</span> {lang.name}{" "}
             <span className="text-ink-3">{lang.percentage}%</span>
           </span>
         ))}
-      </figcaption>
+      </div>
     </figure>
   );
 }
@@ -111,7 +110,7 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
 
   return (
     <section id="github" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
-      <SectionHeader kicker={t("kicker")} title={t("title")} />
+      <SectionHeader kicker={t("kicker")} title={t("title")} meta={t("status")} />
 
       <motion.div
         initial="hidden"
@@ -119,10 +118,10 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
         viewport={viewportOnce}
         variants={staggerContainer}
       >
-        {/* Static spec row */}
-        <motion.dl variants={staggerFast} className="grid grid-cols-3 border-t border-rule pt-6 max-w-2xl">
+        {/* Three small readout panels */}
+        <motion.dl variants={staggerFast} className="grid sm:grid-cols-3 gap-4 lg:gap-5">
           {specs.map((s) => (
-            <motion.div key={s.label} variants={fadeRise}>
+            <motion.div key={s.label} variants={readoutSettle} className="border border-rule p-5 md:p-6">
               <dt className="font-display text-4xl md:text-5xl font-semibold text-ink tabular-nums tracking-tight">
                 {s.value}
               </dt>
@@ -131,12 +130,15 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
           ))}
         </motion.dl>
 
-        <motion.div variants={fadeRise}>
-          <ContributionGraph graph={stats.contributionGraph} label={t("activity")} />
-        </motion.div>
-        <motion.div variants={fadeRise}>
-          <LanguageBar languages={stats.languages} label={t("languageBreakdown")} />
-        </motion.div>
+        {/* Two wide panels */}
+        <div className="grid md:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
+          <motion.div variants={fadeRise} className="border border-rule p-5 md:p-6">
+            <ContributionGraph graph={stats.contributionGraph} label={t("activity")} />
+          </motion.div>
+          <motion.div variants={fadeRise} className="border border-rule p-5 md:p-6">
+            <LanguageBar languages={stats.languages} label={t("languageBreakdown")} />
+          </motion.div>
+        </div>
 
         <div className="flex items-center gap-4 mt-8">
           <motion.a

@@ -47,6 +47,7 @@
   "github": {
     "title": "GitHub",
     "kicker": "live telemetry",
+    "status": "telemetry · live",
     "publicRepos": "public repos",
     "contributions": "contributions",
     "languages": "languages",
