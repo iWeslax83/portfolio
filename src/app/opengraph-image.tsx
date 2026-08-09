@@ -14,7 +14,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0b0b0d",
+          background: "#09090b",
           padding: 72,
           fontFamily: "sans-serif",
         }}
@@ -34,12 +34,12 @@ export default function OpengraphImage() {
             display: "flex",
             alignItems: "center",
             gap: 14,
-            color: "#e8a05c",
+            color: "#ff7a29",
             fontSize: 24,
             letterSpacing: 2,
           }}
         >
-          <div style={{ width: 12, height: 12, borderRadius: 999, background: "#e8a05c" }} />
+          <div style={{ width: 12, height: 12, background: "#ff7a29" }} />
           FOUNDER & HEAD OF ELECTRONICS & SOFTWARE · STRATOS IHA
         </div>
 
@@ -48,21 +48,19 @@ export default function OpengraphImage() {
             Emir Sakarya
           </div>
           <div style={{ fontSize: 34, color: "#8b8c94", marginTop: 20, maxWidth: 900 }}>
-            Embedded-systems & full-stack engineer. I build autonomous drones and the
-            software behind them.
+            Founder & Head of Electronics & Software at STRATOS İHA. Building autonomous
+            drones and the software behind them.
           </div>
         </div>
 
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
             color: "#55565e",
             fontSize: 22,
           }}
         >
           <span>github.com/iWeslax83</span>
-          <span style={{ color: "#e8a05c" }}>$ whoami</span>
         </div>
       </div>
     ),

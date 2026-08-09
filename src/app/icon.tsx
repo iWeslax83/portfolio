@@ -13,7 +13,7 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0b0b0d",
+          background: "#09090b",
           borderRadius: 14,
           fontFamily: "monospace",
           fontSize: 40,
@@ -21,7 +21,7 @@ export default function Icon() {
         }}
       >
         <span style={{ color: "#ececee" }}>e</span>
-        <span style={{ color: "#e8a05c" }}>.</span>
+        <span style={{ color: "#ff7a29" }}>.</span>
       </div>
     ),
     { ...size }

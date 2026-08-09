@@ -9,8 +9,8 @@ const FALLBACK_STATS: GitHubStats = {
   publicRepos: 7,
   contributions: 0,
   languages: [
-    { name: "TypeScript", percentage: 45, color: "#e8a05c" },
-    { name: "JavaScript", percentage: 30, color: "#c98a4e" },
+    { name: "TypeScript", percentage: 45, color: "#c8c8ce" },
+    { name: "JavaScript", percentage: 30, color: "#93939a" },
     { name: "Python", percentage: 18, color: "#8b8c94" },
     { name: "Other", percentage: 7, color: "#55565e" },
   ],
@@ -123,8 +123,8 @@ async function fetchLanguageBreakdown(
   if (totalBytes === 0) return FALLBACK_STATS.languages;
 
   const langColors: Record<string, string> = {
-    TypeScript: "#e8a05c",
-    JavaScript: "#c98a4e",
+    TypeScript: "#c8c8ce",
+    JavaScript: "#93939a",
     Python: "#8b8c94",
     HTML: "#6a6b73",
     CSS: "#55565e",
