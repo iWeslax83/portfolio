@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { projects, featuredProjects, secondaryProjects } from "@/data/projects";
 import { Project } from "@/lib/types";
-import FigureMarker from "./ui/figure-marker";
+import SectionHeader from "./ui/section-header";
 import {
   staggerContainer,
   staggerFast,
@@ -61,9 +61,6 @@ function Flagship({ project, role }: { project: Project; role: string }) {
       variants={plateIn}
       className="relative border border-rule grid lg:grid-cols-[1fr_0.92fr]"
     >
-      <span className="reg-mark reg-tr" aria-hidden />
-      <span className="reg-mark reg-bl" aria-hidden />
-
       <div className="p-8 md:p-10 lg:p-12">
         <div className="flex items-baseline gap-4">
           <span className="font-display text-5xl md:text-6xl font-semibold text-accent leading-none tabular-nums">
@@ -101,7 +98,7 @@ function Flagship({ project, role }: { project: Project; role: string }) {
             />
           </motion.div>
           <figcaption className="absolute bottom-4 left-5 annotate">
-            Fig. 02a · UAV airframe
+            UAV airframe · Spec 01
           </figcaption>
         </figure>
       )}
@@ -158,10 +155,10 @@ export default function Projects() {
 
   return (
     <section id="projects" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
-      <FigureMarker
-        code="FIG. 02"
+      <SectionHeader
+        kicker={t("kicker")}
         title={t("title")}
-        annotation={t("count", { count: projects.length })}
+        meta={t("count", { count: projects.length })}
       />
 
       <motion.div
