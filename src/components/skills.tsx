@@ -37,7 +37,7 @@ export default function Skills() {
           <motion.div
             key={category.key}
             variants={fadeRise}
-            className="row-sweep group grid md:grid-cols-[14rem_1fr] gap-x-10 gap-y-3 border-b border-rule py-7 px-4 -mx-4 transition-colors hover:border-rule-strong"
+            className="row-sweep group grid md:grid-cols-[14rem_1fr] gap-x-10 gap-y-3 border-b border-rule py-7 transition-colors hover:border-rule-strong"
           >
             <div className="flex items-baseline gap-3">
               <span className="font-mono text-[11px] text-accent tabular-nums">

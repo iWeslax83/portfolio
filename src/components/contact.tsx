@@ -106,7 +106,7 @@ export default function Contact() {
               href={contact.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="row-sweep group grid grid-cols-[auto_1fr_auto] items-center gap-5 border-t border-rule py-6 px-4 -mx-4 transition-colors hover:border-rule-strong last:border-b"
+              className="row-sweep group grid grid-cols-[auto_1fr_auto] items-center gap-5 border-t border-rule py-6 transition-colors hover:border-rule-strong last:border-b"
             >
               <span className="font-mono text-[11px] text-accent tabular-nums">{contact.code}</span>
               <div>
