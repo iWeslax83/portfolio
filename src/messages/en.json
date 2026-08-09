@@ -14,7 +14,7 @@
     "hLine2": "and the software they fly on.",
     "rev": "NASA Space Apps 2025 · Winner, Türkiye",
     "panelReadout": "Object · Autonomous quadrotor · Status · Flight-ready",
-    "lead": "I run the electronics and software side of a TEKNOFEST UAV team I founded: flight controllers, sensor fusion, computer vision, mission planning. Off the airframe I ship production platforms and AI agent systems built to show their own work, not just claim it.",
+    "lead": "I run the electronics and software side of a TEKNOFEST UAV team I founded, from the flight stack down to the ground software. Off the airframe I ship production platforms and AI agent systems built to show their own work, not just claim it.",
     "cred1": "Flight controllers, sensor fusion, autonomous mission planning",
     "cred2": "Agent systems: typed task-graphs, verify gates, audit trails",
     "cred3": "Production full-stack: React, Node, GraphQL, Postgres, Kubernetes",
