@@ -4,10 +4,11 @@ Personal portfolio for Emir Sakarya - Founder & Head of Electronics & Software a
 STRATOS İHA, Bursa. Embedded systems, autonomous UAVs, AI agent systems, and
 production full-stack work.
 
-The design concept is an **engineering monograph**: the site reads like a
-precision-printed technical spec sheet for a person, using aerospace drafting
-conventions (figure codes, dimension callouts, registration marks) rather than the
-usual developer-terminal motif. The full design system lives in [DESIGN.md](DESIGN.md).
+The design concept is **Instrument**: the site reads like a live control panel for
+a person, not a printed drawing of one. A neutral near-black canvas, bordered
+readout panels, mono data, and one saturated signal color, closer to a well-made
+cockpit display than a technical sketchbook. The full design system lives in
+[DESIGN.md](DESIGN.md).
 
 ## Tech Stack
 
@@ -16,15 +17,16 @@ usual developer-terminal motif. The full design system lives in [DESIGN.md](DESI
 - **Animations**: [Framer Motion](https://www.framer.com/motion)
 - **Internationalization**: [next-intl](https://next-intl.dev) (English)
 - **Icons**: [Lucide React](https://lucide.dev)
-- **Fonts**: Bricolage Grotesque (display), Manrope (body), JetBrains Mono (drafting annotation)
+- **Fonts**: Instrument Sans (display & body), JetBrains Mono (technical-readout voice)
 - **Analytics**: [Vercel Analytics](https://vercel.com/analytics)
 - **Deployment**: [Vercel](https://vercel.com)
 
 ## Features
 
-- Indexed work catalogue: a bordered flagship plate plus drafting-style figure rows
-- Animated quadrotor schematic that drafts itself stroke by stroke via SVG `pathLength`
-- Choreographed section reveals: rules draw, headlines unmask, figures index in
+- Indexed work catalogue: a bordered flagship instrument panel plus mono-indexed
+  catalogue rows, hover sweep included
+- Animated quadrotor schematic that draws itself stroke by stroke via SVG `pathLength`
+- Choreographed section reveals: hairline rules extend, headlines unmask, readouts settle
 - Live GitHub activity via the GitHub API (contribution graph, language breakdown)
 - SEO: JSON-LD structured data, sitemap, robots.txt
 - Responsive, with dedicated mobile navigation
