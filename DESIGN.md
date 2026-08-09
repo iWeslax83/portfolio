@@ -39,7 +39,7 @@ element - real numbers, not decoration.
 - **Panel** (`#121214`) / **Panel-2** (`#1A1A1D`) - raised and nested surfaces.
 - **Ink** (`#F2F1ED`) - primary text, headlines.
 - **Ink-2** (`#93939A`) - secondary text, descriptions.
-- **Ink-3** (`#67676D`) - tertiary labels, captions, mono annotations. Held at
+- **Ink-3** (`#7A7A80`) - tertiary labels, captions, mono annotations. Held at
   clear WCAG AA contrast (4.5:1+) on the canvas.
 - **Rule** (`rgba(255,255,255,0.08)`) / **Rule-Strong** (`0.18`) - hairline
   panel borders, dividers, grid lines.
@@ -146,11 +146,9 @@ renamed/reframed for the new vocabulary but the same physics.
   accent scroll-progress rule at the top of the viewport. That is the full
   budget - keep it quiet.
 - **Boot sequence:** on initial load, the hero's stagger already sequences
-  top-to-bottom; the nav bar and scroll-progress rule now fade in with a
-  short delay after the hero's first elements resolve, and the hero's
-  `panelReadout` line fires one `.animate-signal` flicker (not looping) once
-  the drone schematic finishes drawing. Reads as one instrument powering on
-  in sequence, not simultaneous popcorn.
+  top-to-bottom; the nav bar fades in with a short delay after the hero's
+  first elements resolve. Reads as one instrument powering on in sequence,
+  not simultaneous popcorn.
 - **Readout settle (numeric):** a `readoutSettle` variant (`scale 1.04 -> 1`,
   opacity `0 -> 1`, same spring) for GitHub's real numeric values - distinct
   from `markIn`, which is for tracked-out mono labels, not numerals. Still

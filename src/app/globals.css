@@ -9,7 +9,10 @@
   /* ── Ink: neutral whites and grays ────────────────────────── */
   --color-ink: #f2f1ed;
   --color-ink-2: #93939a;
-  --color-ink-3: #67676d;
+  /* ink-3 is the tertiary readout tone. Held at WCAG AA (4.66:1 on the
+     #09090b canvas) because .annotate renders it at 11px. Do not darken
+     below ~4.5:1. */
+  --color-ink-3: #7a7a80;
 
   /* ── Accent: signal orange, used scarcely as a single signal ── */
   --color-accent: #ff7a29;
@@ -23,7 +26,7 @@
   --color-card-border-hover: rgba(255, 122, 41, 0.4);
 
   /* ── Type ─────────────────────────────────────────────────── */
-  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
