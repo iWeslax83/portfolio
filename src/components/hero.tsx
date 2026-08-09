@@ -38,9 +38,6 @@ export default function Hero() {
       id="home"
       className="relative min-h-[100dvh] flex items-center px-6 md:px-10 lg:px-14 pt-28 pb-20 max-w-[1320px] mx-auto"
     >
-      <span className="reg-mark reg-tr" aria-hidden />
-      <span className="reg-mark reg-bl" aria-hidden />
-
       <div className="grid lg:grid-cols-[1.12fr_0.88fr] gap-12 lg:gap-16 items-center w-full">
         {/* Left - the statement */}
         <motion.div
@@ -89,7 +86,7 @@ export default function Hero() {
           <motion.ul variants={fadeRise} className="mt-9 space-y-2.5">
             {credentials.map((c) => (
               <li key={c} className="flex items-baseline gap-3">
-                <span className="mt-1 h-2 w-2 shrink-0 border-l border-b border-rule-strong" aria-hidden />
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-rule-strong" aria-hidden />
                 <span className="font-mono text-xs text-ink-2">{c}</span>
               </li>
             ))}
@@ -121,16 +118,11 @@ export default function Hero() {
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <div className="relative px-6">
+          <div className="relative border border-rule p-8 md:p-10">
             <DroneSchematic />
           </div>
-          <motion.figcaption
-            variants={markIn}
-            className="mt-4 flex items-center gap-3 annotate"
-          >
-            <span className="text-accent">Fig. 00</span>
-            <span className="h-px flex-1 bg-rule" />
-            <span>Autonomous quadrotor · top view</span>
+          <motion.figcaption variants={markIn} className="mt-4 annotate">
+            {t("panelReadout")}
           </motion.figcaption>
         </motion.figure>
       </div>

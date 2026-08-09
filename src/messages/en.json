@@ -13,6 +13,7 @@
     "hLine1": "I build the drones,",
     "hLine2": "and the software they fly on.",
     "rev": "NASA Space Apps 2025 · Winner, Türkiye",
+    "panelReadout": "Object · Autonomous quadrotor · Status · Flight-ready",
     "lead": "Embedded-systems and full-stack engineer. I founded a TEKNOFEST UAV team and own its flight electronics, computer vision, and mission software end to end. Off the airframe I ship production platforms and AI agent systems built to prove what they did.",
     "cred1": "Flight controllers, sensor fusion, autonomous mission planning",
     "cred2": "Agent systems: typed task-graphs, verify gates, audit trails",
