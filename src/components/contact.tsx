@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Mail, ArrowUpRight } from "lucide-react";
-import FigureMarker from "./ui/figure-marker";
+import SectionHeader from "./ui/section-header";
 import {
   staggerContainer,
   staggerFast,
@@ -58,7 +58,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
-      <FigureMarker code="FIG. 05" title={t("title")} annotation={t("kicker")} />
+      <SectionHeader kicker={t("kicker")} title={t("title")} />
 
       <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start">
         {/* Left - the call */}
@@ -87,7 +87,7 @@ export default function Contact() {
             {t("subtitle")}
           </motion.p>
           <motion.p variants={markIn} className="annotate mt-7 flex items-center gap-2.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent animate-signal" aria-hidden />
+            <span className="status-dot animate-signal" aria-hidden />
             {t("availability")}
           </motion.p>
         </motion.div>
