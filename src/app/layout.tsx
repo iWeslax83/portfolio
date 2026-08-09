@@ -1,27 +1,23 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Manrope, JetBrains_Mono } from "next/font/google";
+import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import MotionProvider from "@/components/ui/motion-provider";
 import "./globals.css";
 
-// Display: Bricolage Grotesque - an editorial grotesk with real character,
-// set tight and large. Deliberately not the Space-Grotesk/Inter default.
-const display = Bricolage_Grotesque({
+// Display + body: Instrument Sans - a single geometric grotesk driving the
+// whole hierarchy by weight and size. Deliberately not Inter used as a bare
+// default, not Space Grotesk.
+const instrumentSans = Instrument_Sans({
   subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-instrument-sans",
   display: "swap",
 });
 
-const body = Manrope({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-manrope",
-  display: "swap",
-});
-
-// Mono carries the drafting language: figure codes, dimension callouts, part labels.
+// Mono carries the technical-readout voice: data values, status lines, nav
+// index, spec rows.
 const mono = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
@@ -59,7 +55,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable}`}
+      className={`${instrumentSans.variable} ${mono.variable}`}
     >
       <body className="bg-bg text-ink antialiased">
         <a href="#home" className="skip-link">

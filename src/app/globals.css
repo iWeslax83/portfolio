@@ -1,33 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Canvas: warm near-black, never cold, never pure black ── */
-  --color-bg: #0a0a0b;
-  --color-panel: #101012;
-  --color-panel-2: #16161a;
+  /* ── Canvas: neutral near-black, never warm, never pure black ── */
+  --color-bg: #09090b;
+  --color-panel: #121214;
+  --color-panel-2: #1a1a1d;
 
-  /* ── Ink: warm whites and steels ──────────────────────────── */
-  --color-ink: #ece9e1;
-  --color-ink-2: #98948a;
-  /* ink-3 is the drafting-annotation tone. Kept warm and tertiary but lifted to
-     clear WCAG AA contrast (4.9:1 on the near-black canvas) for the small mono text. */
-  --color-ink-3: #837e73;
+  /* ── Ink: neutral whites and grays ────────────────────────── */
+  --color-ink: #f2f1ed;
+  --color-ink-2: #93939a;
+  --color-ink-3: #67676d;
 
-  /* ── Accent: ember amber, used scarcely as a single signal ── */
-  --color-accent: #e8a05c;
-  --color-accent-soft: rgba(232, 160, 92, 0.1);
+  /* ── Accent: signal orange, used scarcely as a single signal ── */
+  --color-accent: #ff7a29;
+  --color-accent-soft: rgba(255, 122, 41, 0.1);
 
-  /* ── Drafting structure ───────────────────────────────────── */
-  --color-rule: rgba(236, 233, 225, 0.12);
-  --color-rule-strong: rgba(236, 233, 225, 0.22);
-  --color-card: #101012;
-  --color-card-border: rgba(236, 233, 225, 0.09);
-  --color-card-border-hover: rgba(232, 160, 92, 0.4);
+  /* ── Structure ─────────────────────────────────────────────── */
+  --color-rule: rgba(255, 255, 255, 0.08);
+  --color-rule-strong: rgba(255, 255, 255, 0.18);
+  --color-card: #121214;
+  --color-card-border: rgba(255, 255, 255, 0.08);
+  --color-card-border-hover: rgba(255, 122, 41, 0.4);
 
   /* ── Type ─────────────────────────────────────────────────── */
   --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
 }
 
@@ -117,55 +115,13 @@ section[id] {
   color: var(--color-ink-3);
 }
 
-/* Corner registration mark - an L-shaped tick used at section corners */
-.reg-mark {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  pointer-events: none;
-  opacity: 0.55;
-}
-.reg-mark::before,
-.reg-mark::after {
-  content: "";
-  position: absolute;
-  background: var(--color-rule-strong);
-}
-.reg-mark::before {
-  width: 100%;
-  height: 1px;
-  top: 0;
-}
-.reg-mark::after {
-  width: 1px;
-  height: 100%;
-  left: 0;
-}
-.reg-tr {
-  top: 0;
-  right: 0;
-  transform: scaleX(-1);
-}
-.reg-bl {
-  bottom: 0;
-  left: 0;
-  transform: scaleY(-1);
-}
-.reg-br {
-  bottom: 0;
-  right: 0;
-  transform: scale(-1, -1);
-}
-
-/* Tick rule - a measurement edge with evenly spaced marks */
-.tick-rule {
-  background-image: repeating-linear-gradient(
-    to right,
-    var(--color-rule) 0,
-    var(--color-rule) 1px,
-    transparent 1px,
-    transparent 9px
-  );
+/* Square status dot - replaces the old circular signal dot. Paired with
+   .animate-signal (kept, below) for the pulse. */
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--color-accent);
 }
 
 /* Link underline that draws from the left on hover */

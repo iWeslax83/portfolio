@@ -1,9 +1,10 @@
 import type { Variants, Transition } from "framer-motion";
 
 /**
- * Motion vocabulary for the engineering-monograph layout. Variety in technique,
- * one consistent spring binding it together. Reveals read like a technical sheet
- * being drafted: rules draw across, figure lines lift in, headlines unmask.
+ * Motion vocabulary for the Instrument layout. Variety in technique, one
+ * consistent spring binding it together. Reveals read like an instrument
+ * panel powering on: panels snap into grid alignment, rules extend across,
+ * headlines unmask, readouts settle into their final value.
  */
 export const spring: Transition = {
   type: "spring",
