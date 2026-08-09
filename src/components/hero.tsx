@@ -121,7 +121,11 @@ export default function Hero() {
           <div className="relative border border-rule p-8 md:p-10">
             <DroneSchematic />
           </div>
-          <motion.figcaption variants={markIn} className="mt-4 annotate">
+          <motion.figcaption
+            variants={markIn}
+            transition={{ delay: 1.6, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-4 annotate"
+          >
             {t("panelReadout")}
           </motion.figcaption>
         </motion.figure>
