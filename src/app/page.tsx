@@ -1,5 +1,7 @@
 import { fetchGitHubStats } from "@/lib/github";
+import { fetchRepoStats } from "@/lib/github-repo-stats";
 import { getRecentCommits } from "@/lib/git-history";
+import { projects } from "@/data/projects";
 import Nav from "@/components/nav";
 import ScrollProgress from "@/components/ui/scroll-progress";
 import BackToTop from "@/components/ui/back-to-top";
@@ -15,6 +17,9 @@ import Footer from "@/components/footer";
 export default async function Home() {
   const githubStats = await fetchGitHubStats();
   const commits = getRecentCommits();
+  const repoStats = await fetchRepoStats(
+    projects.filter((p) => p.repo).map((p) => p.repo as string)
+  );
 
   return (
     <>
@@ -23,7 +28,7 @@ export default async function Home() {
       <Nav />
       <main>
         <Hero />
-        <Projects />
+        <Projects repoStats={repoStats} />
         <Stratos />
         <Skills />
         <GitHub stats={githubStats} />

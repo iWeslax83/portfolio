@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { projects, featuredProjects, secondaryProjects } from "@/data/projects";
 import { Project } from "@/lib/types";
+import { RepoStats } from "@/lib/github-repo-stats";
 import SectionHeader from "./ui/section-header";
 import {
   staggerContainer,
@@ -149,7 +150,11 @@ function WorkRow({ project, index }: { project: Project; index: number }) {
   );
 }
 
-export default function Projects() {
+export default function Projects({
+  repoStats,
+}: {
+  repoStats: Record<string, RepoStats | null>;
+}) {
   const t = useTranslations("projects");
   const [flagship, ...rest] = featuredProjects;
 
