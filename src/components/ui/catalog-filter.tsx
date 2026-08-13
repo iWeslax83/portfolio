@@ -27,8 +27,10 @@ export default function CatalogFilter({
         <button
           key={f}
           onClick={() => onChange(f)}
-          className={`link-draw pb-0.5 transition-colors ${
-            value === f ? "text-accent" : "text-ink-3 hover:text-ink-2"
+          className={`pb-0.5 transition-colors ${
+            value === f
+              ? "text-accent underline decoration-accent underline-offset-4"
+              : "link-draw text-ink-3 hover:text-ink-2"
           }`}
           aria-pressed={value === f}
         >

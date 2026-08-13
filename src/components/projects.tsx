@@ -5,19 +5,12 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
-import { projects, featuredProjects, secondaryProjects } from "@/data/projects";
+import { projects, featuredProjects } from "@/data/projects";
 import { Project } from "@/lib/types";
 import { RepoStats } from "@/lib/github-repo-stats";
 import SectionHeader from "./ui/section-header";
 import CatalogFilter, { CatalogFilterValue } from "./ui/catalog-filter";
-import {
-  staggerContainer,
-  staggerFast,
-  plateIn,
-  fadeRise,
-  ruleDraw,
-  viewportOnce,
-} from "@/lib/motion";
+import { staggerContainer, plateIn, viewportOnce } from "@/lib/motion";
 
 function SpecLine({ pills }: { pills: string[] }) {
   return (
@@ -178,7 +171,7 @@ function WorkRow({
         <Links links={project.links} />
 
         {stats && (
-          <div className="mt-4 max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-300 group-hover:max-h-12 group-hover:opacity-100">
+          <div className="mt-4 max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-300 group-hover:max-h-12 group-hover:opacity-100 group-focus-within:max-h-12 group-focus-within:opacity-100">
             <p className="font-mono text-[11px] text-ink-3">
               {stats.commitCount} commits · last commit {stats.lastCommitDate}
             </p>
@@ -195,9 +188,12 @@ export default function Projects({
   repoStats: Record<string, RepoStats | null>;
 }) {
   const t = useTranslations("projects");
-  const [flagship, ...rest] = featuredProjects;
+  const [flagship] = featuredProjects;
+  const allExceptFlagship = projects
+    .filter((p) => p.slug !== flagship.slug)
+    .sort((a, b) => a.order - b.order);
   const [filter, setFilter] = useState<CatalogFilterValue>("ALL");
-  const visibleRest = rest.filter(
+  const visibleRest = allExceptFlagship.filter(
     (p) => filter === "ALL" || p.status === filter
   );
 
@@ -229,63 +225,6 @@ export default function Projects({
               stats={project.repo ? repoStats[project.repo] ?? null : null}
             />
           ))}
-        </div>
-      </motion.div>
-
-      {/* Secondary index */}
-      <motion.div
-        className="mt-16"
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-        variants={staggerFast}
-      >
-        <div className="flex items-center gap-4 mb-6">
-          <motion.span variants={fadeRise} className="annotate">
-            {t("alsoLabel")}
-          </motion.span>
-          <motion.span variants={ruleDraw} className="h-px flex-1 origin-left bg-rule" />
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-5">
-          {secondaryProjects.map((project) => {
-            const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
-            const inner = (
-              <>
-                <div className="flex items-start justify-between gap-2">
-                  <h4 className="font-display text-base font-medium text-ink-2 leading-snug transition-colors group-hover:text-ink">
-                    {project.title}
-                  </h4>
-                  {primary && (
-                    <ArrowUpRight
-                      size={14}
-                      className="mt-0.5 shrink-0 text-ink-3 opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-accent"
-                    />
-                  )}
-                </div>
-                <p className="font-mono text-[10px] text-ink-3 mt-2">{project.tagDetail}</p>
-              </>
-            );
-            return primary ? (
-              <motion.a
-                key={project.slug}
-                variants={fadeRise}
-                href={primary.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="row-sweep group block border-t border-rule pt-4 transition-colors hover:border-rule-strong"
-              >
-                {inner}
-              </motion.a>
-            ) : (
-              <motion.div
-                key={project.slug}
-                variants={fadeRise}
-                className="row-sweep group block border-t border-rule pt-4"
-              >
-                {inner}
-              </motion.div>
-            );
-          })}
         </div>
       </motion.div>
     </section>
