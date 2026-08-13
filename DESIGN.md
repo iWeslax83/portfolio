@@ -95,7 +95,7 @@ behind it, decorative serifs.
   flagship project (`01`) is a bordered instrument panel with the hand-built
   UAV technical drawing on one side and a readout-strip caption
   (`UAV airframe · Spec 01`). Every row after it is numbered `#00X/0X`
-  (index over total, tabular-nums, e.g. `#002/06`), not a bare index.
+  (index over total, tabular-nums, e.g. `#002/13`), not a bare index.
 - **Status tag (`StatusTag`, in `projects.tsx`):** a bordered rectangle
   (`border border-rule`, sharp corners, **not** `rounded-full`) holding a
   small square accent or ink-3 dot plus a mono label (`SHIPPED`,
