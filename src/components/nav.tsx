@@ -10,8 +10,8 @@ import MobileNav from "./mobile-nav";
 
 export const navItems = [
   { key: "home", href: "#home", num: "00" },
-  { key: "stratos", href: "#stratos", num: "01" },
-  { key: "projects", href: "#projects", num: "02" },
+  { key: "projects", href: "#projects", num: "01" },
+  { key: "stratos", href: "#stratos", num: "02" },
   { key: "skills", href: "#skills", num: "03" },
   { key: "github", href: "#github", num: "04" },
   { key: "contact", href: "#contact", num: "05" },

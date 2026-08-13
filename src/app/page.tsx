@@ -23,8 +23,8 @@ export default async function Home() {
       <Nav />
       <main>
         <Hero />
-        <Stratos />
         <Projects />
+        <Stratos />
         <Skills />
         <GitHub stats={githubStats} />
         <Contact />
