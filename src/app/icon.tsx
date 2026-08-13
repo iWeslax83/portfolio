@@ -21,7 +21,7 @@ export default function Icon() {
         }}
       >
         <span style={{ color: "#ececee" }}>e</span>
-        <span style={{ color: "#ff7a29" }}>.</span>
+        <span style={{ color: "#39ff6a" }}>.</span>
       </div>
     ),
     { ...size }

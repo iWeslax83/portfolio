@@ -34,12 +34,12 @@ export default function OpengraphImage() {
             display: "flex",
             alignItems: "center",
             gap: 14,
-            color: "#ff7a29",
+            color: "#39ff6a",
             fontSize: 24,
             letterSpacing: 2,
           }}
         >
-          <div style={{ width: 12, height: 12, background: "#ff7a29" }} />
+          <div style={{ width: 12, height: 12, background: "#39ff6a" }} />
           FOUNDER & HEAD OF ELECTRONICS & SOFTWARE · STRATOS IHA
         </div>
 
