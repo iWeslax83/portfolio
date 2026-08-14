@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
@@ -83,8 +83,6 @@ function FlightCard({
   stats: RepoStats | null;
   flagship: boolean;
 }) {
-  const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
-
   return (
     <article
       className={`flight-card shrink-0 w-full md:w-screen h-full flex items-center px-6 md:px-14 ${
@@ -273,6 +271,17 @@ export default function FlightLog({
     const targetScroll = trigger.start + targetProgress * (trigger.end - trigger.start);
     window.scrollTo({ top: targetScroll, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    if (reduced || mobile) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") jump(-1);
+      if (e.key === "ArrowRight") jump(1);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reduced, mobile, current]);
 
   return (
     <section
