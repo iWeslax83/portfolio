@@ -11,8 +11,9 @@ const LABELS: Record<CatalogFilterValue, string> = {
 };
 
 /**
- * Plain-text status filter, not a pill row - underline marks the active
- * value per the repo-wide no-pill-badge rule.
+ * Pill-shaped segmented filter control - a scoped exception to the
+ * repo-wide no-pill-badge rule (see DESIGN.md "Scoped exceptions").
+ * The active segment is filled; inactive segments are plain bordered text.
  */
 export default function CatalogFilter({
   value,
@@ -22,15 +23,15 @@ export default function CatalogFilter({
   onChange: (value: CatalogFilterValue) => void;
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs">
+    <div className="inline-flex flex-wrap items-center gap-2 font-mono text-xs">
       {FILTERS.map((f) => (
         <button
           key={f}
           onClick={() => onChange(f)}
-          className={`pb-0.5 transition-colors ${
+          className={`rounded-full px-4 py-1.5 transition-[background-color,color,transform] duration-200 ${
             value === f
-              ? "text-accent underline decoration-accent underline-offset-4"
-              : "link-draw text-ink-3 hover:text-ink-2"
+              ? "bg-accent text-bg scale-100"
+              : "border border-rule text-ink-3 hover:text-ink-2 hover:border-rule-strong"
           }`}
           aria-pressed={value === f}
         >

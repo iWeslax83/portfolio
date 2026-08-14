@@ -54,7 +54,7 @@ function Flagship({ project, role }: { project: Project; role: string }) {
   return (
     <motion.article
       variants={plateIn}
-      className="relative border border-rule grid lg:grid-cols-[1fr_0.92fr]"
+      className="gradient-border relative grid lg:grid-cols-[1fr_0.92fr]"
     >
       <div className="p-8 md:p-10 lg:p-12">
         <div className="flex items-baseline gap-4">
@@ -107,15 +107,17 @@ const statusLabel: Record<Project["status"], string> = {
   ARCHIVED: "ARCHIVED",
 };
 
+const statusPillClass: Record<Project["status"], string> = {
+  SHIPPED: "bg-accent text-bg",
+  IN_PROGRESS: "bg-accent-2 text-bg",
+  ARCHIVED: "border border-rule text-ink-3",
+};
+
 function StatusTag({ status }: { status: Project["status"] }) {
   return (
-    <span className="inline-flex items-center gap-1.5 border border-rule px-2 py-0.5 font-mono text-[10px] tracking-[0.14em] text-ink-3">
-      <span
-        className={`h-1.5 w-1.5 ${
-          status === "SHIPPED" ? "bg-accent" : "bg-ink-3"
-        }`}
-        aria-hidden
-      />
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] tracking-[0.14em] ${statusPillClass[status]}`}
+    >
       {statusLabel[status]}
     </span>
   );
@@ -171,11 +173,9 @@ function WorkRow({
         <Links links={project.links} />
 
         {stats && (
-          <div className="mt-4 max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-300 group-hover:max-h-12 group-hover:opacity-100 group-focus-within:max-h-12 group-focus-within:opacity-100">
-            <p className="font-mono text-[11px] text-ink-3">
-              {stats.commitCount} commits · last commit {stats.lastCommitDate}
-            </p>
-          </div>
+          <p className="mt-4 font-mono text-[11px] text-ink-3">
+            {stats.commitCount} commits · last commit {stats.lastCommitDate}
+          </p>
         )}
       </div>
     </motion.article>
