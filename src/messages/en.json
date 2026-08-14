@@ -8,10 +8,10 @@
     "contact": "contact"
   },
   "hero": {
-    "role": "Founder · Head of Electronics & Software",
+    "role": "Founder & Software Engineer",
     "org": "STRATOS İHA",
-    "hLine1": "I build the drones,",
-    "hLine2": "and the software they fly on.",
+    "hLine1": "ML · Embedded · Web",
+    "hLine2": "is where I build.",
     "rev": "NASA Space Apps 2025 · Winner, Türkiye",
     "panelReadout": "Autonomous quadrotor · Flight-ready",
     "lead": "I run the electronics and software side of a TEKNOFEST UAV team I founded, from the flight stack down to the ground software. Off the airframe I ship production platforms and AI agent systems built to show their own work, not just claim it.",

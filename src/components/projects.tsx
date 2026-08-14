@@ -1,21 +1,16 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
-import { projects, featuredProjects, secondaryProjects } from "@/data/projects";
+import { projects, featuredProjects } from "@/data/projects";
 import { Project } from "@/lib/types";
+import { RepoStats } from "@/lib/github-repo-stats";
 import SectionHeader from "./ui/section-header";
-import {
-  staggerContainer,
-  staggerFast,
-  plateIn,
-  fadeRise,
-  ruleDraw,
-  viewportOnce,
-} from "@/lib/motion";
+import CatalogFilter, { CatalogFilterValue } from "./ui/catalog-filter";
+import { staggerContainer, plateIn, viewportOnce } from "@/lib/motion";
 
 function SpecLine({ pills }: { pills: string[] }) {
   return (
@@ -106,20 +101,50 @@ function Flagship({ project, role }: { project: Project; role: string }) {
   );
 }
 
+const statusLabel: Record<Project["status"], string> = {
+  SHIPPED: "SHIPPED",
+  IN_PROGRESS: "IN PROGRESS",
+  ARCHIVED: "ARCHIVED",
+};
+
+function StatusTag({ status }: { status: Project["status"] }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 border border-rule px-2 py-0.5 font-mono text-[10px] tracking-[0.14em] text-ink-3">
+      <span
+        className={`h-1.5 w-1.5 ${
+          status === "SHIPPED" ? "bg-accent" : "bg-ink-3"
+        }`}
+        aria-hidden
+      />
+      {statusLabel[status]}
+    </span>
+  );
+}
+
 /* Catalogue row - a project as an indexed figure line */
-function WorkRow({ project, index }: { project: Project; index: number }) {
+function WorkRow({
+  project,
+  index,
+  total,
+  stats,
+}: {
+  project: Project;
+  index: number;
+  total: number;
+  stats: RepoStats | null;
+}) {
   const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
   return (
     <motion.article
       variants={plateIn}
-      className="row-sweep group grid md:grid-cols-[10rem_1fr] gap-x-8 border-t border-rule py-8 transition-colors"
+      className="row-sweep group relative grid md:grid-cols-[10rem_1fr] gap-x-8 border-t border-rule py-8 transition-colors"
     >
       <div className="flex flex-wrap md:flex-col items-baseline md:items-start gap-x-3 gap-y-1.5">
         <span className="font-display text-3xl md:text-4xl font-semibold text-ink-3 leading-none tabular-nums transition-colors group-hover:text-accent">
-          {String(index).padStart(2, "0")}
+          #{String(index).padStart(3, "0")}/{String(total).padStart(2, "0")}
         </span>
         <span className="annotate md:mt-3">{project.tag}</span>
-        <span className="annotate text-ink-3 md:mt-1.5">{project.tagDetail}</span>
+        <StatusTag status={project.status} />
       </div>
 
       <div>
@@ -144,14 +169,33 @@ function WorkRow({ project, index }: { project: Project; index: number }) {
         </p>
         <SpecLine pills={project.techPills} />
         <Links links={project.links} />
+
+        {stats && (
+          <div className="mt-4 max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-300 group-hover:max-h-12 group-hover:opacity-100 group-focus-within:max-h-12 group-focus-within:opacity-100">
+            <p className="font-mono text-[11px] text-ink-3">
+              {stats.commitCount} commits · last commit {stats.lastCommitDate}
+            </p>
+          </div>
+        )}
       </div>
     </motion.article>
   );
 }
 
-export default function Projects() {
+export default function Projects({
+  repoStats,
+}: {
+  repoStats: Record<string, RepoStats | null>;
+}) {
   const t = useTranslations("projects");
-  const [flagship, ...rest] = featuredProjects;
+  const [flagship] = featuredProjects;
+  const allExceptFlagship = projects
+    .filter((p) => p.slug !== flagship.slug)
+    .sort((a, b) => a.order - b.order);
+  const [filter, setFilter] = useState<CatalogFilterValue>("ALL");
+  const visibleRest = allExceptFlagship.filter(
+    (p) => filter === "ALL" || p.status === filter
+  );
 
   return (
     <section id="projects" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
@@ -168,67 +212,19 @@ export default function Projects() {
         variants={staggerContainer}
       >
         <Flagship project={flagship} role={t("role")} />
+        <div className="mt-6 mb-6">
+          <CatalogFilter value={filter} onChange={setFilter} />
+        </div>
         <div className="mt-2">
-          {rest.map((project, i) => (
-            <WorkRow key={project.slug} project={project} index={i + 2} />
+          {visibleRest.map((project, i) => (
+            <WorkRow
+              key={project.slug}
+              project={project}
+              index={i + 2}
+              total={projects.length}
+              stats={project.repo ? repoStats[project.repo] ?? null : null}
+            />
           ))}
-        </div>
-      </motion.div>
-
-      {/* Secondary index */}
-      <motion.div
-        className="mt-16"
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-        variants={staggerFast}
-      >
-        <div className="flex items-center gap-4 mb-6">
-          <motion.span variants={fadeRise} className="annotate">
-            {t("alsoLabel")}
-          </motion.span>
-          <motion.span variants={ruleDraw} className="h-px flex-1 origin-left bg-rule" />
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-5">
-          {secondaryProjects.map((project) => {
-            const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
-            const inner = (
-              <>
-                <div className="flex items-start justify-between gap-2">
-                  <h4 className="font-display text-base font-medium text-ink-2 leading-snug transition-colors group-hover:text-ink">
-                    {project.title}
-                  </h4>
-                  {primary && (
-                    <ArrowUpRight
-                      size={14}
-                      className="mt-0.5 shrink-0 text-ink-3 opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-accent"
-                    />
-                  )}
-                </div>
-                <p className="font-mono text-[10px] text-ink-3 mt-2">{project.tagDetail}</p>
-              </>
-            );
-            return primary ? (
-              <motion.a
-                key={project.slug}
-                variants={fadeRise}
-                href={primary.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="row-sweep group block border-t border-rule pt-4 transition-colors hover:border-rule-strong"
-              >
-                {inner}
-              </motion.a>
-            ) : (
-              <motion.div
-                key={project.slug}
-                variants={fadeRise}
-                className="row-sweep group block border-t border-rule pt-4"
-              >
-                {inner}
-              </motion.div>
-            );
-          })}
         </div>
       </motion.div>
     </section>

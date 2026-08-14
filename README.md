@@ -4,11 +4,11 @@ Personal portfolio for Emir Sakarya - Founder & Head of Electronics & Software a
 STRATOS İHA, Bursa. Embedded systems, autonomous UAVs, AI agent systems, and
 production full-stack work.
 
-The design concept is **Instrument**: the site reads like a live control panel for
-a person, not a printed drawing of one. A neutral near-black canvas, bordered
-readout panels, mono data, and one saturated signal color, closer to a well-made
-cockpit display than a technical sketchbook. The full design system lives in
-[DESIGN.md](DESIGN.md).
+The design system is a neutral maximalist typographic approach: a near-black
+canvas, bordered readout panels, mono data, and one saturated signal color
+(terminal green). The hero leads into a real indexed project catalogue backed
+by live GitHub data, not a printed drawing of a product. The full design
+system lives in [DESIGN.md](DESIGN.md).
 
 ## Tech Stack
 
@@ -17,7 +17,7 @@ cockpit display than a technical sketchbook. The full design system lives in
 - **Animations**: [Framer Motion](https://www.framer.com/motion)
 - **Internationalization**: [next-intl](https://next-intl.dev) (English)
 - **Icons**: [Lucide React](https://lucide.dev)
-- **Fonts**: Instrument Sans (display & body), JetBrains Mono (technical-readout voice)
+- **Fonts**: Cabinet Grotesk (display & body, self-hosted via `next/font/local`), JetBrains Mono (technical-readout voice)
 - **Analytics**: [Vercel Analytics](https://vercel.com/analytics)
 - **Deployment**: [Vercel](https://vercel.com)
 

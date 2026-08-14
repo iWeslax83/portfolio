@@ -14,21 +14,21 @@
      below ~4.5:1. */
   --color-ink-3: #7a7a80;
 
-  /* ── Accent: signal orange, used scarcely as a single signal ── */
-  --color-accent: #ff7a29;
-  --color-accent-soft: rgba(255, 122, 41, 0.1);
+  /* ── Accent: terminal green, used scarcely as a single signal ── */
+  --color-accent: #39ff6a;
+  --color-accent-soft: rgba(57, 255, 106, 0.1);
 
   /* ── Structure ─────────────────────────────────────────────── */
   --color-rule: rgba(255, 255, 255, 0.08);
   --color-rule-strong: rgba(255, 255, 255, 0.18);
   --color-card: #121214;
   --color-card-border: rgba(255, 255, 255, 0.08);
-  --color-card-border-hover: rgba(255, 122, 41, 0.4);
+  --color-card-border-hover: rgba(57, 255, 106, 0.4);
 
   /* ── Type ─────────────────────────────────────────────────── */
-  --font-display: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
 }
 
