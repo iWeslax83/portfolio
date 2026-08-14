@@ -76,16 +76,23 @@ function FlightCard({
   total,
   stats,
   flagship,
+  offscreen,
 }: {
   project: Project;
   index: number;
   total: number;
   stats: RepoStats | null;
   flagship: boolean;
+  /* True for every card the hijack has translated out of view. Those cards
+     stay in the DOM but must not be reachable by Tab or exposed to AT -
+     the track is transformed, not scrolled, so the browser cannot bring a
+     focused off-screen card back into view. */
+  offscreen?: boolean;
 }) {
   return (
     <article
-      className={`flight-card shrink-0 w-full md:w-screen h-full flex items-center px-6 md:px-14 ${
+      inert={offscreen}
+      className={`shrink-0 w-full md:w-screen h-full flex items-center px-6 md:px-14 ${
         flagship ? "gradient-border" : "border-t md:border-t-0 border-rule"
       }`}
     >
@@ -220,6 +227,7 @@ export default function FlightLog({
 
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<ScrollTrigger | null>(null);
   const [current, setCurrent] = useState(0);
 
   useGSAP(
@@ -229,19 +237,29 @@ export default function FlightLog({
 
       const ctx = gsap.context(() => {
         const cards = trackRef.current!.children.length;
-        const distance = (cards - 1) * window.innerWidth;
+        /* Cards are `md:w-screen`, so the travel distance is viewport-width
+           derived and changes on every resize. Read it live (never capture
+           it) so both the pin length and the track offset stay in step with
+           the actual card widths after a refresh. */
+        const getDistance = () => (cards - 1) * window.innerWidth;
+        const apply = (progress: number) => {
+          gsap.set(trackRef.current, { x: -progress * getDistance() });
+          setCurrent(Math.round(progress * (cards - 1)));
+        };
 
         const trigger = ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "top top",
-          end: () => `+=${distance}`,
+          /* Functional end values are re-evaluated by ScrollTrigger on every
+             refresh(), so the pin length re-measures with the viewport. */
+          end: () => `+=${getDistance()}`,
           scrub: true,
           pin: true,
-          onUpdate: (self) => {
-            gsap.set(trackRef.current, { x: -self.progress * distance });
-            setCurrent(Math.round(self.progress * (cards - 1)));
-          },
+          invalidateOnRefresh: true,
+          onUpdate: (self) => apply(self.progress),
+          onRefresh: (self) => apply(self.progress),
         });
+        triggerRef.current = trigger;
 
         const onResize = () => ScrollTrigger.refresh();
         let resizeTimer: ReturnType<typeof setTimeout>;
@@ -253,6 +271,7 @@ export default function FlightLog({
 
         return () => {
           window.removeEventListener("resize", debouncedResize);
+          triggerRef.current = null;
           trigger.kill();
         };
       }, sectionRef);
@@ -263,9 +282,10 @@ export default function FlightLog({
   );
 
   const jump = (delta: number) => {
-    const trigger = ScrollTrigger.getAll().find((t) => t.trigger === sectionRef.current);
+    const trigger = triggerRef.current;
     if (!trigger) return;
     const cards = ordered.length;
+    if (cards < 2) return;
     const nextIndex = Math.min(cards - 1, Math.max(0, current + delta));
     const targetProgress = nextIndex / (cards - 1);
     const targetScroll = trigger.start + targetProgress * (trigger.end - trigger.start);
@@ -275,8 +295,22 @@ export default function FlightLog({
   useEffect(() => {
     if (reduced || mobile) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") jump(-1);
-      if (e.key === "ArrowRight") jump(1);
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      /* Only act while the hijack is the section actually being scrolled
+         through. Otherwise this is a page-global binding that yanks the
+         reader back here from Founder Story, Telemetry, or Contact. */
+      if (!triggerRef.current?.isActive) return;
+      const target = e.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      e.preventDefault();
+      jump(e.key === "ArrowLeft" ? -1 : 1);
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -301,7 +335,14 @@ export default function FlightLog({
           />
         </div>
       ) : (
-        <div className="min-h-[100dvh] flex flex-col justify-center">
+        <div className="min-h-[100dvh] flex flex-col justify-center pt-28 pb-10">
+          <div className="px-6 md:px-14 max-w-[1320px] mx-auto w-full [&>header]:mb-8">
+            <SectionHeader
+              kicker={t("kicker")}
+              title={t("title")}
+              meta={t("count", { count: projects.length })}
+            />
+          </div>
           <div className="px-6 md:px-14 max-w-[1320px] mx-auto w-full flex items-center justify-between mb-6">
             <span className="font-mono text-xs text-ink-3">
               {String(current + 1).padStart(2, "0")} / {String(ordered.length).padStart(2, "0")}
@@ -331,7 +372,7 @@ export default function FlightLog({
               style={{ transform: `scaleX(${(current + 1) / ordered.length})` }}
             />
           </div>
-          <div ref={trackRef} className="flex h-[70vh]">
+          <div ref={trackRef} className="flex h-[56vh]">
             {ordered.map((project, i) => (
               <FlightCard
                 key={project.slug}
@@ -340,6 +381,7 @@ export default function FlightLog({
                 total={ordered.length}
                 stats={project.repo ? repoStats[project.repo] ?? null : null}
                 flagship={i === 0}
+                offscreen={i !== current}
               />
             ))}
           </div>
