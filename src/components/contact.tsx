@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Mail, ArrowUpRight } from "lucide-react";
 import SectionHeader from "./ui/section-header";
@@ -11,17 +11,8 @@ import {
   lineReveal,
   markIn,
   viewportOnce,
+  wipeIn,
 } from "@/lib/motion";
-
-/* Hard-edge entry wipe for the section's own top-level reveal - a clip-path
-   cut, not an opacity fade, matching the hero's "hard cut" idiom. */
-const wipeIn: Variants = {
-  hidden: { clipPath: "inset(0 0 100% 0)" },
-  visible: {
-    clipPath: "inset(0 0 0% 0)",
-    transition: { duration: 0.5, ease: [0.65, 0, 0.35, 1] },
-  },
-};
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
