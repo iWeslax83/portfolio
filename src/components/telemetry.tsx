@@ -1,15 +1,11 @@
 "use client";
 
-import { useRef } from "react";
 import { motion } from "framer-motion";
-import { useGSAP } from "@gsap/react";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { GitHubStats } from "@/lib/types";
 import { skills } from "@/data/skills";
 import SectionHeader from "./ui/section-header";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { useReducedMotionPref, useIsMobile } from "@/lib/scroll";
 import { staggerContainer, staggerFast, fadeRise, readoutSettle, ruleDraw, viewportOnce } from "@/lib/motion";
 
 const cellTone = ["bg-rule", "bg-ink-3", "bg-ink-2", "bg-accent/55", "bg-accent"];
@@ -127,9 +123,6 @@ function SkillsTile({ label }: { label: string }) {
 export default function Telemetry({ stats }: { stats: GitHubStats }) {
   const t = useTranslations("github");
   const tSkills = useTranslations("skills");
-  const reduced = useReducedMotionPref();
-  const mobile = useIsMobile();
-  const sectionRef = useRef<HTMLElement>(null);
 
   const specs = [
     { value: stats.publicRepos, label: t("publicRepos") },
@@ -137,27 +130,15 @@ export default function Telemetry({ stats }: { stats: GitHubStats }) {
     { value: stats.languages.length, label: t("languages") },
   ];
 
-  useGSAP(
-    () => {
-      if (reduced || mobile) return;
-      if (!sectionRef.current) return;
-
-      const ctx = gsap.context(() => {
-        ScrollTrigger.create({
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "+=50%",
-          pin: true,
-        });
-      }, sectionRef);
-
-      return () => ctx.revert();
-    },
-    { scope: sectionRef, dependencies: [reduced, mobile] }
-  );
+  /* No GSAP pin here. The pin this section used to create had no scrub and
+     no onUpdate, so it bought half a viewport of dead scroll, and because it
+     pinned the section's top while the section is taller than the viewport,
+     everything below the fold (including the skills tile) was unreachable
+     for the whole pin. The framer-motion whileInView stagger below is this
+     beat's only motion. */
 
   return (
-    <section ref={sectionRef} id="telemetry" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
+    <section id="telemetry" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
       <SectionHeader kicker={t("kicker")} title={t("title")} meta={t("status")} />
 
       <motion.div initial="hidden" whileInView="visible" viewport={viewportOnce} variants={staggerContainer}>
