@@ -1,10 +1,9 @@
 {
   "nav": {
     "home": "home",
-    "stratos": "stratos",
-    "projects": "work",
-    "skills": "stack",
-    "github": "github",
+    "flightLog": "work",
+    "founderStory": "stratos",
+    "telemetry": "telemetry",
     "contact": "contact"
   },
   "hero": {
