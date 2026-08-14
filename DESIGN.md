@@ -308,7 +308,9 @@ principle: springs over hand-tuned easing), one spring config binding it
   `Instrument Sans` (retired), no decorative serifs.
 - No pure black (`#000000`). No neon / outer-glow shadows, no oversaturated
   accents beyond the one defined signal color.
-- No gradient text on headers. No custom mouse cursors. No 3D tilt cards.
+- No gradient text on headers. **Scoped exception:** the hero headline's
+  second line is the one documented gradient exception - see Section 2,
+  "Scoped exceptions." No custom mouse cursors. No 3D tilt cards.
 - No overlapping elements. No 3-equal-column card row. No centered hero.
 - No count-up-from-zero stat filler (real values settle into place instead),
   no pill clouds (status/tags are bordered rectangles with a square dot,

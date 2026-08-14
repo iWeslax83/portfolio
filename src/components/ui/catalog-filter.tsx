@@ -28,9 +28,9 @@ export default function CatalogFilter({
         <button
           key={f}
           onClick={() => onChange(f)}
-          className={`rounded-full px-4 py-1.5 transition-[background-color,color,transform] duration-200 ${
+          className={`rounded-full px-4 py-1.5 transition-[background-color,color] duration-200 ${
             value === f
-              ? "bg-accent text-bg scale-100"
+              ? "bg-accent text-bg"
               : "border border-rule text-ink-3 hover:text-ink-2 hover:border-rule-strong"
           }`}
           aria-pressed={value === f}

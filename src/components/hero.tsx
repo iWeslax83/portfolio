@@ -58,7 +58,7 @@ export default function Hero() {
           {/* Headline - two lines, each unmasking upward. Aggressive
               viewport-filling scale; second line carries the scoped
               gradient exception (green -> amber). */}
-          <h1 className="font-display text-[clamp(3rem,9vw,7.5rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink">
+          <h1 className="font-display text-[clamp(3rem,5vw,4.75rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink">
             <span className="block overflow-hidden">
               <motion.span variants={lineReveal} className="block">
                 {t("hLine1")}

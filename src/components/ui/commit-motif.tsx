@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { CommitEntry } from "@/lib/git-history";
 import { binaryRows } from "@/lib/binary-texture";
 
@@ -15,6 +15,7 @@ export default function CommitMotif({ commits }: { commits: CommitEntry[] }) {
   const { scrollYProgress } = useScroll();
   const commitY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const binaryY = useTransform(scrollYProgress, [0, 1], [0, -260]);
+  const reduce = useReducedMotion();
 
   return (
     <div
@@ -23,7 +24,7 @@ export default function CommitMotif({ commits }: { commits: CommitEntry[] }) {
     >
       {commits.length > 0 && (
         <motion.div
-          style={{ y: commitY }}
+          style={{ y: reduce ? 0 : commitY }}
           className="absolute inset-0 opacity-[0.13] font-mono text-[11px] leading-[1.8] tracking-wide text-ink whitespace-nowrap -rotate-2"
         >
           {commits.map((c, i) => (
@@ -34,7 +35,7 @@ export default function CommitMotif({ commits }: { commits: CommitEntry[] }) {
         </motion.div>
       )}
       <motion.div
-        style={{ y: binaryY }}
+        style={{ y: reduce ? 0 : binaryY }}
         className="absolute inset-0 opacity-[0.06] font-mono text-[10px] leading-[1.6] tracking-[0.15em] text-ink whitespace-pre rotate-1"
       >
         {binaryRows.join("\n")}
