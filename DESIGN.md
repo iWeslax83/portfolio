@@ -11,6 +11,11 @@ statement, and project catalogue were rebuilt. The still-earlier "engineering
 monograph" system (figure codes, registration marks, drafting rules) remains
 **retired in full**.
 
+> **Changelog:** Flight Log redesign (see
+> `docs/superpowers/specs/2026-08-14-flight-log-redesign-design.md`) retires
+> the hero gradient text-shift in favor of a scroll-scrubbed clip-path
+> reveal; restructures the page into five GSAP-driven narrative beats.
+
 ---
 
 ## 1. Visual Theme & Atmosphere
@@ -83,16 +88,13 @@ exception - see Section 2, "Scoped exceptions."
 
 ### Scoped exceptions
 
-Two narrow, explicitly bounded deviations from the repo's global single-accent
-/ no-gradient / no-pill rules (`.claude/CLAUDE.md`), introduced by this pass.
-Both are exhaustive lists, not precedent for expanding gradient or pill use elsewhere:
+One narrow, explicitly bounded deviation from the repo's global single-accent
+/ no-gradient / no-pill rules (`.claude/CLAUDE.md`), introduced by the
+"Maximalist Signal" pass. This is an exhaustive list, not precedent for
+expanding gradient or pill use elsewhere:
 
 - **Gradient** (`--color-accent` -> `--color-accent-2`) is permitted only at:
-  1. the hero headline's second line (`.text-gradient-signal` in
-     `src/app/globals.css`, applied in `src/components/hero.tsx`) - an
-     animated `background-position` shift, `linear-gradient(90deg, accent,
-     accent-2, accent)`, looping continuously (see Section 6).
-  2. the flagship project panel's border (`.gradient-border` in
+  1. the flagship project panel's border (`.gradient-border` in
      `src/app/globals.css`, applied to the `Flagship` article in
      `src/components/projects.tsx`) - a static `120deg` gradient border.
 

@@ -180,26 +180,7 @@ section[id] {
   transform: scaleX(1);
 }
 
-/* ── Scoped gradient exception (hero headline + flagship panel only) ── */
-.text-gradient-signal {
-  background: linear-gradient(
-    90deg,
-    var(--color-accent),
-    var(--color-accent-2),
-    var(--color-accent)
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradient-shift 6s ease-in-out infinite;
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
+/* ── Scoped gradient exception (flagship panel only) ── */
 .gradient-border {
   border: 1px solid transparent;
   background:
