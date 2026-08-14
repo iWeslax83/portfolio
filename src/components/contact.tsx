@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Mail, ArrowUpRight } from "lucide-react";
 import SectionHeader from "./ui/section-header";
@@ -12,6 +12,16 @@ import {
   markIn,
   viewportOnce,
 } from "@/lib/motion";
+
+/* Hard-edge entry wipe for the section's own top-level reveal - a clip-path
+   cut, not an opacity fade, matching the hero's "hard cut" idiom. */
+const wipeIn: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)" },
+  visible: {
+    clipPath: "inset(0 0 0% 0)",
+    transition: { duration: 0.5, ease: [0.65, 0, 0.35, 1] },
+  },
+};
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -60,7 +70,13 @@ export default function Contact() {
     <section id="contact" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
       <SectionHeader kicker={t("kicker")} title={t("title")} />
 
-      <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={wipeIn}
+        className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start"
+      >
         {/* Left - the call */}
         <motion.div
           initial="hidden"
@@ -125,7 +141,7 @@ export default function Contact() {
             </motion.a>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }
