@@ -55,15 +55,20 @@ export default function Hero() {
             <span className="annotate">{t("org")}</span>
           </motion.div>
 
-          {/* Headline - two lines, each unmasking upward */}
-          <h1 className="font-display text-[2.6rem] sm:text-6xl md:text-[4.1rem] font-semibold leading-[1.0] tracking-[-0.035em] text-ink">
+          {/* Headline - two lines, each unmasking upward. Aggressive
+              viewport-filling scale; second line carries the scoped
+              gradient exception (green -> amber). */}
+          <h1 className="font-display text-[clamp(3rem,5vw,4.75rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink">
             <span className="block overflow-hidden">
               <motion.span variants={lineReveal} className="block">
                 {t("hLine1")}
               </motion.span>
             </span>
             <span className="block overflow-hidden">
-              <motion.span variants={lineReveal} className="block text-ink-2">
+              <motion.span
+                variants={lineReveal}
+                className="block text-gradient-signal"
+              >
                 {t("hLine2")}
               </motion.span>
             </span>

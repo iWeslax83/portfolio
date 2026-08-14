@@ -42,7 +42,7 @@ export default function SectionHeader({
       <div className="mt-5 overflow-hidden">
         <motion.h2
           variants={lineReveal}
-          className="font-display text-[2.25rem] sm:text-5xl md:text-[3.5rem] font-semibold leading-[1.02] tracking-[-0.03em] text-ink"
+          className="font-display text-[clamp(2.75rem,7vw,5.5rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-ink"
         >
           {title}
         </motion.h2>

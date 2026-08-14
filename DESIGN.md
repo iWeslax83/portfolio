@@ -29,10 +29,26 @@ project catalogue immediately follows the hero as the first proof surface, and
 the GitHub activity section remains the system's flagship data element further
 down the page - real numbers, not decoration.
 
-- **Density:** 4 / 10 - balanced, generous breathing room around technical content.
+**"Maximalist Signal" pass:** a follow-on pass over the same system that pushes
+scale and density up without changing its structure. The hero headline and
+section header titles now scale with the viewport (`clamp()`) instead of
+stepping at fixed breakpoints, reading noticeably larger at wide widths. A
+two-layer background texture (this repo's own commit history plus a
+deterministic binary field, see Section 4 and 6) sits behind every section.
+Catalogue status tags and the catalogue filter switched to pill (`rounded-full`)
+chrome, and per-row commit stats are always visible instead of hover-gated.
+A second accent color (amber) was introduced under a narrow, explicitly scoped
+exception - see Section 2, "Scoped exceptions."
+
+- **Density:** 6 / 10 - up from 4/10. Real per-project commit-count/last-commit
+  data is now always visible on every catalogue row (previously hover-gated),
+  and the background texture layers add a constant low-opacity data field
+  behind every section.
 - **Variance:** 7 / 10 - asymmetric, offset, left-aligned. Never a centered hero.
-- **Motion:** 7 / 10 - choreographed and alive, but restrained. Panels snap
-  into grid alignment, readouts settle, headlines unmask. Spring-smooth, never gimmicky.
+- **Motion:** 9 / 10 - up from 7/10. Still choreographed and spring-smooth, but
+  now carries one continuous, non-scroll-gated animation (the hero gradient
+  shift) alongside two additional scroll-linked parallax layers (the texture
+  layers), on top of the existing panel-snap/readout-settle/unmask vocabulary.
 
 > The drafting/monograph motif (`FIG. 0X` figure codes, registration-mark
 > corner ticks, tick-rule measurement edges) is **retired**. It served a
@@ -51,7 +67,7 @@ down the page - real numbers, not decoration.
   renders it at 11px. Do not darken below ~4.5:1.
 - **Rule** (`rgba(255,255,255,0.08)`) / **Rule-Strong** (`0.18`) - hairline
   panel borders, dividers, grid lines.
-- **Accent - terminal green** (`#39FF6A`) - THE single accent, used
+- **Accent - terminal green** (`#39FF6A`) - THE primary accent, used
   **scarcely**: at most one accent element per viewport zone (a CTA, a status
   indicator, an active nav item, a key number). Verified at **14.86:1** WCAG
   contrast against the `#09090B` canvas, comfortably clearing AA for both
@@ -59,9 +75,44 @@ down the page - real numbers, not decoration.
   Never blue, never purple, never neon-glow. Derived tokens: `--color-accent-soft`
   (`rgba(57,255,106,0.1)`, used for the row-hover-sweep fill) and
   `--color-card-border-hover` (`rgba(57,255,106,0.4)`).
+- **Accent 2 - electric amber** (`#FF6A39`, `--color-accent-2`) - a second
+  accent added for the "Maximalist Signal" pass. Verified at **6.99:1** WCAG
+  contrast against the `#09090B` canvas. Derived token: `--color-accent-2-soft`
+  (`rgba(255,106,57,0.12)`). This is **not** a general second accent to reach
+  for - see "Scoped exceptions" immediately below for the only places it may appear.
+
+### Scoped exceptions
+
+Two narrow, explicitly bounded deviations from the repo's global single-accent
+/ no-gradient / no-pill rules (`.claude/CLAUDE.md`), introduced by this pass.
+Both are exhaustive lists, not precedent for expanding gradient or pill use elsewhere:
+
+- **Gradient** (`--color-accent` -> `--color-accent-2`) is permitted only at:
+  1. the hero headline's second line (`.text-gradient-signal` in
+     `src/app/globals.css`, applied in `src/components/hero.tsx`) - an
+     animated `background-position` shift, `linear-gradient(90deg, accent,
+     accent-2, accent)`, looping continuously (see Section 6).
+  2. the flagship project panel's border (`.gradient-border` in
+     `src/app/globals.css`, applied to the `Flagship` article in
+     `src/components/projects.tsx`) - a static `120deg` gradient border.
+
+  No other gradient fills, text, or borders anywhere else in the system.
+
+- **Pill (`rounded-full`) chrome** is permitted only for:
+  1. `StatusTag` (`src/components/projects.tsx`) - each catalogue row's
+     status label.
+  2. `CatalogFilter` (`src/components/ui/catalog-filter.tsx`) - the
+     ALL/SHIPPED/IN PROGRESS/ARCHIVED filter control.
+
+  Every other status/tag/label surface in the system (the nav section-index
+  chip, spec-row pills, etc.) keeps the repo-wide bordered-rectangle,
+  never-`rounded-full` treatment.
+
+Both exceptions are deviations tied to these named call sites, not a change to
+the global rules stated in Section 8.
 
 Distinction from the generic dark-dev-theme comes from **panel structure,
-type, and restraint**, not from color variety. Resist spreading the accent around.
+type, and restraint**, not from color variety. Resist spreading either accent around.
 
 ---
 
@@ -73,7 +124,11 @@ type, and restraint**, not from color variety. Resist spreading the accent aroun
   driving the whole hierarchy by weight and size, not a display/body font
   pair - built to carry an oversized, single-statement headline at hero scale.
   Set tight (`-0.02em` to `-0.035em`) at display sizes, relaxed leading
-  (1.5-1.6) at body sizes, ~65ch max body measure.
+  (1.5-1.6) at body sizes, ~65ch max body measure. The hero headline
+  (`clamp(3rem,9vw,7.5rem)`, `src/components/hero.tsx`) and section header
+  titles (`clamp(2.75rem,7vw,5.5rem)`, `src/components/ui/section-header.tsx`)
+  use `clamp()` for continuous viewport-filling scale rather than fixed
+  breakpoint steps - part of the "Maximalist Signal" pass.
 - **Mono:** `JetBrains Mono` stays - the technical-readout voice: data values,
   status lines, nav index, spec rows, section labels, the catalog filter. The
   `.annotate` utility sets it small, tracked-out, uppercase.
@@ -96,19 +151,34 @@ behind it, decorative serifs.
   UAV technical drawing on one side and a readout-strip caption
   (`UAV airframe · Spec 01`). Every row after it is numbered `#00X/0X`
   (index over total, tabular-nums, e.g. `#002/13`), not a bare index.
-- **Status tag (`StatusTag`, in `projects.tsx`):** a bordered rectangle
-  (`border border-rule`, sharp corners, **not** `rounded-full`) holding a
-  small square accent or ink-3 dot plus a mono label (`SHIPPED`,
-  `IN PROGRESS`, `ARCHIVED`). This is the repo-wide no-pill-badge rule
-  enforced directly in the catalogue: plain bordered tag, never a colored chip.
-- **Catalog filter (`src/components/ui/catalog-filter.tsx`):** a plain-text
-  mono toggle row (`ALL` / `SHIPPED` / `IN PROGRESS` / `ARCHIVED`), active
-  state marked by accent color plus the `.link-draw` underline mechanic, not
-  a segmented-pill control.
-- **Hover-revealed commit readout:** each catalogue row holds a real
+- **Status tag (`StatusTag`, in `projects.tsx`):** a pill
+  (`rounded-full` chip, `px-2.5 py-0.5`) holding a mono label (`SHIPPED`,
+  `IN PROGRESS`, `ARCHIVED`) with a status-colored fill - accent green for
+  `SHIPPED`, accent-2 amber for `IN_PROGRESS`, bordered/ink-3 for `ARCHIVED`.
+  This is a **scoped exception** to the repo-wide no-pill-badge rule (see
+  Section 2, "Scoped exceptions") - `StatusTag` is one of exactly two
+  components permitted pill chrome; the general rule (bordered rectangle,
+  never `rounded-full`) still applies everywhere else.
+- **Catalog filter (`src/components/ui/catalog-filter.tsx`):** a pill
+  segmented control (`ALL` / `SHIPPED` / `IN PROGRESS` / `ARCHIVED`,
+  `rounded-full` buttons), the active segment filled accent-on-`bg`,
+  inactive segments plain bordered text. The other **scoped exception** to
+  the no-pill-badge rule (see Section 2) - previously a plain-text mono
+  toggle row with no pill chrome.
+- **Always-visible commit readout:** each catalogue row holds a real
   per-project GitHub stat line (`{commitCount} commits · last commit
-  {date}`), collapsed to zero height and revealed on hover via a
-  `max-height`/`opacity` transition, real fetched data only, never a filler number.
+  {date}`), rendered directly beneath the row's links - always visible, no
+  longer hover-gated. Real fetched data only, never a filler number.
+- **Background texture (`CommitMotif`, `src/components/ui/commit-motif.tsx`):**
+  a fixed, `aria-hidden`, two-layer decorative field behind every section,
+  below `main`'s content stack (`z-0` vs. `main`'s `z-index: 2`). Layer one is
+  this repo's own real commit history (hash + message, from
+  `src/lib/git-history.ts`) at `opacity-[0.13]`; layer two is a deterministic
+  seeded binary (0/1) character field (`src/lib/binary-texture.ts`,
+  `mulberry32` PRNG, fixed seed, identical server/client output - no
+  hydration mismatch) at `opacity-[0.06]`. Each layer scroll-parallaxes at a
+  different speed (commit layer to `-120px`, binary layer to `-260px` over
+  full-page scroll) for a subtle depth separation.
 - **Buttons:** flat, sharp corners (0-2px radius). Primary = accent fill on
   near-black text. Secondary = a `.link-draw` underline link. Tactile `1px`
   translate on `:active`. No glow, no custom cursor. Max one primary CTA per section.
@@ -152,7 +222,7 @@ behind it, decorative serifs.
 
 ## 6. Motion & Interaction
 
-Choreographed but exact (Motion 7/10). Spring-based throughout (motion.dev
+Choreographed but exact (Motion 9/10). Spring-based throughout (motion.dev
 principle: springs over hand-tuned easing), one spring config binding it
 (`stiffness: 110, damping: 20`, unchanged). Variants live in `src/lib/motion.ts`.
 
@@ -168,8 +238,16 @@ principle: springs over hand-tuned easing), one spring config binding it
   asset) sits inside a bordered instrument panel.
 - **Parallax:** gentle drift on the hero figure and the flagship project image, kept.
 - **Perpetual micro-motion:** one square accent status indicator, one thin
-  accent scroll-progress rule at the top of the viewport. That is the full
-  budget - keep it quiet.
+  accent scroll-progress rule at the nav's section-index chip (`src/components/nav.tsx`,
+  `useScroll`/`useSpring`-driven `scaleX` bar). Beyond those, the hero
+  headline gradient (`.text-gradient-signal`, `gradient-shift` keyframe, 6s
+  `ease-in-out infinite`) is the system's one **time-based, non-scroll-gated**
+  loop - everything else in the motion system is scroll- or interaction-
+  triggered. Keep it to this one exception.
+- **Texture parallax:** the two `CommitMotif` background layers drift at
+  different scroll-linked speeds (commit-history layer to `-120px`, binary
+  layer to `-260px` across full-page scroll progress) - a subtle depth cue
+  behind the content stack, purely decorative, `aria-hidden`.
 - **Boot sequence:** on initial load, the hero's stagger already sequences
   top-to-bottom; the nav bar fades in with a short delay after the hero's
   first elements resolve.
@@ -181,8 +259,9 @@ principle: springs over hand-tuned easing), one spring config binding it
 - **Row hover sweep:** a `scaleX` background sweep (`--color-accent-soft`,
   `transform-origin: left`, ~0.3s) behind bordered catalogue rows on hover.
   Transform-only, same discipline as `ruleDraw`.
-- **Commit-stat reveal:** the per-row hover-revealed commit readout animates
-  via `max-height`/`opacity` transition only, no layout-jank height jump.
+- **Commit-stat readout:** the per-row commit stat line renders always-visible
+  (no longer hover-gated); it still participates in the row's `staggerContainer`/
+  `plateIn` reveal on scroll into view, same as the rest of the row.
 - **Performance:** animate only `transform` / `opacity`. Respect
   `prefers-reduced-motion` (collapse to instant).
 
@@ -192,10 +271,15 @@ principle: springs over hand-tuned easing), one spring config binding it
 
 - Left-aligned, asymmetric, founder-first. Mono role line above the headline:
   "Founder & Software Engineer" / "STRATOS İHA".
-- Oversized 2-line headline in Cabinet Grotesk, domain-first: line 1
-  **"ML · Embedded · Web"** (full Ink), line 2 **"is where I build."**
-  (Ink-2) - states the technical range before the person, then resolves to
-  the founder statement in the credentials list below it.
+- Oversized 2-line headline in Cabinet Grotesk, scaled with `clamp(3rem,9vw,7.5rem)`
+  for continuous viewport-filling size rather than a fixed breakpoint step,
+  domain-first: line 1 **"ML · Embedded · Web"** (full Ink), line 2
+  **"is where I build."** - states the technical range before the person,
+  then resolves to the founder statement in the credentials list below it.
+  Line 2 carries the scoped gradient exception: `.text-gradient-signal`
+  (accent green -> accent-2 amber -> accent green), animated with a slow,
+  continuous `background-position` shift (the system's one time-based,
+  non-scroll-gated loop - see Section 6).
 - The NASA Space Apps win is stated as a short mono status line in the accent
   color: "NASA Space Apps 2025 · Winner, Türkiye".
 - Lead in Ink-2; a short credentials list with square tick marks (not L-corner ticks).
@@ -214,16 +298,26 @@ principle: springs over hand-tuned easing), one spring config binding it
 - No drafting/monograph motif: no `FIG. 0X` figure codes, no registration-mark
   corner ticks, no tick-rule measurement edges. (Retired - do not reintroduce.)
 - No emojis. No em dashes (use normal hyphens).
-- No gradients, no glassmorphism/blur panels, no purple. Flat fills only, one accent.
+- No gradients, no glassmorphism/blur panels, no purple. Flat fills only, one
+  accent. **Scoped exception:** the "Maximalist Signal" pass permits a gradient
+  at exactly two call sites (the hero headline's second line, the flagship
+  panel's border) and a second accent color (`--color-accent-2`) confined to
+  those plus the `IN_PROGRESS` status color - see Section 2, "Scoped
+  exceptions," for the exhaustive list. This is not a repo-wide rule change.
 - No `Inter` used as a bare unconsidered default, no `Space Grotesk`, no
   `Instrument Sans` (retired), no decorative serifs.
 - No pure black (`#000000`). No neon / outer-glow shadows, no oversaturated
   accents beyond the one defined signal color.
-- No gradient text on headers. No custom mouse cursors. No 3D tilt cards.
+- No gradient text on headers. **Scoped exception:** the hero headline's
+  second line is the one documented gradient exception - see Section 2,
+  "Scoped exceptions." No custom mouse cursors. No 3D tilt cards.
 - No overlapping elements. No 3-equal-column card row. No centered hero.
 - No count-up-from-zero stat filler (real values settle into place instead),
   no pill clouds (status/tags are bordered rectangles with a square dot,
-  never `rounded-full` chips), no marquee.
+  never `rounded-full` chips), no marquee. **Scoped exception:** `StatusTag`
+  and `CatalogFilter` are the only two components permitted `rounded-full`
+  pill chrome - see Section 2, "Scoped exceptions." Every other tag/label/
+  status surface in the system keeps the bordered-rectangle rule.
 - No fake names or fabricated round metrics. No AI copy cliches ("Elevate",
   "Empower", "Unleash", "Revolutionize", "Supercharge", "Seamless", "Next-Gen").
   No filler ("Scroll to explore", chevrons).

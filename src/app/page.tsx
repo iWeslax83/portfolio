@@ -3,7 +3,6 @@ import { fetchRepoStats } from "@/lib/github-repo-stats";
 import { getRecentCommits } from "@/lib/git-history";
 import { projects } from "@/data/projects";
 import Nav from "@/components/nav";
-import ScrollProgress from "@/components/ui/scroll-progress";
 import BackToTop from "@/components/ui/back-to-top";
 import CommitMotif from "@/components/ui/commit-motif";
 import Hero from "@/components/hero";
@@ -24,7 +23,6 @@ export default async function Home() {
   return (
     <>
       <CommitMotif commits={commits} />
-      <ScrollProgress />
       <Nav />
       <main>
         <Hero />
