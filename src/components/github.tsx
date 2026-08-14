@@ -122,7 +122,7 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
         <motion.dl variants={staggerFast} className="grid sm:grid-cols-3 gap-4 lg:gap-5">
           {specs.map((s) => (
             <motion.div key={s.label} variants={readoutSettle} className="border border-rule p-5 md:p-6">
-              <dt className="font-display text-4xl md:text-5xl font-semibold text-ink tabular-nums tracking-tight">
+              <dt className="font-display text-6xl md:text-7xl font-semibold text-ink tabular-nums tracking-tight">
                 {s.value}
               </dt>
               <dd className="annotate mt-2">{s.label}</dd>
