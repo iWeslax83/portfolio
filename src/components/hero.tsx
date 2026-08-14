@@ -124,7 +124,7 @@ export default function Hero() {
           viewport={viewportOnce}
         >
           <div className="relative border border-rule p-8 md:p-10">
-            <DroneSchematic />
+            <DroneSchematic progress={1} />
           </div>
           <motion.figcaption
             initial={{ opacity: 0, y: 8 }}
