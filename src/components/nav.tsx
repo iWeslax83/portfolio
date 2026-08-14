@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { spring } from "@/lib/motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -51,6 +51,9 @@ export default function Nav() {
     return () => observer.disconnect();
   }, []);
 
+  const { scrollYProgress } = useScroll();
+  const barScale = useSpring(scrollYProgress, { stiffness: 220, damping: 30 });
+
   const activeNum =
     navItems.find((i) => i.href.slice(1) === activeSection)?.num ?? "00";
 
@@ -79,8 +82,16 @@ export default function Nav() {
             <span className="font-display text-sm font-semibold text-ink">
               emir<span className="text-accent">.</span>sakarya
             </span>
-            <span className="hidden sm:inline border border-rule px-1.5 py-0.5 font-mono text-[10px] tracking-[0.18em] text-ink-3 ml-1">
-              {activeNum}
+            <span className="hidden sm:inline-flex items-center gap-1.5 ml-1">
+              <span className="border border-rule px-1.5 py-0.5 font-mono text-[10px] tracking-[0.18em] text-ink-3">
+                {activeNum}
+              </span>
+              <span className="relative h-3.5 w-8 border border-rule overflow-hidden">
+                <motion.span
+                  style={{ scaleX: barScale }}
+                  className="absolute inset-0 origin-left bg-accent"
+                />
+              </span>
             </span>
           </a>
 
