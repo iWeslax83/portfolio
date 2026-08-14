@@ -50,10 +50,11 @@ exception - see Section 2, "Scoped exceptions."
   and the background texture layers add a constant low-opacity data field
   behind every section.
 - **Variance:** 7 / 10 - asymmetric, offset, left-aligned. Never a centered hero.
-- **Motion:** 9 / 10 - up from 7/10. Still choreographed and spring-smooth, but
-  now carries one continuous, non-scroll-gated animation (the hero gradient
-  shift) alongside two additional scroll-linked parallax layers (the texture
-  layers), on top of the existing panel-snap/readout-settle/unmask vocabulary.
+- **Motion:** 9 / 10 - up from 7/10. Still choreographed and spring-smooth,
+  and now scroll-driven throughout: the hero headline pins and reveals via a
+  scroll-scrubbed clip-path (see Section 7), alongside two additional
+  scroll-linked parallax layers (the texture layers), on top of the existing
+  panel-snap/readout-settle/unmask vocabulary.
 
 > The drafting/monograph motif (`FIG. 0X` figure codes, registration-mark
 > corner ticks, tick-rule measurement edges) is **retired**. It served a
@@ -241,11 +242,10 @@ principle: springs over hand-tuned easing), one spring config binding it
 - **Parallax:** gentle drift on the hero figure and the flagship project image, kept.
 - **Perpetual micro-motion:** one square accent status indicator, one thin
   accent scroll-progress rule at the nav's section-index chip (`src/components/nav.tsx`,
-  `useScroll`/`useSpring`-driven `scaleX` bar). Beyond those, the hero
-  headline gradient (`.text-gradient-signal`, `gradient-shift` keyframe, 6s
-  `ease-in-out infinite`) is the system's one **time-based, non-scroll-gated**
-  loop - everything else in the motion system is scroll- or interaction-
-  triggered. Keep it to this one exception.
+  `useScroll`/`useSpring`-driven `scaleX` bar). Everything else in the motion
+  system, including the hero headline reveal, is scroll- or interaction-
+  triggered - there is no time-based, non-scroll-gated loop anywhere in the
+  system.
 - **Texture parallax:** the two `CommitMotif` background layers drift at
   different scroll-linked speeds (commit-history layer to `-120px`, binary
   layer to `-260px` across full-page scroll progress) - a subtle depth cue
@@ -278,10 +278,11 @@ principle: springs over hand-tuned easing), one spring config binding it
   domain-first: line 1 **"ML · Embedded · Web"** (full Ink), line 2
   **"is where I build."** - states the technical range before the person,
   then resolves to the founder statement in the credentials list below it.
-  Line 2 carries the scoped gradient exception: `.text-gradient-signal`
-  (accent green -> accent-2 amber -> accent green), animated with a slow,
-  continuous `background-position` shift (the system's one time-based,
-  non-scroll-gated loop - see Section 6).
+  Both lines are plain solid-color text (line 1 Ink, line 2 accent green, no
+  gradient); the section pins on scroll and each line unmasks via a
+  scroll-scrubbed clip-path reveal (`useGSAP` + `ScrollTrigger`, `scrub:
+  true`, `pin: true` - see Section 6), falling back to static (unpinned,
+  fully revealed) on mobile and `prefers-reduced-motion`.
 - The NASA Space Apps win is stated as a short mono status line in the accent
   color: "NASA Space Apps 2025 · Winner, Türkiye".
 - Lead in Ink-2; a short credentials list with square tick marks (not L-corner ticks).
@@ -302,17 +303,17 @@ principle: springs over hand-tuned easing), one spring config binding it
 - No emojis. No em dashes (use normal hyphens).
 - No gradients, no glassmorphism/blur panels, no purple. Flat fills only, one
   accent. **Scoped exception:** the "Maximalist Signal" pass permits a gradient
-  at exactly two call sites (the hero headline's second line, the flagship
-  panel's border) and a second accent color (`--color-accent-2`) confined to
-  those plus the `IN_PROGRESS` status color - see Section 2, "Scoped
-  exceptions," for the exhaustive list. This is not a repo-wide rule change.
+  at exactly one call site (the flagship panel's border) and a second accent
+  color (`--color-accent-2`) confined to that plus the `IN_PROGRESS` status
+  color - see Section 2, "Scoped exceptions," for the exhaustive list. This is
+  not a repo-wide rule change.
 - No `Inter` used as a bare unconsidered default, no `Space Grotesk`, no
   `Instrument Sans` (retired), no decorative serifs.
 - No pure black (`#000000`). No neon / outer-glow shadows, no oversaturated
   accents beyond the one defined signal color.
-- No gradient text on headers. **Scoped exception:** the hero headline's
-  second line is the one documented gradient exception - see Section 2,
-  "Scoped exceptions." No custom mouse cursors. No 3D tilt cards.
+- No gradient text on headers, anywhere - see Section 2, "Scoped exceptions,"
+  for the one gradient exception in the system (the flagship panel's border,
+  not text). No custom mouse cursors. No 3D tilt cards.
 - No overlapping elements. No 3-equal-column card row. No centered hero.
 - No count-up-from-zero stat filler (real values settle into place instead),
   no pill clouds (status/tags are bordered rectangles with a square dot,
