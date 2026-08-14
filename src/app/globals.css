@@ -19,8 +19,8 @@
   --color-accent-soft: rgba(57, 255, 106, 0.1);
 
   /* ── Second accent: electric amber, scoped exception for this pass ──
-     Used only for: IN_PROGRESS status color, the hero gradient headline,
-     and the flagship panel's gradient border. See DESIGN.md "Scoped
+     Used only for: IN_PROGRESS status color and the flagship panel's
+     gradient border. See DESIGN.md "Scoped
      exceptions" section. Verified 6.99:1 contrast on #09090b. ── */
   --color-accent-2: #ff6a39;
   --color-accent-2-soft: rgba(255, 106, 57, 0.12);
