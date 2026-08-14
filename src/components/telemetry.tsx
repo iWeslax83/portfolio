@@ -10,7 +10,7 @@ import { skills } from "@/data/skills";
 import SectionHeader from "./ui/section-header";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useReducedMotionPref, useIsMobile } from "@/lib/scroll";
-import { staggerContainer, staggerFast, fadeRise, readoutSettle, markIn, ruleDraw, viewportOnce } from "@/lib/motion";
+import { staggerContainer, staggerFast, fadeRise, readoutSettle, ruleDraw, viewportOnce } from "@/lib/motion";
 
 const cellTone = ["bg-rule", "bg-ink-3", "bg-ink-2", "bg-accent/55", "bg-accent"];
 
@@ -99,7 +99,7 @@ function LanguageBar({ languages, label }: { languages: GitHubStats["languages"]
 function SkillsTile({ label }: { label: string }) {
   const t = useTranslations("skills");
   return (
-    <motion.div variants={fadeRise} className="border border-rule p-5 md:p-6">
+    <motion.div variants={fadeRise} className="md:col-span-2 border border-rule p-5 md:p-6">
       <p className="annotate mb-4">{label}</p>
       {skills.map((category) => (
         <div key={category.key} className="border-t border-rule first:border-t-0 py-4">
