@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import DroneSchematic from "./ui/drone-schematic";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { useReducedMotionPref, useIsMobile } from "@/lib/scroll";
 import { staggerContainer, fadeRise, markIn, viewportOnce } from "@/lib/motion";
 
@@ -53,6 +53,15 @@ export default function Hero() {
 
   const credentials = [t("cred1"), t("cred2"), t("cred3"), t("cred4")];
 
+  /* The scrubbed clip-path reveal starts fully masked at scroll 0, so the
+     server-rendered state has to match it or the headline paints visible for
+     a frame and then blanks when GSAP takes over. Both hooks resolve to
+     `false` during SSR and on the first client render, which is exactly the
+     desktop/motion path - so default to hidden and let the fallback path
+     reveal once the hooks report mobile or reduced motion. */
+  const gsapPath = !reduced && !mobile;
+  const initialClip = gsapPath ? "inset(0 0 100% 0)" : "inset(0 0 0% 0)";
+
   return (
     <section
       ref={sectionRef}
@@ -72,12 +81,12 @@ export default function Hero() {
 
           <h1 className="font-display text-[clamp(3rem,5vw,4.75rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink">
             <span className="block overflow-hidden">
-              <span ref={line1Ref} className="block" style={{ clipPath: "inset(0 0 0% 0)" }}>
+              <span ref={line1Ref} className="block" style={{ clipPath: initialClip }}>
                 {t("hLine1")}
               </span>
             </span>
             <span className="block overflow-hidden">
-              <span ref={line2Ref} className="block text-accent" style={{ clipPath: "inset(0 0 0% 0)" }}>
+              <span ref={line2Ref} className="block text-accent" style={{ clipPath: initialClip }}>
                 {t("hLine2")}
               </span>
             </span>

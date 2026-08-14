@@ -17,7 +17,12 @@ export default function FounderStory() {
   const reduced = useReducedMotionPref();
   const mobile = useIsMobile();
   const sectionRef = useRef<HTMLElement>(null);
-  const [drawProgress, setDrawProgress] = useState(1);
+  /* Starts undrawn, matching the scrub's own state at scroll 0. Starting at
+     1 made the schematic paint fully drawn and then snap back to ~0 the
+     moment the ScrollTrigger initialized. The mobile / reduced-motion
+     branch below sets it straight back to 1, where there is no scrub to
+     desync from. */
+  const [drawProgress, setDrawProgress] = useState(0);
 
   const stats = [
     { value: "04", label: t("departments") },
@@ -33,6 +38,10 @@ export default function FounderStory() {
       }
       if (!sectionRef.current) return;
 
+      /* Re-entering the scrubbed path (e.g. resizing up past `md`) must
+         reset the draw, otherwise it stays stuck at the fallback's 1. */
+      setDrawProgress(0);
+
       const ctx = gsap.context(() => {
         ScrollTrigger.create({
           trigger: sectionRef.current,
@@ -40,6 +49,7 @@ export default function FounderStory() {
           end: "bottom 60%",
           scrub: true,
           onUpdate: (self) => setDrawProgress(self.progress),
+          onRefresh: (self) => setDrawProgress(self.progress),
         });
       }, sectionRef);
 
