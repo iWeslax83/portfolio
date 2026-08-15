@@ -11,6 +11,11 @@ statement, and project catalogue were rebuilt. The still-earlier "engineering
 monograph" system (figure codes, registration marks, drafting rules) remains
 **retired in full**.
 
+> **Changelog:** Flight Log redesign (see
+> `docs/superpowers/specs/2026-08-14-flight-log-redesign-design.md`) retires
+> the hero gradient text-shift in favor of a scroll-scrubbed clip-path
+> reveal; restructures the page into five GSAP-driven narrative beats.
+
 ---
 
 ## 1. Visual Theme & Atmosphere
@@ -45,10 +50,11 @@ exception - see Section 2, "Scoped exceptions."
   and the background texture layers add a constant low-opacity data field
   behind every section.
 - **Variance:** 7 / 10 - asymmetric, offset, left-aligned. Never a centered hero.
-- **Motion:** 9 / 10 - up from 7/10. Still choreographed and spring-smooth, but
-  now carries one continuous, non-scroll-gated animation (the hero gradient
-  shift) alongside two additional scroll-linked parallax layers (the texture
-  layers), on top of the existing panel-snap/readout-settle/unmask vocabulary.
+- **Motion:** 9 / 10 - up from 7/10. Still choreographed and spring-smooth,
+  and now scroll-driven throughout: the hero headline pins and reveals via a
+  scroll-scrubbed clip-path (see Section 7), alongside two additional
+  scroll-linked parallax layers (the texture layers), on top of the existing
+  panel-snap/readout-settle/unmask vocabulary.
 
 > The drafting/monograph motif (`FIG. 0X` figure codes, registration-mark
 > corner ticks, tick-rule measurement edges) is **retired**. It served a
@@ -83,24 +89,22 @@ exception - see Section 2, "Scoped exceptions."
 
 ### Scoped exceptions
 
-Two narrow, explicitly bounded deviations from the repo's global single-accent
-/ no-gradient / no-pill rules (`.claude/CLAUDE.md`), introduced by this pass.
-Both are exhaustive lists, not precedent for expanding gradient or pill use elsewhere:
+One narrow, explicitly bounded deviation from the repo's global single-accent
+/ no-gradient / no-pill rules (`.claude/CLAUDE.md`), introduced by the
+"Maximalist Signal" pass. This is an exhaustive list, not precedent for
+expanding gradient or pill use elsewhere:
 
 - **Gradient** (`--color-accent` -> `--color-accent-2`) is permitted only at:
-  1. the hero headline's second line (`.text-gradient-signal` in
-     `src/app/globals.css`, applied in `src/components/hero.tsx`) - an
-     animated `background-position` shift, `linear-gradient(90deg, accent,
-     accent-2, accent)`, looping continuously (see Section 6).
-  2. the flagship project panel's border (`.gradient-border` in
-     `src/app/globals.css`, applied to the `Flagship` article in
-     `src/components/projects.tsx`) - a static `120deg` gradient border.
+  1. the flagship project panel's border (`.gradient-border` in
+     `src/app/globals.css`, applied by `FlightCard` in
+     `src/components/flight-log.tsx` via its `flagship ? "gradient-border"
+     : ...` conditional class) - a static `120deg` gradient border.
 
   No other gradient fills, text, or borders anywhere else in the system.
 
 - **Pill (`rounded-full`) chrome** is permitted only for:
-  1. `StatusTag` (`src/components/projects.tsx`) - each catalogue row's
-     status label.
+  1. `StatusTag` (`src/components/flight-log.tsx`) - the status label on
+     both the desktop flight cards and the mobile catalogue rows.
   2. `CatalogFilter` (`src/components/ui/catalog-filter.tsx`) - the
      ALL/SHIPPED/IN PROGRESS/ARCHIVED filter control.
 
@@ -125,7 +129,7 @@ type, and restraint**, not from color variety. Resist spreading either accent ar
   pair - built to carry an oversized, single-statement headline at hero scale.
   Set tight (`-0.02em` to `-0.035em`) at display sizes, relaxed leading
   (1.5-1.6) at body sizes, ~65ch max body measure. The hero headline
-  (`clamp(3rem,9vw,7.5rem)`, `src/components/hero.tsx`) and section header
+  (`clamp(3rem,5vw,4.75rem)`, `src/components/hero.tsx`) and section header
   titles (`clamp(2.75rem,7vw,5.5rem)`, `src/components/ui/section-header.tsx`)
   use `clamp()` for continuous viewport-filling scale rather than fixed
   breakpoint steps - part of the "Maximalist Signal" pass.
@@ -145,13 +149,19 @@ behind it, decorative serifs.
   set above a large `Cabinet Grotesk` title, with a hairline rule beneath.
   No figure code, no registration marks
   (`src/components/ui/section-header.tsx`).
-- **Numbered project catalogue:** work is a real indexed catalogue of
-  bordered rows, not a card grid (`src/components/projects.tsx`). The
-  flagship project (`01`) is a bordered instrument panel with the hand-built
-  UAV technical drawing on one side and a readout-strip caption
-  (`UAV airframe · Spec 01`). Every row after it is numbered `#00X/0X`
-  (index over total, tabular-nums, e.g. `#002/13`), not a bare index.
-- **Status tag (`StatusTag`, in `projects.tsx`):** a pill
+- **Flight Log catalogue (`src/components/flight-log.tsx`):** work is a real
+  indexed catalogue, never a card grid. On desktop it is a horizontal
+  scroll-hijacked track of full-viewport flight cards: the section pins and
+  the track translates on `x` in lockstep with scroll, one card per screen,
+  each numbered `01 / NN` (index over total, tabular-nums) beside its status
+  tag, with a `NN / NN` progress readout, prev/next buttons, and a hairline
+  progress rule above the track. The flagship card (`01`) carries the
+  gradient border and the hand-built UAV technical drawing beside its copy;
+  there is no readout-strip caption. Below `md`, and under
+  `prefers-reduced-motion`, the hijack is fully disabled and the same
+  projects render as a vertical numbered list of bordered rows (`#00X`,
+  bare index, no `/total`) with the catalog filter above it.
+- **Status tag (`StatusTag`, in `flight-log.tsx`):** a pill
   (`rounded-full` chip, `px-2.5 py-0.5`) holding a mono label (`SHIPPED`,
   `IN PROGRESS`, `ARCHIVED`) with a status-colored fill - accent green for
   `SHIPPED`, accent-2 amber for `IN_PROGRESS`, bordered/ink-3 for `ARCHIVED`.
@@ -188,11 +198,15 @@ behind it, decorative serifs.
   count-up-from-zero tween.
 - **Status indicator:** one small square (not circular) accent dot + mono
   label (e.g. `SYSTEM · ONLINE`), used once, in the hero or nav.
-- **GitHub dashboard:** the flagship data surface reads as an instrument
-  cluster, not a typographic list. Three small bordered panels (repos,
-  contributions, languages) sit beside two wide bordered panels (activity
-  graph, language mix), all sharing the same `border border-rule` +
-  mono-label chrome as every other panel in the system.
+- **Telemetry bento dashboard (`src/components/telemetry.tsx`):** GitHub
+  stats and the skills matrix are one merged section, not two. The flagship
+  data surface reads as an instrument cluster, not a typographic list: three
+  small bordered stat tiles (repos, contributions, languages) above two wide
+  bordered panels (activity graph, language mix), with a full-width bordered
+  skills tile beneath them and a single GitHub link row closing the section.
+  Every tile shares the same `border border-rule` + mono-label chrome as
+  every other panel in the system. There is no standalone GitHub section and
+  no standalone Skills section.
 - **Nav section index:** the active-section marker (e.g. `01`) is a small
   bordered mono chip (`border border-rule`, rectangular corners) instead of
   bare bracketed text - a small readout, not a pill.
@@ -214,9 +228,11 @@ behind it, decorative serifs.
 - CSS Grid first. Max-width ~`1320px`, generous gutters (`px-6 md:px-10 lg:px-14`).
 - Section rhythm `py-24 md:py-36`. Full-height hero uses `min-h-[100dvh]`.
 - Every element owns its spatial zone; no overlapping text/images.
-- Section order: Home -> Projects -> STRATOS -> Skills -> GitHub -> Contact.
-  The catalogue now leads immediately after the hero as the first proof
-  surface, ahead of STRATOS.
+- Section order (five beats): Home -> Flight Log -> Founder Story ->
+  Telemetry -> Contact (`#home`, `#flight-log`, `#founder-story`,
+  `#telemetry`, `#contact`). The catalogue leads immediately after the hero
+  as the first proof surface, ahead of the STRATOS founder story; skills and
+  GitHub data are merged into the single Telemetry beat.
 
 ---
 
@@ -239,11 +255,10 @@ principle: springs over hand-tuned easing), one spring config binding it
 - **Parallax:** gentle drift on the hero figure and the flagship project image, kept.
 - **Perpetual micro-motion:** one square accent status indicator, one thin
   accent scroll-progress rule at the nav's section-index chip (`src/components/nav.tsx`,
-  `useScroll`/`useSpring`-driven `scaleX` bar). Beyond those, the hero
-  headline gradient (`.text-gradient-signal`, `gradient-shift` keyframe, 6s
-  `ease-in-out infinite`) is the system's one **time-based, non-scroll-gated**
-  loop - everything else in the motion system is scroll- or interaction-
-  triggered. Keep it to this one exception.
+  `useScroll`/`useSpring`-driven `scaleX` bar). Everything else in the motion
+  system, including the hero headline reveal, is scroll- or interaction-
+  triggered - there is no time-based, non-scroll-gated loop anywhere in the
+  system.
 - **Texture parallax:** the two `CommitMotif` background layers drift at
   different scroll-linked speeds (commit-history layer to `-120px`, binary
   layer to `-260px` across full-page scroll progress) - a subtle depth cue
@@ -271,20 +286,22 @@ principle: springs over hand-tuned easing), one spring config binding it
 
 - Left-aligned, asymmetric, founder-first. Mono role line above the headline:
   "Founder & Software Engineer" / "STRATOS İHA".
-- Oversized 2-line headline in Cabinet Grotesk, scaled with `clamp(3rem,9vw,7.5rem)`
+- Oversized 2-line headline in Cabinet Grotesk, scaled with `clamp(3rem,5vw,4.75rem)`
   for continuous viewport-filling size rather than a fixed breakpoint step,
   domain-first: line 1 **"ML · Embedded · Web"** (full Ink), line 2
   **"is where I build."** - states the technical range before the person,
   then resolves to the founder statement in the credentials list below it.
-  Line 2 carries the scoped gradient exception: `.text-gradient-signal`
-  (accent green -> accent-2 amber -> accent green), animated with a slow,
-  continuous `background-position` shift (the system's one time-based,
-  non-scroll-gated loop - see Section 6).
+  Both lines are plain solid-color text (line 1 Ink, line 2 accent green, no
+  gradient); the section pins on scroll and each line unmasks via a
+  scroll-scrubbed clip-path reveal (`useGSAP` + `ScrollTrigger`, `scrub:
+  true`, `pin: true` - see Section 6), falling back to static (unpinned,
+  fully revealed) on mobile and `prefers-reduced-motion`.
 - The NASA Space Apps win is stated as a short mono status line in the accent
   color: "NASA Space Apps 2025 · Winner, Türkiye".
 - Lead in Ink-2; a short credentials list with square tick marks (not L-corner ticks).
 - Exactly one accent primary CTA ("View work") + one `.link-draw` secondary ("Get in touch").
-- Right column: the animated quadrotor technical drawing, inside a bordered
+- Right column: the quadrotor technical drawing, rendered static
+  (`progress={1}`, fully drawn, no scrub and no loop), inside a bordered
   instrument panel with a readout-strip caption ("Autonomous quadrotor ·
   Flight-ready").
 - No cursor-follow light, no fake console, no inline-image-in-headline gimmick,
@@ -300,17 +317,17 @@ principle: springs over hand-tuned easing), one spring config binding it
 - No emojis. No em dashes (use normal hyphens).
 - No gradients, no glassmorphism/blur panels, no purple. Flat fills only, one
   accent. **Scoped exception:** the "Maximalist Signal" pass permits a gradient
-  at exactly two call sites (the hero headline's second line, the flagship
-  panel's border) and a second accent color (`--color-accent-2`) confined to
-  those plus the `IN_PROGRESS` status color - see Section 2, "Scoped
-  exceptions," for the exhaustive list. This is not a repo-wide rule change.
+  at exactly one call site (the flagship panel's border) and a second accent
+  color (`--color-accent-2`) confined to that plus the `IN_PROGRESS` status
+  color - see Section 2, "Scoped exceptions," for the exhaustive list. This is
+  not a repo-wide rule change.
 - No `Inter` used as a bare unconsidered default, no `Space Grotesk`, no
   `Instrument Sans` (retired), no decorative serifs.
 - No pure black (`#000000`). No neon / outer-glow shadows, no oversaturated
   accents beyond the one defined signal color.
-- No gradient text on headers. **Scoped exception:** the hero headline's
-  second line is the one documented gradient exception - see Section 2,
-  "Scoped exceptions." No custom mouse cursors. No 3D tilt cards.
+- No gradient text on headers, anywhere - see Section 2, "Scoped exceptions,"
+  for the one gradient exception in the system (the flagship panel's border,
+  not text). No custom mouse cursors. No 3D tilt cards.
 - No overlapping elements. No 3-equal-column card row. No centered hero.
 - No count-up-from-zero stat filler (real values settle into place instead),
   no pill clouds (status/tags are bordered rectangles with a square dot,

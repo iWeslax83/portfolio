@@ -19,8 +19,8 @@
   --color-accent-soft: rgba(57, 255, 106, 0.1);
 
   /* ── Second accent: electric amber, scoped exception for this pass ──
-     Used only for: IN_PROGRESS status color, the hero gradient headline,
-     and the flagship panel's gradient border. See DESIGN.md "Scoped
+     Used only for: IN_PROGRESS status color and the flagship panel's
+     gradient border. See DESIGN.md "Scoped
      exceptions" section. Verified 6.99:1 contrast on #09090b. ── */
   --color-accent-2: #ff6a39;
   --color-accent-2-soft: rgba(255, 106, 57, 0.12);
@@ -180,26 +180,7 @@ section[id] {
   transform: scaleX(1);
 }
 
-/* ── Scoped gradient exception (hero headline + flagship panel only) ── */
-.text-gradient-signal {
-  background: linear-gradient(
-    90deg,
-    var(--color-accent),
-    var(--color-accent-2),
-    var(--color-accent)
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradient-shift 6s ease-in-out infinite;
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
+/* ── Scoped gradient exception (flagship panel only) ── */
 .gradient-border {
   border: 1px solid transparent;
   background:

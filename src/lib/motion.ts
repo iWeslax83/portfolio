@@ -91,3 +91,13 @@ export const readoutSettle: Variants = {
   hidden: { opacity: 0, scale: 1.04 },
   visible: { opacity: 1, scale: 1, transition: spring },
 };
+
+/* Hard-edge entry wipe for a section's own top-level reveal - a clip-path
+   cut, not an opacity fade, matching the hero's "hard cut" idiom. */
+export const wipeIn: Variants = {
+  hidden: { clipPath: "inset(0 0 100% 0)" },
+  visible: {
+    clipPath: "inset(0 0 0% 0)",
+    transition: { duration: 0.5, ease: [0.65, 0, 0.35, 1] },
+  },
+};

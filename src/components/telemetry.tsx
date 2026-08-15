@@ -4,18 +4,18 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { GitHubStats } from "@/lib/types";
+import { skills } from "@/data/skills";
 import SectionHeader from "./ui/section-header";
-import {
-  staggerContainer,
-  staggerFast,
-  fadeRise,
-  readoutSettle,
-  ruleDraw,
-  viewportOnce,
-} from "@/lib/motion";
+import { staggerContainer, staggerFast, fadeRise, readoutSettle, ruleDraw, viewportOnce } from "@/lib/motion";
 
-// Monochrome activity scale: ink for low days, amber signal as it intensifies.
 const cellTone = ["bg-rule", "bg-ink-3", "bg-ink-2", "bg-accent/55", "bg-accent"];
+
+const categoryLabels: Record<string, string> = {
+  frontend: "Frontend",
+  backend: "Backend",
+  ai_embedded: "AI & Embedded",
+  devops: "DevOps & Infra",
+};
 
 function ContributionGraph({ graph, label }: { graph: number[][]; label: string }) {
   if (graph.length === 0) return null;
@@ -59,13 +59,7 @@ function ContributionGraph({ graph, label }: { graph: number[][]; label: string 
   );
 }
 
-function LanguageBar({
-  languages,
-  label,
-}: {
-  languages: GitHubStats["languages"];
-  label: string;
-}) {
+function LanguageBar({ languages, label }: { languages: GitHubStats["languages"]; label: string }) {
   return (
     <figure>
       <figcaption className="annotate mb-4">{label}</figcaption>
@@ -90,8 +84,7 @@ function LanguageBar({
       <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1.5">
         {languages.map((lang) => (
           <span key={lang.name} className="font-mono text-[11px] text-ink-2">
-            <span style={{ color: lang.color }}>{"■"}</span> {lang.name}{" "}
-            <span className="text-ink-3">{lang.percentage}%</span>
+            <span style={{ color: lang.color }}>{"■"}</span> {lang.name} <span className="text-ink-3">{lang.percentage}%</span>
           </span>
         ))}
       </div>
@@ -99,8 +92,37 @@ function LanguageBar({
   );
 }
 
-export default function GitHub({ stats }: { stats: GitHubStats }) {
+function SkillsTile({ label }: { label: string }) {
+  const t = useTranslations("skills");
+  return (
+    <motion.div variants={fadeRise} className="md:col-span-2 border border-rule p-5 md:p-6">
+      <p className="annotate mb-4">{label}</p>
+      {skills.map((category) => (
+        <div key={category.key} className="border-t border-rule first:border-t-0 py-4">
+          <div className="flex items-baseline gap-3 mb-2.5">
+            <span className="font-mono text-[11px] text-accent tabular-nums">
+              {String(category.items.length).padStart(2, "0")}
+            </span>
+            <h4 className="font-display text-base font-medium text-ink">
+              {categoryLabels[category.key] ?? category.key}
+            </h4>
+          </div>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            {category.items.map((item) => (
+              <span key={item} className="font-mono text-xs text-ink-2 border border-rule px-2 py-0.5">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
+export default function Telemetry({ stats }: { stats: GitHubStats }) {
   const t = useTranslations("github");
+  const tSkills = useTranslations("skills");
 
   const specs = [
     { value: stats.publicRepos, label: t("publicRepos") },
@@ -108,17 +130,18 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
     { value: stats.languages.length, label: t("languages") },
   ];
 
+  /* No GSAP pin here. The pin this section used to create had no scrub and
+     no onUpdate, so it bought half a viewport of dead scroll, and because it
+     pinned the section's top while the section is taller than the viewport,
+     everything below the fold (including the skills tile) was unreachable
+     for the whole pin. The framer-motion whileInView stagger below is this
+     beat's only motion. */
+
   return (
-    <section id="github" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
+    <section id="telemetry" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
       <SectionHeader kicker={t("kicker")} title={t("title")} meta={t("status")} />
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-        variants={staggerContainer}
-      >
-        {/* Three small readout panels */}
+      <motion.div initial="hidden" whileInView="visible" viewport={viewportOnce} variants={staggerContainer}>
         <motion.dl variants={staggerFast} className="grid sm:grid-cols-3 gap-4 lg:gap-5">
           {specs.map((s) => (
             <motion.div key={s.label} variants={readoutSettle} className="border border-rule p-5 md:p-6">
@@ -130,7 +153,6 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
           ))}
         </motion.dl>
 
-        {/* Two wide panels */}
         <div className="grid md:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
           <motion.div variants={fadeRise} className="border border-rule p-5 md:p-6">
             <ContributionGraph graph={stats.contributionGraph} label={t("activity")} />
@@ -138,6 +160,10 @@ export default function GitHub({ stats }: { stats: GitHubStats }) {
           <motion.div variants={fadeRise} className="border border-rule p-5 md:p-6">
             <LanguageBar languages={stats.languages} label={t("languageBreakdown")} />
           </motion.div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
+          <SkillsTile label={tSkills("kicker")} />
         </div>
 
         <div className="flex items-center gap-4 mt-8">

@@ -6,10 +6,9 @@ import Nav from "@/components/nav";
 import BackToTop from "@/components/ui/back-to-top";
 import CommitMotif from "@/components/ui/commit-motif";
 import Hero from "@/components/hero";
-import Stratos from "@/components/stratos";
-import Projects from "@/components/projects";
-import Skills from "@/components/skills";
-import GitHub from "@/components/github";
+import FlightLog from "@/components/flight-log";
+import FounderStory from "@/components/founder-story";
+import Telemetry from "@/components/telemetry";
 import Contact from "@/components/contact";
 import Footer from "@/components/footer";
 
@@ -26,10 +25,9 @@ export default async function Home() {
       <Nav />
       <main>
         <Hero />
-        <Projects repoStats={repoStats} />
-        <Stratos />
-        <Skills />
-        <GitHub stats={githubStats} />
+        <FlightLog repoStats={repoStats} />
+        <FounderStory />
+        <Telemetry stats={githubStats} />
         <Contact />
         <Footer />
       </main>

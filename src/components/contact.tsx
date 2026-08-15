@@ -11,6 +11,7 @@ import {
   lineReveal,
   markIn,
   viewportOnce,
+  wipeIn,
 } from "@/lib/motion";
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -60,7 +61,13 @@ export default function Contact() {
     <section id="contact" className="py-24 md:py-36 px-6 md:px-10 lg:px-14 max-w-[1320px] mx-auto">
       <SectionHeader kicker={t("kicker")} title={t("title")} />
 
-      <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={wipeIn}
+        className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start"
+      >
         {/* Left - the call */}
         <motion.div
           initial="hidden"
@@ -125,7 +132,7 @@ export default function Contact() {
             </motion.a>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }
