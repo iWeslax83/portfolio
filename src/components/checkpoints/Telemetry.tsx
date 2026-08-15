@@ -78,6 +78,11 @@ export default function Telemetry({
     { value: stats.contributions, label: t("contributions") },
     { value: stats.languages.length, label: t("languages") },
   ];
+  /* Scene-mode panels can no longer scroll internally (see CheckpointShell -
+     overflow-hidden so page scroll drives the camera instead of being
+     trapped by an inner scroll container), so the skills tile is capped to
+     what fits within the panel's 85vh. Flat mode keeps every category. */
+  const displayedSkills = mode === "scene" ? [] : skills;
 
   return (
     <CheckpointShell visible={visible} mode={mode}>
@@ -104,31 +109,34 @@ export default function Telemetry({
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
-          <div className="md:col-span-2 border border-rule p-5 md:p-6">
-            <p className="annotate mb-4">{tSkills("kicker")}</p>
-            {skills.map((category) => (
-              <div key={category.key} className="border-t border-rule first:border-t-0 py-4">
-                <div className="flex items-baseline gap-3 mb-2.5">
-                  <span className="font-mono text-[11px] text-accent tabular-nums">
-                    {String(category.items.length).padStart(2, "0")}
-                  </span>
-                  <h4 className="font-display text-base font-medium text-ink">
-                    {categoryLabels[category.key] ?? category.key}
-                  </h4>
-                </div>
-                <div className="flex flex-wrap gap-x-5 gap-y-2">
-                  {category.items.map((item) => (
-                    <span key={item} className="font-mono text-xs text-ink-2 border border-rule px-2 py-0.5">
-                      {item}
+        {displayedSkills.length > 0 && (
+          <div className="grid md:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
+            <div className="md:col-span-2 border border-rule p-5 md:p-6">
+              <p className="annotate mb-4">{tSkills("kicker")}</p>
+              {displayedSkills.map((category) => (
+                <div key={category.key} className="border-t border-rule first:border-t-0 py-4">
+                  <div className="flex items-baseline gap-3 mb-2.5">
+                    <span className="font-mono text-[11px] text-accent tabular-nums">
+                      {String(category.items.length).padStart(2, "0")}
                     </span>
-                  ))}
+                    <h4 className="font-display text-base font-medium text-ink">
+                      {categoryLabels[category.key] ?? category.key}
+                    </h4>
+                  </div>
+                  <div className="flex flex-wrap gap-x-5 gap-y-2">
+                    {category.items.map((item) => (
+                      <span key={item} className="font-mono text-xs text-ink-2 border border-rule px-2 py-0.5">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
+        {mode === "flat" && (
         <div className="flex items-center gap-4 mt-8">
           <a
             href="https://github.com/iWeslax83"
@@ -141,6 +149,7 @@ export default function Telemetry({
           </a>
           <span className="h-px flex-1 bg-rule" />
         </div>
+        )}
       </div>
     </CheckpointShell>
   );

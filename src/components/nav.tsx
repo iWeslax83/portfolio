@@ -31,23 +31,48 @@ export default function Nav() {
 
   useEffect(() => {
     const sectionIds = navItems.map((item) => item.href.slice(1));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length === 0) return;
-        const top = visible.reduce((a, b) =>
-          b.intersectionRatio > a.intersectionRatio ? b : a
-        );
-        setActiveSection(top.target.id);
-      },
-      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
+    let observer: IntersectionObserver | null = null;
+    /* The flight-scene page swaps its anchor targets' identity at runtime
+       (scene-mode <span> markers vs fallback-mode <div>s, depending on
+       WebGL2 support resolved after mount). This effect used to run once
+       on mount and never notice the swap, freezing the active-section
+       state forever. Re-resolving on every DOM mutation - cheap, since the
+       reference-equality check below short-circuits before touching the
+       IntersectionObserver on the overwhelming majority of calls - keeps
+       this correct regardless of when or how a page replaces its anchors. */
+    let currentEls: (HTMLElement | null)[] = [];
 
-    for (const id of sectionIds) {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    }
-    return () => observer.disconnect();
+    const resync = () => {
+      const els = sectionIds.map((id) => document.getElementById(id));
+      if (els.length === currentEls.length && els.every((el, i) => el === currentEls[i])) {
+        return;
+      }
+      currentEls = els;
+      observer?.disconnect();
+      observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries.filter((e) => e.isIntersecting);
+          if (visible.length === 0) return;
+          const top = visible.reduce((a, b) =>
+            b.intersectionRatio > a.intersectionRatio ? b : a
+          );
+          setActiveSection(top.target.id);
+        },
+        { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+      );
+      for (const el of els) {
+        if (el) observer.observe(el);
+      }
+    };
+
+    resync();
+    const mutationObserver = new MutationObserver(resync);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer?.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   const { scrollYProgress } = useScroll();

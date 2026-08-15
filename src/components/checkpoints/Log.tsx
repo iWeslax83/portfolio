@@ -73,7 +73,7 @@ export default function Log({
      trapped by an inner scroll container), so the rendered list is capped to
      what fits within the panel's 85vh. Flat mode has no such constraint and
      keeps the full, unfiltered-by-count list. */
-  const displayedProjects = mode === "scene" ? visibleProjects.slice(0, 4) : visibleProjects;
+  const displayedProjects = mode === "scene" ? visibleProjects.slice(0, 1) : visibleProjects;
 
   return (
     <CheckpointShell visible={visible} mode={mode}>
@@ -111,7 +111,9 @@ export default function Log({
                   )}
                 </div>
                 <p className="font-body text-sm text-ink-2 mt-2.5 leading-relaxed max-w-2xl">{project.description}</p>
-                <p className="font-mono text-[11px] text-ink-3 mt-4 leading-relaxed">{project.techPills.join("  ·  ")}</p>
+                {mode === "flat" && (
+                  <p className="font-mono text-[11px] text-ink-3 mt-4 leading-relaxed">{project.techPills.join("  ·  ")}</p>
+                )}
                 <Links links={project.links} />
                 {project.image && mode === "flat" && (
                   <div className="relative border border-rule overflow-hidden bg-panel/40 min-h-[160px] flex items-center justify-center p-6 mt-5 max-w-[280px]">
@@ -124,7 +126,7 @@ export default function Log({
                     />
                   </div>
                 )}
-                {project.repo && repoStats[project.repo] && (
+                {mode === "flat" && project.repo && repoStats[project.repo] && (
                   <p className="mt-4 font-mono text-[11px] text-ink-3">
                     {repoStats[project.repo]!.commitCount} commits · last commit {repoStats[project.repo]!.lastCommitDate}
                   </p>
