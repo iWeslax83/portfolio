@@ -92,46 +92,54 @@ function FlightCard({
   return (
     <article
       inert={offscreen}
-      className={`shrink-0 w-full md:w-screen h-full flex items-center px-6 md:px-14 ${
+      className={`shrink-0 w-full md:w-screen h-full overflow-y-auto px-6 md:px-14 ${
         flagship ? "gradient-border" : "border-t md:border-t-0 border-rule"
       }`}
     >
-      <div className="max-w-[1320px] mx-auto w-full grid lg:grid-cols-[1fr_0.92fr] gap-10 items-center">
-        <div>
-          <div className="flex items-baseline gap-4">
-            <span className="font-display text-5xl md:text-6xl font-semibold text-accent leading-none tabular-nums">
-              {String(index).padStart(2, "0")}
-            </span>
-            <span className="annotate text-ink-3">/ {String(total).padStart(2, "0")}</span>
-            <StatusTag status={project.status} />
-          </div>
-          <p className="annotate mt-4">{project.tag}</p>
-          <h3 className="font-display text-3xl md:text-4xl font-semibold text-ink mt-5 leading-[1.05] tracking-[-0.02em]">
-            {project.title}
-          </h3>
-          <p className="font-body text-sm md:text-base text-ink-2 mt-4 leading-relaxed max-w-md">
-            {project.description}
-          </p>
-          <SpecLine pills={project.techPills} />
-          <Links links={project.links} />
-          {stats && (
-            <p className="mt-4 font-mono text-[11px] text-ink-3">
-              {stats.commitCount} commits · last commit {stats.lastCommitDate}
+      {/* The track height is whatever the pinned column has left over, so on a
+          short viewport a card's text can exceed it. `min-h-full` keeps the
+          content optically centred while it fits and lets the article scroll
+          it instead of clipping it when it does not. A centred flex container
+          cannot be scrolled to its top edge, hence the block/min-h-full pair
+          rather than `items-center` on the scroll container itself. */}
+      <div className="min-h-full flex items-center py-6">
+        <div className="max-w-[1320px] mx-auto w-full grid lg:grid-cols-[1fr_0.92fr] gap-10 items-center">
+          <div>
+            <div className="flex items-baseline gap-4">
+              <span className="font-display text-5xl md:text-6xl font-semibold text-accent leading-none tabular-nums">
+                {String(index).padStart(2, "0")}
+              </span>
+              <span className="annotate text-ink-3">/ {String(total).padStart(2, "0")}</span>
+              <StatusTag status={project.status} />
+            </div>
+            <p className="annotate mt-4">{project.tag}</p>
+            <h3 className="font-display text-3xl md:text-4xl font-semibold text-ink mt-5 leading-[1.05] tracking-[-0.02em]">
+              {project.title}
+            </h3>
+            <p className="font-body text-sm md:text-base text-ink-2 mt-4 leading-relaxed max-w-md">
+              {project.description}
             </p>
+            <SpecLine pills={project.techPills} />
+            <Links links={project.links} />
+            {stats && (
+              <p className="mt-4 font-mono text-[11px] text-ink-3">
+                {stats.commitCount} commits · last commit {stats.lastCommitDate}
+              </p>
+            )}
+          </div>
+
+          {project.image && (
+            <div className="relative border border-rule overflow-hidden bg-panel/40 min-h-[200px] flex items-center justify-center p-8">
+              <Image
+                src={project.image}
+                alt={project.title}
+                width={320}
+                height={240}
+                className="w-full h-auto max-w-[280px] object-contain opacity-90"
+              />
+            </div>
           )}
         </div>
-
-        {project.image && (
-          <div className="relative border border-rule overflow-hidden bg-panel/40 min-h-[220px] flex items-center justify-center p-10">
-            <Image
-              src={project.image}
-              alt={project.title}
-              width={320}
-              height={240}
-              className="w-full h-auto max-w-[280px] object-contain opacity-90"
-            />
-          </div>
-        )}
       </div>
     </article>
   );
@@ -335,15 +343,22 @@ export default function FlightLog({
           />
         </div>
       ) : (
-        <div className="min-h-[100dvh] flex flex-col justify-center pt-28 pb-10">
-          <div className="px-6 md:px-14 max-w-[1320px] mx-auto w-full [&>header]:mb-8">
+        /* Height budget: this container is pinned, so anything that spills past
+           the viewport is unreachable for the whole hijack. It is a fixed-height
+           flex column (h-, not min-h) so the track below can take `flex-1
+           min-h-0` and absorb exactly what the chrome leaves over at any
+           viewport height, instead of claiming a fixed vh slice that only adds
+           up on tall screens. pt-20 (80px) clears the fixed nav's h-16 (64px)
+           with 16px to spare; the old pt-28 was 32px of dead space. */
+        <div className="h-[100dvh] flex flex-col pt-20 pb-6">
+          <div className="px-6 md:px-14 max-w-[1320px] mx-auto w-full shrink-0 [&>header]:mb-6 [&_h2]:text-[clamp(2rem,4.5vw,3.5rem)]">
             <SectionHeader
               kicker={t("kicker")}
               title={t("title")}
               meta={t("count", { count: projects.length })}
             />
           </div>
-          <div className="px-6 md:px-14 max-w-[1320px] mx-auto w-full flex items-center justify-between mb-6">
+          <div className="px-6 md:px-14 max-w-[1320px] mx-auto w-full shrink-0 flex items-center justify-between mb-4">
             <span className="font-mono text-xs text-ink-3">
               {String(current + 1).padStart(2, "0")} / {String(ordered.length).padStart(2, "0")}
             </span>
@@ -366,13 +381,13 @@ export default function FlightLog({
               </button>
             </div>
           </div>
-          <div className="h-px bg-rule mx-6 md:mx-14 mb-4 relative overflow-hidden">
+          <div className="h-px shrink-0 bg-rule mx-6 md:mx-14 mb-4 relative overflow-hidden">
             <div
               className="h-full bg-accent origin-left transition-transform duration-200"
               style={{ transform: `scaleX(${(current + 1) / ordered.length})` }}
             />
           </div>
-          <div ref={trackRef} className="flex h-[56vh]">
+          <div ref={trackRef} className="flex flex-1 min-h-0">
             {ordered.map((project, i) => (
               <FlightCard
                 key={project.slug}
