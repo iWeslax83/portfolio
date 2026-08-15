@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import SectionHeader from "@/components/ui/section-header";
 import { stratosUnits, STRATOS_URL } from "@/data/stratos";
 import CheckpointShell from "./CheckpointShell";
+import DroneSchematic from "@/components/ui/drone-schematic";
 
 export default function Origin({ visible, mode }: { visible: boolean; mode: "scene" | "flat" }) {
   const t = useTranslations("stratos");
@@ -60,6 +61,14 @@ export default function Origin({ visible, mode }: { visible: boolean; mode: "sce
             </ul>
           </div>
         </div>
+
+        {mode === "flat" && (
+          <figure className="relative mt-12 lg:mt-16 max-w-sm">
+            <div className="relative border border-rule p-8 md:p-10">
+              <DroneSchematic progress={1} />
+            </div>
+          </figure>
+        )}
       </div>
     </CheckpointShell>
   );
