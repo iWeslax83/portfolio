@@ -30,8 +30,22 @@ export default function FlightSceneRoot({
   const spacerRef = useRef<HTMLDivElement>(null);
   const [fallback, setFallback] = useState(false);
   const [activeId, setActiveId] = useState<string>("liftoff");
+  const [pastEnd, setPastEnd] = useState(false);
   const { progressRef, reduced, mobile } = useFlightProgress(spacerRef);
   const handleFallback = useCallback(() => setFallback(true), []);
+
+  useEffect(() => {
+    if (!spacerRef.current) return;
+    const el = spacerRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setPastEnd(entry.boundingClientRect.bottom < 0);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   /* Mirrors progress into React state, but only re-renders when the
      active checkpoint actually changes - not on every scroll tick. This
@@ -51,18 +65,27 @@ export default function FlightSceneRoot({
   if (fallback) {
     return (
       <div className="relative">
-        <Liftoff visible mode="flat" />
-        <Log visible mode="flat" repoStats={repoStats} />
-        <Origin visible mode="flat" />
-        <Telemetry visible mode="flat" stats={githubStats} />
-        <Landing visible mode="flat" />
+        <div id="home">
+          <Liftoff visible mode="flat" />
+        </div>
+        <div id="flight-log">
+          <Log visible mode="flat" repoStats={repoStats} />
+        </div>
+        <div id="founder-story">
+          <Origin visible mode="flat" />
+        </div>
+        <div id="telemetry">
+          <Telemetry visible mode="flat" stats={githubStats} />
+        </div>
+        <div id="contact">
+          <Landing visible mode="flat" />
+        </div>
       </div>
     );
   }
 
   return (
     <div ref={spacerRef} className="relative" style={{ height: "600vh" }}>
-      <FlightSceneCanvas progressRef={progressRef} reduced={reduced} mobile={mobile} onFallback={handleFallback} />
       {checkpoints.map((c) => (
         <span
           key={c.id}
@@ -72,11 +95,14 @@ export default function FlightSceneRoot({
           style={{ top: `${c.start * 100}%` }}
         />
       ))}
-      <Liftoff visible={activeId === "liftoff"} mode="scene" />
-      <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} />
-      <Origin visible={activeId === "origin"} mode="scene" />
-      <Telemetry visible={activeId === "telemetry"} mode="scene" stats={githubStats} />
-      <Landing visible={activeId === "landing"} mode="scene" />
+      <div className={pastEnd ? "hidden" : ""}>
+        <FlightSceneCanvas progressRef={progressRef} reduced={reduced} mobile={mobile} onFallback={handleFallback} />
+        <Liftoff visible={activeId === "liftoff"} mode="scene" />
+        <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} />
+        <Origin visible={activeId === "origin"} mode="scene" />
+        <Telemetry visible={activeId === "telemetry"} mode="scene" stats={githubStats} />
+        <Landing visible={activeId === "landing"} mode="scene" />
+      </div>
     </div>
   );
 }
