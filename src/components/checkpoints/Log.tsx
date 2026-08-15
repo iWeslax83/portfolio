@@ -68,6 +68,12 @@ export default function Log({
   const [flagship] = featuredProjects;
   const ordered = [flagship, ...projects.filter((p) => p.slug !== flagship.slug).sort((a, b) => a.order - b.order)];
   const visibleProjects = ordered.filter((p) => filter === "ALL" || p.status === filter);
+  /* Scene-mode panels can no longer scroll internally (see CheckpointShell -
+     overflow-hidden so the page scroll drives the camera instead of being
+     trapped by an inner scroll container), so the rendered list is capped to
+     what fits within the panel's 85vh. Flat mode has no such constraint and
+     keeps the full, unfiltered-by-count list. */
+  const displayedProjects = mode === "scene" ? visibleProjects.slice(0, 4) : visibleProjects;
 
   return (
     <CheckpointShell visible={visible} mode={mode}>
@@ -77,7 +83,7 @@ export default function Log({
           <CatalogFilter value={filter} onChange={setFilter} />
         </div>
         <div>
-          {visibleProjects.map((project, i) => {
+          {displayedProjects.map((project, i) => {
             const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
             return (
               <article key={project.slug} className="relative grid gap-x-8 border-t border-rule py-8">

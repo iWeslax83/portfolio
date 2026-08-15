@@ -26,6 +26,12 @@ function CameraRigImpl({
   const lookTarget = useRef(new THREE.Vector3());
   const frozenCheckpointRef = useRef<CheckpointId | null>(null);
   const frozenPoseRef = useRef<{ pos: THREE.Vector3; look: THREE.Vector3 } | null>(null);
+  /* camera.lookAt() recomputes the full orientation quaternion using the
+     default world-up vector every frame, which resets rotation.z to ~0
+     before the banking lerp below ever runs. Persisting the rolled value
+     here (instead of reading it back from camera.rotation.z) lets it
+     actually accumulate across frames. */
+  const rollRef = useRef(0);
 
   useFrame(() => {
     const progress = progressRef.current?.current ?? 0;
@@ -57,7 +63,8 @@ function CameraRigImpl({
        local lateral curvature, smoothed so it doesn't snap between
        spline segments. */
     const forward = lookAhead.clone().sub(point).normalize();
-    camera.rotation.z = THREE.MathUtils.lerp(camera.rotation.z, -forward.x * 0.4, 0.1);
+    rollRef.current = THREE.MathUtils.lerp(rollRef.current, -forward.x * 0.4, 0.1);
+    camera.rotation.z = rollRef.current;
   });
 
   return null;

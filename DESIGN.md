@@ -39,7 +39,9 @@ scale and density up without changing its structure. The hero headline and
 section header titles now scale with the viewport (`clamp()`) instead of
 stepping at fixed breakpoints, reading noticeably larger at wide widths. A
 two-layer background texture (this repo's own commit history plus a
-deterministic binary field, see Section 4 and 6) sits behind every section.
+deterministic binary field, see Section 4 and 6) sits behind every section in
+the no-WebGL fallback path; in the primary scene-mode experience it is
+covered by the opaque 3D canvas (see Section 4, "Background texture").
 Catalogue status tags and the catalogue filter switched to pill (`rounded-full`)
 chrome, and per-row commit stats are always visible instead of hover-gated.
 A second accent color (amber) was introduced under a narrow, explicitly scoped
@@ -96,15 +98,15 @@ expanding gradient or pill use elsewhere:
 
 - **Gradient** (`--color-accent` -> `--color-accent-2`) is permitted only at:
   1. the flagship project panel's border (`.gradient-border` in
-     `src/app/globals.css`, applied by `FlightCard` in
-     `src/components/flight-log.tsx` via its `flagship ? "gradient-border"
-     : ...` conditional class) - a static `120deg` gradient border.
+     `src/app/globals.css`, applied in `src/components/checkpoints/Log.tsx`
+     via its `flagship ? "gradient-border" : ...` conditional class) - a
+     static `120deg` gradient border.
 
   No other gradient fills, text, or borders anywhere else in the system.
 
 - **Pill (`rounded-full`) chrome** is permitted only for:
-  1. `StatusTag` (`src/components/flight-log.tsx`) - the status label on
-     both the desktop flight cards and the mobile catalogue rows.
+  1. `StatusTag` (`src/components/checkpoints/Log.tsx`) - the status label
+     on the catalogue rows, in both scene and flat mode.
   2. `CatalogFilter` (`src/components/ui/catalog-filter.tsx`) - the
      ALL/SHIPPED/IN PROGRESS/ARCHIVED filter control.
 
@@ -129,7 +131,7 @@ type, and restraint**, not from color variety. Resist spreading either accent ar
   pair - built to carry an oversized, single-statement headline at hero scale.
   Set tight (`-0.02em` to `-0.035em`) at display sizes, relaxed leading
   (1.5-1.6) at body sizes, ~65ch max body measure. The hero headline
-  (`clamp(3rem,5vw,4.75rem)`, `src/components/hero.tsx`) and section header
+  (`clamp(3rem,5vw,4.75rem)`, `src/components/checkpoints/Liftoff.tsx`) and section header
   titles (`clamp(2.75rem,7vw,5.5rem)`, `src/components/ui/section-header.tsx`)
   use `clamp()` for continuous viewport-filling scale rather than fixed
   breakpoint steps - part of the "Maximalist Signal" pass.
@@ -149,19 +151,19 @@ behind it, decorative serifs.
   set above a large `Cabinet Grotesk` title, with a hairline rule beneath.
   No figure code, no registration marks
   (`src/components/ui/section-header.tsx`).
-- **Flight Log catalogue (`src/components/flight-log.tsx`):** work is a real
-  indexed catalogue, never a card grid. On desktop it is a horizontal
-  scroll-hijacked track of full-viewport flight cards: the section pins and
-  the track translates on `x` in lockstep with scroll, one card per screen,
-  each numbered `01 / NN` (index over total, tabular-nums) beside its status
-  tag, with a `NN / NN` progress readout, prev/next buttons, and a hairline
-  progress rule above the track. The flagship card (`01`) carries the
-  gradient border and the hand-built UAV technical drawing beside its copy;
-  there is no readout-strip caption. Below `md`, and under
-  `prefers-reduced-motion`, the hijack is fully disabled and the same
-  projects render as a vertical numbered list of bordered rows (`#00X`,
-  bare index, no `/total`) with the catalog filter above it.
-- **Status tag (`StatusTag`, in `flight-log.tsx`):** a pill
+- **Flight Log catalogue (`src/components/checkpoints/Log.tsx`):** work is a
+  real indexed catalogue, never a card grid, rendered as a vertical list of
+  bordered rows (`#00X`, tabular-nums index) beside its status tag, with the
+  catalog filter above it. There is no GSAP horizontal hijack; the previous
+  "section pins and becomes a scroll-hijacked track of full-viewport flight
+  cards" mechanic was removed with the Flight Scene 3D redesign (see Section
+  5) in favor of a single camera flying a 3D spline route, with this
+  checkpoint's HTML panel fading in and out based on the active checkpoint.
+  The flagship row carries the gradient border. In scene mode the list is
+  capped to the flagship plus the next three rows so the panel fits inside
+  its fixed viewport without capturing scroll; flat mode (the no-WebGL
+  fallback, which scrolls normally) renders the full list.
+- **Status tag (`StatusTag`, in `checkpoints/Log.tsx`):** a pill
   (`rounded-full` chip, `px-2.5 py-0.5`) holding a mono label (`SHIPPED`,
   `IN PROGRESS`, `ARCHIVED`) with a status-colored fill - accent green for
   `SHIPPED`, accent-2 amber for `IN_PROGRESS`, bordered/ink-3 for `ARCHIVED`.
@@ -180,8 +182,12 @@ behind it, decorative serifs.
   {date}`), rendered directly beneath the row's links - always visible, no
   longer hover-gated. Real fetched data only, never a filler number.
 - **Background texture (`CommitMotif`, `src/components/ui/commit-motif.tsx`):**
-  a fixed, `aria-hidden`, two-layer decorative field behind every section,
-  below `main`'s content stack (`z-0` vs. `main`'s `z-index: 2`). Layer one is
+  a fixed, `aria-hidden`, two-layer decorative field, below `main`'s content
+  stack (`z-0` vs. `main`'s `z-index: 2`). It is mounted at document root and
+  keeps running (still subscribed to scroll), but is only visible in the
+  no-WebGL fallback path: the flight scene's `<Canvas>` paints an opaque
+  `#0a0a0a` background (`Canvas.tsx`) that covers it whenever the 3D scene is
+  active, so in normal (scene-mode) browsing it is not seen. Layer one is
   this repo's own real commit history (hash + message, from
   `src/lib/git-history.ts`) at `opacity-[0.13]`; layer two is a deterministic
   seeded binary (0/1) character field (`src/lib/binary-texture.ts`,
@@ -198,7 +204,7 @@ behind it, decorative serifs.
   count-up-from-zero tween.
 - **Status indicator:** one small square (not circular) accent dot + mono
   label (e.g. `SYSTEM · ONLINE`), used once, in the hero or nav.
-- **Telemetry bento dashboard (`src/components/telemetry.tsx`):** GitHub
+- **Telemetry bento dashboard (`src/components/checkpoints/Telemetry.tsx`):** GitHub
   stats and the skills matrix are one merged section, not two. The flagship
   data surface reads as an instrument cluster, not a typographic list: three
   small bordered stat tiles (repos, contributions, languages) above two wide
@@ -226,7 +232,11 @@ behind it, decorative serifs.
 - Work is a numbered catalogue of bordered rows; the flagship UAV project is
   a wide bordered instrument panel. The generic "3 equal cards in a row" stays banned.
 - CSS Grid first. Max-width ~`1320px`, generous gutters (`px-6 md:px-10 lg:px-14`).
-- Section rhythm `py-24 md:py-36`. Full-height hero uses `min-h-[100dvh]`.
+- Section rhythm `py-24 md:py-36` applies only to `CheckpointShell`'s flat-mode
+  fallback (the no-WebGL path, which lays checkpoints out as normal
+  document-flow sections). It does not apply to the primary scene-mode
+  experience, where each checkpoint is a `fixed inset-0` panel that fades in
+  and out over the 3D canvas rather than occupying document flow.
 - Every element owns its spatial zone; no overlapping text/images.
 - Section order (five beats): Home -> Flight Log -> Founder Story ->
   Telemetry -> Contact (`#home`, `#flight-log`, `#founder-story`,

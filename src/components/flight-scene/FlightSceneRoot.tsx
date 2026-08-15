@@ -34,28 +34,20 @@ export default function FlightSceneRoot({
   const { progressRef, reduced, mobile } = useFlightProgress(spacerRef);
   const handleFallback = useCallback(() => setFallback(true), []);
 
-  useEffect(() => {
-    if (!spacerRef.current) return;
-    const el = spacerRef.current;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setPastEnd(entry.boundingClientRect.bottom < 0);
-      },
-      { threshold: 0 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   /* Mirrors progress into React state, but only re-renders when the
      active checkpoint actually changes - not on every scroll tick. This
      is the overlay layer's own derived state; it never feeds back into
-     progressRef or the camera. */
+     progressRef or the camera. Also drives `pastEnd` off scroll progress
+     itself rather than spacer geometry - the spacer's bottom edge never
+     reaches the viewport top within the reachable scroll range, so a
+     geometry-based IntersectionObserver check can never fire. */
   useEffect(() => {
     let raf: number;
     const poll = () => {
-      const id = activeCheckpoint(progressRef.current.current);
+      const progress = progressRef.current.current;
+      const id = activeCheckpoint(progress);
       setActiveId((prev) => (prev === id ? prev : id));
+      setPastEnd((prev) => (prev === progress >= 1 ? prev : progress >= 1));
       raf = requestAnimationFrame(poll);
     };
     raf = requestAnimationFrame(poll);
@@ -91,8 +83,11 @@ export default function FlightSceneRoot({
           key={c.id}
           id={anchorFor[c.id]}
           aria-hidden
-          className="absolute left-0 w-px h-px"
-          style={{ top: `${c.start * 100}%` }}
+          className="absolute left-0 w-px"
+          style={{
+            top: `calc(${c.start} * (100% - 100vh))`,
+            height: `calc(${c.end - c.start} * (100% - 100vh))`,
+          }}
         />
       ))}
       <div className={pastEnd ? "hidden" : ""}>

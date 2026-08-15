@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, type RefObject } from "react";
+import { useLayoutEffect, useState, type RefObject } from "react";
 import { Canvas as FiberCanvas } from "@react-three/fiber";
 import CameraRig from "./CameraRig";
 import DroneModel from "./DroneModel";
+import RouteMarkers from "./RouteMarkers";
 import type { FlightProgressRef } from "@/lib/flight-scene/useFlightProgress";
 
 function supportsWebGL2(): boolean {
@@ -28,7 +29,7 @@ export default function FlightSceneCanvas({
 }) {
   const [supported, setSupported] = useState<boolean | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const ok = supportsWebGL2();
     setSupported(ok);
     if (!ok) onFallback();
@@ -48,6 +49,7 @@ export default function FlightSceneCanvas({
         <ambientLight intensity={0.6} />
         <directionalLight position={[5, 8, 5]} intensity={0.8} />
         <DroneModel />
+        <RouteMarkers />
         <CameraRig progressRef={progressRef} frozen={reduced} />
       </FiberCanvas>
     </div>
