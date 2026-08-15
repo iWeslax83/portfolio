@@ -20,7 +20,17 @@ export default function Hero() {
 
   useGSAP(
     () => {
-      if (reduced || mobile) return;
+      /* The SSR/first-render clip-path is the masked state (it has to match
+         the scrub's start value or the headline flashes and blanks). This
+         branch is the fallback path, so it has to reveal the headline itself:
+         a bare return would leave the masked inline style in place forever on
+         phones and for prefers-reduced-motion. `revertOnUpdate` below makes
+         useGSAP tear the desktop timeline down before this body re-runs, so
+         this set is the last write. */
+      if (reduced || mobile) {
+        gsap.set([line1Ref.current, line2Ref.current], { clipPath: "inset(0 0 0% 0)" });
+        return;
+      }
       if (!sectionRef.current || !line1Ref.current || !line2Ref.current) return;
 
       const ctx = gsap.context(() => {
@@ -48,7 +58,11 @@ export default function Hero() {
 
       return () => ctx.revert();
     },
-    { scope: sectionRef, dependencies: [reduced, mobile] }
+    /* revertOnUpdate is required, not cosmetic: with a non-empty dependency
+       array @gsap/react defers its context revert to unmount, so without this
+       the desktop timeline (and its pin) would survive the switch into the
+       mobile/reduced branch and keep scrubbing the headline back to masked. */
+    { scope: sectionRef, dependencies: [reduced, mobile], revertOnUpdate: true }
   );
 
   const credentials = [t("cred1"), t("cred2"), t("cred3"), t("cred4")];
