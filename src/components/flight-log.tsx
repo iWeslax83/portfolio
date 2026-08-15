@@ -240,6 +240,14 @@ export default function FlightLog({
 
   useGSAP(
     () => {
+      /* A bare return is sufficient here (unlike hero.tsx): trackRef's div
+         only exists in the desktop branch of the mobile/reduced ternary
+         below, so on mobile it is unmounted entirely and there is no
+         leftover `x` translation to reset. `revertOnUpdate` below is what
+         actually matters: without it the desktop pin/trigger built on first
+         render survives the switch into this branch (mobile starts `false`
+         and flips after mount), leaving a live `pin: true` ScrollTrigger on
+         the still-mounted <section>. */
       if (reduced || mobile) return;
       if (!sectionRef.current || !trackRef.current) return;
 
@@ -286,7 +294,11 @@ export default function FlightLog({
 
       return () => ctx.revert();
     },
-    { scope: sectionRef, dependencies: [reduced, mobile, ordered.length] }
+    /* revertOnUpdate is required, not cosmetic: with a non-empty dependency
+       array and no revertOnUpdate, @gsap/react defers context revert to
+       unmount, so the desktop pin/trigger built before `mobile` flips true
+       would survive into the mobile branch and stay pinned indefinitely. */
+    { scope: sectionRef, dependencies: [reduced, mobile, ordered.length], revertOnUpdate: true }
   );
 
   const jump = (delta: number) => {

@@ -55,7 +55,13 @@ export default function FounderStory() {
 
       return () => ctx.revert();
     },
-    { scope: sectionRef, dependencies: [reduced, mobile] }
+    /* revertOnUpdate ensures the scrub ScrollTrigger built before `mobile`/
+       `reduced` flip is actually reverted on the dependency change, instead
+       of surviving until unmount. Without it, the leaked trigger's
+       onUpdate/onRefresh keep calling setDrawProgress(self.progress) on
+       every scroll, continuously overwriting this guard's setDrawProgress(1)
+       fallback and defeating prefers-reduced-motion. */
+    { scope: sectionRef, dependencies: [reduced, mobile], revertOnUpdate: true }
   );
 
   const paragraphThresholds = [0, 0.4, 0.7]; // roleBadge, body, stats reveal in sync with draw
