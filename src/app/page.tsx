@@ -5,11 +5,7 @@ import { projects } from "@/data/projects";
 import Nav from "@/components/nav";
 import BackToTop from "@/components/ui/back-to-top";
 import CommitMotif from "@/components/ui/commit-motif";
-import Hero from "@/components/hero";
-import FlightLog from "@/components/flight-log";
-import FounderStory from "@/components/founder-story";
-import Telemetry from "@/components/telemetry";
-import Contact from "@/components/contact";
+import FlightSceneRoot from "@/components/flight-scene/FlightSceneRoot";
 import Footer from "@/components/footer";
 
 export default async function Home() {
@@ -24,13 +20,9 @@ export default async function Home() {
       <CommitMotif commits={commits} />
       <Nav />
       <main>
-        <Hero />
-        <FlightLog repoStats={repoStats} />
-        <FounderStory />
-        <Telemetry stats={githubStats} />
-        <Contact />
-        <Footer />
+        <FlightSceneRoot repoStats={repoStats} githubStats={githubStats} />
       </main>
+      <Footer />
       <BackToTop />
     </>
   );
