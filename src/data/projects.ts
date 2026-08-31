@@ -66,7 +66,7 @@ export const projects: Project[] = [
     featured: true,
     order: 3,
     status: "SHIPPED",
-    repo: "iWeslax83/blackbox-agent-accountability",
+    repo: "iWeslax83/teluvane",
   },
   {
     slug: "live-wildfire",
