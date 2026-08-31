@@ -41,22 +41,22 @@ export const projects: Project[] = [
     order: 2,
   },
   {
-    slug: "blackbox",
-    title: "Blackbox - Agent Accountability",
+    slug: "teluvane",
+    title: "Teluvane - Agent Accountability",
     description:
-      "Flight recorder and autonomous compliance tribunal for AI agents: a tamper-evident audit log, a multi-agent EU AI Act policy tribunal, and auditor-ready evidence packs.",
+      "Multi-tenant compliance auditing platform for AI agents: every LLM call, tool call, and tool result is SHA-256 hash-chained per session, then audited against EU AI Act, ISO 42001, NIST AI RMF, and SOC 2 policy packs by a LangGraph + Claude tribunal, with an MCP server, SDKs, and optional on-chain session anchoring.",
     tag: "AI",
-    tagDetail: "live · LangGraph + Claude",
-    techPills: ["LangGraph", "Claude", "FastAPI", "Python"],
+    tagDetail: "live · multi-tenant + EU AI Act",
+    techPills: ["LangGraph", "Claude", "FastAPI", "Postgres", "MCP"],
     links: [
       {
         label: "live",
-        href: "https://blackbox-agent-accountability.vercel.app",
+        href: "https://teluvane.com",
         isPrimary: true,
       },
       {
         label: "source code",
-        href: "https://github.com/iWeslax83/blackbox-agent-accountability",
+        href: "https://github.com/iWeslax83/teluvane",
         isPrimary: false,
       },
     ],

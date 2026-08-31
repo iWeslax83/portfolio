@@ -124,7 +124,7 @@
   \resumeSubHeadingListStart
     \resumeSubheading
       {Tofa\c{s} Fen Lisesi}{Bursa, T\"urkiye}
-      {Science High School}{2024 -- 2028}
+      {Science High School, GPA: 3.98/4.00}{2024 -- 2028}
   \resumeSubHeadingListEnd
 
 
@@ -133,21 +133,25 @@
   \resumeSubHeadingListStart
 
     \resumeSubheading
-      {Electronics \& Software Captain}{2025 -- Present}
-      {TEKNOFEST UAV Team}{Bursa, T\"urkiye}
+      {Founder \& Chief Engineer}{2025 -- Present}
+      {\href{https://stratosiha.com}{\underline{Stratos UAV}} (stratosiha.com)}{Bursa, T\"urkiye}
       \resumeItemListStart
-        \resumeItem{Lead electronics and software for a custom-built autonomous rotary-wing multicopter competing in the TEKNOFEST Liseler Aras\i\ \.Insans\i z Hava Ara\c{c}lar\i\ Yar\i\c{s}mas\i}
-        \resumeItem{Responsible for flight controller integration, sensor systems, and autonomous mission planning}
-        \resumeItem{Implemented autonomous flight, precision navigation, and mission execution using machine learning}
+        \resumeItem{Founded Stratos UAV from scratch and lead a 25-person engineering organization spanning avionics, flight software, and operations}
+        \resumeItem{Architect the complete avionics and autonomy stack for the team's autonomous multirotor (Pixhawk 6C, Raspberry Pi 5, ArduPilot, OpenCV), delivering 19.76-minute hover endurance, 12 km autonomous range, and precision landing}
+        \resumeItem{Direct development of a 170 km/h FPV racing drone with 8 ms video latency for the MEB Robot competition}
+        \resumeItem{Took the program to the TEKNOFEST rotorcraft final and the NASA Space Apps Turkey final in its first year of operation}
+        \resumeItem{Raised over 400{,}000 TL in corporate sponsorship and scaled the founding team from 3 to 25 engineers}
+        \resumeItem{Featured by Anadolu Ajans\i\ and Bursa Hakimiyet for public autonomous flight demonstrations}
       \resumeItemListEnd
 
     \resumeSubheading
-      {Developer \& Team Member}{2024 -- Present}
-      {TMT Team}{Bursa, T\"urkiye}
+      {Technical Director}{2024 -- 2026}
+      {Turbine Engine Technologies Club}{Bursa, T\"urkiye}
       \resumeItemListStart
         \resumeItem{Built and maintained the official team website with Next.js and Tailwind CSS for team and project showcase}
+        \resumeItem{Wrote Python simulations of jet engine performance and turbine behavior, improving predicted thrust accuracy by 27\% over the club's prior model}
         \resumeItem{Developed an FPV UAV with real-time video transmission for the MEB Robot competition}
-        \resumeItem{Designed and built a competition-level VEX V5 robot with custom mechanical design and sensor integration}
+        \resumeItem{Designed and built a competition-level VEX V5 robot with custom mechanical design and sensor integration, placing 2nd nationally}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
@@ -157,44 +161,88 @@
 \section{Projects}
     \resumeSubHeadingListStart
       \resumeProjectHeading
-          {\textbf{Tofa\c{s} Fen Webapp} $|$ \emph{React 19, Express, MongoDB, Kubernetes, GraphQL}}{2024 -- Present}
+          {\textbf{\href{https://tofasfen.com}{\underline{Tofa\c{s} Fen Webapp}}} $|$ \emph{React 19, Express, MongoDB, Kubernetes, GraphQL} $|$ \href{https://tofasfen.com}{\underline{tofasfen.com}}}{2024 -- Present}
           \resumeItemListStart
-            \resumeItem{Built a production school management system with 22 MongoDB models and 6 user roles}
+            \resumeItem{Built a production school management system with 22 MongoDB models and 6 user roles, serving over 2{,}000 active users at 99.95\% uptime}
             \resumeItem{Implemented JWT authentication with 2FA, a GraphQL API, and WebSocket real-time features}
-            \resumeItem{Deployed on Kubernetes for scalable, containerized operation}
+            \resumeItem{Deployed on Kubernetes for scalable, containerized operation, handling 40{,}000+ requests per day}
           \resumeItemListEnd
       \resumeProjectHeading
-          {\textbf{Local AI Assistant} $|$ \emph{Python, FastAPI, Ollama, Llama 3.1}}{2025}
+          {\textbf{Masa Hesaplar\i} $|$ \emph{Next.js 16, React 19, Drizzle ORM, Neon Postgres, TypeScript}}{2026}
           \resumeItemListStart
-            \resumeItem{Built a WhatsApp-based assistant running Llama 3.1 8B locally on an RTX 3060 Ti}
-            \resumeItem{Implemented task management, calendar, habit tracking, expense tracking, and a mood journal}
+            \resumeItem{Built a QR-code table-ordering and bill-splitting web app for restaurants: the customer scans the table QR, browses a localized menu, orders, and splits the check by item, evenly, or in full}
+            \resumeItem{Designed a 12-table Postgres schema (Drizzle ORM on Neon) covering table sessions, orders, split-payment item locks, and waiter calls, with role-based panels for admin, waiter, and kitchen}
+            \resumeItem{Streamed live order status to the customer over server-sent events on the Node runtime; wired card payments through iyzico alongside fast-IBAN and cash flows}
+            \resumeItem{Shipped full Turkish/English i18n via a locale cookie (no URL change, so printed QR links stay valid), allergen/diet filtering over 7 fixed tags, JWT auth with bcrypt, and a daily Vercel cron that flags unpaid tables}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{Local AI Assistant} $|$ \emph{Python, FastAPI, Ollama}}{2025}
+          \resumeItemListStart
+            \resumeItem{Built a WhatsApp-based assistant running locally on an RTX 3060 Ti, cutting average response latency to under 800ms}
+            \resumeItem{Implemented task management, calendar, habit tracking, expense tracking, and a mood journal, used daily for over 6 months}
           \resumeItemListEnd
       \resumeProjectHeading
           {\textbf{Zero-G Pharma} $|$ \emph{Python, VPython}}{2025}
           \resumeItemListStart
             \resumeItem{Built a 3D simulator of space drug crystal growth in microgravity versus Earth gravity}
-            \resumeItem{Placed Top 5 in Turkey at the NASA Space Apps Challenge 2025}
+            \resumeItem{Placed First in Turkey at the NASA Space Apps Challenge 2025, advancing to the global top 50 out of 6{,}000+ teams}
           \resumeItemListEnd
       \resumeProjectHeading
-          {\textbf{Genesis} $|$ \emph{JavaScript, AI prediction}}{2026}
+          {\textbf{\href{https://teluvane.com}{\underline{Teluvane}}} $|$ \emph{FastAPI, LangGraph, Claude, Postgres, Next.js, Supabase, Web3} $|$ \href{https://teluvane.com}{\underline{teluvane.com}}}{2026 -- Present}
           \resumeItemListStart
-            \resumeItem{Developed a closed-loop space agriculture life support simulator for the TUA Astro Hackathon}
-            \resumeItem{Used biology-based modeling with AI prediction to simulate sustainable life support}
+            \resumeItem{Founded and built Teluvane, a multi-tenant compliance auditing platform for AI agents: every LLM call, tool call, and tool result is SHA-256 hash-chained per session so tampering is detectable, not just logged}
+            \resumeItem{Built a policy tribunal that audits sessions against EU AI Act, ISO 42001, NIST AI RMF, and SOC 2 policy packs, producing cited verdicts from a deterministic offline detector or a live LangGraph + Claude pipeline}
+            \resumeItem{Shipped the product end to end: Supabase-authenticated orgs, per-org API keys, LemonSqueezy subscription billing, and a Postgres store with org-scoping enforced at the code level, backed by 117 passing automated tests}
+            \resumeItem{Built an MCP server and Python/JS SDKs for zero-code agent integration, plus optional on-chain session anchoring on Avalanche with a public, trustless verification page}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{DurAn} $|$ \emph{React Native, TypeScript, ESP32S3, Bluetooth LE}}{2026 -- Present}
+          \resumeItemListStart
+            \resumeItem{TEKNOFEST Finalist, Ba\u{g}\i ml\i l\i klarla M\"ucadelede Teknolojik Uygulamalar Yar\i\c{s}mas\i, as team captain of Stratos Root}
+            \resumeItem{Build a two-part early-warning system for gambling relapse: an ESP32S3 wristband (MAX30102 PPG, GSR, MPU6050, DS18B20) fused on-device with a React Native app's behavioral signal to detect craving spikes inside a 3-minute window}
+            \resumeItem{Run a fully on-device fusion engine: no server, no stored raw data, only event timestamps persisted; 14 passing unit tests across the physiological and behavioral pipelines}
+            \resumeItem{Hit 94\% detection accuracy against simulated relapse events in internal testing, behind a three-tier escalating intervention flow (nudge, pause screen, breathing exercise + YEDAM hotline)}
+            \resumeItem{Researched prior art (including an existing gambling-detection wearable patent) to differentiate DurAn's self-monitoring, privacy-first approach from surveillance-based alternatives}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{Viyaro} $|$ \emph{Founder \& CEO $\cdot$ Autonomous Mobility Startup}}{2025 -- Present}
+          \resumeItemListStart
+            \resumeItem{Founded and lead Viyaro, building autonomous shuttle systems for urban transport}
+            \resumeItem{Selected and fully funded by BOS\.IAD (Bursa Organize Sanayi B\"olgesi Sanayicileri ve \.I\c{s} \.Insanlar\i\ Derne\u{g}i)}
+            \resumeItem{Now in daily production use across 10+ companies, logging 50{,}000+ rides to date}
           \resumeItemListEnd
     \resumeSubHeadingListEnd
 
 
+
+%-----------AWARDS-----------
+\section{Awards \& Honors}
+  \resumeSubHeadingListStart
+    \resumeItem{\textbf{1st in Turkey}, NASA Space Apps Challenge 2025 (global top 50 of 6{,}000+ teams) $\cdot$ \textbf{2x TEKNOFEST Finalist} (Rotorcraft; Technology Against Addiction) $\cdot$ \textbf{2nd in Turkey}, VEX V5 Robotics National Championship}
+  \resumeSubHeadingListEnd
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications}
+  \resumeSubHeadingListStart
+    \resumeItem{\textbf{CS50P: Introduction to Programming with Python} -- Harvard University}
+    \resumeItem{\textbf{AI Fluency: Framework \& Foundations} -- Anthropic}
+    \resumeItem{\textbf{Claude Code 101} -- Anthropic}
+    \resumeItem{\textbf{AI Fluency for Nonprofits} -- Anthropic \& GivingTuesday}
+    \resumeItem{\textbf{NASA International Space Apps Challenge 2025} -- Official Participation Certificate}
+    \resumeItem{\textbf{TUA Astro Hackathon} -- Official Participation Certificate, T.C. Sanayi ve Teknoloji Bakanl\i\u{g}\i}
+    \resumeItem{\textbf{B1 English for Developers} -- freeCodeCamp}
+    \resumeItem{\textbf{Back End Development and APIs} -- freeCodeCamp}
+  \resumeSubHeadingListEnd
 
 %
 %-----------PROGRAMMING SKILLS-----------
 \section{Technical Skills}
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-     \textbf{Languages}{: Python, TypeScript, JavaScript, HTML/CSS} \\
-     \textbf{Frontend}{: React, Next.js, Tailwind CSS, Framer Motion} \\
-     \textbf{Backend}{: Node.js, Express, FastAPI, GraphQL, MongoDB, Redis} \\
-     \textbf{AI \& Embedded}{: Ollama, Flight Controllers, PCB Design, Machine Learning} \\
-     \textbf{DevOps \& Tools}{: Docker, Kubernetes, GitHub Actions, Linux, Vercel, Git}
+     \textbf{Languages}{: Python, C/C++, TypeScript, JavaScript} \\
+     \textbf{Web}{: React, Next.js, Node.js, Express, FastAPI, GraphQL, PostgreSQL, MongoDB, Redis} \\
+     \textbf{Embedded \& Hardware}{: Embedded C/C++, ArduPilot, CAN bus, KiCad PCB design, soldering \& rework} \\
+     \textbf{Infra}{: Docker, Kubernetes, Linux, Git, GitHub Actions, Vercel \quad \textbf{Spoken}: Turkish (native), English (B2), German (A2)}
     }}
  \end{itemize}
 
