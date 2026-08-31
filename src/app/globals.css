@@ -14,21 +14,28 @@
      below ~4.5:1. */
   --color-ink-3: #7a7a80;
 
-  /* ── Accent: signal orange, used scarcely as a single signal ── */
-  --color-accent: #ff7a29;
-  --color-accent-soft: rgba(255, 122, 41, 0.1);
+  /* ── Accent: terminal green, used scarcely as a single signal ── */
+  --color-accent: #39ff6a;
+  --color-accent-soft: rgba(57, 255, 106, 0.1);
+
+  /* ── Second accent: electric amber, scoped exception for this pass ──
+     Used only for: IN_PROGRESS status color and the flagship panel's
+     gradient border. See DESIGN.md "Scoped
+     exceptions" section. Verified 6.99:1 contrast on #09090b. ── */
+  --color-accent-2: #ff6a39;
+  --color-accent-2-soft: rgba(255, 106, 57, 0.12);
 
   /* ── Structure ─────────────────────────────────────────────── */
   --color-rule: rgba(255, 255, 255, 0.08);
   --color-rule-strong: rgba(255, 255, 255, 0.18);
   --color-card: #121214;
   --color-card-border: rgba(255, 255, 255, 0.08);
-  --color-card-border-hover: rgba(255, 122, 41, 0.4);
+  --color-card-border-hover: rgba(57, 255, 106, 0.4);
 
   /* ── Type ─────────────────────────────────────────────────── */
-  --font-display: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
 }
 
@@ -53,6 +60,11 @@ body {
 main {
   position: relative;
   z-index: 2;
+}
+
+footer {
+  position: relative;
+  z-index: 3;
 }
 
 section[id] {
@@ -171,6 +183,14 @@ section[id] {
 }
 .row-sweep:hover::before {
   transform: scaleX(1);
+}
+
+/* ── Scoped gradient exception (flagship panel only) ── */
+.gradient-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
+    linear-gradient(120deg, var(--color-accent), var(--color-accent-2)) border-box;
 }
 
 /* ── Micro-motion ─────────────────────────────────────────── */

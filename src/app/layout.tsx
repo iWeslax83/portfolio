@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
-import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import MotionProvider from "@/components/ui/motion-provider";
 import "./globals.css";
 
-// Display + body: Instrument Sans - a single geometric grotesk driving the
-// whole hierarchy by weight and size. Deliberately not Inter used as a bare
-// default, not Space Grotesk.
-const instrumentSans = Instrument_Sans({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-instrument-sans",
+// Display + body: Cabinet Grotesk - a sharp-cornered, maximalist grotesk
+// built to carry oversized single-line headline statements at hero scale.
+const cabinetGrotesk = localFont({
+  src: [
+    { path: "./fonts/cabinet-grotesk/CabinetGrotesk-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/cabinet-grotesk/CabinetGrotesk-Medium.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/cabinet-grotesk/CabinetGrotesk-Bold.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/cabinet-grotesk/CabinetGrotesk-Extrabold.woff2", weight: "800", style: "normal" },
+  ],
+  variable: "--font-cabinet-grotesk",
   display: "swap",
 });
 
@@ -55,7 +59,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${mono.variable}`}
+      className={`${cabinetGrotesk.variable} ${mono.variable}`}
     >
       <body className="bg-bg text-ink antialiased">
         <a href="#home" className="skip-link">

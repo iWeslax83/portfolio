@@ -20,6 +20,7 @@ export const projects: Project[] = [
     image: "/images/uav.svg",
     featured: true,
     order: 1,
+    status: "IN_PROGRESS",
   },
   {
     slug: "prose",
@@ -39,6 +40,8 @@ export const projects: Project[] = [
     ],
     featured: true,
     order: 2,
+    status: "SHIPPED",
+    repo: "iWeslax83/prose",
   },
   {
     slug: "teluvane",
@@ -62,6 +65,8 @@ export const projects: Project[] = [
     ],
     featured: true,
     order: 3,
+    status: "SHIPPED",
+    repo: "iWeslax83/blackbox-agent-accountability",
   },
   {
     slug: "live-wildfire",
@@ -81,6 +86,8 @@ export const projects: Project[] = [
     ],
     featured: true,
     order: 4,
+    status: "SHIPPED",
+    repo: "iWeslax83/live-wildfire",
   },
   {
     slug: "tofas-fen-webapp",
@@ -104,6 +111,8 @@ export const projects: Project[] = [
     ],
     featured: true,
     order: 5,
+    status: "SHIPPED",
+    repo: "iWeslax83/tofas-fen-webapp",
   },
   {
     slug: "stratos-akademi",
@@ -127,6 +136,8 @@ export const projects: Project[] = [
     ],
     featured: true,
     order: 6,
+    status: "SHIPPED",
+    repo: "iWeslax83/stratos-akademi",
   },
   {
     slug: "smart-cane",
@@ -139,6 +150,7 @@ export const projects: Project[] = [
     links: [],
     featured: false,
     order: 7,
+    status: "ARCHIVED",
   },
   {
     slug: "local-ai-assistant",
@@ -157,6 +169,8 @@ export const projects: Project[] = [
     ],
     featured: false,
     order: 8,
+    status: "IN_PROGRESS",
+    repo: "iWeslax83/local-ai-assistant",
   },
   {
     slug: "zero-g-pharma",
@@ -175,6 +189,8 @@ export const projects: Project[] = [
     ],
     featured: false,
     order: 9,
+    status: "IN_PROGRESS",
+    repo: "iWeslax83/zero-g-pharma-simulator",
   },
   {
     slug: "stratos-website",
@@ -194,6 +210,8 @@ export const projects: Project[] = [
     ],
     featured: false,
     order: 10,
+    status: "SHIPPED",
+    repo: "iWeslax83/stratos-website",
   },
   {
     slug: "fpv-drone",
@@ -205,6 +223,7 @@ export const projects: Project[] = [
     links: [],
     featured: false,
     order: 11,
+    status: "ARCHIVED",
   },
   {
     slug: "vex-robotics",
@@ -216,6 +235,7 @@ export const projects: Project[] = [
     links: [],
     featured: false,
     order: 12,
+    status: "ARCHIVED",
   },
   {
     slug: "tmt-website",
@@ -227,6 +247,7 @@ export const projects: Project[] = [
     links: [{ label: "live", href: "https://tfltmt-website.vercel.app", isPrimary: true }],
     featured: false,
     order: 13,
+    status: "SHIPPED",
   },
 ];
 
