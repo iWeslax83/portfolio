@@ -6,7 +6,7 @@ import { checkpoints, activeCheckpoint } from "@/lib/flight-scene/route";
 import { useFlightProgress } from "@/lib/flight-scene/useFlightProgress";
 import Liftoff from "@/components/checkpoints/Liftoff";
 import Log from "@/components/checkpoints/Log";
-import Origin from "@/components/checkpoints/Origin";
+import Ventures from "@/components/checkpoints/Ventures";
 import Telemetry from "@/components/checkpoints/Telemetry";
 import Landing from "@/components/checkpoints/Landing";
 import { RepoStats } from "@/lib/github-repo-stats";
@@ -64,7 +64,7 @@ export default function FlightSceneRoot({
           <Log visible mode="flat" repoStats={repoStats} />
         </div>
         <div id="founder-story">
-          <Origin visible mode="flat" />
+          <Ventures visible mode="flat" />
         </div>
         <div id="telemetry">
           <Telemetry visible mode="flat" stats={githubStats} />
@@ -94,7 +94,7 @@ export default function FlightSceneRoot({
         <FlightSceneCanvas progressRef={progressRef} reduced={reduced} mobile={mobile} onFallback={handleFallback} />
         <Liftoff visible={activeId === "liftoff"} mode="scene" />
         <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} />
-        <Origin visible={activeId === "origin"} mode="scene" />
+        <Ventures visible={activeId === "origin"} mode="scene" />
         <Telemetry visible={activeId === "telemetry"} mode="scene" stats={githubStats} />
         <Landing visible={activeId === "landing"} mode="scene" />
       </div>
