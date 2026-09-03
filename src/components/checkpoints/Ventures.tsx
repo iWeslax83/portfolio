@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import SectionHeader from "@/components/ui/section-header";
 import { ventures } from "@/data/ventures";
-import { stratosUnits } from "@/data/stratos";
 import CheckpointShell from "./CheckpointShell";
 import DroneSchematic from "@/components/ui/drone-schematic";
 
@@ -44,14 +43,14 @@ export default function Ventures({ visible, mode }: { visible: boolean; mode: "s
                 )}
               </div>
 
-              {venture.name === "STRATOS İHA" && (
+              {venture.units && venture.units.length > 0 && (
                 <div className="mt-5 ml-10">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="annotate">{t("unitsLabel")}</span>
                     <span className="h-px flex-1 bg-rule" />
                   </div>
                   <ul>
-                    {stratosUnits.map((unit, ui) => (
+                    {venture.units.map((unit, ui) => (
                       <li
                         key={unit.name}
                         className="grid grid-cols-[auto_1fr] gap-x-4 items-baseline border-t border-rule py-3 first:border-t-0"

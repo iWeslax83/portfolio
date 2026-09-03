@@ -1,10 +1,12 @@
-import { STRATOS_URL } from "@/data/stratos";
+import { STRATOS_URL, stratosUnits } from "@/data/stratos";
+import { StratosUnit } from "@/lib/types";
 
 export interface Venture {
   name: string;
   role: string;
   proof: string;
   href?: string;
+  units?: StratosUnit[];
 }
 
 export const ventures: Venture[] = [
@@ -14,6 +16,7 @@ export const ventures: Venture[] = [
     proof:
       "25-person engineering org · TEKNOFEST rotorcraft finalist · NASA Space Apps Turkey finalist",
     href: STRATOS_URL,
+    units: stratosUnits,
   },
   {
     name: "Teluvane",

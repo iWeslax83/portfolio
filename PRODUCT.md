@@ -67,8 +67,10 @@ identity for narrative simplicity.
 ## Evidence on Hand
 
 - Real, verifiable projects only: PROSE, Teluvane, Wildfire Spread Forecast,
-  Tofaş Fen Webapp, Stratos Akademi, DurAn, and others listed in
-  `src/data/projects.ts`, each with live URLs and/or public source repos.
+  Tofaş Fen Webapp, Stratos Akademi, and others listed in
+  `src/data/projects.ts`, most with live URLs and/or public source repos.
+  DurAn and Masa Hesapları are real, shipped/in-progress work but currently
+  have no public URL or repo - do not add a placeholder link for either.
 - Teluvane is a software product (multi-tenant AI-agent audit/compliance
   platform: hash-chained event log, EU AI Act/ISO 42001/NIST AI RMF/SOC 2
   policy packs, LangGraph + Claude tribunal, MCP server, Python/JS SDKs, 117
