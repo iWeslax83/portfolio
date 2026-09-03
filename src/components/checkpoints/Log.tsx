@@ -86,7 +86,14 @@ export default function Log({
           {displayedProjects.map((project, i) => {
             const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
             return (
-              <article key={project.slug} className="relative grid gap-x-8 border-t border-rule py-8">
+              <article
+                key={project.slug}
+                className={`relative grid gap-x-8 py-8 ${
+                  project.slug === flagship.slug
+                    ? "gradient-border px-6 md:px-8"
+                    : "border-t border-rule"
+                }`}
+              >
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5 mb-3">
                   <span className="font-display text-3xl font-semibold text-ink-3 leading-none tabular-nums">
                     #{String(i + 1).padStart(3, "0")}
