@@ -1,11 +1,12 @@
 import { Project } from "@/lib/types";
+import { STRATOS_URL } from "@/data/stratos";
 
 export const projects: Project[] = [
   {
     slug: "otonom-iha",
     title: "Autonomous Rotary-Wing Multicopter UAV",
     description:
-      "Quadcopter built for the TEKNOFEST İnsansız Hava Araçları competition. Autonomous flight, precision navigation, and computer-vision target detection. As Electronics & Software Captain I own flight-controller integration, the sensor stack, and autonomous mission planning.",
+      "Quadcopter built for the TEKNOFEST İnsansız Hava Araçları competition on a Pixhawk 6C / Raspberry Pi 5 / ArduPilot stack with OpenCV target detection. As Electronics & Software Captain I own flight-controller integration, the sensor stack, and autonomous mission planning. 19.76-minute hover endurance, 12 km autonomous range, and precision landing, with a TEKNOFEST rotorcraft final and a NASA Space Apps Turkey final in its first year. Covered by Anadolu Ajansı and Bursa Hakimiyet for public autonomous flight demonstrations.",
     tag: "competition",
     tagDetail: "TEKNOFEST 2026 · Rotary-Wing",
     techPills: [
@@ -16,7 +17,7 @@ export const projects: Project[] = [
       "PCB design",
       "machine learning",
     ],
-    links: [],
+    links: [{ label: "stratosiha.com", href: STRATOS_URL, isPrimary: true }],
     image: "/images/uav.svg",
     featured: true,
     order: 1,
@@ -140,6 +141,32 @@ export const projects: Project[] = [
     repo: "iWeslax83/stratos-akademi",
   },
   {
+    slug: "masa-hesaplari",
+    title: "Masa Hesapları",
+    description:
+      "QR-code table-ordering and bill-splitting web app for restaurants. The customer scans the table QR, browses a localized menu, orders, and splits the check by item, evenly, or in full. A 12-table Postgres schema (Drizzle ORM on Neon) covers table sessions, orders, split-payment item locks, and waiter calls, with role-based panels for admin, waiter, and kitchen. Live order status streams to the customer over server-sent events; card payments run through iyzico alongside fast-IBAN and cash flows. Turkish/English i18n via a locale cookie keeps printed QR links valid across languages, with allergen/diet filtering over 7 fixed tags, JWT auth, and a daily cron that flags unpaid tables.",
+    tag: "full-stack",
+    tagDetail: "2026 · Next.js 16 + Neon",
+    techPills: ["Next.js 16", "React 19", "Drizzle ORM", "Neon Postgres", "TypeScript"],
+    links: [],
+    featured: false,
+    order: 7,
+    status: "SHIPPED",
+  },
+  {
+    slug: "duran",
+    title: "DurAn",
+    description:
+      "TEKNOFEST finalist (Bağımlılıklarla Mücadelede Teknolojik Uygulamalar Yarışması), built as team captain of Stratos Root. A two-part early-warning system for gambling relapse: an ESP32S3 wristband (MAX30102 PPG, GSR, MPU6050, DS18B20) fused on-device with a React Native app's behavioral signal to detect craving spikes inside a 3-minute window. Fully on-device, no server, no stored raw data, only event timestamps persisted. 94% detection accuracy against simulated relapse events, 14 passing unit tests across the physiological and behavioral pipelines, behind a three-tier escalating intervention flow (nudge, pause screen, breathing exercise + YEDAM hotline).",
+    tag: "AI",
+    tagDetail: "TEKNOFEST Finalist · ESP32S3 + React Native",
+    techPills: ["React Native", "TypeScript", "ESP32S3", "Bluetooth LE"],
+    links: [],
+    featured: false,
+    order: 8,
+    status: "IN_PROGRESS",
+  },
+  {
     slug: "smart-cane",
     title: "Smart Cane Assistant",
     description:
@@ -149,14 +176,14 @@ export const projects: Project[] = [
     techPills: ["MediaPipe", "React 19", "Vite PWA", "on-device inference"],
     links: [],
     featured: false,
-    order: 7,
+    order: 9,
     status: "ARCHIVED",
   },
   {
     slug: "local-ai-assistant",
     title: "Local AI Assistant",
     description:
-      'WhatsApp-based "Jarvis" running Llama 3.1 8B locally on an RTX 3060 Ti - task management, calendar, habit tracking, expense tracking, and a mood journal, all on-device.',
+      'WhatsApp-based "Jarvis" running Llama 3.1 8B locally on an RTX 3060 Ti - task management, calendar, habit tracking, expense tracking, and a mood journal, all on-device. Under 800ms average response latency, used daily for over 6 months.',
     tag: "AI",
     tagDetail: "Llama 3.1 8B · on-device",
     techPills: ["Python", "FastAPI", "Ollama"],
@@ -168,7 +195,7 @@ export const projects: Project[] = [
       },
     ],
     featured: false,
-    order: 8,
+    order: 10,
     status: "IN_PROGRESS",
     repo: "iWeslax83/local-ai-assistant",
   },
@@ -176,7 +203,7 @@ export const projects: Project[] = [
     slug: "zero-g-pharma",
     title: "Zero-G Pharma",
     description:
-      "Drug-crystal growth simulator comparing microgravity vs Earth gravity. Winner, Türkiye - NASA Space Apps Challenge 2025.",
+      "Drug-crystal growth simulator comparing microgravity vs Earth gravity. Winner, Türkiye - NASA Space Apps Challenge 2025, advancing to the global top 50 of 6,000+ teams.",
     tag: "simulation",
     tagDetail: "Winner TR · NASA Space Apps 2025",
     techPills: ["Python", "VPython"],
@@ -188,7 +215,7 @@ export const projects: Project[] = [
       },
     ],
     featured: false,
-    order: 9,
+    order: 11,
     status: "IN_PROGRESS",
     repo: "iWeslax83/zero-g-pharma-simulator",
   },
@@ -209,7 +236,7 @@ export const projects: Project[] = [
       },
     ],
     featured: false,
-    order: 10,
+    order: 12,
     status: "SHIPPED",
     repo: "iWeslax83/stratos-website",
   },
@@ -222,7 +249,7 @@ export const projects: Project[] = [
     techPills: ["FPV", "electronics"],
     links: [],
     featured: false,
-    order: 11,
+    order: 13,
     status: "ARCHIVED",
   },
   {
@@ -234,7 +261,7 @@ export const projects: Project[] = [
     techPills: ["VEX V5", "sensors"],
     links: [],
     featured: false,
-    order: 12,
+    order: 14,
     status: "ARCHIVED",
   },
   {
@@ -246,7 +273,7 @@ export const projects: Project[] = [
     techPills: ["Next.js", "Tailwind"],
     links: [{ label: "live", href: "https://tfltmt-website.vercel.app", isPrimary: true }],
     featured: false,
-    order: 13,
+    order: 15,
     status: "SHIPPED",
   },
 ];
