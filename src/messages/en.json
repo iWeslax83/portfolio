@@ -2,7 +2,7 @@
   "nav": {
     "home": "home",
     "flightLog": "work",
-    "founderStory": "stratos",
+    "founderStory": "ventures",
     "telemetry": "telemetry",
     "contact": "contact"
   },
@@ -21,16 +21,10 @@
     "viewWork": "View work",
     "getInTouch": "Get in touch"
   },
-  "stratos": {
-    "title": "STRATOS İHA",
-    "kicker": "TEKNOFEST UAV community",
-    "roleBadge": "Founder · Head of Electronics & Software",
-    "body": "I founded STRATOS İHA at Tofaş Fen Lisesi and lead Electronics & Software across three programs: an autonomous quadrotor, an FPV racer, and a VEX robotics platform. Four departments, seven core members, one flight line.",
-    "departments": "departments",
-    "members": "core members",
-    "founded": "established",
-    "unitsLabel": "what we build",
-    "visit": "stratosiha.com"
+  "ventures": {
+    "title": "What I've Built",
+    "kicker": "founder ventures",
+    "unitsLabel": "what we build"
   },
   "projects": {
     "kicker": "build log",
