@@ -7,7 +7,7 @@ import { skills } from "@/data/skills";
 import SectionHeader from "@/components/ui/section-header";
 import CheckpointShell from "./CheckpointShell";
 
-const cellTone = ["bg-rule", "bg-ink-3", "bg-ink-2", "bg-accent/55", "bg-accent"];
+const cellTone = ["bg-rule", "bg-rule-strong", "bg-ink-3", "bg-ink-2", "bg-ink"];
 
 const categoryLabels: Record<string, string> = {
   frontend: "Frontend",
@@ -141,7 +141,7 @@ export default function Telemetry({
             href="https://github.com/iWeslax83"
             target="_blank"
             rel="noopener noreferrer"
-            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs text-accent hover:text-accent/80 transition-colors"
+            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs text-ink hover:text-ink-2 transition-colors"
           >
             github.com/iWeslax83
             <ArrowUpRight size={13} />

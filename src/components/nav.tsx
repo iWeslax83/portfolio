@@ -79,7 +79,7 @@ export default function Nav() {
               className="h-[22px] w-[22px]"
             />
             <span className="font-display text-sm font-semibold text-ink">
-              emir<span className="text-accent">.</span>sakarya
+              emir<span className="text-ink">.</span>sakarya
             </span>
             <span className="hidden sm:inline-flex items-center gap-1.5 ml-1">
               <span className="border border-rule px-1.5 py-0.5 font-mono text-[10px] tracking-[0.18em] text-ink-3">
@@ -88,7 +88,7 @@ export default function Nav() {
               <span className="relative h-3.5 w-8 border border-rule overflow-hidden">
                 <motion.span
                   style={{ scaleX: barScale }}
-                  className="absolute inset-0 origin-left bg-accent"
+                  className="absolute inset-0 origin-left bg-ink"
                 />
               </span>
             </span>
@@ -102,7 +102,7 @@ export default function Nav() {
                   key={item.key}
                   href={item.href}
                   className={`relative font-mono text-xs pb-1 transition-colors ${
-                    active ? "text-accent" : "text-ink-3 hover:text-ink-2"
+                    active ? "text-ink" : "text-ink-3 hover:text-ink-2"
                   }`}
                 >
                   <span className="text-ink-3 mr-1.5">{item.num}</span>
@@ -110,7 +110,7 @@ export default function Nav() {
                   {active && (
                     <motion.span
                       layoutId="nav-underline"
-                      className="absolute left-0 right-0 -bottom-px h-px bg-accent"
+                      className="absolute left-0 right-0 -bottom-px h-px bg-ink"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}

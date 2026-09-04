@@ -30,7 +30,7 @@ export default function CatalogFilter({
           onClick={() => onChange(f)}
           className={`rounded-full px-4 py-1.5 transition-[background-color,color] duration-200 ${
             value === f
-              ? "bg-accent text-bg"
+              ? "bg-ink text-bg"
               : "border border-rule text-ink-3 hover:text-ink-2 hover:border-rule-strong"
           }`}
           aria-pressed={value === f}

@@ -265,25 +265,9 @@ with:
         <motion.span variants={markIn} className="annotate shrink-0 text-ink">
 ```
 
-- [ ] **Step 5: `src/components/mobile-nav.tsx`**
+- [ ] **Step 5: SKIP `src/components/mobile-nav.tsx` in this task**
 
-Replace lines 56-59:
-
-```tsx
-                  className="group flex items-baseline gap-3 border-b border-rule py-4 font-display text-lg text-ink-2 hover:text-accent transition-colors"
-                >
-                  <span className="font-mono text-[11px] text-ink-3 group-hover:text-accent transition-colors">
-                    {item.num}
-```
-
-with:
-
-```tsx
-                  className="group flex items-baseline gap-3 border-b border-rule py-4 font-display text-lg text-ink-2 hover:text-ink transition-colors"
-                >
-                  <span className="font-mono text-[11px] text-ink-3 group-hover:text-ink transition-colors">
-                    {item.num}
-```
+Do not edit `mobile-nav.tsx` here. Task 5 (nav anchor fix) replaces this exact same block (the `<nav>` element's `.map()` body) in full to add an `onClick` scroll handler, and its replacement text already includes the `text-ink`/`hover:text-ink` classes this step would have produced. Editing it here would leave Task 5's own "before" text stale (it would no longer match the file). Leave `mobile-nav.tsx` completely untouched by this task - Task 5 alone handles both the color reskin and the click-handler addition for this file, in one edit.
 
 - [ ] **Step 6: `src/components/nav.tsx`**
 
@@ -519,17 +503,7 @@ with:
 const cellTone = ["bg-rule", "bg-rule-strong", "bg-ink-3", "bg-ink-2", "bg-ink"];
 ```
 
-Replace line 116:
-
-```tsx
-                    <span className="font-mono text-[11px] text-accent tabular-nums">
-```
-
-with:
-
-```tsx
-                    <span className="font-mono text-[11px] text-ink tabular-nums">
-```
+Do NOT edit line 116 (`<span className="font-mono text-[11px] text-accent tabular-nums">`, inside the skills-matrix block) in this task - Task 7 replaces that entire block (lines 107-137) with new oversized-block code that removes this element altogether, so an intermediate edit here would only leave Task 7's own "before" text stale. Leave lines 107-137 completely untouched by this task.
 
 Replace line 144:
 

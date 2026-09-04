@@ -15,15 +15,6 @@
      #9a9a9a is a starting point, darken if it fails contrast checks. */
   --color-ink-3: #9a9a9a;
 
-  /* ── Accent tokens: still defined with their OLD (green/amber) values
-     here - every consumer is migrated off them in Task 2, which deletes
-     these definitions once nothing references them. Do not touch these
-     values in this task. ── */
-  --color-accent: #39ff6a;
-  --color-accent-soft: rgba(57, 255, 106, 0.1);
-  --color-accent-2: #ff6a39;
-  --color-accent-2-soft: rgba(255, 106, 57, 0.12);
-
   /* ── Structure ─────────────────────────────────────────────── */
   --color-rule: rgba(10, 10, 10, 0.12);
   --color-rule-strong: rgba(10, 10, 10, 0.28);
@@ -74,12 +65,12 @@ section[id] {
 
 /* ── Selection & focus ────────────────────────────────────── */
 ::selection {
-  background: var(--color-accent);
+  background: var(--color-ink);
   color: var(--color-bg);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-ink);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -91,7 +82,7 @@ section[id] {
   left: 1.5rem;
   transform: translateY(-130%);
   z-index: 70;
-  background: var(--color-accent);
+  background: var(--color-ink);
   color: var(--color-bg);
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -146,7 +137,7 @@ section[id] {
   display: inline-block;
   width: 6px;
   height: 6px;
-  background: var(--color-accent);
+  background: var(--color-ink);
 }
 
 /* Link underline that draws from the left on hover */
@@ -185,7 +176,7 @@ section[id] {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--color-accent-soft);
+  background: var(--color-panel);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
@@ -193,14 +184,6 @@ section[id] {
 }
 .row-sweep:hover::before {
   transform: scaleX(1);
-}
-
-/* ── Scoped gradient exception (flagship panel only) ── */
-.gradient-border {
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
-    linear-gradient(120deg, var(--color-accent), var(--color-accent-2)) border-box;
 }
 
 /* ── Micro-motion ─────────────────────────────────────────── */

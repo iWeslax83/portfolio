@@ -27,7 +27,7 @@ function Links({ links }: { links: Project["links"] }) {
           target={link.href.startsWith("http") ? "_blank" : undefined}
           rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
           className={`link-draw inline-flex items-center gap-1 font-mono text-xs transition-colors ${
-            link.isPrimary ? "text-accent hover:text-accent/80" : "text-ink-2 hover:text-ink"
+            link.isPrimary ? "text-ink font-medium hover:text-ink-2" : "text-ink-2 hover:text-ink"
           }`}
         >
           {link.label}
@@ -59,7 +59,7 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
             <article
               key={project.slug}
               className={`relative grid gap-x-8 py-8 ${
-                project.slug === flagship.slug ? "gradient-border px-6 md:px-8" : "border-t border-rule"
+                project.slug === flagship.slug ? "border-2 border-ink px-6 md:px-8" : "border-t border-rule"
               }`}
             >
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5 mb-3">
@@ -79,7 +79,7 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
                     target={primary.href.startsWith("http") ? "_blank" : undefined}
                     rel={primary.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     aria-label={`${project.title} - ${primary.label}`}
-                    className="mt-1 shrink-0 text-ink-3 hover:text-accent transition-colors"
+                    className="mt-1 shrink-0 text-ink-3 hover:text-ink transition-colors"
                   >
                     <ArrowUpRight size={20} />
                   </a>

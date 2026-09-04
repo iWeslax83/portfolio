@@ -18,7 +18,7 @@ export default function Ventures({ visible, mode }: { visible: boolean; mode: "s
           {ventures.map((venture, i) => (
             <li key={venture.name} className="border-b border-rule py-6">
               <div className="grid grid-cols-[auto_1fr_auto] gap-x-5 items-baseline">
-                <span className="font-mono text-xs text-accent tabular-nums">
+                <span className="font-mono text-xs text-ink tabular-nums">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
@@ -36,7 +36,7 @@ export default function Ventures({ visible, mode }: { visible: boolean; mode: "s
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${venture.name} - visit site`}
-                    className="text-ink-3 hover:text-accent transition-colors"
+                    className="text-ink-3 hover:text-ink transition-colors"
                   >
                     <ArrowUpRight size={18} />
                   </a>

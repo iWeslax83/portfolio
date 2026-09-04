@@ -26,7 +26,7 @@ export default function SectionHeader({
       className="mb-12 md:mb-16"
     >
       <div className="flex items-center gap-4">
-        <motion.span variants={markIn} className="annotate shrink-0 text-accent">
+        <motion.span variants={markIn} className="annotate shrink-0 text-ink">
           {kicker}
         </motion.span>
         <motion.span

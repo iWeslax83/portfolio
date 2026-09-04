@@ -81,7 +81,7 @@ export default function DroneSchematic({ progress }: { progress: number }) {
         cx={200}
         cy={200}
         r={12}
-        stroke="var(--color-accent)"
+        stroke="currentColor"
         strokeWidth={2}
         pathLength={1}
         strokeDasharray={1}
@@ -114,7 +114,7 @@ export default function DroneSchematic({ progress }: { progress: number }) {
         x={200}
         y={28}
         textAnchor="middle"
-        className="fill-accent"
+        className="fill-ink"
         fontFamily="var(--font-mono)"
         fontSize="13px"
         letterSpacing="0.1em"

@@ -38,7 +38,7 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
           <div>
             <h3 className="font-display text-[2.1rem] sm:text-5xl md:text-[3.25rem] font-semibold leading-[1.04] tracking-[-0.03em] text-ink">
               <span className="block">{t("ctaLine1")}</span>
-              <span className="block text-accent">{t("ctaLine2")}</span>
+              <span className="block font-serif italic">{t("ctaLine2")}</span>
             </h3>
             <p className="font-body text-base text-ink-2 mt-6 max-w-md leading-relaxed">{t("subtitle")}</p>
             <p className="annotate mt-7 flex items-center gap-2.5">
@@ -56,15 +56,15 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
                 rel="noopener noreferrer"
                 className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 border-t border-rule py-6 hover:border-rule-strong last:border-b transition-colors"
               >
-                <span className="font-mono text-[11px] text-accent tabular-nums">{contact.code}</span>
+                <span className="font-mono text-[11px] text-ink tabular-nums">{contact.code}</span>
                 <div>
-                  <div className="flex items-center gap-2.5 text-ink group-hover:text-accent transition-colors">
-                    <span className="text-ink-2 group-hover:text-accent transition-colors">{contact.icon}</span>
+                  <div className="flex items-center gap-2.5 text-ink transition-colors">
+                    <span className="text-ink-2 group-hover:text-ink transition-colors">{contact.icon}</span>
                     <span className="font-display text-lg font-medium">{t(contact.key)}</span>
                   </div>
                   <p className="font-mono text-[11px] text-ink-3 mt-1.5 truncate">{contact.value}</p>
                 </div>
-                <ArrowUpRight size={18} className="text-ink-3 group-hover:text-accent transition-colors" />
+                <ArrowUpRight size={18} className="text-ink-3 group-hover:text-ink transition-colors" />
               </a>
             ))}
           </div>

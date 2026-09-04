@@ -66,12 +66,12 @@ export default function ProjectCard({
               target={primary.href.startsWith("http") ? "_blank" : undefined}
               rel={primary.href.startsWith("http") ? "noopener noreferrer" : undefined}
               aria-label={`${project.title} - ${primary.label}`}
-              className="text-ink-3 hover:text-accent transition-colors"
+              className="text-ink-3 hover:text-ink transition-colors"
             >
               <ArrowUpRight size={13} />
             </a>
           )}
-          <span className="font-mono text-[11px] text-accent tabular-nums">
+          <span className="font-mono text-[11px] text-ink tabular-nums">
             #{String(index + 1).padStart(3, "0")}/{total}
           </span>
         </div>
