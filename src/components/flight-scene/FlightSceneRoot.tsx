@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import FlightSceneCanvas from "./Canvas";
-import { checkpoints, activeCheckpoint } from "@/lib/flight-scene/route";
+import { checkpoints, activeCheckpoint, TOTAL_SPACER_VH } from "@/lib/flight-scene/route";
 import { useFlightProgress } from "@/lib/flight-scene/useFlightProgress";
 import Liftoff from "@/components/checkpoints/Liftoff";
 import Log from "@/components/checkpoints/Log";
@@ -61,7 +61,7 @@ export default function FlightSceneRoot({
           <Liftoff visible mode="flat" />
         </div>
         <div id="flight-log">
-          <Log visible mode="flat" repoStats={repoStats} />
+          <Log visible mode="flat" repoStats={repoStats} progressRef={progressRef} />
         </div>
         <div id="founder-story">
           <Ventures visible mode="flat" />
@@ -77,7 +77,7 @@ export default function FlightSceneRoot({
   }
 
   return (
-    <div ref={spacerRef} className="relative" style={{ height: "600vh" }}>
+    <div ref={spacerRef} className="relative" style={{ height: `${TOTAL_SPACER_VH}vh` }}>
       {checkpoints.map((c) => (
         <span
           key={c.id}
@@ -94,7 +94,7 @@ export default function FlightSceneRoot({
         <FlightSceneCanvas progressRef={progressRef} reduced={reduced} mobile={mobile} onFallback={handleFallback} />
       </div>
       <Liftoff visible={activeId === "liftoff"} mode="scene" />
-      <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} />
+      <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} progressRef={progressRef} />
       <Ventures visible={activeId === "origin"} mode="scene" />
       <Telemetry visible={activeId === "telemetry"} mode="scene" stats={githubStats} />
       <Landing visible={activeId === "landing"} mode="scene" />

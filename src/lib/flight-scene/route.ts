@@ -8,13 +8,38 @@ export interface Checkpoint {
   end: number;
 }
 
+/* Total master spacer height, consumed by FlightSceneRoot.tsx's spacer
+   div. Every beat except "log" keeps its original pixel height from the
+   prior 600vh system (liftoff 72vh, origin 132vh, telemetry 144vh,
+   landing 108vh - 456vh total); "log" grows from 144vh to 1200vh to give
+   the WORK-intro + letter-tile background + 13-project carousel +
+   zoom-out sequence real scroll room. Fractions below are each beat's vh
+   span divided by this total. */
+export const TOTAL_SPACER_VH = 1656;
+
 export const checkpoints: Checkpoint[] = [
-  { id: "liftoff", start: 0, end: 0.12 },
-  { id: "log", start: 0.12, end: 0.36 },
-  { id: "origin", start: 0.36, end: 0.58 },
-  { id: "telemetry", start: 0.58, end: 0.82 },
-  { id: "landing", start: 0.82, end: 1 },
+  { id: "liftoff", start: 0, end: 0.043478 },
+  { id: "log", start: 0.043478, end: 0.768116 },
+  { id: "origin", start: 0.768116, end: 0.847826 },
+  { id: "telemetry", start: 0.847826, end: 0.934783 },
+  { id: "landing", start: 0.934783, end: 1 },
 ];
+
+/* Local progress stage boundaries within the "log" checkpoint's own 0-1
+   window (independent of the global checkpoint fractions above).
+   Consumed by useWorkCarouselProgress to derive which stage of the
+   WORK-intro / letter-tile / carousel / zoom-out sequence is active:
+   0 - introEnd: static WORK pill.
+   introEnd - tileEnd: pill scales/fades into the tiled letter rows.
+   tileEnd - carouselEnd: the 13-project sliding carousel (the bulk of
+     the range).
+   carouselEnd - 1: the final project card zooms to fill the viewport,
+     crossfading into Telemetry. */
+export const WORK_STAGE_BOUNDARIES = {
+  introEnd: 0.05,
+  tileEnd: 0.1,
+  carouselEnd: 0.9,
+} as const;
 
 export function activeCheckpoint(progress: number): CheckpointId {
   const p = Math.min(1, Math.max(0, progress));
