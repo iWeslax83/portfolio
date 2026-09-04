@@ -56,6 +56,12 @@ export default function Nav() {
   const activeNum =
     navItems.find((i) => i.href.slice(1) === activeSection)?.num ?? "00";
 
+  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    event.preventDefault();
+    const id = href.slice(1);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <>
       <motion.nav
@@ -69,7 +75,7 @@ export default function Nav() {
         }`}
       >
         <div className="max-w-[1320px] mx-auto px-6 md:px-10 lg:px-14 flex items-center justify-between h-16">
-          <a href="#home" className="group flex items-center gap-2.5">
+          <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="group flex items-center gap-2.5">
             <Image
               src="/images/logo.webp"
               alt="Emir Sakarya logo"
@@ -101,6 +107,7 @@ export default function Nav() {
                 <a
                   key={item.key}
                   href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className={`relative font-mono text-xs pb-1 transition-colors ${
                     active ? "text-ink" : "text-ink-3 hover:text-ink-2"
                   }`}
