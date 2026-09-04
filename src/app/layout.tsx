@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Fraunces, Bebas_Neue } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
@@ -26,6 +26,24 @@ const mono = JetBrains_Mono({
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-jetbrains",
+  display: "swap",
+});
+
+// Serif: hero headline and any long-form founder-story prose. An original
+// moody editorial serif chosen for similar structural character to a
+// design reference, not an attempt to match any specific site's font.
+const serif = Fraunces({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "600", "900"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+// Condensed display: the one oversized multi-line CTA statement in Contact.
+const condensed = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bebas",
   display: "swap",
 });
 
@@ -59,7 +77,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cabinetGrotesk.variable} ${mono.variable}`}
+      className={`${cabinetGrotesk.variable} ${mono.variable} ${serif.variable} ${condensed.variable}`}
     >
       <body className="bg-bg text-ink antialiased">
         <a href="#home" className="skip-link">
