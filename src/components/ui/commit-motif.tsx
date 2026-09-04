@@ -5,40 +5,43 @@ import { CommitEntry } from "@/lib/git-history";
 import { binaryRows } from "@/lib/binary-texture";
 
 /**
- * Two-layer decorative background texture: this repo's own real commit
- * history (visible layer) plus a deterministic binary field (fill layer),
- * each drifting at a different scroll-linked speed for a subtle parallax
- * separation. Purely decorative - aria-hidden, never focusable, sits
- * behind section content (z-index below `main`'s z-index: 2 in globals.css).
+ * Two thin horizontal texture strips: this repo's own real commit history
+ * (top strip) and a deterministic binary field (bottom strip), each
+ * drifting at a different scroll-linked speed. Purely decorative -
+ * aria-hidden, never focusable, sits behind section content (z-index below
+ * main's z-index: 2 in globals.css). Restyled from a prior full-page
+ * diagonal wash into two bounded strips matching the reference site's
+ * strip-above/strip-below-headline placement.
  */
 export default function CommitMotif({ commits }: { commits: CommitEntry[] }) {
   const { scrollYProgress } = useScroll();
-  const commitY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const binaryY = useTransform(scrollYProgress, [0, 1], [0, -260]);
+  const commitX = useTransform(scrollYProgress, [0, 1], [0, -400]);
+  const binaryX = useTransform(scrollYProgress, [0, 1], [0, -700]);
   const reduce = useReducedMotion();
 
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none"
-    >
+    <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-0 select-none">
       {commits.length > 0 && (
         <motion.div
-          style={{ y: reduce ? 0 : commitY }}
-          className="absolute inset-0 opacity-[0.13] font-mono text-[11px] leading-[1.8] tracking-wide text-ink whitespace-nowrap -rotate-2"
+          style={{ x: reduce ? 0 : commitX }}
+          className="h-6 overflow-hidden whitespace-nowrap border-b border-rule font-mono text-[10px] leading-6 tracking-wide text-ink-3 opacity-70"
         >
           {commits.map((c, i) => (
-            <div key={c.hash + i}>
+            <span key={c.hash + i} className="mr-8">
               {c.hash} {c.message}
-            </div>
+            </span>
           ))}
         </motion.div>
       )}
       <motion.div
-        style={{ y: reduce ? 0 : binaryY }}
-        className="absolute inset-0 opacity-[0.06] font-mono text-[10px] leading-[1.6] tracking-[0.15em] text-ink whitespace-pre rotate-1"
+        style={{ x: reduce ? 0 : binaryX }}
+        className="h-6 overflow-hidden whitespace-nowrap border-b border-rule font-mono text-[10px] leading-6 tracking-[0.15em] text-ink-3 opacity-50"
       >
-        {binaryRows.join("\n")}
+        {binaryRows.map((row, i) => (
+          <span key={i} className="mr-8">
+            {row}
+          </span>
+        ))}
       </motion.div>
     </div>
   );
