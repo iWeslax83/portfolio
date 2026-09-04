@@ -11,6 +11,17 @@ statement, and project catalogue were rebuilt. The still-earlier "engineering
 monograph" system (figure codes, registration marks, drafting rules) remains
 **retired in full**.
 
+> **Changelog:** Work Carousel redesign (see
+> `docs/superpowers/specs/2026-09-04-work-carousel-redesign-design.md`)
+> replaces the Flight Log catalogue's scene-mode content with a pinned
+> WORK-intro and letter-tile background, a left-to-right sliding
+> screenshot carousel covering every project in `src/data/projects.ts`
+> (the count is data-driven, not hardcoded), and a zoom transition into
+> Telemetry - fully decoupled from the 3D drone camera during this beat.
+> Flat mode's plain catalogue list is unchanged. Also fixes a bug where
+> the Contact panel disappeared the instant scroll reached the page
+> bottom.
+
 > **Changelog:** Flight Log redesign (see
 > `docs/superpowers/specs/2026-08-14-flight-log-redesign-design.md`) retires
 > the hero gradient text-shift in favor of a scroll-scrubbed clip-path
@@ -151,18 +162,25 @@ behind it, decorative serifs.
   set above a large `Cabinet Grotesk` title, with a hairline rule beneath.
   No figure code, no registration marks
   (`src/components/ui/section-header.tsx`).
-- **Flight Log catalogue (`src/components/checkpoints/Log.tsx`):** work is a
-  real indexed catalogue, never a card grid, rendered as a vertical list of
-  bordered rows (`#00X`, tabular-nums index) beside its status tag, with the
-  catalog filter above it. There is no GSAP horizontal hijack; the previous
-  "section pins and becomes a scroll-hijacked track of full-viewport flight
-  cards" mechanic was removed with the Flight Scene 3D redesign (see Section
-  5) in favor of a single camera flying a 3D spline route, with this
-  checkpoint's HTML panel fading in and out based on the active checkpoint.
-  The flagship row carries the gradient border. In scene mode the list is
-  capped to the flagship plus the next three rows so the panel fits inside
-  its fixed viewport without capturing scroll; flat mode (the no-WebGL
-  fallback, which scrolls normally) renders the full list.
+- **Selected Work beat (`src/components/checkpoints/Log.tsx`):** flat mode
+  (the no-WebGL fallback, which scrolls normally) renders the full project
+  catalogue as a real indexed list, never a card grid - vertical bordered
+  rows (`#00X`, tabular-nums index) beside a status tag, with the catalog
+  filter above it. Scene mode is a different mechanic entirely: a pinned
+  WORK-intro pill (a black stadium shape holding "WORK" spelled vertically
+  on a white grid background) expands on scroll into four full-width tiled
+  letter rows, which stay pinned as a background while one project's
+  mockup-window screenshot card slides through at a time, left to right -
+  one step per project in `src/data/projects.ts` (data-driven, not a
+  fixed count), real screenshots where a live URL exists, a typographic
+  placeholder card (real title/tag/status/tech data,
+  no invented visuals) otherwise. The final card zooms to fill the
+  viewport and crossfades into Telemetry. Built entirely with CSS
+  transforms (`work-carousel/WorkIntroBackground.tsx`,
+  `work-carousel/ProjectCard.tsx`), decoupled from the 3D drone camera,
+  which is why the flagship UAV project's earlier "3D camera flying
+  through this beat" feel is gone - the drone scene simply isn't visible
+  behind this beat's fully opaque, full-bleed panel.
 - **Status tag (`StatusTag`, in `checkpoints/Log.tsx`):** a pill
   (`rounded-full` chip, `px-2.5 py-0.5`) holding a mono label (`SHIPPED`,
   `IN PROGRESS`, `ARCHIVED`) with a status-colored fill - accent green for
