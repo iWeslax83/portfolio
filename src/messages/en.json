@@ -62,6 +62,9 @@
   },
   "footer": {
     "colophon": "Designed and built by Emir Sakarya in Bursa, Türkiye.",
-    "meta": "Next.js · 2026"
+    "meta": "Next.js · 2026",
+    "wordmark": "FOUNDER ENGINEER",
+    "contactHeading": "Contact",
+    "navHeading": "Navigation"
   }
 }
