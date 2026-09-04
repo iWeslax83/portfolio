@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Menu } from "lucide-react";
 import MobileNav from "./mobile-nav";
 import { navItems } from "@/data/nav-items";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 export default function Nav() {
   const t = useTranslations("nav");
@@ -52,7 +53,7 @@ export default function Nav() {
   const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     event.preventDefault();
     const id = href.slice(1);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollToSection(id);
   };
 
   return (

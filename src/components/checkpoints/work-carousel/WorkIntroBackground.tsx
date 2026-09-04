@@ -36,7 +36,7 @@ export default function WorkIntroBackground({
       </svg>
 
       <div
-        className="absolute left-1/2 top-1/2 flex h-[240px] w-[140px] items-center justify-center overflow-hidden rounded-[70px] border-2 border-ink bg-panel"
+        className="absolute left-1/2 top-1/2 flex h-[240px] w-[140px] items-center justify-center overflow-hidden rounded-[70px] bg-ink"
         style={{
           opacity: pillOpacity,
           transform: `translate(-50%, -50%) scale(${pillScale})`,
@@ -50,7 +50,7 @@ export default function WorkIntroBackground({
           </defs>
           <rect width="100%" height="100%" fill="url(#work-dots)" opacity="0.35" />
         </svg>
-        <div className="relative flex flex-col items-center font-display text-5xl font-extrabold leading-[0.85] tracking-tight text-ink">
+        <div className="relative flex flex-col items-center font-display text-5xl font-extrabold leading-[0.85] tracking-tight text-bg">
           {LETTERS.map((l) => (
             <span key={l}>{l}</span>
           ))}

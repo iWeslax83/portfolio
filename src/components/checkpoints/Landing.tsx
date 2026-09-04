@@ -39,20 +39,16 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
         <div className="relative flex items-center justify-center py-16 md:py-24 mb-12 md:mb-16">
           <RadialBurst className="absolute inset-0 -z-10 h-full w-full opacity-40" />
           <p className="font-condensed text-center text-[clamp(2.5rem,9vw,6rem)] leading-[0.95] tracking-wide text-ink uppercase">
-            {t("ctaBurstLine1")}
+            {t("ctaLine1")}
             <br />
-            {t("ctaBurstLine2")}
+            {t("ctaLine2")}
           </p>
         </div>
 
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start">
           <div>
-            <h3 className="font-display text-[2.1rem] sm:text-5xl md:text-[3.25rem] font-semibold leading-[1.04] tracking-[-0.03em] text-ink">
-              <span className="block">{t("ctaLine1")}</span>
-              <span className="block font-serif italic">{t("ctaLine2")}</span>
-            </h3>
-            <p className="font-body text-base text-ink-2 mt-6 max-w-md leading-relaxed">{t("subtitle")}</p>
-            <p className="annotate mt-7 flex items-center gap-2.5">
+            <p className="font-body text-base text-ink-2 max-w-md leading-relaxed">{t("subtitle")}</p>
+            <p className="annotate mt-5 flex items-center gap-2.5">
               <span className="status-dot animate-signal" aria-hidden />
               {t("availability")}
             </p>

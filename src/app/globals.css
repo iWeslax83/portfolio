@@ -103,11 +103,11 @@ section[id] {
   background: var(--color-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #25241f;
+  background: var(--color-ink-2);
   border: 2px solid var(--color-bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #34322b;
+  background: var(--color-ink-3);
 }
 
 /* ── Drafting language ────────────────────────────────────── */
@@ -160,7 +160,7 @@ section[id] {
   transform-origin: left;
 }
 
-/* Flat accent-soft background that sweeps in from the left on hover.
+/* Flat panel-toned background that sweeps in from the left on hover.
    z-index:-1 on the pseudo-element keeps it behind row content; the row
    itself needs position:relative + an explicit z-index:0 to contain that
    negative stack level so it can't slip behind a neighboring row. The

@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import CheckpointShell from "./CheckpointShell";
 import DroneSchematic from "@/components/ui/drone-schematic";
 import WireframeMesh from "@/components/ui/wireframe-mesh";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 export default function Liftoff({ visible, mode }: { visible: boolean; mode: "scene" | "flat" }) {
   const t = useTranslations("hero");
@@ -43,12 +44,23 @@ export default function Liftoff({ visible, mode }: { visible: boolean; mode: "sc
             <div className="flex flex-wrap items-center gap-4 mt-10">
               <a
                 href="#flight-log"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("flight-log");
+                }}
                 className="group inline-flex items-center gap-2 bg-ink text-bg font-mono text-xs font-semibold tracking-wide px-6 py-3.5 transition-[filter,transform] hover:brightness-105 active:translate-y-px"
               >
                 {t("viewWork")}
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
               </a>
-              <a href="#contact" className="link-draw font-mono text-xs text-ink-2 hover:text-ink transition-colors">
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("contact");
+                }}
+                className="link-draw font-mono text-xs text-ink-2 hover:text-ink transition-colors"
+              >
                 {t("getInTouch")}
               </a>
             </div>

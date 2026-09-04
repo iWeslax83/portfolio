@@ -14,7 +14,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#09090b",
+          background: "#ffffff",
           padding: 72,
           fontFamily: "sans-serif",
         }}
@@ -25,7 +25,7 @@ export default function OpengraphImage() {
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
+              "linear-gradient(to right, rgba(10,10,10,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,10,10,0.06) 1px, transparent 1px)",
             backgroundSize: "60px 60px",
           }}
         />
@@ -34,20 +34,20 @@ export default function OpengraphImage() {
             display: "flex",
             alignItems: "center",
             gap: 14,
-            color: "#39ff6a",
+            color: "#0a0a0a",
             fontSize: 24,
             letterSpacing: 2,
           }}
         >
-          <div style={{ width: 12, height: 12, background: "#39ff6a" }} />
+          <div style={{ width: 12, height: 12, background: "#0a0a0a" }} />
           FOUNDER & HEAD OF ELECTRONICS & SOFTWARE · STRATOS IHA
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 92, fontWeight: 700, color: "#ececee", lineHeight: 1.02 }}>
+          <div style={{ fontSize: 92, fontWeight: 700, color: "#0a0a0a", lineHeight: 1.02 }}>
             Emir Sakarya
           </div>
-          <div style={{ fontSize: 34, color: "#8b8c94", marginTop: 20, maxWidth: 900 }}>
+          <div style={{ fontSize: 34, color: "#6b6b6b", marginTop: 20, maxWidth: 900 }}>
             Founder & Head of Electronics & Software at STRATOS İHA. Building autonomous
             drones and the software behind them.
           </div>
@@ -56,7 +56,7 @@ export default function OpengraphImage() {
         <div
           style={{
             display: "flex",
-            color: "#55565e",
+            color: "#767676",
             fontSize: 22,
           }}
         >

@@ -62,10 +62,9 @@ border - never by color.
 - **Ink** (`#0A0A0A`) - primary text, headlines. Near-black, not pure
   `#000`, for a slightly softer read.
 - **Ink-2** (`#6B6B6B`) - secondary text, descriptions.
-- **Ink-3** (`#9A9A9A`) - tertiary labels, captions, mono annotations. Must
-  be verified at WCAG AA (>=4.5:1) against the `#FFFFFF` canvas since
-  `.annotate` renders it at 11px - darken if a contrast audit finds it
-  fails.
+- **Ink-3** (`#767676`) - tertiary labels, captions, mono annotations.
+  Verified at WCAG AA (~4.54:1) against the `#FFFFFF` canvas, since
+  `.annotate` renders it at 11px.
 - **Rule** (`rgba(10,10,10,0.12)`) / **Rule-Strong** (`rgba(10,10,10,0.28)`)
   - hairline panel borders, dividers, grid lines.
 - **No accent, no accent-2, no accent-soft tokens exist.** Every former
@@ -151,7 +150,9 @@ deliberate choice behind it.
   accent-filled. Nav links (desktop and mobile) drive scroll explicitly via
   `Element.scrollIntoView` rather than relying on native anchor-scroll
   behavior, which the scene-mode fixed-panel layout doesn't reliably
-  support.
+  support. `src/data/nav-items.ts` is the shared source of truth for these
+  links, consumed by the nav bar, the mobile nav, and the footer's
+  Navigation column alike.
 
 ## 5. Layout Principles
 

@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import MotionProvider from "@/components/ui/motion-provider";
+import SkipLink from "@/components/ui/skip-link";
 import "./globals.css";
 
 // Display + body: Cabinet Grotesk - a sharp-cornered, maximalist grotesk
@@ -80,9 +81,7 @@ export default async function RootLayout({
       className={`${cabinetGrotesk.variable} ${mono.variable} ${serif.variable} ${condensed.variable}`}
     >
       <body className="bg-bg text-ink antialiased">
-        <a href="#home" className="skip-link">
-          skip to content
-        </a>
+        <SkipLink />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

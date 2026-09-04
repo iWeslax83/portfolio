@@ -1,5 +1,8 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { navItems } from "@/data/nav-items";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 const contactLinks = [
   { label: "Email", value: "emirsakarya00@gmail.com", href: "mailto:emirsakarya00@gmail.com" },
@@ -63,7 +66,14 @@ export default function Footer() {
               <ul className="space-y-3">
                 {navItems.map((item) => (
                   <li key={item.key}>
-                    <a href={item.href} className="font-mono text-sm hover:opacity-70 transition-opacity">
+                    <a
+                      href={item.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection(item.href.slice(1));
+                      }}
+                      className="font-mono text-sm hover:opacity-70 transition-opacity"
+                    >
                       {tNav(item.key)}
                     </a>
                   </li>

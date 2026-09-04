@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { spring } from "@/lib/motion";
 import { navItems } from "@/data/nav-items";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 export default function MobileNav({
   open,
@@ -52,7 +53,7 @@ export default function MobileNav({
                   onClick={(e) => {
                     e.preventDefault();
                     onClose();
-                    document.getElementById(item.href.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    scrollToSection(item.href.slice(1));
                   }}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
