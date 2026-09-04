@@ -61,7 +61,7 @@ export default function WorkIntroBackground({
         {LETTERS.map((letter) => (
           <div key={letter} className="flex justify-around whitespace-nowrap">
             {Array.from({ length: TILE_REPEAT }).map((_, i) => (
-              <span key={i} className="font-display text-[9vw] font-extrabold leading-none text-ink">
+              <span key={i} className="emboss-text font-display text-[9vw] font-extrabold leading-none text-ink">
                 {letter}
               </span>
             ))}
