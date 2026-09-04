@@ -27,7 +27,8 @@
   --font-sans: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
   --font-serif: var(--font-fraunces), Georgia, serif;
-  --font-condensed: var(--font-bebas), "Arial Narrow", sans-serif;
+  --font-condensed: var(--font-oswald), "Arial Narrow", sans-serif;
+  --font-display-accent: var(--font-metamorphous), Georgia, serif;
 }
 
 html {

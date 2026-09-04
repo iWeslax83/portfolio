@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { JetBrains_Mono, Fraunces, Bebas_Neue } from "next/font/google";
+import { JetBrains_Mono, Fraunces, Oswald, Metamorphous } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
@@ -40,11 +40,25 @@ const serif = Fraunces({
   display: "swap",
 });
 
-// Condensed display: the one oversized multi-line CTA statement in Contact.
-const condensed = Bebas_Neue({
+// Condensed display: WORK-beat letters and the oversized multi-line CTA
+// statement in Contact. Oswald, not Bebas Neue: closer weight/width match
+// to the design reference's condensed display face, and free (Google
+// Fonts) where the reference's own face is a paid commercial font.
+const condensed = Oswald({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-oswald",
+  display: "swap",
+});
+
+// Hero display accent: the dot separators in the hero's triptych
+// headline. Metamorphous is the exact free Google Font the design
+// reference itself uses for its own hero display face - safe to match
+// literally since it's free, unlike the reference's other (paid) fonts.
+const displayAccent = Metamorphous({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-bebas",
+  variable: "--font-metamorphous",
   display: "swap",
 });
 
@@ -78,7 +92,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cabinetGrotesk.variable} ${mono.variable} ${serif.variable} ${condensed.variable}`}
+      className={`${cabinetGrotesk.variable} ${mono.variable} ${serif.variable} ${condensed.variable} ${displayAccent.variable}`}
     >
       <body className="bg-bg text-ink antialiased">
         <SkipLink />
