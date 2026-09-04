@@ -1478,7 +1478,7 @@ import { navItems } from "./nav";
 const contactLinks = [
   { label: "Email", value: "emirsakarya00@gmail.com", href: "mailto:emirsakarya00@gmail.com" },
   { label: "GitHub", value: "github.com/iWeslax83", href: "https://github.com/iWeslax83" },
-  { label: "LinkedIn", value: "/emirsakarya", href: "https://linkedin.com/in/emirsakarya" },
+  { label: "LinkedIn", value: "linkedin.com/in/emirsakarya", href: "https://linkedin.com/in/emirsakarya" },
 ];
 
 export default function Footer() {
