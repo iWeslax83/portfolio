@@ -104,36 +104,29 @@ export default function Telemetry({
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
-          <div className="md:col-span-2 border border-rule p-5 md:p-6">
-            <p className="annotate mb-4">{tSkills("kicker")}</p>
-            {skills.map((category) => {
-              const displayedItems = mode === "scene" ? category.items.slice(0, 4) : category.items;
-              const hiddenCount = category.items.length - displayedItems.length;
-              return (
-                <div key={category.key} className="border-t border-rule first:border-t-0 py-4">
-                  <div className="flex items-baseline gap-3 mb-2.5">
-                    <span className="font-mono text-[11px] text-accent tabular-nums">
-                      {String(category.items.length).padStart(2, "0")}
+        <div className="grid sm:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
+          <p className="sm:col-span-2 annotate">{tSkills("kicker")}</p>
+          {skills.map((category) => {
+            const displayedItems = mode === "scene" ? category.items.slice(0, 6) : category.items;
+            const hiddenCount = category.items.length - displayedItems.length;
+            return (
+              <div key={category.key} className="border border-rule p-5 md:p-6">
+                <h4 className="font-display text-3xl md:text-4xl font-extrabold leading-none tracking-tight text-ink uppercase">
+                  {categoryLabels[category.key] ?? category.key}
+                </h4>
+                <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5">
+                  {displayedItems.map((item) => (
+                    <span key={item} className="font-mono text-xs text-ink-2">
+                      {item}
                     </span>
-                    <h4 className="font-display text-base font-medium text-ink">
-                      {categoryLabels[category.key] ?? category.key}
-                    </h4>
-                  </div>
-                  <div className="flex flex-wrap gap-x-5 gap-y-2">
-                    {displayedItems.map((item) => (
-                      <span key={item} className="font-mono text-xs text-ink-2 border border-rule px-2 py-0.5">
-                        {item}
-                      </span>
-                    ))}
-                    {hiddenCount > 0 && (
-                      <span className="font-mono text-xs text-ink-3">+{hiddenCount} more</span>
-                    )}
-                  </div>
+                  ))}
+                  {hiddenCount > 0 && (
+                    <span className="font-mono text-xs text-ink-3">+{hiddenCount} more</span>
+                  )}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-4 mt-8">
