@@ -97,15 +97,21 @@ control, which is the exact defect class fixed in the prior review
 
 ## 4. Hero (`src/components/checkpoints/Liftoff.tsx`)
 
-- Extend `WireframeMesh` (`src/components/ui/wireframe-mesh.tsx` +
-  `src/lib/wireframe-mesh.ts`) with a scroll-linked warp: the hero
-  already sits inside the flight-scene's scroll-progress system
-  (`useFlightProgress` / checkpoint progress), so drive a CSS
-  `transform: skewY(...) scale(...)` on the mesh `<svg>` off the same
-  progress value already available to `Liftoff`, clamped to a subtle
-  range (+/-3deg skew, 1-1.04 scale). This reads as "reactive" without
-  regenerating path geometry per frame - cheap, and it doesn't touch the
-  WebGL camera/drone code at all.
+- Extend `WireframeMesh` with a pointer-driven warp, self-contained
+  inside `Liftoff.tsx` - not wired to the flight-scene's scroll progress.
+  `Liftoff` currently receives only `visible`/`mode` props, and the
+  `liftoff` checkpoint's scroll window is tiny (4.3% of the total
+  spacer, `route.ts:21`); threading `progressRef` in for a barely-visible
+  window isn't worth the coupling. Instead: a small `pointermove`
+  listener (added in `Liftoff.tsx`, cleaned up on unmount) tracks cursor
+  position normalized to -1..1 across the viewport, written to a ref and
+  applied via `requestAnimationFrame` to a CSS custom property
+  (`--mesh-skew`) consumed by an inline `transform: skewY(var(--mesh-skew))`
+  on the `WireframeMesh` wrapper, clamped to +/-3deg. No new prop, no
+  flight-scene interface change, works identically in `scene` and `flat`
+  mode, degrades to static (no listener attached) when
+  `prefers-reduced-motion` is set (reuse the existing
+  `useReducedMotionPref` hook from `@/lib/scroll`).
 - Add a new `BinaryTicker` component: a thin horizontal strip of
   seeded-random 0/1 digits (mulberry32, same deterministic pattern as
   `wireframe-mesh.ts` - SSR-safe, no hydration mismatch), monospace,
