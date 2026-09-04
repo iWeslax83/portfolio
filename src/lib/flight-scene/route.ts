@@ -12,9 +12,9 @@ export interface Checkpoint {
    div. Every beat except "log" keeps its original pixel height from the
    prior 600vh system (liftoff 72vh, origin 132vh, telemetry 144vh,
    landing 108vh - 456vh total); "log" grows from 144vh to 1200vh to give
-   the WORK-intro + letter-tile background + 13-project carousel +
-   zoom-out sequence real scroll room. Fractions below are each beat's vh
-   span divided by this total. */
+   the WORK-intro + letter-tile background + project carousel (covers
+   every project in the dataset) + zoom-out sequence real scroll room.
+   Fractions below are each beat's vh span divided by this total. */
 export const TOTAL_SPACER_VH = 1656;
 
 export const checkpoints: Checkpoint[] = [
@@ -31,8 +31,8 @@ export const checkpoints: Checkpoint[] = [
    WORK-intro / letter-tile / carousel / zoom-out sequence is active:
    0 - introEnd: static WORK pill.
    introEnd - tileEnd: pill scales/fades into the tiled letter rows.
-   tileEnd - carouselEnd: the 13-project sliding carousel (the bulk of
-     the range).
+   tileEnd - carouselEnd: the sliding carousel covering every project in
+     the dataset (the bulk of the range).
    carouselEnd - 1: the final project card zooms to fill the viewport,
      crossfading into Telemetry. */
 export const WORK_STAGE_BOUNDARIES = {

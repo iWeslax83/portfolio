@@ -36,7 +36,7 @@ export default function WorkIntroBackground({
       </svg>
 
       <div
-        className="absolute left-1/2 top-1/2 flex h-[240px] w-[140px] items-center justify-center overflow-hidden rounded-[70px] border-2 border-ink bg-bg"
+        className="absolute left-1/2 top-1/2 flex h-[240px] w-[140px] items-center justify-center overflow-hidden rounded-[70px] border-2 border-ink bg-panel"
         style={{
           opacity: pillOpacity,
           transform: `translate(-50%, -50%) scale(${pillScale})`,

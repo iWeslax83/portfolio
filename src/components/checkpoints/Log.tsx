@@ -115,7 +115,8 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
 }
 
 function SceneCarousel({ progressRef }: { progressRef: RefObject<FlightProgressRef> }) {
-  const ordered = [...projects].sort((a, b) => a.order - b.order);
+  const [flagship] = featuredProjects;
+  const ordered = [flagship, ...projects.filter((p) => p.slug !== flagship.slug).sort((a, b) => a.order - b.order)];
   const state = useWorkCarouselProgress(progressRef, ordered.length);
 
   if (state.stage === "intro" || state.stage === "tile") {

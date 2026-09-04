@@ -167,8 +167,10 @@ behind it, decorative serifs.
   catalogue as a real indexed list, never a card grid - vertical bordered
   rows (`#00X`, tabular-nums index) beside a status tag, with the catalog
   filter above it. Scene mode is a different mechanic entirely: a pinned
-  WORK-intro pill (a black stadium shape holding "WORK" spelled vertically
-  on a white grid background) expands on scroll into four full-width tiled
+  WORK-intro pill (a `bg-panel` stadium shape, bordered, with a subtle dot
+  texture, holding "WORK" spelled vertically in bold ink-colored text, set
+  against the site's dark canvas with a fine hairline grid) expands on
+  scroll into four full-width tiled
   letter rows, which stay pinned as a background while one project's
   mockup-window screenshot card slides through at a time, left to right -
   one step per project in `src/data/projects.ts` (data-driven, not a
