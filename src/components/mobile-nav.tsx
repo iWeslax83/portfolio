@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { spring } from "@/lib/motion";
-import { navItems } from "./nav";
+import { navItems } from "@/data/nav-items";
 
 export default function MobileNav({
   open,

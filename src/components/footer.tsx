@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { navItems } from "./nav";
+import { navItems } from "@/data/nav-items";
 
 const contactLinks = [
   { label: "Email", value: "emirsakarya00@gmail.com", href: "mailto:emirsakarya00@gmail.com" },

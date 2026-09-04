@@ -7,14 +7,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import MobileNav from "./mobile-nav";
-
-export const navItems = [
-  { key: "home", href: "#home", num: "00" },
-  { key: "flightLog", href: "#flight-log", num: "01" },
-  { key: "founderStory", href: "#founder-story", num: "02" },
-  { key: "telemetry", href: "#telemetry", num: "03" },
-  { key: "contact", href: "#contact", num: "04" },
-];
+import { navItems } from "@/data/nav-items";
 
 export default function Nav() {
   const t = useTranslations("nav");

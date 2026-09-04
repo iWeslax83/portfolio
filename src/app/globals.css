@@ -11,9 +11,8 @@
   --color-ink: #0a0a0a;
   --color-ink-2: #6b6b6b;
   /* ink-3 is the tertiary readout tone, rendered at 11px by .annotate.
-     Must be verified at WCAG AA (>=4.5:1) against #ffffff before shipping -
-     #9a9a9a is a starting point, darken if it fails contrast checks. */
-  --color-ink-3: #9a9a9a;
+     Verified at WCAG AA (~4.54:1) against #ffffff. */
+  --color-ink-3: #767676;
 
   /* ── Structure ─────────────────────────────────────────────── */
   --color-rule: rgba(10, 10, 10, 0.12);
