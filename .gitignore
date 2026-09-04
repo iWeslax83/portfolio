@@ -47,3 +47,4 @@ CODE_REVIEW.md
 
 # Superpowers visual brainstorm working dir
 .superpowers/
+.playwright-mcp/

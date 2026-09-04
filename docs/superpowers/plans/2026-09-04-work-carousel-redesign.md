@@ -753,6 +753,7 @@ Splits `Log.tsx` into two internal pieces switched on `mode`, exactly as every o
 "use client";
 
 import { useState, type RefObject } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { projects, featuredProjects } from "@/data/projects";
@@ -843,7 +844,13 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
               <Links links={project.links} />
               {project.image && (
                 <div className="relative border border-rule overflow-hidden bg-panel/40 min-h-[160px] flex items-center justify-center p-6 mt-5 max-w-[280px]">
-                  <img src={project.image} alt={project.title} className="w-full h-auto object-contain opacity-90" />
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    width={280}
+                    height={200}
+                    className="w-full h-auto object-contain opacity-90"
+                  />
                 </div>
               )}
               {project.repo && repoStats[project.repo] && (
@@ -976,11 +983,13 @@ Near the top of `DESIGN.md`, in the `> **Changelog:**` blockquote (or add a new 
 > **Changelog:** Work Carousel redesign (see
 > `docs/superpowers/specs/2026-09-04-work-carousel-redesign-design.md`)
 > replaces the Flight Log catalogue's scene-mode content with a pinned
-> WORK-intro and letter-tile background, a 13-project left-to-right
-> sliding screenshot carousel, and a zoom transition into Telemetry -
-> fully decoupled from the 3D drone camera during this beat. Flat mode's
-> plain catalogue list is unchanged. Also fixes a bug where the Contact
-> panel disappeared the instant scroll reached the page bottom.
+> WORK-intro and letter-tile background, a left-to-right sliding
+> screenshot carousel covering every project in `src/data/projects.ts`
+> (the count is data-driven, not hardcoded), and a zoom transition into
+> Telemetry - fully decoupled from the 3D drone camera during this beat.
+> Flat mode's plain catalogue list is unchanged. Also fixes a bug where
+> the Contact panel disappeared the instant scroll reached the page
+> bottom.
 ```
 
 - [ ] **Step 2: Replace the stale "Flight Log catalogue" paragraph**
@@ -997,8 +1006,9 @@ In Section 4 ("Component Stylings"), replace the existing "Flight Log catalogue"
   on a white grid background) expands on scroll into four full-width tiled
   letter rows, which stay pinned as a background while one project's
   mockup-window screenshot card slides through at a time, left to right -
-  thirteen steps, one per project, real screenshots where a live URL
-  exists, a typographic placeholder card (real title/tag/status/tech data,
+  one step per project in `src/data/projects.ts` (data-driven, not a
+  fixed count), real screenshots where a live URL exists, a typographic
+  placeholder card (real title/tag/status/tech data,
   no invented visuals) otherwise. The final card zooms to fill the
   viewport and crossfades into Telemetry. Built entirely with CSS
   transforms (`work-carousel/WorkIntroBackground.tsx`,
