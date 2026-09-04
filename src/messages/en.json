@@ -4,7 +4,10 @@
     "flightLog": "work",
     "founderStory": "ventures",
     "telemetry": "telemetry",
-    "contact": "contact"
+    "contact": "contact",
+    "statusLine1": "Building from Bursa, Türkiye.",
+    "statusLine2": "Shipping founder-built products.",
+    "getInTouch": "Get in touch"
   },
   "hero": {
     "role": "Founder & Software Engineer",

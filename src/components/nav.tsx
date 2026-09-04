@@ -9,6 +9,7 @@ import { Menu } from "lucide-react";
 import MobileNav from "./mobile-nav";
 import { navItems } from "@/data/nav-items";
 import { scrollToSection } from "@/lib/scroll-to-section";
+import { GitHubIcon, LinkedInIcon } from "@/components/ui/social-icons";
 
 export default function Nav() {
   const t = useTranslations("nav");
@@ -118,6 +119,43 @@ export default function Nav() {
                 </a>
               );
             })}
+          </div>
+
+          <div className="hidden lg:flex items-center gap-5">
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/iWeslax83"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="text-ink-2 hover:text-ink transition-colors"
+              >
+                <GitHubIcon className="h-[17px] w-[17px]" />
+              </a>
+              <a
+                href="https://linkedin.com/in/emirsakarya"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="text-ink-2 hover:text-ink transition-colors"
+              >
+                <LinkedInIcon className="h-[17px] w-[17px]" />
+              </a>
+            </div>
+            <div className="h-8 w-px bg-rule" aria-hidden />
+            <div className="font-mono text-[10px] leading-[1.6] text-ink-3">
+              <p>{t("statusLine1")}</p>
+              <p>
+                {t("statusLine2")}{" "}
+                <a
+                  href="#contact"
+                  onClick={(e) => handleNavClick(e, "#contact")}
+                  className="text-ink underline decoration-rule-strong underline-offset-2 hover:decoration-ink"
+                >
+                  {t("getInTouch")}
+                </a>
+              </p>
+            </div>
           </div>
 
           <button
