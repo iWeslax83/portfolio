@@ -124,21 +124,36 @@ function SceneCarousel({ progressRef }: { progressRef: RefObject<FlightProgressR
   }
 
   if (state.stage === "carousel") {
+    // Crossfade + scale, not a slide - at most one card is meaningfully
+    // visible at any point in the transition. The outgoing card shrinks
+    // and fades in the first half of slideProgress; the incoming card
+    // grows and fades in over the second half. No side-by-side overlap.
+    const outgoingOpacity = Math.max(0, 1 - state.slideProgress * 2.2);
+    const outgoingScale = 1 - state.slideProgress * 0.08;
+    const incomingOpacity = Math.max(0, state.slideProgress * 2.2 - 1);
+    const incomingScale = 0.94 + Math.min(1, state.slideProgress * 1.2) * 0.06;
+
     return (
       <div className="relative h-full w-full">
         <WorkIntroBackground stage={state.stage} stageProgress={state.stageProgress} />
-        <ProjectCard
-          project={ordered[state.activeIndex]}
-          index={state.activeIndex}
-          total={ordered.length}
-          translateX={-state.slideProgress * 70}
-        />
-        {state.activeIndex < ordered.length - 1 && (
+        {outgoingOpacity > 0 && (
+          <ProjectCard
+            project={ordered[state.activeIndex]}
+            index={state.activeIndex}
+            total={ordered.length}
+            translateX={0}
+            scale={outgoingScale}
+            opacity={outgoingOpacity}
+          />
+        )}
+        {incomingOpacity > 0 && state.activeIndex < ordered.length - 1 && (
           <ProjectCard
             project={ordered[state.activeIndex + 1]}
             index={state.activeIndex + 1}
             total={ordered.length}
-            translateX={70 - state.slideProgress * 70}
+            translateX={0}
+            scale={incomingScale}
+            opacity={incomingOpacity}
           />
         )}
       </div>
