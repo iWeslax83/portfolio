@@ -92,12 +92,12 @@ export default function FlightSceneRoot({
       ))}
       <div className={pastEnd ? "hidden" : ""}>
         <FlightSceneCanvas progressRef={progressRef} reduced={reduced} mobile={mobile} onFallback={handleFallback} />
-        <Liftoff visible={activeId === "liftoff"} mode="scene" />
-        <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} />
-        <Ventures visible={activeId === "origin"} mode="scene" />
-        <Telemetry visible={activeId === "telemetry"} mode="scene" stats={githubStats} />
-        <Landing visible={activeId === "landing"} mode="scene" />
       </div>
+      <Liftoff visible={activeId === "liftoff"} mode="scene" />
+      <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} />
+      <Ventures visible={activeId === "origin"} mode="scene" />
+      <Telemetry visible={activeId === "telemetry"} mode="scene" stats={githubStats} />
+      <Landing visible={activeId === "landing"} mode="scene" />
     </div>
   );
 }
