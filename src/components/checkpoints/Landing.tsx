@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Mail, ArrowUpRight } from "lucide-react";
 import SectionHeader from "@/components/ui/section-header";
+import RadialBurst from "@/components/ui/radial-burst";
 import CheckpointShell from "./CheckpointShell";
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -34,6 +35,16 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
     <CheckpointShell visible={visible} mode={mode}>
       <div>
         <SectionHeader kicker={t("kicker")} title={t("title")} />
+
+        <div className="relative flex items-center justify-center py-16 md:py-24 mb-12 md:mb-16">
+          <RadialBurst className="absolute inset-0 -z-10 h-full w-full opacity-40" />
+          <p className="font-condensed text-center text-[clamp(2.5rem,9vw,6rem)] leading-[0.95] tracking-wide text-ink uppercase">
+            {t("ctaBurstLine1")}
+            <br />
+            {t("ctaBurstLine2")}
+          </p>
+        </div>
+
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start">
           <div>
             <h3 className="font-display text-[2.1rem] sm:text-5xl md:text-[3.25rem] font-semibold leading-[1.04] tracking-[-0.03em] text-ink">
