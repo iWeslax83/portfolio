@@ -65,11 +65,13 @@ Captured by live inspection (screenshots + computed styles), not assumed:
 | `Metamorphous` | hero display accent | **Metamorphous** | Google Fonts, free - exact match, add as new `--font-display-accent` |
 
 Bebas Neue is dropped project-wide, replaced by Oswald 700 everywhere
-`font-condensed` is used (WORK pill, WORK tile letters, Contact CTA
-headline). Oswald is closer to Bigger Display's grotesque weight and
-reads less "poster-thin" than Bebas at large sizes, which also improves
-the emboss-letter legibility already flagged as a Minor finding in the
-prior review.
+`font-condensed` is used. That is the Contact CTA headline only - the
+WORK pill and WORK tile letters use `font-display` (Cabinet Grotesk),
+not `font-condensed`, and this pass does not touch that face. Oswald is
+closer to Bigger Display's grotesque weight and reads less "poster-thin"
+than Bebas at large sizes for the one call site it does replace. The
+emboss-letter legibility finding flagged as Minor in the prior review is
+untouched by this pass and remains open as separate follow-up work.
 
 Colors stay at the documented near-black `#0A0A0A` / white `#FFFFFF`
 tokens, not literal pure `#000`/`#FFF` - that was a deliberate,
