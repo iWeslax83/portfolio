@@ -9,6 +9,7 @@ import { Project } from "@/lib/types";
 import { RepoStats } from "@/lib/github-repo-stats";
 import { FlightProgressRef } from "@/lib/flight-scene/useFlightProgress";
 import { useWorkCarouselProgress } from "@/lib/flight-scene/useWorkCarouselProgress";
+import { cardRotations } from "@/lib/card-rotations";
 import SectionHeader from "@/components/ui/section-header";
 import CatalogFilter, { CatalogFilterValue } from "@/components/ui/catalog-filter";
 import StatusTag from "@/components/ui/status-tag";
@@ -124,38 +125,37 @@ function SceneCarousel({ progressRef }: { progressRef: RefObject<FlightProgressR
   }
 
   if (state.stage === "carousel") {
-    // Crossfade + scale, not a slide - at most one card is meaningfully
-    // visible at any point in the transition. The outgoing card shrinks
-    // and fades in the first half of slideProgress; the incoming card
-    // grows and fades in over the second half. No side-by-side overlap.
-    const outgoingOpacity = Math.max(0, 1 - state.slideProgress * 2.2);
-    const outgoingScale = 1 - state.slideProgress * 0.08;
-    const incomingOpacity = Math.max(0, state.slideProgress * 2.2 - 1);
-    const incomingScale = 0.94 + Math.min(1, state.slideProgress * 1.2) * 0.06;
+    // Scattered gallery, not a crossfade: every project renders at once,
+    // each offset from center by its distance to the continuous scroll
+    // position (activeIndex + slideProgress - the same raw value
+    // useWorkCarouselProgress derives activeIndex/slideProgress from),
+    // so scrolling scrubs the whole set left-to-right across the
+    // viewport. Cards far from center are culled (not rendered) once
+    // their opacity would be zero, keeping the DOM small.
+    const continuousPos = state.activeIndex + state.slideProgress;
+    const SPACING_VW = 30;
 
     return (
       <div className="relative h-full w-full">
         <WorkIntroBackground stage={state.stage} stageProgress={state.stageProgress} />
-        {outgoingOpacity > 0 && (
-          <ProjectCard
-            project={ordered[state.activeIndex]}
-            index={state.activeIndex}
-            total={ordered.length}
-            translateX={0}
-            scale={outgoingScale}
-            opacity={outgoingOpacity}
-          />
-        )}
-        {incomingOpacity > 0 && state.activeIndex < ordered.length - 1 && (
-          <ProjectCard
-            project={ordered[state.activeIndex + 1]}
-            index={state.activeIndex + 1}
-            total={ordered.length}
-            translateX={0}
-            scale={incomingScale}
-            opacity={incomingOpacity}
-          />
-        )}
+        {ordered.map((project, i) => {
+          const offset = i - continuousPos;
+          const opacity = Math.max(0, 1 - Math.abs(offset) * 0.55);
+          if (opacity <= 0) return null;
+          const scale = 1 - Math.min(0.25, Math.abs(offset) * 0.12);
+          return (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              index={i}
+              total={ordered.length}
+              translateX={offset * SPACING_VW}
+              scale={scale}
+              opacity={opacity}
+              rotate={cardRotations[i % cardRotations.length]}
+            />
+          );
+        })}
       </div>
     );
   }

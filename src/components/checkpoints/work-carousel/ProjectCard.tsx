@@ -12,6 +12,7 @@ export default function ProjectCard({
   translateX,
   scale = 1,
   opacity = 1,
+  rotate = 0,
 }: {
   project: Project;
   index: number;
@@ -19,6 +20,7 @@ export default function ProjectCard({
   translateX: number;
   scale?: number;
   opacity?: number;
+  rotate?: number;
 }) {
   const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
 
@@ -27,7 +29,7 @@ export default function ProjectCard({
       className="absolute left-1/2 top-1/2 w-[min(560px,80vw)] border border-rule bg-bg"
       style={{
         opacity,
-        transform: `translate(calc(-50% + ${translateX}vw), -50%) scale(${scale})`,
+        transform: `translate(calc(-50% + ${translateX}vw), -50%) scale(${scale}) rotate(${rotate}deg)`,
       }}
     >
       <div className="flex items-center gap-1.5 border-b border-rule px-3 py-2">
