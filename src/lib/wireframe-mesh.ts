@@ -1,6 +1,5 @@
 const LINE_COUNT = 60;
 const POINTS_PER_LINE = 40;
-const SEED = 4242;
 
 function mulberry32(seed: number) {
   return function next() {
@@ -16,15 +15,8 @@ export interface WireframeLine {
   d: string;
 }
 
-/**
- * Deterministic warped vertical-line mesh, generated once at module load
- * from a fixed seed - identical server/client output, no hydration
- * mismatch, no per-render randomness. Purely decorative background texture.
- * Coordinates are in a 0-1000 x 0-600 viewBox space; the consuming SVG
- * scales to fill its container via preserveAspectRatio="none".
- */
-export const wireframeLines: WireframeLine[] = (() => {
-  const rand = mulberry32(SEED);
+function generateWireframeLines(seed: number): WireframeLine[] {
+  const rand = mulberry32(seed);
   const lines: WireframeLine[] = [];
   const centers = Array.from({ length: 4 }, () => ({
     x: rand() * 1000,
@@ -47,4 +39,22 @@ export const wireframeLines: WireframeLine[] = (() => {
     lines.push({ d: points.join(" ") });
   }
   return lines;
-})();
+}
+
+/**
+ * Deterministic warped vertical-line mesh, generated once at module load
+ * from a fixed seed - identical server/client output, no hydration
+ * mismatch, no per-render randomness. Purely decorative background
+ * texture. Coordinates are in a 0-1000 x 0-600 viewBox space; the
+ * consuming SVG scales to fill its container via
+ * preserveAspectRatio="none". This is the hero beat's mesh - unchanged
+ * seed (4242) and output from before `generateWireframeLines` existed.
+ */
+export const wireframeLines: WireframeLine[] = generateWireframeLines(4242);
+
+/**
+ * A second, differently-seeded mesh for the founder-story beat's
+ * rotated diagonal backdrop - same generator, different seed, so it
+ * reads as a distinct texture rather than a repeated element.
+ */
+export const wireframeLinesAlt: WireframeLine[] = generateWireframeLines(8181);

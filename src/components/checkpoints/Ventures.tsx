@@ -6,13 +6,19 @@ import SectionHeader from "@/components/ui/section-header";
 import { ventures } from "@/data/ventures";
 import CheckpointShell from "./CheckpointShell";
 import DroneSchematic from "@/components/ui/drone-schematic";
+import WireframeMesh from "@/components/ui/wireframe-mesh";
+import { wireframeLinesAlt } from "@/lib/wireframe-mesh";
 
 export default function Ventures({ visible, mode }: { visible: boolean; mode: "scene" | "flat" }) {
   const t = useTranslations("ventures");
 
   return (
     <CheckpointShell visible={visible} mode={mode}>
-      <div>
+      <div className="relative overflow-hidden">
+        <WireframeMesh
+          lines={wireframeLinesAlt}
+          className="pointer-events-none absolute -inset-x-1/4 -inset-y-1/3 -z-10 h-[160%] w-[150%] -rotate-6 opacity-30"
+        />
         <SectionHeader kicker={t("kicker")} title={t("title")} />
         <ul>
           {ventures.map((venture, i) => (
