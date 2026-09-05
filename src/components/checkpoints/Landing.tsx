@@ -5,6 +5,8 @@ import { Mail, ArrowUpRight } from "lucide-react";
 import SectionHeader from "@/components/ui/section-header";
 import RadialBurst from "@/components/ui/radial-burst";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/social-icons";
+import WavyDivider from "@/components/ui/wavy-divider";
+import { scrollToSection } from "@/lib/scroll-to-section";
 import CheckpointShell from "./CheckpointShell";
 
 const contacts = [
@@ -28,6 +30,21 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
             <br />
             {t("ctaLine2")}
           </p>
+        </div>
+
+        <div className="flex flex-col items-center gap-3 mb-12 md:mb-16">
+          <WavyDivider className="h-3 w-24" />
+          <a
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("contact");
+            }}
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-ink font-mono text-xs font-semibold tracking-wide text-bg transition-[filter] hover:brightness-105"
+          >
+            {t("go")}
+          </a>
+          <WavyDivider className="h-3 w-24 rotate-180" />
         </div>
 
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start">
