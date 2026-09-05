@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { GitHubStats } from "@/lib/types";
 import { skills } from "@/data/skills";
 import SectionHeader from "@/components/ui/section-header";
+import SkillsRoomPanel from "@/components/ui/skills-room-panel";
 import CheckpointShell from "./CheckpointShell";
 
 const cellTone = ["bg-rule", "bg-rule-strong", "bg-ink-3", "bg-ink-2", "bg-ink"];
@@ -104,29 +105,33 @@ export default function Telemetry({
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
-          <p className="sm:col-span-2 annotate">{tSkills("kicker")}</p>
-          {skills.map((category) => {
-            const displayedItems = mode === "scene" ? category.items.slice(0, 6) : category.items;
-            const hiddenCount = category.items.length - displayedItems.length;
-            return (
-              <div key={category.key} className="border border-rule p-5 md:p-6">
-                <h4 className="font-display text-3xl md:text-4xl font-extrabold leading-none tracking-tight text-ink uppercase">
-                  {categoryLabels[category.key] ?? category.key}
-                </h4>
-                <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5">
-                  {displayedItems.map((item) => (
-                    <span key={item} className="font-mono text-xs text-ink-2">
-                      {item}
-                    </span>
-                  ))}
-                  {hiddenCount > 0 && (
-                    <span className="font-mono text-xs text-ink-3">+{hiddenCount} more</span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+        <div className="mt-4 lg:mt-5">
+          <p className="annotate mb-4">{tSkills("kicker")}</p>
+          <SkillsRoomPanel>
+            <div className="grid sm:grid-cols-2 gap-4 lg:gap-5">
+              {skills.map((category) => {
+                const displayedItems = mode === "scene" ? category.items.slice(0, 6) : category.items;
+                const hiddenCount = category.items.length - displayedItems.length;
+                return (
+                  <div key={category.key} className="border border-bg/20 p-5 md:p-6">
+                    <h4 className="font-display text-3xl md:text-4xl font-extrabold leading-none tracking-tight text-bg uppercase">
+                      {categoryLabels[category.key] ?? category.key}
+                    </h4>
+                    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5">
+                      {displayedItems.map((item) => (
+                        <span key={item} className="font-mono text-xs text-bg/70">
+                          {item}
+                        </span>
+                      ))}
+                      {hiddenCount > 0 && (
+                        <span className="font-mono text-xs text-bg/50">+{hiddenCount} more</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </SkillsRoomPanel>
         </div>
 
         <div className="flex items-center gap-4 mt-8">
