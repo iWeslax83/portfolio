@@ -25,7 +25,7 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
 
         <div className="relative flex items-center justify-center py-16 md:py-24 mb-12 md:mb-16">
           <RadialBurst className="absolute inset-0 -z-10 h-full w-full opacity-40" />
-          <p className="font-condensed text-center text-[clamp(2.5rem,9vw,6rem)] leading-[0.95] tracking-wide text-ink uppercase">
+          <p className="font-condensed font-bold text-center text-[clamp(2.5rem,9vw,6rem)] leading-[0.95] tracking-wide text-ink uppercase">
             {t("ctaLine1")}
             <br />
             {t("ctaLine2")}

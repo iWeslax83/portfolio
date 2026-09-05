@@ -140,9 +140,9 @@ function SceneCarousel({ progressRef }: { progressRef: RefObject<FlightProgressR
         <WorkIntroBackground stage={state.stage} stageProgress={state.stageProgress} />
         {ordered.map((project, i) => {
           const offset = i - continuousPos;
-          const opacity = Math.max(0, 1 - Math.abs(offset) * 0.55);
+          const opacity = Math.max(0, 1 - Math.abs(offset) * 0.85);
           if (opacity <= 0) return null;
-          const scale = 1 - Math.min(0.25, Math.abs(offset) * 0.12);
+          const scale = 1 - Math.min(0.35, Math.abs(offset) * 0.18);
           return (
             <ProjectCard
               key={project.slug}

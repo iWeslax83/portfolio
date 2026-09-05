@@ -72,7 +72,7 @@ export default function Liftoff({ visible, mode }: { visible: boolean; mode: "sc
                       <span key={i}>
                         {word}
                         {i < arr.length - 1 && (
-                          <span className="font-display-accent text-[0.6em] mx-2 text-ink-3" aria-hidden>
+                          <span className="font-display-accent text-[0.6em] mx-2 text-ink-3">
                             ·
                           </span>
                         )}
