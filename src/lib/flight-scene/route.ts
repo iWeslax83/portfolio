@@ -1,5 +1,3 @@
-import * as THREE from "three";
-
 export type CheckpointId = "liftoff" | "log" | "origin" | "telemetry" | "landing";
 
 export interface Checkpoint {
@@ -48,19 +46,3 @@ export function activeCheckpoint(progress: number): CheckpointId {
   }
   return checkpoints[checkpoints.length - 1].id;
 }
-
-/* Hand-authored control points: liftoff climbs from ground level, the
-   three middle legs bank and vary altitude, landing descends and levels
-   out. Units are arbitrary world units, tuned against the 55deg FOV
-   camera set up in Canvas.tsx. */
-const controlPoints: THREE.Vector3[] = [
-  new THREE.Vector3(0, -4, 20),
-  new THREE.Vector3(2, 2, 12),
-  new THREE.Vector3(6, 5, 2),
-  new THREE.Vector3(-4, 7, -8),
-  new THREE.Vector3(3, 4, -18),
-  new THREE.Vector3(-2, 1, -28),
-  new THREE.Vector3(0, -3, -36),
-];
-
-export const flightCurve = new THREE.CatmullRomCurve3(controlPoints, false, "catmullrom", 0.5);

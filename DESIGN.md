@@ -23,6 +23,18 @@ anywhere.
 > `CheckpointShell`'s scene/flat split are unchanged - this is a visual
 > skin change on the existing mechanical architecture, not a rebuild of it.
 
+> **Changelog:** the WebGL flight-scene camera/drone/route visualization
+> (`Canvas.tsx`, `CameraRig.tsx`, `DroneModel.tsx`, `RouteMarkers.tsx`,
+> `flightCurve`) has since been removed entirely - it read as an
+> out-of-place leftover from the old terminal-green identity once
+> everything else went white/black. `CheckpointShell`'s scene/flat split
+> and the pinned-overlay presentation (including the WORK beat's
+> pill/tile/scattered-gallery treatment) are unaffected; checkpoints in
+> "scene" mode now render over a plain white background instead of a 3D
+> canvas. The 2D `drone-schematic.tsx` SVG (used in the Hero and Founder
+> Story beats) is untouched and is not the same thing as the removed 3D
+> model.
+
 ---
 
 ## 1. Visual Theme & Atmosphere
@@ -31,18 +43,19 @@ A white canvas, near-black type, and three typefaces each doing one
 structural job - not decoration standing in for it. Founder identity still
 leads: a person who started a TEKNOFEST UAV team and engineers the
 autonomous systems it flies, range proven from flight controllers and PCBs
-up to production full-stack. The project catalogue and 3D flight-scene
-mechanics from the prior system are unchanged; only their visual skin is
-new.
+up to production full-stack. The project catalogue and the checkpoint
+pin/scroll mechanics from the prior system are unchanged; the WebGL 3D
+flight-scene visualization itself has since been removed (see the
+changelog above) - checkpoints now play out over a plain white canvas.
 
 - **Density:** 6/10 - unchanged from the prior system's density level, just
   reskinned.
 - **Variance:** 7/10 - asymmetric, offset, left-aligned. Never a centered
   hero.
 - **Motion:** 9/10 - unchanged. Scroll-driven throughout, spring-based,
-  choreographed. The 3D flight-scene camera, checkpoint fade transitions,
-  and the Work Carousel's crossfade mechanic all carry over from the prior
-  system's motion vocabulary (`src/lib/motion.ts` is untouched by this
+  choreographed. Checkpoint fade transitions and the WORK beat's
+  pill/tile/scattered-gallery mechanic carry over from the prior system's
+  motion vocabulary (`src/lib/motion.ts` is untouched by this
   pass).
 
 ## 2. Color Palette & Roles

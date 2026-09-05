@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import FlightSceneCanvas from "./Canvas";
+import { useEffect, useRef, useState } from "react";
 import { checkpoints, activeCheckpoint, TOTAL_SPACER_VH } from "@/lib/flight-scene/route";
 import { useFlightProgress } from "@/lib/flight-scene/useFlightProgress";
 import Liftoff from "@/components/checkpoints/Liftoff";
@@ -28,53 +27,24 @@ export default function FlightSceneRoot({
   githubStats: GitHubStats;
 }) {
   const spacerRef = useRef<HTMLDivElement>(null);
-  const [fallback, setFallback] = useState(false);
   const [activeId, setActiveId] = useState<string>("liftoff");
-  const [pastEnd, setPastEnd] = useState(false);
-  const { progressRef, reduced, mobile } = useFlightProgress(spacerRef);
-  const handleFallback = useCallback(() => setFallback(true), []);
+  const { progressRef } = useFlightProgress(spacerRef);
 
   /* Mirrors progress into React state, but only re-renders when the
      active checkpoint actually changes - not on every scroll tick. This
      is the overlay layer's own derived state; it never feeds back into
-     progressRef or the camera. Also drives `pastEnd` off scroll progress
-     itself rather than spacer geometry - the spacer's bottom edge never
-     reaches the viewport top within the reachable scroll range, so a
-     geometry-based IntersectionObserver check can never fire. */
+     progressRef. */
   useEffect(() => {
     let raf: number;
     const poll = () => {
       const progress = progressRef.current.current;
       const id = activeCheckpoint(progress);
       setActiveId((prev) => (prev === id ? prev : id));
-      setPastEnd((prev) => (prev === progress >= 1 ? prev : progress >= 1));
       raf = requestAnimationFrame(poll);
     };
     raf = requestAnimationFrame(poll);
     return () => cancelAnimationFrame(raf);
   }, [progressRef]);
-
-  if (fallback) {
-    return (
-      <div className="relative">
-        <div id="home">
-          <Liftoff visible mode="flat" />
-        </div>
-        <div id="flight-log">
-          <Log visible mode="flat" repoStats={repoStats} progressRef={progressRef} />
-        </div>
-        <div id="founder-story">
-          <Ventures visible mode="flat" />
-        </div>
-        <div id="telemetry">
-          <Telemetry visible mode="flat" stats={githubStats} />
-        </div>
-        <div id="contact">
-          <Landing visible mode="flat" />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div ref={spacerRef} className="relative" style={{ height: `${TOTAL_SPACER_VH}vh` }}>
@@ -90,9 +60,6 @@ export default function FlightSceneRoot({
           }}
         />
       ))}
-      <div className={pastEnd ? "hidden" : ""}>
-        <FlightSceneCanvas progressRef={progressRef} reduced={reduced} mobile={mobile} onFallback={handleFallback} />
-      </div>
       <Liftoff visible={activeId === "liftoff"} mode="scene" />
       <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} progressRef={progressRef} />
       <Ventures visible={activeId === "origin"} mode="scene" />
