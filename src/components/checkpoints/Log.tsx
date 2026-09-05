@@ -49,7 +49,7 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
 
   return (
     <div>
-      <SectionHeader kicker={t("kicker")} title={t("title")} meta={t("count", { count: projects.length })} />
+      <SectionHeader title={t("title")} meta={t("count", { count: projects.length })} />
       <div className="mt-6 mb-6">
         <CatalogFilter value={filter} onChange={setFilter} />
       </div>

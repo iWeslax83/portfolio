@@ -11,8 +11,7 @@ const LABELS: Record<CatalogFilterValue, string> = {
 };
 
 /**
- * Pill-shaped segmented filter control - a scoped exception to the
- * repo-wide no-pill-badge rule (see DESIGN.md "Scoped exceptions").
+ * Segmented filter control: bordered rectangular tags, never fully rounded.
  * The active segment is filled; inactive segments are plain bordered text.
  */
 export default function CatalogFilter({
@@ -28,10 +27,10 @@ export default function CatalogFilter({
         <button
           key={f}
           onClick={() => onChange(f)}
-          className={`rounded-full px-4 py-1.5 transition-[background-color,color] duration-200 ${
+          className={`border px-4 py-1.5 transition-colors duration-200 ${
             value === f
-              ? "bg-ink text-bg"
-              : "border border-rule text-ink-3 hover:text-ink-2 hover:border-rule-strong"
+              ? "border-ink bg-ink text-bg"
+              : "border-rule text-ink-3 hover:text-ink-2 hover:border-rule-strong"
           }`}
           aria-pressed={value === f}
         >

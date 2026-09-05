@@ -21,7 +21,7 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
   return (
     <CheckpointShell visible={visible} mode={mode}>
       <div>
-        <SectionHeader kicker={t("kicker")} title={t("title")} />
+        <SectionHeader title={t("title")} />
 
         <div className="relative flex items-center justify-center py-16 md:py-24 mb-12 md:mb-16">
           <RadialBurst className="absolute inset-0 -z-10 h-full w-full opacity-40" />
@@ -52,7 +52,7 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
             <p className="font-body text-base text-ink-2 max-w-md leading-relaxed">{t("subtitle")}</p>
             <p className="annotate mt-5 flex items-center gap-2.5">
               <span className="status-dot animate-signal" aria-hidden />
-              {t("availability")}
+              {t("kicker")} · {t("availability")}
             </p>
           </div>
 

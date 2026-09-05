@@ -42,7 +42,9 @@ export default function CheckpointShell({
       inert={!visible}
       className="fixed inset-0 z-10 flex items-center px-6 md:px-10 lg:px-14"
     >
-      <div className="max-w-[1320px] mx-auto w-full max-h-[85vh] overflow-hidden py-4">{children}</div>
+      <div className="max-w-[1320px] mx-auto w-full max-h-[85vh] overflow-y-auto py-4">
+        {children}
+      </div>
     </motion.div>
   );
 }

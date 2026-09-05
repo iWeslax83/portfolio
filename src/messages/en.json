@@ -26,11 +26,9 @@
   },
   "ventures": {
     "title": "What I've Built",
-    "kicker": "founder ventures",
     "unitsLabel": "what we build"
   },
   "projects": {
-    "kicker": "build log",
     "title": "Selected Work",
     "count": "{count} projects",
     "role": "Electronics & Software Captain",
@@ -42,7 +40,6 @@
   },
   "github": {
     "title": "GitHub",
-    "kicker": "live telemetry",
     "status": "telemetry · live",
     "publicRepos": "public repos",
     "contributions": "contributions",

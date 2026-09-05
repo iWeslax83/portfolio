@@ -19,7 +19,7 @@ export default function Ventures({ visible, mode }: { visible: boolean; mode: "s
           lines={wireframeLinesAlt}
           className="pointer-events-none absolute -inset-x-1/4 -inset-y-1/3 -z-10 h-[160%] w-[150%] -rotate-6 opacity-30"
         />
-        <SectionHeader kicker={t("kicker")} title={t("title")} />
+        <SectionHeader title={t("title")} />
         <ul>
           {ventures.map((venture, i) => (
             <li key={venture.name} className="border-b border-rule py-6">

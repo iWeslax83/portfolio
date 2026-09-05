@@ -83,7 +83,7 @@ export default function Telemetry({
   return (
     <CheckpointShell visible={visible} mode={mode}>
       <div>
-        <SectionHeader kicker={t("kicker")} title={t("title")} meta={t("status")} />
+        <SectionHeader title={t("title")} meta={t("status")} />
 
         <dl className="grid sm:grid-cols-3 gap-4 lg:gap-5">
           {specs.map((s) => (
