@@ -139,7 +139,7 @@ export default function Telemetry({
             href="https://github.com/iWeslax83"
             target="_blank"
             rel="noopener noreferrer"
-            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs text-ink hover:text-ink-2 transition-colors"
+            className="link-draw inline-flex items-center gap-1.5 font-mono text-xs text-ink transition-colors hover:text-ink-2 active:text-ink-2"
           >
             github.com/iWeslax83
             <ArrowUpRight size={13} />

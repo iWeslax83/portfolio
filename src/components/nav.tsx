@@ -104,7 +104,7 @@ export default function Nav() {
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`relative font-mono text-xs pb-1 transition-colors ${
-                    active ? "text-ink" : "text-ink-3 hover:text-ink-2"
+                    active ? "text-ink" : "text-ink-3 hover:text-ink-2 active:text-ink"
                   }`}
                 >
                   <span className="text-ink-3 mr-1.5">{item.num}</span>
@@ -128,7 +128,7 @@ export default function Nav() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="text-ink-2 hover:text-ink transition-colors"
+                className="text-ink-2 hover:text-ink active:text-ink transition-colors"
               >
                 <GitHubIcon className="h-[17px] w-[17px]" />
               </a>
@@ -137,7 +137,7 @@ export default function Nav() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="text-ink-2 hover:text-ink transition-colors"
+                className="text-ink-2 hover:text-ink active:text-ink transition-colors"
               >
                 <LinkedInIcon className="h-[17px] w-[17px]" />
               </a>
@@ -160,7 +160,7 @@ export default function Nav() {
 
           <button
             onClick={() => setMobileOpen(true)}
-            className="md:hidden text-ink-2"
+            className="md:hidden text-ink-2 transition-[color,transform] active:scale-90 active:text-ink"
             aria-label="Open menu"
           >
             <Menu size={18} />

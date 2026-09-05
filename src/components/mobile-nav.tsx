@@ -38,7 +38,7 @@ export default function MobileNav({
               <span className="annotate">menu</span>
               <button
                 onClick={onClose}
-                className="text-ink-3 hover:text-ink transition-colors"
+                className="text-ink-3 hover:text-ink active:scale-90 active:text-ink transition-[color,transform]"
                 aria-label="Close menu"
               >
                 <X size={18} />
@@ -58,9 +58,9 @@ export default function MobileNav({
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 + i * 0.05, ...spring }}
-                  className="group flex items-baseline gap-3 border-b border-rule py-4 font-display text-lg text-ink-2 hover:text-ink transition-colors"
+                  className="group flex items-baseline gap-3 border-b border-rule py-4 font-display text-lg text-ink-2 transition-colors hover:text-ink active:text-ink"
                 >
-                  <span className="font-mono text-[11px] text-ink-3 group-hover:text-ink transition-colors">
+                  <span className="font-mono text-[11px] text-ink-3 transition-colors group-hover:text-ink group-active:text-ink">
                     {item.num}
                   </span>
                   {t(item.key)}

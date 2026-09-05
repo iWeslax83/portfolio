@@ -51,7 +51,7 @@ export default function Footer() {
                       href={c.href}
                       target={c.href.startsWith("http") ? "_blank" : undefined}
                       rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="flex items-baseline justify-between gap-4 font-mono text-sm hover:opacity-70 transition-opacity"
+                      className="flex items-baseline justify-between gap-4 font-mono text-sm transition-opacity hover:opacity-70 active:opacity-70"
                     >
                       <span>{c.label}</span>
                       <span className="text-bg/50">{c.value}</span>
@@ -72,7 +72,7 @@ export default function Footer() {
                         e.preventDefault();
                         scrollToSection(item.href.slice(1));
                       }}
-                      className="font-mono text-sm hover:opacity-70 transition-opacity"
+                      className="font-mono text-sm transition-opacity hover:opacity-70 active:opacity-70"
                     >
                       {tNav(item.key)}
                     </a>

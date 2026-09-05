@@ -42,7 +42,7 @@ export default function Ventures({ visible, mode }: { visible: boolean; mode: "s
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${venture.name} - visit site`}
-                    className="text-ink-3 hover:text-ink transition-colors"
+                    className="text-ink-3 transition-colors hover:text-ink active:text-ink"
                   >
                     <ArrowUpRight size={18} />
                   </a>

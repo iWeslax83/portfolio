@@ -25,6 +25,7 @@ export default function BackToTop() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.6, y: 10 }}
           whileHover={{ y: -3 }}
+          whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 300, damping: 22 }}
           className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center border border-rule bg-panel text-ink transition-colors hover:border-rule-strong"
         >

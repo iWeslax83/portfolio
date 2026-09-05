@@ -28,7 +28,9 @@ function Links({ links }: { links: Project["links"] }) {
           target={link.href.startsWith("http") ? "_blank" : undefined}
           rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
           className={`link-draw inline-flex items-center gap-1 font-mono text-xs transition-colors ${
-            link.isPrimary ? "text-ink font-medium hover:text-ink-2" : "text-ink-2 hover:text-ink"
+            link.isPrimary
+              ? "text-ink font-medium hover:text-ink-2 active:text-ink-2"
+              : "text-ink-2 hover:text-ink active:text-ink"
           }`}
         >
           {link.label}
@@ -80,7 +82,7 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
                     target={primary.href.startsWith("http") ? "_blank" : undefined}
                     rel={primary.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     aria-label={`${project.title} - ${primary.label}`}
-                    className="mt-1 shrink-0 text-ink-3 hover:text-ink transition-colors"
+                    className="mt-1 shrink-0 text-ink-3 transition-colors hover:text-ink active:text-ink"
                   >
                     <ArrowUpRight size={20} />
                   </a>

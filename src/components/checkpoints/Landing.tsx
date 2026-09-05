@@ -40,7 +40,7 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
               e.preventDefault();
               scrollToSection("contact");
             }}
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-ink font-mono text-xs font-semibold tracking-wide text-bg transition-[filter] hover:brightness-105"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-ink font-mono text-xs font-semibold tracking-wide text-bg transition-[filter,transform] hover:brightness-105 active:scale-90"
           >
             {t("go")}
           </a>
@@ -63,17 +63,17 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
                 href={contact.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 border-t border-rule py-6 hover:border-rule-strong last:border-b transition-colors"
+                className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 border-t border-rule py-6 transition-colors last:border-b hover:border-rule-strong active:border-rule-strong"
               >
                 <span className="font-mono text-[11px] text-ink tabular-nums">{contact.code}</span>
                 <div>
                   <div className="flex items-center gap-2.5 text-ink transition-colors">
-                    <span className="text-ink-2 group-hover:text-ink transition-colors">{contact.icon}</span>
+                    <span className="text-ink-2 transition-colors group-hover:text-ink group-active:text-ink">{contact.icon}</span>
                     <span className="font-display text-lg font-medium">{t(contact.key)}</span>
                   </div>
                   <p className="font-mono text-[11px] text-ink-3 mt-1.5 truncate">{contact.value}</p>
                 </div>
-                <ArrowUpRight size={18} className="text-ink-3 group-hover:text-ink transition-colors" />
+                <ArrowUpRight size={18} className="text-ink-3 transition-colors group-hover:text-ink group-active:text-ink" />
               </a>
             ))}
           </div>

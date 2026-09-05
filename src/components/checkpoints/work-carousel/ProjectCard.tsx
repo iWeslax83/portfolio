@@ -68,7 +68,7 @@ export default function ProjectCard({
               target={primary.href.startsWith("http") ? "_blank" : undefined}
               rel={primary.href.startsWith("http") ? "noopener noreferrer" : undefined}
               aria-label={`${project.title} - ${primary.label}`}
-              className="text-ink-3 hover:text-ink transition-colors"
+              className="text-ink-3 transition-colors hover:text-ink active:text-ink"
             >
               <ArrowUpRight size={13} />
             </a>
