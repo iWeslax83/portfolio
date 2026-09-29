@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { JetBrains_Mono, Fraunces, Oswald, Metamorphous } from "next/font/google";
+import {
+  JetBrains_Mono,
+  Fraunces,
+  Oswald,
+  Metamorphous,
+} from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
@@ -12,10 +17,26 @@ import "./globals.css";
 // built to carry oversized single-line headline statements at hero scale.
 const cabinetGrotesk = localFont({
   src: [
-    { path: "./fonts/cabinet-grotesk/CabinetGrotesk-Regular.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/cabinet-grotesk/CabinetGrotesk-Medium.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/cabinet-grotesk/CabinetGrotesk-Bold.woff2", weight: "700", style: "normal" },
-    { path: "./fonts/cabinet-grotesk/CabinetGrotesk-Extrabold.woff2", weight: "800", style: "normal" },
+    {
+      path: "./fonts/cabinet-grotesk/CabinetGrotesk-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/cabinet-grotesk/CabinetGrotesk-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/cabinet-grotesk/CabinetGrotesk-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "./fonts/cabinet-grotesk/CabinetGrotesk-Extrabold.woff2",
+      weight: "800",
+      style: "normal",
+    },
   ],
   variable: "--font-cabinet-grotesk",
   display: "swap",

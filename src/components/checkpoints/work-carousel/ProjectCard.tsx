@@ -49,7 +49,9 @@ export default function ProjectCard({
           />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
-            <h3 className="font-display text-xl font-medium text-ink">{project.title}</h3>
+            <h3 className="font-display text-xl font-medium text-ink">
+              {project.title}
+            </h3>
             <span className="annotate">{project.tag}</span>
             <StatusTag status={project.status} />
             <p className="font-mono text-[11px] text-ink-3 leading-relaxed">
@@ -60,13 +62,19 @@ export default function ProjectCard({
       </div>
 
       <div className="flex items-center justify-between border-t border-rule px-3 py-2">
-        <span className="font-mono text-[11px] text-ink-3">{project.title}</span>
+        <span className="font-mono text-[11px] text-ink-3">
+          {project.title}
+        </span>
         <div className="flex items-center gap-2">
           {primary && (
             <a
               href={primary.href}
               target={primary.href.startsWith("http") ? "_blank" : undefined}
-              rel={primary.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              rel={
+                primary.href.startsWith("http")
+                  ? "noopener noreferrer"
+                  : undefined
+              }
               aria-label={`${project.title} - ${primary.label}`}
               className="text-ink-3 transition-colors hover:text-ink active:text-ink"
             >

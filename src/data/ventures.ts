@@ -28,6 +28,7 @@ export const ventures: Venture[] = [
   {
     name: "Viyaro",
     role: "Founder & CEO",
-    proof: "Autonomous mobility · BOSİAD-funded · 50,000+ rides across 10+ companies in production",
+    proof:
+      "Autonomous mobility · BOSİAD-funded · 50,000+ rides across 10+ companies in production",
   },
 ];

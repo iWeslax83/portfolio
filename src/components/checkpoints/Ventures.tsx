@@ -9,7 +9,13 @@ import DroneSchematic from "@/components/ui/drone-schematic";
 import WireframeMesh from "@/components/ui/wireframe-mesh";
 import { wireframeLinesAlt } from "@/lib/wireframe-mesh";
 
-export default function Ventures({ visible, mode }: { visible: boolean; mode: "scene" | "flat" }) {
+export default function Ventures({
+  visible,
+  mode,
+}: {
+  visible: boolean;
+  mode: "scene" | "flat";
+}) {
   const t = useTranslations("ventures");
 
   return (
@@ -29,7 +35,9 @@ export default function Ventures({ visible, mode }: { visible: boolean; mode: "s
                 </span>
                 <div>
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 className="font-display text-xl font-medium text-ink">{venture.name}</h3>
+                    <h3 className="font-display text-xl font-medium text-ink">
+                      {venture.name}
+                    </h3>
                     <span className="annotate">{venture.role}</span>
                   </div>
                   <p className="font-mono text-[11px] text-ink-3 mt-2 leading-relaxed">
@@ -65,7 +73,9 @@ export default function Ventures({ visible, mode }: { visible: boolean; mode: "s
                           {String(ui + 1).padStart(2, "0")}
                         </span>
                         <div>
-                          <h4 className="font-display text-sm font-medium text-ink">{unit.name}</h4>
+                          <h4 className="font-display text-sm font-medium text-ink">
+                            {unit.name}
+                          </h4>
                           <p className="font-mono text-[11px] text-ink-3 mt-1 leading-relaxed">
                             {unit.detail}
                           </p>

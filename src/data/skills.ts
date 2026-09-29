@@ -7,7 +7,16 @@ export const skills: SkillCategory[] = [
   },
   {
     key: "backend",
-    items: ["Node.js", "Express", "FastAPI", "GraphQL", "MongoDB", "Postgres", "Supabase", "Redis"],
+    items: [
+      "Node.js",
+      "Express",
+      "FastAPI",
+      "GraphQL",
+      "MongoDB",
+      "Postgres",
+      "Supabase",
+      "Redis",
+    ],
   },
   {
     key: "ai_embedded",

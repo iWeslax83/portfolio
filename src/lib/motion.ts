@@ -15,7 +15,10 @@ export const spring: Transition = {
 const ease = [0.22, 1, 0.36, 1] as const;
 
 /* Fire once, a touch before the block reaches center */
-export const viewportOnce = { once: true, margin: "-12% 0px -12% 0px" } as const;
+export const viewportOnce = {
+  once: true,
+  margin: "-12% 0px -12% 0px",
+} as const;
 
 /* ── Stagger orchestrators ───────────────────────────────────── */
 export const staggerContainer: Variants = {

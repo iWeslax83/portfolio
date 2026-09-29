@@ -85,14 +85,14 @@ async function fetchContributions(): Promise<{
       if (count <= 5) return 2;
       if (count <= 10) return 3;
       return 4;
-    })
+    }),
   );
 
   return { graph, total };
 }
 
 async function fetchLanguageBreakdown(
-  repos: { languages_url: string; pushed_at: string }[]
+  repos: { languages_url: string; pushed_at: string }[],
 ): Promise<GitHubStats["languages"]> {
   // Unauthenticated GitHub API is 60 req/hr - skip per-repo language fan-out
   // entirely when no token is configured (one call per repo would burn the quota).
@@ -105,7 +105,7 @@ async function fetchLanguageBreakdown(
     .slice(0, MAX_REPOS_FOR_LANG_BREAKDOWN);
 
   const results = await Promise.allSettled(
-    topRepos.map((repo) => githubFetch(repo.languages_url))
+    topRepos.map((repo) => githubFetch(repo.languages_url)),
   );
 
   const langBytes: Record<string, number> = {};
@@ -145,7 +145,7 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
     const [user, repos, contributions] = await Promise.all([
       githubFetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
       githubFetch(
-        `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`
+        `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`,
       ),
       fetchContributions(),
     ]);

@@ -11,7 +11,10 @@ async function githubFetch(url: string) {
     Accept: "application/vnd.github.v3+json",
   };
   if (GITHUB_TOKEN) headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
-  const res = await fetch(url, { headers, next: { revalidate: REVALIDATE_SECONDS } });
+  const res = await fetch(url, {
+    headers,
+    next: { revalidate: REVALIDATE_SECONDS },
+  });
   if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
   return res;
 }
@@ -19,11 +22,12 @@ async function githubFetch(url: string) {
 async function fetchOneRepoStats(repo: string): Promise<RepoStats | null> {
   try {
     const commitsRes = await githubFetch(
-      `https://api.github.com/repos/${repo}/commits?per_page=1`
+      `https://api.github.com/repos/${repo}/commits?per_page=1`,
     );
     const linkHeader = commitsRes.headers.get("link");
     const commits = await commitsRes.json();
-    const lastCommitDate: string = commits[0]?.commit?.author?.date?.slice(0, 10) ?? "";
+    const lastCommitDate: string =
+      commits[0]?.commit?.author?.date?.slice(0, 10) ?? "";
 
     // GitHub exposes total commit count only via the Link header's "last"
     // page rel on a per_page=1 listing - parse it, falling back to 1 if the
@@ -46,10 +50,10 @@ async function fetchOneRepoStats(repo: string): Promise<RepoStats | null> {
  * render "no data" rather than a fabricated number.
  */
 export async function fetchRepoStats(
-  repos: string[]
+  repos: string[],
 ): Promise<Record<string, RepoStats | null>> {
   const results = await Promise.all(
-    repos.map(async (repo) => [repo, await fetchOneRepoStats(repo)] as const)
+    repos.map(async (repo) => [repo, await fetchOneRepoStats(repo)] as const),
   );
   return Object.fromEntries(results);
 }

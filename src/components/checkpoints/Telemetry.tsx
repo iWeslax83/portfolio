@@ -8,7 +8,13 @@ import SectionHeader from "@/components/ui/section-header";
 import SkillsRoomPanel from "@/components/ui/skills-room-panel";
 import CheckpointShell from "./CheckpointShell";
 
-const cellTone = ["bg-rule", "bg-rule-strong", "bg-ink-3", "bg-ink-2", "bg-ink"];
+const cellTone = [
+  "bg-rule",
+  "bg-rule-strong",
+  "bg-ink-3",
+  "bg-ink-2",
+  "bg-ink",
+];
 
 const categoryLabels: Record<string, string> = {
   frontend: "Frontend",
@@ -17,7 +23,13 @@ const categoryLabels: Record<string, string> = {
   devops: "DevOps & Infra",
 };
 
-function ContributionGraph({ graph, label }: { graph: number[][]; label: string }) {
+function ContributionGraph({
+  graph,
+  label,
+}: {
+  graph: number[][];
+  label: string;
+}) {
   if (graph.length === 0) return null;
   return (
     <figure>
@@ -26,7 +38,11 @@ function ContributionGraph({ graph, label }: { graph: number[][]; label: string 
         {graph.map((week, wi) => (
           <div key={wi} className="flex flex-col gap-[3px]">
             {week.map((level, di) => (
-              <span key={di} title={`activity level ${level}`} className={`h-[10px] w-[10px] ${cellTone[level]}`} />
+              <span
+                key={di}
+                title={`activity level ${level}`}
+                className={`h-[10px] w-[10px] ${cellTone[level]}`}
+              />
             ))}
           </div>
         ))}
@@ -42,19 +58,29 @@ function ContributionGraph({ graph, label }: { graph: number[][]; label: string 
   );
 }
 
-function LanguageBar({ languages, label }: { languages: GitHubStats["languages"]; label: string }) {
+function LanguageBar({
+  languages,
+  label,
+}: {
+  languages: GitHubStats["languages"];
+  label: string;
+}) {
   return (
     <figure>
       <figcaption className="annotate mb-4">{label}</figcaption>
       <div className="flex h-1.5 overflow-hidden">
         {languages.map((lang) => (
-          <div key={lang.name} style={{ flex: lang.percentage, backgroundColor: lang.color }} />
+          <div
+            key={lang.name}
+            style={{ flex: lang.percentage, backgroundColor: lang.color }}
+          />
         ))}
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-1.5">
         {languages.map((lang) => (
           <span key={lang.name} className="font-mono text-[11px] text-ink-2">
-            <span style={{ color: lang.color }}>{"■"}</span> {lang.name} <span className="text-ink-3">{lang.percentage}%</span>
+            <span style={{ color: lang.color }}>{"■"}</span> {lang.name}{" "}
+            <span className="text-ink-3">{lang.percentage}%</span>
           </span>
         ))}
       </div>
@@ -98,10 +124,16 @@ export default function Telemetry({
 
         <div className="grid md:grid-cols-2 gap-4 lg:gap-5 mt-4 lg:mt-5">
           <div className="border border-rule p-5 md:p-6">
-            <ContributionGraph graph={stats.contributionGraph} label={t("activity")} />
+            <ContributionGraph
+              graph={stats.contributionGraph}
+              label={t("activity")}
+            />
           </div>
           <div className="border border-rule p-5 md:p-6">
-            <LanguageBar languages={stats.languages} label={t("languageBreakdown")} />
+            <LanguageBar
+              languages={stats.languages}
+              label={t("languageBreakdown")}
+            />
           </div>
         </div>
 
@@ -110,21 +142,33 @@ export default function Telemetry({
           <SkillsRoomPanel>
             <div className="grid sm:grid-cols-2 gap-4 lg:gap-5">
               {skills.map((category) => {
-                const displayedItems = mode === "scene" ? category.items.slice(0, 6) : category.items;
-                const hiddenCount = category.items.length - displayedItems.length;
+                const displayedItems =
+                  mode === "scene"
+                    ? category.items.slice(0, 6)
+                    : category.items;
+                const hiddenCount =
+                  category.items.length - displayedItems.length;
                 return (
-                  <div key={category.key} className="border border-bg/20 p-5 md:p-6">
+                  <div
+                    key={category.key}
+                    className="border border-bg/20 p-5 md:p-6"
+                  >
                     <h4 className="font-display text-3xl md:text-4xl font-extrabold leading-none tracking-tight text-bg uppercase">
                       {categoryLabels[category.key] ?? category.key}
                     </h4>
                     <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1.5">
                       {displayedItems.map((item) => (
-                        <span key={item} className="font-mono text-xs text-bg/70">
+                        <span
+                          key={item}
+                          className="font-mono text-xs text-bg/70"
+                        >
                           {item}
                         </span>
                       ))}
                       {hiddenCount > 0 && (
-                        <span className="font-mono text-xs text-bg/50">+{hiddenCount} more</span>
+                        <span className="font-mono text-xs text-bg/50">
+                          +{hiddenCount} more
+                        </span>
                       )}
                     </div>
                   </div>

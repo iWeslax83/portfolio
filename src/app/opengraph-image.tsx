@@ -6,64 +6,76 @@ export const contentType = "image/png";
 
 export default function OpengraphImage() {
   return new ImageResponse(
-    (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        background: "#ffffff",
+        padding: 72,
+        fontFamily: "sans-serif",
+      }}
+    >
+      {/* Faint grid backdrop */}
       <div
         style={{
-          height: "100%",
-          width: "100%",
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "linear-gradient(to right, rgba(10,10,10,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,10,10,0.06) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+      <div
+        style={{
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          background: "#ffffff",
-          padding: 72,
-          fontFamily: "sans-serif",
+          alignItems: "center",
+          gap: 14,
+          color: "#0a0a0a",
+          fontSize: 24,
+          letterSpacing: 2,
         }}
       >
-        {/* Faint grid backdrop */}
+        <div style={{ width: 12, height: 12, background: "#0a0a0a" }} />
+        FOUNDER & HEAD OF ELECTRONICS & SOFTWARE · STRATOS IHA
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(to right, rgba(10,10,10,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,10,10,0.06) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 14,
+            fontSize: 92,
+            fontWeight: 700,
             color: "#0a0a0a",
-            fontSize: 24,
-            letterSpacing: 2,
+            lineHeight: 1.02,
           }}
         >
-          <div style={{ width: 12, height: 12, background: "#0a0a0a" }} />
-          FOUNDER & HEAD OF ELECTRONICS & SOFTWARE · STRATOS IHA
+          Emir Sakarya
         </div>
-
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 92, fontWeight: 700, color: "#0a0a0a", lineHeight: 1.02 }}>
-            Emir Sakarya
-          </div>
-          <div style={{ fontSize: 34, color: "#6b6b6b", marginTop: 20, maxWidth: 900 }}>
-            Founder & Head of Electronics & Software at STRATOS İHA. Building autonomous
-            drones and the software behind them.
-          </div>
-        </div>
-
         <div
           style={{
-            display: "flex",
-            color: "#767676",
-            fontSize: 22,
+            fontSize: 34,
+            color: "#6b6b6b",
+            marginTop: 20,
+            maxWidth: 900,
           }}
         >
-          <span>github.com/iWeslax83</span>
+          Founder & Head of Electronics & Software at STRATOS İHA. Building
+          autonomous drones and the software behind them.
         </div>
       </div>
-    ),
-    { ...size }
+
+      <div
+        style={{
+          display: "flex",
+          color: "#767676",
+          fontSize: 22,
+        }}
+      >
+        <span>github.com/iWeslax83</span>
+      </div>
+    </div>,
+    { ...size },
   );
 }

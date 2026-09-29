@@ -10,12 +10,36 @@ import { scrollToSection } from "@/lib/scroll-to-section";
 import CheckpointShell from "./CheckpointShell";
 
 const contacts = [
-  { key: "email", code: "01", icon: <Mail size={18} strokeWidth={1.6} />, value: "emirsakarya00@gmail.com", href: "mailto:emirsakarya00@gmail.com" },
-  { key: "githubLabel", code: "02", icon: <GitHubIcon className="w-[18px] h-[18px]" />, value: "github.com/iWeslax83", href: "https://github.com/iWeslax83" },
-  { key: "linkedin", code: "03", icon: <LinkedInIcon className="w-[18px] h-[18px]" />, value: "linkedin.com/in/emirsakarya", href: "https://linkedin.com/in/emirsakarya" },
+  {
+    key: "email",
+    code: "01",
+    icon: <Mail size={18} strokeWidth={1.6} />,
+    value: "emirsakarya00@gmail.com",
+    href: "mailto:emirsakarya00@gmail.com",
+  },
+  {
+    key: "githubLabel",
+    code: "02",
+    icon: <GitHubIcon className="w-[18px] h-[18px]" />,
+    value: "github.com/iWeslax83",
+    href: "https://github.com/iWeslax83",
+  },
+  {
+    key: "linkedin",
+    code: "03",
+    icon: <LinkedInIcon className="w-[18px] h-[18px]" />,
+    value: "linkedin.com/in/emirsakarya",
+    href: "https://linkedin.com/in/emirsakarya",
+  },
 ];
 
-export default function Landing({ visible, mode }: { visible: boolean; mode: "scene" | "flat" }) {
+export default function Landing({
+  visible,
+  mode,
+}: {
+  visible: boolean;
+  mode: "scene" | "flat";
+}) {
   const t = useTranslations("contact");
 
   return (
@@ -49,7 +73,9 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
 
         <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-start">
           <div>
-            <p className="font-body text-base text-ink-2 max-w-md leading-relaxed">{t("subtitle")}</p>
+            <p className="font-body text-base text-ink-2 max-w-md leading-relaxed">
+              {t("subtitle")}
+            </p>
             <p className="annotate mt-5 flex items-center gap-2.5">
               <span className="status-dot animate-signal" aria-hidden />
               {t("kicker")} · {t("availability")}
@@ -65,15 +91,26 @@ export default function Landing({ visible, mode }: { visible: boolean; mode: "sc
                 rel="noopener noreferrer"
                 className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 border-t border-rule py-6 transition-colors last:border-b hover:border-rule-strong active:border-rule-strong"
               >
-                <span className="font-mono text-[11px] text-ink tabular-nums">{contact.code}</span>
+                <span className="font-mono text-[11px] text-ink tabular-nums">
+                  {contact.code}
+                </span>
                 <div>
                   <div className="flex items-center gap-2.5 text-ink transition-colors">
-                    <span className="text-ink-2 transition-colors group-hover:text-ink group-active:text-ink">{contact.icon}</span>
-                    <span className="font-display text-lg font-medium">{t(contact.key)}</span>
+                    <span className="text-ink-2 transition-colors group-hover:text-ink group-active:text-ink">
+                      {contact.icon}
+                    </span>
+                    <span className="font-display text-lg font-medium">
+                      {t(contact.key)}
+                    </span>
                   </div>
-                  <p className="font-mono text-[11px] text-ink-3 mt-1.5 truncate">{contact.value}</p>
+                  <p className="font-mono text-[11px] text-ink-3 mt-1.5 truncate">
+                    {contact.value}
+                  </p>
                 </div>
-                <ArrowUpRight size={18} className="text-ink-3 transition-colors group-hover:text-ink group-active:text-ink" />
+                <ArrowUpRight
+                  size={18}
+                  className="text-ink-3 transition-colors group-hover:text-ink group-active:text-ink"
+                />
               </a>
             ))}
           </div>

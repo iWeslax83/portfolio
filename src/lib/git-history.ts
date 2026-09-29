@@ -14,7 +14,7 @@ export function getRecentCommits(limit = 40): CommitEntry[] {
     const output = execFileSync(
       "git",
       ["log", `-n${limit}`, "--pretty=format:%h%x1f%s"],
-      { cwd: process.cwd(), encoding: "utf-8" }
+      { cwd: process.cwd(), encoding: "utf-8" },
     );
     return output
       .split("\n")

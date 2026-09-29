@@ -13,10 +13,13 @@ export interface RadialRay {
  * client (browser) JS engines, which produced a real hydration mismatch
  * on the raw float output - rounding gives both sides the same string.
  */
-export const radialRays: RadialRay[] = Array.from({ length: RAY_COUNT }, (_, i) => {
-  const angle = (i / RAY_COUNT) * Math.PI * 2;
-  return {
-    x2: Math.round((500 + Math.cos(angle) * 900) * 100) / 100,
-    y2: Math.round((500 + Math.sin(angle) * 900) * 100) / 100,
-  };
-});
+export const radialRays: RadialRay[] = Array.from(
+  { length: RAY_COUNT },
+  (_, i) => {
+    const angle = (i / RAY_COUNT) * Math.PI * 2;
+    return {
+      x2: Math.round((500 + Math.cos(angle) * 900) * 100) / 100,
+      y2: Math.round((500 + Math.sin(angle) * 900) * 100) / 100,
+    };
+  },
+);

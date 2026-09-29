@@ -31,11 +31,11 @@ export default function Nav() {
         const visible = entries.filter((e) => e.isIntersecting);
         if (visible.length === 0) return;
         const top = visible.reduce((a, b) =>
-          b.intersectionRatio > a.intersectionRatio ? b : a
+          b.intersectionRatio > a.intersectionRatio ? b : a,
         );
         setActiveSection(top.target.id);
       },
-      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
     );
 
     for (const id of sectionIds) {
@@ -51,7 +51,10 @@ export default function Nav() {
   const activeNum =
     navItems.find((i) => i.href.slice(1) === activeSection)?.num ?? "00";
 
-  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
     event.preventDefault();
     const id = href.slice(1);
     scrollToSection(id);
@@ -70,7 +73,11 @@ export default function Nav() {
         }`}
       >
         <div className="max-w-[1320px] mx-auto px-6 md:px-10 lg:px-14 flex items-center justify-between h-16">
-          <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="group flex items-center gap-2.5">
+          <a
+            href="#home"
+            onClick={(e) => handleNavClick(e, "#home")}
+            className="group flex items-center gap-2.5"
+          >
             <Image
               src="/images/logo.webp"
               alt="Emir Sakarya logo"
@@ -104,7 +111,9 @@ export default function Nav() {
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
                   className={`relative font-mono text-xs pb-1 transition-colors ${
-                    active ? "text-ink" : "text-ink-3 hover:text-ink-2 active:text-ink"
+                    active
+                      ? "text-ink"
+                      : "text-ink-3 hover:text-ink-2 active:text-ink"
                   }`}
                 >
                   <span className="text-ink-3 mr-1.5">{item.num}</span>
@@ -113,7 +122,11 @@ export default function Nav() {
                     <motion.span
                       layoutId="nav-underline"
                       className="absolute left-0 right-0 -bottom-px h-px bg-ink"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 30,
+                      }}
                     />
                   )}
                 </a>

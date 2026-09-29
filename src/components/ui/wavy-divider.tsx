@@ -1,6 +1,10 @@
 import { wavyDividerPath } from "@/lib/wavy-divider";
 
-export default function WavyDivider({ className = "" }: { className?: string }) {
+export default function WavyDivider({
+  className = "",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       aria-hidden
@@ -8,7 +12,12 @@ export default function WavyDivider({ className = "" }: { className?: string }) 
       viewBox="0 0 1000 40"
       preserveAspectRatio="none"
     >
-      <path d={wavyDividerPath} fill="none" stroke="var(--color-rule)" strokeWidth="1" />
+      <path
+        d={wavyDividerPath}
+        fill="none"
+        stroke="var(--color-rule)"
+        strokeWidth="1"
+      />
     </svg>
   );
 }

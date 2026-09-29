@@ -35,7 +35,7 @@ export default function DroneSchematic({ progress }: { progress: number }) {
 
   const armProgress = useMemo(
     () => hubs.map((_, i) => sliceProgress(clamped, i, STROKE_SLICES)),
-    [clamped]
+    [clamped],
   );
   const bodyProgress = sliceProgress(clamped, 4, STROKE_SLICES);
   const hubsProgress = sliceProgress(clamped, 5, STROKE_SLICES);
@@ -90,7 +90,13 @@ export default function DroneSchematic({ progress }: { progress: number }) {
 
       {hubs.map((h, i) => (
         <g key={`hub-${i}`} style={{ opacity: hubsProgress }}>
-          <circle cx={h.x} cy={h.y} r={18} stroke="currentColor" strokeWidth={2} />
+          <circle
+            cx={h.x}
+            cy={h.y}
+            r={18}
+            stroke="currentColor"
+            strokeWidth={2}
+          />
           <circle
             cx={h.x}
             cy={h.y}
@@ -103,11 +109,40 @@ export default function DroneSchematic({ progress }: { progress: number }) {
       ))}
 
       <g style={{ opacity: dimensionProgress }} className="text-ink-3">
-        <line x1={78} y1={40} x2={322} y2={40} stroke="var(--color-rule-strong)" strokeWidth={1} />
-        <line x1={78} y1={32} x2={78} y2={48} stroke="var(--color-rule-strong)" strokeWidth={1} />
-        <line x1={322} y1={32} x2={322} y2={48} stroke="var(--color-rule-strong)" strokeWidth={1} />
-        <path d="M86 36 L78 40 L86 44" stroke="var(--color-rule-strong)" strokeWidth={1} />
-        <path d="M314 36 L322 40 L314 44" stroke="var(--color-rule-strong)" strokeWidth={1} />
+        <line
+          x1={78}
+          y1={40}
+          x2={322}
+          y2={40}
+          stroke="var(--color-rule-strong)"
+          strokeWidth={1}
+        />
+        <line
+          x1={78}
+          y1={32}
+          x2={78}
+          y2={48}
+          stroke="var(--color-rule-strong)"
+          strokeWidth={1}
+        />
+        <line
+          x1={322}
+          y1={32}
+          x2={322}
+          y2={48}
+          stroke="var(--color-rule-strong)"
+          strokeWidth={1}
+        />
+        <path
+          d="M86 36 L78 40 L86 44"
+          stroke="var(--color-rule-strong)"
+          strokeWidth={1}
+        />
+        <path
+          d="M314 36 L322 40 L314 44"
+          stroke="var(--color-rule-strong)"
+          strokeWidth={1}
+        />
       </g>
       <text
         style={{ opacity: dimensionProgress }}

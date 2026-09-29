@@ -1,4 +1,5 @@
-export type CheckpointId = "liftoff" | "log" | "origin" | "telemetry" | "landing";
+export type CheckpointId =
+  "liftoff" | "log" | "origin" | "telemetry" | "landing";
 
 export interface Checkpoint {
   id: CheckpointId;

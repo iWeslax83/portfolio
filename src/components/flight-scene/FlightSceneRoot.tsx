@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { checkpoints, activeCheckpoint, TOTAL_SPACER_VH } from "@/lib/flight-scene/route";
+import {
+  checkpoints,
+  activeCheckpoint,
+  TOTAL_SPACER_VH,
+} from "@/lib/flight-scene/route";
 import { useFlightProgress } from "@/lib/flight-scene/useFlightProgress";
 import Liftoff from "@/components/checkpoints/Liftoff";
 import Log from "@/components/checkpoints/Log";
@@ -47,7 +51,11 @@ export default function FlightSceneRoot({
   }, [progressRef]);
 
   return (
-    <div ref={spacerRef} className="relative" style={{ height: `${TOTAL_SPACER_VH}vh` }}>
+    <div
+      ref={spacerRef}
+      className="relative"
+      style={{ height: `${TOTAL_SPACER_VH}vh` }}
+    >
       {checkpoints.map((c) => (
         <span
           key={c.id}
@@ -61,9 +69,18 @@ export default function FlightSceneRoot({
         />
       ))}
       <Liftoff visible={activeId === "liftoff"} mode="scene" />
-      <Log visible={activeId === "log"} mode="scene" repoStats={repoStats} progressRef={progressRef} />
+      <Log
+        visible={activeId === "log"}
+        mode="scene"
+        repoStats={repoStats}
+        progressRef={progressRef}
+      />
       <Ventures visible={activeId === "origin"} mode="scene" />
-      <Telemetry visible={activeId === "telemetry"} mode="scene" stats={githubStats} />
+      <Telemetry
+        visible={activeId === "telemetry"}
+        mode="scene"
+        stats={githubStats}
+      />
       <Landing visible={activeId === "landing"} mode="scene" />
     </div>
   );

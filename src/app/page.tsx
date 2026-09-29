@@ -12,7 +12,7 @@ export default async function Home() {
   const githubStats = await fetchGitHubStats();
   const commits = getRecentCommits();
   const repoStats = await fetchRepoStats(
-    projects.filter((p) => p.repo).map((p) => p.repo as string)
+    projects.filter((p) => p.repo).map((p) => p.repo as string),
   );
 
   return (

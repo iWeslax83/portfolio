@@ -22,7 +22,13 @@ export default function WireframeMesh({
       preserveAspectRatio="none"
     >
       {lines.map((line, i) => (
-        <path key={i} d={line.d} fill="none" stroke="var(--color-rule-strong)" strokeWidth="1" />
+        <path
+          key={i}
+          d={line.d}
+          fill="none"
+          stroke="var(--color-rule-strong)"
+          strokeWidth="1"
+        />
       ))}
     </svg>
   );

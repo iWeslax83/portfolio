@@ -4,7 +4,11 @@ import { binaryDigits } from "@/lib/binary-ticker";
  * Thin horizontal strip of deterministic binary digits - decorative
  * divider for the hero beat, aria-hidden.
  */
-export default function BinaryTicker({ className = "" }: { className?: string }) {
+export default function BinaryTicker({
+  className = "",
+}: {
+  className?: string;
+}) {
   return (
     <p
       aria-hidden

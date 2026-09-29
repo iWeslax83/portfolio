@@ -22,9 +22,12 @@
   --color-card-border-hover: rgba(10, 10, 10, 0.28);
 
   /* ── Type ─────────────────────────────────────────────────── */
-  --font-display: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-body:
+    var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans:
+    var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
   --font-serif: var(--font-fraunces), Georgia, serif;
   --font-condensed: var(--font-oswald), "Arial Narrow", sans-serif;
@@ -198,23 +201,35 @@ button,
 
 /* ── Micro-motion ─────────────────────────────────────────── */
 @keyframes drift-y {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
 .animate-drift {
   animation: drift-y 6s ease-in-out infinite;
 }
 
 @keyframes signal {
-  0%, 100% { opacity: 0.25; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 .animate-signal {
   animation: signal 2.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;

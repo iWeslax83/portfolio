@@ -7,7 +7,5 @@ const LAST_CONTENT_UPDATE = new Date("2026-07-24");
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://emirsakarya.vercel.app";
 
-  return [
-    { url: baseUrl, lastModified: LAST_CONTENT_UPDATE, priority: 1.0 },
-  ];
+  return [{ url: baseUrl, lastModified: LAST_CONTENT_UPDATE, priority: 1.0 }];
 }

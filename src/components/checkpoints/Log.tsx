@@ -11,7 +11,9 @@ import { FlightProgressRef } from "@/lib/flight-scene/useFlightProgress";
 import { useWorkCarouselProgress } from "@/lib/flight-scene/useWorkCarouselProgress";
 import { cardRotations } from "@/lib/card-rotations";
 import SectionHeader from "@/components/ui/section-header";
-import CatalogFilter, { CatalogFilterValue } from "@/components/ui/catalog-filter";
+import CatalogFilter, {
+  CatalogFilterValue,
+} from "@/components/ui/catalog-filter";
 import StatusTag from "@/components/ui/status-tag";
 import CheckpointShell from "./CheckpointShell";
 import WorkIntroBackground from "./work-carousel/WorkIntroBackground";
@@ -41,28 +43,45 @@ function Links({ links }: { links: Project["links"] }) {
   );
 }
 
-function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | null> }) {
+function FlatCatalogue({
+  repoStats,
+}: {
+  repoStats: Record<string, RepoStats | null>;
+}) {
   const t = useTranslations("projects");
   const [filter, setFilter] = useState<CatalogFilterValue>("ALL");
 
   const [flagship] = featuredProjects;
-  const ordered = [flagship, ...projects.filter((p) => p.slug !== flagship.slug).sort((a, b) => a.order - b.order)];
-  const displayedProjects = ordered.filter((p) => filter === "ALL" || p.status === filter);
+  const ordered = [
+    flagship,
+    ...projects
+      .filter((p) => p.slug !== flagship.slug)
+      .sort((a, b) => a.order - b.order),
+  ];
+  const displayedProjects = ordered.filter(
+    (p) => filter === "ALL" || p.status === filter,
+  );
 
   return (
     <div>
-      <SectionHeader title={t("title")} meta={t("count", { count: projects.length })} />
+      <SectionHeader
+        title={t("title")}
+        meta={t("count", { count: projects.length })}
+      />
       <div className="mt-6 mb-6">
         <CatalogFilter value={filter} onChange={setFilter} />
       </div>
       <div>
         {displayedProjects.map((project, i) => {
-          const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
+          const primary =
+            project.links.find((l) => l.isPrimary) ?? project.links[0];
           return (
             <article
               key={project.slug}
               className={`relative grid gap-x-8 py-8 ${
-                project.slug === flagship.slug ? "border-2 border-ink px-6 md:px-8" : "border-t border-rule"
+                project.slug === flagship.slug
+                  ? "border-2 border-ink px-6 md:px-8"
+                  : "border-t border-rule"
               }`}
             >
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5 mb-3">
@@ -79,8 +98,14 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
                 {primary && (
                   <a
                     href={primary.href}
-                    target={primary.href.startsWith("http") ? "_blank" : undefined}
-                    rel={primary.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    target={
+                      primary.href.startsWith("http") ? "_blank" : undefined
+                    }
+                    rel={
+                      primary.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
                     aria-label={`${project.title} - ${primary.label}`}
                     className="mt-1 shrink-0 text-ink-3 transition-colors hover:text-ink active:text-ink"
                   >
@@ -88,7 +113,9 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
                   </a>
                 )}
               </div>
-              <p className="font-body text-sm text-ink-2 mt-2.5 leading-relaxed max-w-2xl">{project.description}</p>
+              <p className="font-body text-sm text-ink-2 mt-2.5 leading-relaxed max-w-2xl">
+                {project.description}
+              </p>
               <p className="font-mono text-[11px] text-ink-3 mt-4 leading-relaxed">
                 {project.techPills.join("  ·  ")}
               </p>
@@ -106,7 +133,8 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
               )}
               {project.repo && repoStats[project.repo] && (
                 <p className="mt-4 font-mono text-[11px] text-ink-3">
-                  {repoStats[project.repo]!.commitCount} commits · last commit {repoStats[project.repo]!.lastCommitDate}
+                  {repoStats[project.repo]!.commitCount} commits · last commit{" "}
+                  {repoStats[project.repo]!.lastCommitDate}
                 </p>
               )}
             </article>
@@ -117,13 +145,27 @@ function FlatCatalogue({ repoStats }: { repoStats: Record<string, RepoStats | nu
   );
 }
 
-function SceneCarousel({ progressRef }: { progressRef: RefObject<FlightProgressRef> }) {
+function SceneCarousel({
+  progressRef,
+}: {
+  progressRef: RefObject<FlightProgressRef>;
+}) {
   const [flagship] = featuredProjects;
-  const ordered = [flagship, ...projects.filter((p) => p.slug !== flagship.slug).sort((a, b) => a.order - b.order)];
+  const ordered = [
+    flagship,
+    ...projects
+      .filter((p) => p.slug !== flagship.slug)
+      .sort((a, b) => a.order - b.order),
+  ];
   const state = useWorkCarouselProgress(progressRef, ordered.length);
 
   if (state.stage === "intro" || state.stage === "tile") {
-    return <WorkIntroBackground stage={state.stage} stageProgress={state.stageProgress} />;
+    return (
+      <WorkIntroBackground
+        stage={state.stage}
+        stageProgress={state.stageProgress}
+      />
+    );
   }
 
   if (state.stage === "carousel") {
@@ -139,7 +181,10 @@ function SceneCarousel({ progressRef }: { progressRef: RefObject<FlightProgressR
 
     return (
       <div className="relative h-full w-full">
-        <WorkIntroBackground stage={state.stage} stageProgress={state.stageProgress} />
+        <WorkIntroBackground
+          stage={state.stage}
+          stageProgress={state.stageProgress}
+        />
         {ordered.map((project, i) => {
           const offset = i - continuousPos;
           const opacity = Math.max(0, 1 - Math.abs(offset) * 0.85);
@@ -165,7 +210,10 @@ function SceneCarousel({ progressRef }: { progressRef: RefObject<FlightProgressR
   const lastIndex = ordered.length - 1;
   return (
     <div className="relative h-full w-full">
-      <WorkIntroBackground stage={state.stage} stageProgress={state.stageProgress} />
+      <WorkIntroBackground
+        stage={state.stage}
+        stageProgress={state.stageProgress}
+      />
       <ProjectCard
         project={ordered[lastIndex]}
         index={lastIndex}

@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
 import { CommitEntry } from "@/lib/git-history";
 import { binaryRows } from "@/lib/binary-texture";
 
@@ -20,7 +25,10 @@ export default function CommitMotif({ commits }: { commits: CommitEntry[] }) {
   const reduce = useReducedMotion();
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-0 select-none">
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-x-0 top-0 z-0 select-none"
+    >
       {commits.length > 0 && (
         <motion.div
           style={{ x: reduce ? 0 : commitX }}

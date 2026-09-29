@@ -32,7 +32,11 @@ export const projects: Project[] = [
     tagDetail: "live · typed agent task-graphs",
     techPills: ["Next.js", "TypeScript", "Zod", "agent tooling"],
     links: [
-      { label: "live", href: "https://prose-eight.vercel.app", isPrimary: true },
+      {
+        label: "live",
+        href: "https://prose-eight.vercel.app",
+        isPrimary: true,
+      },
       {
         label: "source code",
         href: "https://github.com/iWeslax83/prose",
@@ -78,9 +82,19 @@ export const projects: Project[] = [
       "Pulls real active fires from NASA FIRMS onto a world map. Click one and it takes that fire's wind, terrain slope, fuel cover, and humidity and animates where it spreads over the next 12 to 24 hours. The engine is a simplified Alexandridis (2008) cellular-automata model running in a Web Worker.",
     tag: "simulation",
     tagDetail: "live · GDG Çadırlı Hackathon",
-    techPills: ["Next.js", "TypeScript", "MapLibre GL", "Web Worker", "NASA FIRMS"],
+    techPills: [
+      "Next.js",
+      "TypeScript",
+      "MapLibre GL",
+      "Web Worker",
+      "NASA FIRMS",
+    ],
     links: [
-      { label: "live", href: "https://live-wildfire.vercel.app", isPrimary: true },
+      {
+        label: "live",
+        href: "https://live-wildfire.vercel.app",
+        isPrimary: true,
+      },
       {
         label: "source code",
         href: "https://github.com/iWeslax83/live-wildfire",
@@ -126,7 +140,13 @@ export const projects: Project[] = [
       "Video training platform I built for my own UAV club. Curriculum tree, anti-skip video completion, server-scored quizzes, practical task review with captain feedback, leaderboard, and printable certificates. A cron job proposes new lessons from YouTube; a human always makes the call.",
     tag: "full-stack",
     tagDetail: "live · Next.js 16 + Supabase",
-    techPills: ["Next.js 16", "Supabase", "Postgres RLS", "Server Actions", "Vitest"],
+    techPills: [
+      "Next.js 16",
+      "Supabase",
+      "Postgres RLS",
+      "Server Actions",
+      "Vitest",
+    ],
     links: [
       {
         label: "live",
@@ -152,7 +172,13 @@ export const projects: Project[] = [
       "QR-code table-ordering and bill-splitting web app for restaurants. The customer scans the table QR, browses a localized menu, orders, and splits the check by item, evenly, or in full. A 12-table Postgres schema (Drizzle ORM on Neon) covers table sessions, orders, split-payment item locks, and waiter calls, with role-based panels for admin, waiter, and kitchen. Live order status streams to the customer over server-sent events; card payments run through iyzico alongside fast-IBAN and cash flows. Turkish/English i18n via a locale cookie keeps printed QR links valid across languages, with allergen/diet filtering over 7 fixed tags, JWT auth, and a daily cron that flags unpaid tables.",
     tag: "full-stack",
     tagDetail: "2026 · Next.js 16 + Neon",
-    techPills: ["Next.js 16", "React 19", "Drizzle ORM", "Neon Postgres", "TypeScript"],
+    techPills: [
+      "Next.js 16",
+      "React 19",
+      "Drizzle ORM",
+      "Neon Postgres",
+      "TypeScript",
+    ],
     links: [],
     featured: false,
     order: 7,
@@ -249,7 +275,8 @@ export const projects: Project[] = [
   {
     slug: "fpv-drone",
     title: "FPV Drone",
-    description: "FPV UAV for the MEB Robot competition with real-time video transmission.",
+    description:
+      "FPV UAV for the MEB Robot competition with real-time video transmission.",
     tag: "competition",
     tagDetail: "MEB Robot · FPV racing",
     techPills: ["FPV", "electronics"],
@@ -261,7 +288,8 @@ export const projects: Project[] = [
   {
     slug: "vex-robotics",
     title: "VEX Robotics",
-    description: "Competition robot with custom mechanical design and sensor integration.",
+    description:
+      "Competition robot with custom mechanical design and sensor integration.",
     tag: "competition",
     tagDetail: "V5 Pushback",
     techPills: ["VEX V5", "sensors"],
@@ -277,7 +305,13 @@ export const projects: Project[] = [
     tag: "web",
     tagDetail: "Next.js · Team showcase",
     techPills: ["Next.js", "Tailwind"],
-    links: [{ label: "live", href: "https://tfltmt-website.vercel.app", isPrimary: true }],
+    links: [
+      {
+        label: "live",
+        href: "https://tfltmt-website.vercel.app",
+        isPrimary: true,
+      },
+    ],
     image: "/images/projects/tmt-website.png",
     featured: false,
     order: 15,

@@ -4,7 +4,11 @@ import { radialRays } from "@/lib/radial-burst";
  * Deterministic radial burst of thin lines converging on a center point -
  * decorative background for the Contact beat's closing CTA statement.
  */
-export default function RadialBurst({ className = "" }: { className?: string }) {
+export default function RadialBurst({
+  className = "",
+}: {
+  className?: string;
+}) {
   return (
     <svg
       aria-hidden
@@ -13,7 +17,15 @@ export default function RadialBurst({ className = "" }: { className?: string }) 
       preserveAspectRatio="xMidYMid slice"
     >
       {radialRays.map((ray, i) => (
-        <line key={i} x1="500" y1="500" x2={ray.x2} y2={ray.y2} stroke="var(--color-rule)" strokeWidth="1" />
+        <line
+          key={i}
+          x1="500"
+          y1="500"
+          x2={ray.x2}
+          y2={ray.y2}
+          stroke="var(--color-rule)"
+          strokeWidth="1"
+        />
       ))}
     </svg>
   );

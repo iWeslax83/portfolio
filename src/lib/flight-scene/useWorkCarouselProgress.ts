@@ -20,10 +20,16 @@ export interface WorkCarouselState {
 
 const logWindow = checkpoints.find((c) => c.id === "log")!;
 
-function computeState(globalProgress: number, projectCount: number): WorkCarouselState {
+function computeState(
+  globalProgress: number,
+  projectCount: number,
+): WorkCarouselState {
   const logLocal = Math.min(
     1,
-    Math.max(0, (globalProgress - logWindow.start) / (logWindow.end - logWindow.start))
+    Math.max(
+      0,
+      (globalProgress - logWindow.start) / (logWindow.end - logWindow.start),
+    ),
   );
 
   if (logLocal < WORK_STAGE_BOUNDARIES.introEnd) {
@@ -53,13 +59,19 @@ function computeState(globalProgress: number, projectCount: number): WorkCarouse
     const raw = carouselLocal * projectCount;
     const activeIndex = Math.min(projectCount - 1, Math.floor(raw));
     const slideProgress = Math.min(1, raw - activeIndex);
-    return { stage: "carousel", stageProgress: carouselLocal, activeIndex, slideProgress };
+    return {
+      stage: "carousel",
+      stageProgress: carouselLocal,
+      activeIndex,
+      slideProgress,
+    };
   }
 
   return {
     stage: "zoomOut",
     stageProgress:
-      (logLocal - WORK_STAGE_BOUNDARIES.carouselEnd) / (1 - WORK_STAGE_BOUNDARIES.carouselEnd),
+      (logLocal - WORK_STAGE_BOUNDARIES.carouselEnd) /
+      (1 - WORK_STAGE_BOUNDARIES.carouselEnd),
     activeIndex: projectCount - 1,
     slideProgress: 0,
   };
@@ -74,9 +86,11 @@ function computeState(globalProgress: number, projectCount: number): WorkCarouse
  */
 export function useWorkCarouselProgress(
   progressRef: RefObject<FlightProgressRef>,
-  projectCount: number
+  projectCount: number,
 ): WorkCarouselState {
-  const [state, setState] = useState<WorkCarouselState>(() => computeState(0, projectCount));
+  const [state, setState] = useState<WorkCarouselState>(() =>
+    computeState(0, projectCount),
+  );
   const lastKeyRef = useRef("");
 
   useEffect(() => {

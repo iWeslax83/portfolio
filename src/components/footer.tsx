@@ -5,9 +5,21 @@ import { navItems } from "@/data/nav-items";
 import { scrollToSection } from "@/lib/scroll-to-section";
 
 const contactLinks = [
-  { label: "Email", value: "emirsakarya00@gmail.com", href: "mailto:emirsakarya00@gmail.com" },
-  { label: "GitHub", value: "github.com/iWeslax83", href: "https://github.com/iWeslax83" },
-  { label: "LinkedIn", value: "linkedin.com/in/emirsakarya", href: "https://linkedin.com/in/emirsakarya" },
+  {
+    label: "Email",
+    value: "emirsakarya00@gmail.com",
+    href: "mailto:emirsakarya00@gmail.com",
+  },
+  {
+    label: "GitHub",
+    value: "github.com/iWeslax83",
+    href: "https://github.com/iWeslax83",
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/emirsakarya",
+    href: "https://linkedin.com/in/emirsakarya",
+  },
 ];
 
 export default function Footer() {
@@ -18,7 +30,10 @@ export default function Footer() {
     <footer>
       <div className="grid grid-cols-2 sm:grid-cols-4 border-t border-rule">
         {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="h-16 md:h-20 border-b border-rule border-r last:border-r-0 sm:[&:nth-child(4n)]:border-r-0" />
+          <div
+            key={i}
+            className="h-16 md:h-20 border-b border-rule border-r last:border-r-0 sm:[&:nth-child(4n)]:border-r-0"
+          />
         ))}
       </div>
 
@@ -26,7 +41,8 @@ export default function Footer() {
         aria-hidden
         className="h-16 md:h-20"
         style={{
-          backgroundImage: "radial-gradient(var(--color-bg) 1px, var(--color-ink) 1px)",
+          backgroundImage:
+            "radial-gradient(var(--color-bg) 1px, var(--color-ink) 1px)",
           backgroundSize: "8px 8px",
           backgroundColor: "var(--color-ink)",
         }}
@@ -50,7 +66,11 @@ export default function Footer() {
                     <a
                       href={c.href}
                       target={c.href.startsWith("http") ? "_blank" : undefined}
-                      rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      rel={
+                        c.href.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
                       className="flex items-baseline justify-between gap-4 font-mono text-sm transition-opacity hover:opacity-70 active:opacity-70"
                     >
                       <span>{c.label}</span>
