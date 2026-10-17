@@ -25,10 +25,10 @@ type ContributionWeek = { contributionDays: ContributionDay[] };
 
 async function fetchContributions(): Promise<{
   graph: number[][];
-  total: number;
+  total: number | null;
 }> {
   if (!GITHUB_TOKEN) {
-    return { graph: [], total: 0 };
+    return { graph: [], total: null };
   }
 
   const query = `
@@ -57,7 +57,7 @@ async function fetchContributions(): Promise<{
     next: { revalidate: REVALIDATE_SECONDS },
   });
 
-  if (!res.ok) return { graph: [], total: 0 };
+  if (!res.ok) return { graph: [], total: null };
 
   const data = await res.json();
   const weeks: ContributionWeek[] =

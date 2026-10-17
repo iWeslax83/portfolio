@@ -14,19 +14,25 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
       <p className={label}>{t("githubLabel")}</p>
       {stats ? (
         <>
-          <dl className="mt-4 grid grid-cols-2 gap-4">
+          <dl
+            className={`mt-4 grid gap-4 ${
+              stats.contributions !== null ? "grid-cols-2" : "grid-cols-1"
+            }`}
+          >
             <div className="flex flex-col-reverse">
               <dt className={label}>{t("publicRepos")}</dt>
               <dd className="font-display text-5xl leading-none tabular-nums">
                 {stats.publicRepos}
               </dd>
             </div>
-            <div className="flex flex-col-reverse">
-              <dt className={label}>{t("contributions")}</dt>
-              <dd className="font-display text-5xl leading-none tabular-nums">
-                {stats.contributions}
-              </dd>
-            </div>
+            {stats.contributions !== null && (
+              <div className="flex flex-col-reverse">
+                <dt className={label}>{t("contributions")}</dt>
+                <dd className="font-display text-5xl leading-none tabular-nums">
+                  {stats.contributions}
+                </dd>
+              </div>
+            )}
           </dl>
           {stats.languages.length > 0 && (
             <div className="mt-5">
