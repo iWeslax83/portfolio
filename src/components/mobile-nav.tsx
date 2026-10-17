@@ -1,12 +1,12 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { spring } from "@/lib/motion";
 import { navItems } from "@/data/nav-items";
-import { scrollToSection } from "@/lib/scroll-to-section";
 
+/** Full-screen black menu sheet with numbered serif links. */
 export default function MobileNav({
   open,
   onClose,
@@ -15,60 +15,78 @@ export default function MobileNav({
   onClose: () => void;
 }) {
   const t = useTranslations("nav");
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose]);
 
   return (
     <AnimatePresence>
       {open && (
-        <>
-          <motion.div
-            className="fixed inset-0 bg-black/70 z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-          />
-          <motion.div
-            className="fixed top-0 right-0 bottom-0 w-72 bg-panel border-l border-rule z-50 p-8 flex flex-col gap-7"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={spring}
-          >
-            <div className="flex items-center justify-between">
-              <span className="annotate">menu</span>
-              <button
-                onClick={onClose}
-                className="text-ink-3 hover:text-ink active:scale-90 active:text-ink transition-[color,transform]"
-                aria-label="Close menu"
-              >
-                <X size={18} />
-              </button>
-            </div>
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={t("menu")}
+          className="fixed inset-0 z-[70] flex flex-col bg-ink p-6 text-bg"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <div className="flex justify-end">
+            <button
+              ref={closeRef}
+              type="button"
+              onClick={onClose}
+              aria-label={t("closeMenu")}
+              className="flex h-12 w-12 items-center justify-center border border-bg/30 active:bg-bg active:text-ink"
+            >
+              <X size={22} />
+            </button>
+          </div>
 
-            <nav className="flex flex-col">
-              {navItems.map((item, i) => (
-                <motion.a
-                  key={item.key}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onClose();
-                    scrollToSection(item.href.slice(1));
-                  }}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 + i * 0.05, ...spring }}
-                  className="group flex items-baseline gap-3 border-b border-rule py-4 font-display text-lg text-ink-2 transition-colors hover:text-ink active:text-ink"
-                >
-                  <span className="font-mono text-[11px] text-ink-3 transition-colors group-hover:text-ink group-active:text-ink">
-                    {item.num}
-                  </span>
-                  {t(item.key)}
-                </motion.a>
-              ))}
-            </nav>
-          </motion.div>
-        </>
+          <nav aria-label={t("menu")} className="mt-10 flex flex-col">
+            {navItems.map((item) => (
+              <a
+                key={item.key}
+                href={item.href}
+                onClick={onClose}
+                className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl active:opacity-70"
+              >
+                <span className="font-mono text-xs text-bg/60">{item.num}</span>
+                {t(item.key)}
+              </a>
+            ))}
+          </nav>
+
+          <div className="mt-auto flex gap-6 font-mono text-xs uppercase tracking-[0.1em] text-bg/70">
+            <a
+              href="https://github.com/iWeslax83"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://linkedin.com/in/emirsakarya"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

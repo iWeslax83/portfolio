@@ -3,24 +3,7 @@
 import { useTranslations } from "next-intl";
 import { navItems } from "@/data/nav-items";
 import { scrollToSection } from "@/lib/scroll-to-section";
-
-const contactLinks = [
-  {
-    label: "Email",
-    value: "emirsakarya00@gmail.com",
-    href: "mailto:emirsakarya00@gmail.com",
-  },
-  {
-    label: "GitHub",
-    value: "github.com/iWeslax83",
-    href: "https://github.com/iWeslax83",
-  },
-  {
-    label: "LinkedIn",
-    value: "linkedin.com/in/emirsakarya",
-    href: "https://linkedin.com/in/emirsakarya",
-  },
-];
+import { contactLinks } from "@/data/contact";
 
 export default function Footer() {
   const t = useTranslations("footer");
