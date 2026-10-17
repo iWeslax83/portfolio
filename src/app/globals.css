@@ -13,6 +13,7 @@
   /* ink-3 is the tertiary readout tone, rendered at 11px by .annotate.
      Verified at WCAG AA (~4.54:1) against #ffffff. */
   --color-ink-3: #767676;
+  --color-frame: #0a0a0a;
 
   /* ── Structure ─────────────────────────────────────────────── */
   --color-rule: rgba(10, 10, 10, 0.12);
@@ -22,14 +23,11 @@
   --color-card-border-hover: rgba(10, 10, 10, 0.28);
 
   /* ── Type ─────────────────────────────────────────────────── */
-  --font-display:
-    var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-body:
-    var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-sans:
-    var(--font-cabinet-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-anton), "Arial Narrow", sans-serif;
+  --font-body: var(--font-instrument), Georgia, serif;
+  --font-sans: var(--font-instrument), Georgia, serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
-  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
   --font-condensed: var(--font-oswald), "Arial Narrow", sans-serif;
   --font-display-accent: var(--font-metamorphous), Georgia, serif;
 }
@@ -42,7 +40,7 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
+  background-color: var(--color-frame);
   color: var(--color-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -63,7 +61,7 @@ footer {
 }
 
 section[id] {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: 1rem;
 }
 
 /* ── Selection & focus ────────────────────────────────────── */
@@ -142,6 +140,29 @@ button,
   text-shadow:
     2px 2px 0 var(--color-ink-3),
     4px 4px 6px rgba(10, 10, 10, 0.18);
+}
+
+/* Embossed white letters on black (Work gallery): a hard gray offset. */
+.emboss-light {
+  text-shadow: 3px 3px 0 #8f8f8f;
+}
+
+/* Work section variants. The pinned, scroll-driven gallery only runs on
+   wide screens for people who have not asked for reduced motion; everyone
+   else gets the static gallery. Pure CSS, so no hydration mismatch. */
+.work-animated {
+  display: none;
+}
+.work-static {
+  display: block;
+}
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .work-animated {
+    display: block;
+  }
+  .work-static {
+    display: none;
+  }
 }
 
 /* Square status dot - replaces the old circular signal dot. Paired with
