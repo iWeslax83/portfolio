@@ -68,8 +68,9 @@ sections, rendered by `src/app/page.tsx`:
 ```
 
 New sections live in `src/components/sections/`. Each is a standalone
-component with no shared scroll state. Only `Work` uses GSAP
-ScrollTrigger (`src/lib/gsap.ts`) to pin. Other reveal motion uses
+component with no shared scroll state. Only `Work` pins, using
+CSS `position: sticky` plus framer-motion `useScroll` (no GSAP; the
+`gsap` packages are removed if nothing else uses them). Other reveal motion uses
 framer-motion `whileInView` with the existing spring in `src/lib/motion.ts`.
 `prefers-reduced-motion`: no pinning, no transforms, content renders in
 its final state.
@@ -91,8 +92,8 @@ anchor scrolling works again (no fixed-overlay layout), so the
 | Labels, nav, tickers, data | **JetBrains Mono** | already loaded |
 
 Removed: Fraunces, Cabinet Grotesk (local files deleted), Bebas Neue.
-Body text: Instrument Serif at 20px desktop / 18px mobile, line-height
-1.5, letter-spacing -0.01em. Mono labels: 12px, uppercase, tracking
+About copy: Instrument Serif at 30px desktop / 22px mobile (the
+reference's large reading size), line-height 1.5, letter-spacing -0.01em. Mono labels: 12px, uppercase, tracking
 0.1em.
 
 ### Color tokens (`globals.css`)
@@ -105,7 +106,7 @@ No change: `#FFFFFF` canvas, `#0A0A0A` ink, existing rule tokens. New:
 - **Frame:** `body` background ink, content wrapper inset 16px on all
   sides (8px below 640px) with a white background. Fixed black bars on
   all four edges so the frame stays visible while scrolling.
-- **Header:** `sticky` top, white, 96px tall on desktop, built as one
+- **Header:** in normal flow (it scrolls away, as the reference's does), white, 96px tall on desktop, built as one
   row of bordered cells (1px ink rules):
   1. Logo cell (96px square): the existing monogram mark.
   2. Mono micro-caption cell: "EMIR SAKARYA · BURSA".
@@ -114,11 +115,11 @@ No change: `#FFFFFF` canvas, `#0A0A0A` ink, existing rule tokens. New:
   4. Social cell: GitHub over LinkedIn, two stacked 48px squares.
   5. Tagline cell, two stacked rows in Instrument Serif 22px:
      "Building from Bursa, Türkiye." / "Shipping founder-built products.
-     **Get in touch**" (bold link to `#contact`).
+     Get in touch" (underlined link to `#contact`; Instrument Serif
+     ships one weight, so no faux bold).
 - **Mobile (<1024px):** logo cell, a grow spacer and a burger cell.
   The burger opens the existing `mobile-nav.tsx` restyled as a
   full-screen black sheet with numbered serif links (01 About ...).
-- Scroll-progress bar: a 2px ink line under the header.
 
 ## 4. Hero (`id="home"`)
 
@@ -207,8 +208,8 @@ Copy lives in `src/messages/en.json` under `about.p1`..`about.p4`.
    black capsule (stadium shape, dot texture) sits centered on the grid
    with "WORK" stacked vertically in white Anton. On scroll the capsule
    scales up until it fills the viewport black, handing off to step 2.
-2. **Pinned gallery (black):** pinned with ScrollTrigger for about 3
-   viewports of scroll.
+2. **Pinned gallery (black):** a 400vh section with a sticky
+   viewport-height stage, so about 3 viewports of scroll.
    - Background: four rows of repeated white Anton letters (W, O, R, K),
      each letter with a gray offset drop shadow (emboss), plus a faint
      white dot grid. Rows sway with a small per-letter rotation driven by
