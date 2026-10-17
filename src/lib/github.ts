@@ -5,18 +5,6 @@ const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const REVALIDATE_SECONDS = 86400;
 const MAX_REPOS_FOR_LANG_BREAKDOWN = 30;
 
-const FALLBACK_STATS: GitHubStats = {
-  publicRepos: 7,
-  contributions: 0,
-  languages: [
-    { name: "TypeScript", percentage: 45, color: "#c8c8ce" },
-    { name: "JavaScript", percentage: 30, color: "var(--color-ink-2)" },
-    { name: "Python", percentage: 18, color: "#8b8c94" },
-    { name: "Other", percentage: 7, color: "#55565e" },
-  ],
-  contributionGraph: [],
-};
-
 async function githubFetch(url: string) {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github.v3+json",
@@ -97,7 +85,7 @@ async function fetchLanguageBreakdown(
   // Unauthenticated GitHub API is 60 req/hr - skip per-repo language fan-out
   // entirely when no token is configured (one call per repo would burn the quota).
   if (!GITHUB_TOKEN) {
-    return FALLBACK_STATS.languages;
+    return [];
   }
 
   const topRepos = [...repos]
@@ -120,7 +108,7 @@ async function fetchLanguageBreakdown(
   }
 
   const totalBytes = Object.values(langBytes).reduce((a, b) => a + b, 0);
-  if (totalBytes === 0) return FALLBACK_STATS.languages;
+  if (totalBytes === 0) return [];
 
   const langColors: Record<string, string> = {
     TypeScript: "#c8c8ce",
@@ -140,7 +128,7 @@ async function fetchLanguageBreakdown(
     }));
 }
 
-export async function fetchGitHubStats(): Promise<GitHubStats> {
+export async function fetchGitHubStats(): Promise<GitHubStats | null> {
   try {
     const [user, repos, contributions] = await Promise.all([
       githubFetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
@@ -160,6 +148,6 @@ export async function fetchGitHubStats(): Promise<GitHubStats> {
     };
   } catch (error) {
     console.error("Failed to fetch GitHub stats:", error);
-    return FALLBACK_STATS;
+    return null;
   }
 }
