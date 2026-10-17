@@ -40,7 +40,8 @@
     "title": "Selected Work",
     "count": "{count} projects",
     "role": "Electronics & Software Captain",
-    "alsoLabel": "also shipped"
+    "alsoLabel": "also shipped",
+    "allTitle": "All projects"
   },
   "skills": {
     "title": "Tech Stack",
