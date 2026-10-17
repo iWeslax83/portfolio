@@ -7,6 +7,7 @@ import AboutSkills from "@/components/sections/about/AboutSkills";
 import { getRecentCommits } from "@/lib/git-history";
 import Work from "@/components/sections/work/Work";
 import Ventures from "@/components/sections/Ventures";
+import Closing from "@/components/sections/closing/Closing";
 import { projects } from "@/data/projects";
 import { fetchGitHubStats } from "@/lib/github";
 import { fetchRepoStats } from "@/lib/github-repo-stats";
@@ -25,6 +26,7 @@ export default async function Home() {
         <AboutSkills stats={githubStats} />
         <Work repoStats={repoStats} />
         <Ventures />
+        <Closing />
       </main>
       <Footer />
       <BackToTop />

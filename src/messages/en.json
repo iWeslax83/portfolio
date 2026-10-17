@@ -74,6 +74,15 @@
     "githubLabel": "GitHub",
     "linkedin": "LinkedIn"
   },
+  "closing": {
+    "line1": "Let's",
+    "line2": "Build",
+    "line3": "Something",
+    "line4": "Real",
+    "dreamBuild": "Dream it. Build it.",
+    "go": "GO",
+    "goLabel": "Email Emir Sakarya"
+  },
   "footer": {
     "colophon": "Designed and built by Emir Sakarya in Bursa, Türkiye.",
     "meta": "Next.js · 2026",

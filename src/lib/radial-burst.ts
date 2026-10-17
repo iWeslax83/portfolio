@@ -6,20 +6,23 @@ export interface RadialRay {
 }
 
 /**
- * Deterministic radial burst of rays from a center point (500,500 in a
- * 1000x1000 viewBox), evenly spaced by angle. Purely decorative background
- * for the Contact beat's closing CTA statement. Rounded to 2 decimals:
- * Math.cos/sin can differ in their last bit between server (Node) and
- * client (browser) JS engines, which produced a real hydration mismatch
- * on the raw float output - rounding gives both sides the same string.
+ * Evenly spaced rays from (cx, cy). Rounded to 2 decimals: Math.cos/sin can
+ * differ in the last bit between Node and browsers, and rounding keeps the
+ * server and client SVG strings identical.
  */
-export const radialRays: RadialRay[] = Array.from(
-  { length: RAY_COUNT },
-  (_, i) => {
-    const angle = (i / RAY_COUNT) * Math.PI * 2;
+export function radialRaysFrom(
+  cx: number,
+  cy: number,
+  count: number,
+  length: number,
+): RadialRay[] {
+  return Array.from({ length: count }, (_, i) => {
+    const angle = (i / count) * Math.PI * 2;
     return {
-      x2: Math.round((500 + Math.cos(angle) * 900) * 100) / 100,
-      y2: Math.round((500 + Math.sin(angle) * 900) * 100) / 100,
+      x2: Math.round((cx + Math.cos(angle) * length) * 100) / 100,
+      y2: Math.round((cy + Math.sin(angle) * length) * 100) / 100,
     };
-  },
-);
+  });
+}
+
+export const radialRays: RadialRay[] = radialRaysFrom(500, 500, RAY_COUNT, 900);
