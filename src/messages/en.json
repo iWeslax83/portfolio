@@ -1,9 +1,5 @@
 {
   "nav": {
-    "home": "home",
-    "flightLog": "work",
-    "founderStory": "ventures",
-    "telemetry": "telemetry",
     "about": "About",
     "work": "Work",
     "ventures": "Ventures",
@@ -17,62 +13,21 @@
     "closeMenu": "Close menu",
     "homeLabel": "Emir Sakarya, back to top"
   },
-  "hero": {
-    "role": "Founder & Software Engineer",
-    "org": "STRATOS İHA",
-    "hLine1": "ML · Embedded · Web",
-    "hLine2": "is where I build.",
-    "rev": "NASA Space Apps 2025 · Winner, Türkiye",
-    "panelReadout": "Autonomous quadrotor · Flight-ready",
-    "lead": "I run the electronics and software side of a TEKNOFEST UAV team I founded, from the flight stack down to the ground software. Off the airframe I ship production platforms and AI agent systems built to show their own work, not just claim it.",
-    "cred1": "Flight controllers, sensor fusion, autonomous mission planning",
-    "cred2": "Agent systems: typed task-graphs, verify gates, audit trails",
-    "cred3": "Production full-stack: React, Node, GraphQL, Postgres, Kubernetes",
-    "cred4": "Tofaş Fen Lisesi, Bursa · TEKNOFEST competitor",
-    "viewWork": "View work",
-    "getInTouch": "Get in touch"
-  },
   "ventures": {
-    "title": "What I've Built",
-    "unitsLabel": "what we build"
+    "title": "What I've Built"
   },
   "projects": {
-    "title": "Selected Work",
     "count": "{count} projects",
-    "role": "Electronics & Software Captain",
     "alsoLabel": "also shipped",
     "allTitle": "All projects"
   },
   "skills": {
-    "title": "Tech Stack",
-    "kicker": "capability matrix",
     "statement": "Hardware × AI × Production Software",
     "githubLabel": "GitHub · live",
     "publicRepos": "public repos",
     "contributions": "contributions",
     "githubUnavailable": "GitHub data unavailable right now.",
     "githubLink": "github.com/iWeslax83"
-  },
-  "github": {
-    "title": "GitHub",
-    "status": "telemetry · live",
-    "publicRepos": "public repos",
-    "contributions": "contributions",
-    "languages": "languages",
-    "activity": "12-month activity",
-    "languageBreakdown": "language mix"
-  },
-  "contact": {
-    "title": "Get in Touch",
-    "kicker": "open to work",
-    "ctaLine1": "Let's build something",
-    "ctaLine2": "that flies.",
-    "go": "GO",
-    "subtitle": "Open to internships and engineering work in embedded systems, autonomous robotics, AI agents, and full-stack software - the same range this site covers.",
-    "availability": "Based in Bursa, Türkiye · usually replies within a day",
-    "email": "Email",
-    "githubLabel": "GitHub",
-    "linkedin": "LinkedIn"
   },
   "closing": {
     "line1": "Let's",
