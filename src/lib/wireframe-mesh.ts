@@ -15,7 +15,10 @@ export interface WireframeLine {
   d: string;
 }
 
-function generateWireframeLines(seed: number): WireframeLine[] {
+export function generateWireframeLines(
+  seed: number,
+  lineCount = LINE_COUNT,
+): WireframeLine[] {
   const rand = mulberry32(seed);
   const lines: WireframeLine[] = [];
   const centers = Array.from({ length: 4 }, () => ({
@@ -23,8 +26,8 @@ function generateWireframeLines(seed: number): WireframeLine[] {
     strength: 40 + rand() * 60,
   }));
 
-  for (let i = 0; i < LINE_COUNT; i++) {
-    const baseX = (i / (LINE_COUNT - 1)) * 1000;
+  for (let i = 0; i < lineCount; i++) {
+    const baseX = (i / (lineCount - 1)) * 1000;
     const points: string[] = [];
     for (let p = 0; p < POINTS_PER_LINE; p++) {
       const y = (p / (POINTS_PER_LINE - 1)) * 600;
@@ -58,3 +61,6 @@ export const wireframeLines: WireframeLine[] = generateWireframeLines(4242);
  * reads as a distinct texture rather than a repeated element.
  */
 export const wireframeLinesAlt: WireframeLine[] = generateWireframeLines(8181);
+
+/** Dense mesh for the full-bleed hero panel (same seed, more lines). */
+export const heroMeshLines: WireframeLine[] = generateWireframeLines(4242, 140);

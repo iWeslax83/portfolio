@@ -1,18 +1,20 @@
 import { wireframeLines, type WireframeLine } from "@/lib/wireframe-mesh";
 
 /**
- * Full-bleed decorative warped-line mesh background. Deterministic (see
- * wireframe-mesh.ts), purely decorative - aria-hidden, no interaction, no
- * client-only state, safe as a server component. Pass `lines` to render
- * a different seeded mesh (e.g. `wireframeLinesAlt`) instead of the
- * default hero mesh.
+ * Decorative warped-line mesh. Deterministic (see wireframe-mesh.ts),
+ * aria-hidden, safe as a server component. `crests` thickens a few lines
+ * so the field has a couple of strong ridges.
  */
 export default function WireframeMesh({
   className = "",
   lines = wireframeLines,
+  stroke = "var(--color-rule-strong)",
+  crests = [],
 }: {
   className?: string;
   lines?: WireframeLine[];
+  stroke?: string;
+  crests?: number[];
 }) {
   return (
     <svg
@@ -26,8 +28,9 @@ export default function WireframeMesh({
           key={i}
           d={line.d}
           fill="none"
-          stroke="var(--color-rule-strong)"
-          strokeWidth="1"
+          stroke={stroke}
+          strokeWidth={crests.includes(i) ? 2.5 : 1}
+          vectorEffect="non-scaling-stroke"
         />
       ))}
     </svg>
