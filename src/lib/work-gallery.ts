@@ -47,3 +47,15 @@ export function exitPhase(progress: number, start = 0.9): number {
   const p = (progress - start) / (1 - start);
   return Math.min(1, Math.max(0, p));
 }
+
+/**
+ * Progress at which the gallery exit should begin when the content after
+ * it is pulled up by `overlapVh` over a `wrapperVh` tall pinned wrapper
+ * (which pins for wrapperVh - 100). That is the moment the overlapping
+ * content first enters the viewport, so the stage fades while it rises.
+ */
+export function exitStartFor(overlapVh: number, wrapperVh: number): number {
+  const pinned = wrapperVh - 100;
+  if (pinned <= 0) return 0;
+  return Math.min(1, Math.max(0, 1 - overlapVh / pinned));
+}

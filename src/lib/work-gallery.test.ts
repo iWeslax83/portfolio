@@ -4,6 +4,7 @@ import {
   cardX,
   cardY,
   exitPhase,
+  exitStartFor,
   galleryProjects,
   letterSway,
 } from "./work-gallery";
@@ -81,5 +82,18 @@ describe("exitPhase", () => {
     expect(exitPhase(1.4)).toBe(1);
     expect(exitPhase(-1)).toBe(0);
     expect(exitPhase(0.8, 0.6)).toBeCloseTo(0.5);
+  });
+});
+
+describe("exitStartFor", () => {
+  it("starts the exit when the overlapping catalogue first enters", () => {
+    // 400vh wrapper pins for 300vh; a 45vh overlap enters 45vh before the end.
+    expect(exitStartFor(45, 400)).toBeCloseTo(0.85);
+    expect(exitStartFor(30, 400)).toBeCloseTo(0.9);
+  });
+
+  it("clamps to the pinned range", () => {
+    expect(exitStartFor(0, 400)).toBe(1);
+    expect(exitStartFor(500, 400)).toBe(0);
   });
 });

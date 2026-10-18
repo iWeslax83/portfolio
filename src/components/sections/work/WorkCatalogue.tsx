@@ -126,7 +126,9 @@ export default function WorkCatalogue({
   }, [filter]);
 
   return (
-    <div ref={scope} className="border-t border-ink">
+    // Relative + z-[1] + its own background: in motion mode the catalogue
+    // is pulled up over the end of the pinned gallery and must paint on top.
+    <div ref={scope} className="relative z-[1] border-t border-ink bg-bg">
       <h3 data-reveal="bar" className={SECTION_BAR}>
         {t("allTitle")} · {t("count", { count: projects.length })}
       </h3>

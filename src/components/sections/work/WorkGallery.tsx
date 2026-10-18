@@ -5,12 +5,28 @@ import Image from "next/image";
 import type { Project } from "@/lib/types";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { cardRotations } from "@/lib/card-rotations";
-import { cardX, cardY, exitPhase, letterSway } from "@/lib/work-gallery";
+import {
+  cardX,
+  cardY,
+  exitPhase,
+  exitStartFor,
+  letterSway,
+} from "@/lib/work-gallery";
 import DotPattern from "@/components/ui/dot-pattern";
 import { STAGE_DOTS } from "./WorkIntro";
 
 const ROWS = ["W", "O", "R", "K"];
 const PER_ROW = 12;
+/** Wrapper height (vh): the stage pins for this minus one viewport. */
+const WRAPPER_VH = 400;
+/**
+ * How far (vh) the catalogue is pulled up over the end of the pinned stage.
+ * The stage fades out over exactly the scroll in which the catalogue rises
+ * over it, so the title bar arrives as the stage finishes, never after a
+ * blank white screen.
+ */
+const OVERLAP_VH = 45;
+const EXIT_START = exitStartFor(OVERLAP_VH, WRAPPER_VH);
 const INK = "#0a0a0a";
 const BG = "#ffffff";
 
@@ -83,8 +99,8 @@ function GalleryCard({
  * Black stage held for ~3 viewports (CSS sticky): swaying embossed WORK
  * letters behind screenshot cards that travel right to left, both driven by
  * one scrubbed ScrollTrigger (scrub: 1, so they lag and settle instead of
- * tracking raw scroll). Over the last 10% the stage fades to white so it
- * hands off into the catalogue. Decorative duplicate of the catalogue below,
+ * tracking raw scroll). The catalogue overlaps the last OVERLAP_VH of the
+ * wrapper, and the stage fades to white while it rises over it. Decorative duplicate of the catalogue below,
  * so it is hidden from assistive tech and out of tab order.
  */
 export default function WorkGallery({ items }: { items: Project[] }) {
@@ -114,7 +130,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
           const vw = window.innerWidth / 100;
           setRot.forEach((set, i) => set(letterSway(i, p)));
           setX.forEach((set, i) => set(cardX(i, total, p) * vw));
-          const e = exitPhase(p);
+          const e = exitPhase(p, EXIT_START);
           setFade(1 - e);
           setScale(1 - 0.06 * e);
           stage.style.backgroundColor = e > 0 ? mixBg(e) : "";
@@ -144,7 +160,15 @@ export default function WorkGallery({ items }: { items: Project[] }) {
   );
 
   return (
-    <div ref={ref} aria-hidden className="relative h-[400vh] bg-ink">
+    <div
+      ref={ref}
+      aria-hidden
+      style={{
+        height: `${WRAPPER_VH}vh`,
+        marginBottom: `-${OVERLAP_VH}vh`,
+      }}
+      className="relative bg-ink"
+    >
       <div data-stage className="sticky top-0 h-screen overflow-hidden bg-ink">
         <div data-stage-fade className="absolute inset-0">
           <DotPattern

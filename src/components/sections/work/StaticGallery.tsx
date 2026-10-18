@@ -25,7 +25,8 @@ export default function StaticGallery({ items }: { items: Project[] }) {
               <div className="mt-2 flex justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.12em]">
                 <span className="truncate">{p.title}</span>
                 <span className="tabular-nums">
-                  #{String(i + 1).padStart(3, "0")}/{String(items.length).padStart(2, "0")}
+                  #{String(i + 1).padStart(3, "0")}/
+                  {String(items.length).padStart(2, "0")}
                 </span>
               </div>
             </>
@@ -33,7 +34,13 @@ export default function StaticGallery({ items }: { items: Project[] }) {
           return (
             <li key={p.slug}>
               {primary ? (
-                <a href={primary.href} target="_blank" rel="noopener noreferrer" tabIndex={-1} className="block">
+                <a
+                  href={primary.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabIndex={-1}
+                  className="block"
+                >
                   {body}
                 </a>
               ) : (
