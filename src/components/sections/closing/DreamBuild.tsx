@@ -2,86 +2,80 @@
 
 import { useRef } from "react";
 import { useTranslations } from "next-intl";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
+import { gsap, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
+import { revealOnce } from "@/lib/reveal";
 import { warpedGrid } from "@/lib/warped-grid";
 import WarpedGrid from "@/components/ui/warped-grid";
 
 const grid = warpedGrid({ cols: 12, rows: 6, bulge: 24 });
 
-function Char({
-  char,
-  offset,
-  progress,
-  mode,
-}: {
-  char: string;
-  offset: number;
-  progress: MotionValue<number>;
-  mode: "scatter" | "assemble";
-}) {
-  const reduce = useReducedMotion();
-  const x = useTransform(progress, (p) => {
-    if (reduce) return "0vw";
-    const t = mode === "scatter" ? p : 1 - p;
-    return `${offset * t * 4}vw`;
-  });
-  const opacity = useTransform(progress, (p) => {
-    if (reduce) return 1;
-    return mode === "scatter" ? 1 - p * 0.85 : 0.15 + p * 0.85;
-  });
-  return (
-    <motion.span style={{ x, opacity }} className="inline-block whitespace-pre">
-      {char}
-    </motion.span>
-  );
-}
-
-function Line({
-  text,
-  progress,
-  mode,
-}: {
-  text: string;
-  progress: MotionValue<number>;
-  mode: "scatter" | "assemble";
-}) {
-  const chars = text.split("");
-  const mid = (chars.length - 1) / 2;
+function Line({ text, side }: { text: string; side: "left" | "right" }) {
   return (
     <p
       aria-hidden
-      className="relative flex justify-center font-condensed text-[clamp(4rem,12vw,11rem)] font-bold leading-none tracking-[0.04em] text-ink"
+      data-dream-line={side}
+      className="relative flex justify-center font-condensed text-[clamp(4rem,12vw,11rem)] font-bold leading-none tracking-[-0.01em] text-ink"
     >
-      {chars.map((c, i) => (
-        <Char key={i} char={c} offset={i - mid} progress={progress} mode={mode} />
+      {text.split("").map((c, i) => (
+        <span key={i} data-dream-char className="inline-block whitespace-pre">
+          {c}
+        </span>
       ))}
     </p>
   );
 }
 
-/** DREAM IT scatters apart while BUILD IT assembles, over a bowed grid. */
+/**
+ * DREAM IT slides in from the left and BUILD IT from the right, letter by
+ * letter, when the block enters. Both rest fully black and tightly set; no
+ * pin and no scrubbing, so the resting state is always the readable one.
+ */
 export default function DreamBuild() {
   const t = useTranslations("closing");
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
+  const scope = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        const q = gsap.utils.selector(scope);
+        const dream = q("[data-dream-line='left'] [data-dream-char]");
+        const build = q("[data-dream-line='right'] [data-dream-char]");
+        const tl = gsap
+          .timeline({ paused: true, defaults: { ease: EASE.enter } })
+          .fromTo(
+            dream,
+            { xPercent: -160, autoAlpha: 0 },
+            { xPercent: 0, autoAlpha: 1, duration: 0.8, stagger: 0.05 },
+            0,
+          )
+          .fromTo(
+            build,
+            { xPercent: 160, autoAlpha: 0 },
+            {
+              xPercent: 0,
+              autoAlpha: 1,
+              duration: 0.8,
+              stagger: { each: 0.05, from: "end" },
+            },
+            0.25,
+          );
+        revealOnce(scope.current, () => tl.play(), "top 65%");
+      });
+      return () => mm.revert();
+    },
+    { scope },
+  );
 
   return (
-    <div ref={ref} className="relative h-[200vh] motion-reduce:h-auto">
-      <div className="sticky top-0 flex h-screen flex-col justify-center gap-4 overflow-hidden border-t border-ink motion-reduce:static motion-reduce:h-auto motion-reduce:py-24">
-        <WarpedGrid paths={grid} className="absolute inset-0 h-full w-full" />
-        <p className="sr-only">{t("dreamBuild")}</p>
-        <Line text="DREAM IT" progress={scrollYProgress} mode="scatter" />
-        <Line text="BUILD IT" progress={scrollYProgress} mode="assemble" />
-      </div>
+    <div
+      ref={scope}
+      className="relative flex min-h-[80vh] flex-col justify-center gap-4 overflow-clip border-t border-ink py-24"
+    >
+      <WarpedGrid paths={grid} className="absolute inset-0 h-full w-full" />
+      <p className="sr-only">{t("dreamBuild")}</p>
+      <Line text="DREAM IT" side="left" />
+      <Line text="BUILD IT" side="right" />
     </div>
   );
 }
