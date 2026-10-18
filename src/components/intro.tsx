@@ -3,6 +3,7 @@
 import { gsap, SplitText, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { polylineLength } from "@/lib/polyline-length";
 import { INTRO_PENDING } from "@/lib/intro-script";
+import { markIntroDone } from "@/lib/intro-state";
 
 let releaseTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -16,7 +17,10 @@ export default function Intro() {
   useGSAP(() => {
     clearTimeout(releaseTimer);
     const root = document.documentElement;
-    if (!root.classList.contains(INTRO_PENDING)) return;
+    if (!root.classList.contains(INTRO_PENDING)) {
+      markIntroDone();
+      return;
+    }
 
     let done = false;
     const mm = gsap.matchMedia();
@@ -78,6 +82,7 @@ export default function Intro() {
           clearProps: "transform,transformOrigin,visibility,opacity,overflow",
         });
         gsap.set(paths, { clearProps: "strokeDasharray,strokeDashoffset" });
+        markIntroDone();
       };
 
       gsap

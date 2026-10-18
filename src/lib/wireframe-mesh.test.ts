@@ -3,6 +3,7 @@ import {
   generateWireframeLines,
   generateWireframePoints,
   heroMeshLines,
+  heroMeshPoints,
   wireframeLines,
 } from "./wireframe-mesh";
 
@@ -31,5 +32,12 @@ describe("wireframe mesh points", () => {
       expect(line.length).toBe(nums.length);
       line.forEach((v, j) => expect(v).toBeCloseTo(nums[j], 1));
     });
+  });
+});
+
+describe("hero mesh points export", () => {
+  it("is the 140-line hero geometry", () => {
+    expect(heroMeshPoints).toEqual(generateWireframePoints(4242, 140));
+    expect(heroMeshPoints).toHaveLength(140);
   });
 });

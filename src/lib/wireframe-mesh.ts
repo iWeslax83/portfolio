@@ -84,3 +84,9 @@ export const wireframeLines: WireframeLine[] = generateWireframeLines(4242);
 
 /** Dense mesh for the full-bleed hero panel (same seed, more lines). */
 export const heroMeshLines: WireframeLine[] = generateWireframeLines(4242, 140);
+
+/** The hero mesh as numbers, for the interactive canvas (same geometry). */
+export const heroMeshPoints: number[][] = generateWireframePoints(4242, 140);
+
+/** Hero lines drawn thicker so the field has a couple of strong ridges. */
+export const HERO_MESH_CRESTS = [30, 98];

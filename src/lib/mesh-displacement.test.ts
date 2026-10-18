@@ -5,6 +5,7 @@ import {
   damp,
   displaceLine,
   pushMagnitude,
+  subdivide,
 } from "./mesh-displacement";
 
 describe("pushMagnitude", () => {
@@ -103,5 +104,17 @@ describe("damp", () => {
   it("settles on the target given enough time", () => {
     expect(damp(0, 1, 8, 5)).toBeCloseTo(1, 6);
     expect(damp(5, 5, 8, 1 / 60)).toBe(5);
+  });
+});
+
+describe("subdivide", () => {
+  it("adds evenly spaced points on every segment and keeps the originals", () => {
+    const out = subdivide([0, 0, 30, 60], 3);
+    expect(out).toEqual([0, 0, 10, 20, 20, 40, 30, 60]);
+  });
+
+  it("is the identity for a factor of 1 or a single point", () => {
+    expect(subdivide([1, 2, 3, 4], 1)).toEqual([1, 2, 3, 4]);
+    expect(subdivide([5, 6], 4)).toEqual([5, 6]);
   });
 });

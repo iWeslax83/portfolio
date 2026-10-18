@@ -71,3 +71,24 @@ export function damp(
   if (current === target) return target;
   return target + (current - target) * Math.exp(-lambda * dt);
 }
+
+/**
+ * Splits every segment of an x,y polyline into `factor` equal parts. The
+ * shape is unchanged (new points lie on the old segments), but a bend
+ * applied afterwards is sampled finely enough to look smooth.
+ */
+export function subdivide(points: number[], factor: number): number[] {
+  if (factor <= 1 || points.length < 4) return points.slice();
+  const out: number[] = [points[0], points[1]];
+  for (let i = 2; i + 1 < points.length; i += 2) {
+    const x0 = points[i - 2];
+    const y0 = points[i - 1];
+    const x1 = points[i];
+    const y1 = points[i + 1];
+    for (let s = 1; s <= factor; s++) {
+      const t = s / factor;
+      out.push(x0 + (x1 - x0) * t, y0 + (y1 - y0) * t);
+    }
+  }
+  return out;
+}
