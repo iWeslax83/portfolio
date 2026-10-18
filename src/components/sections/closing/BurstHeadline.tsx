@@ -24,7 +24,7 @@ export default function BurstHeadline() {
       <div className="absolute inset-x-0 bottom-[22%] flex justify-center [perspective:600px]">
         <h2
           id="contact-title"
-          className="flex origin-bottom flex-col items-center text-center font-display uppercase leading-[0.82] text-ink [transform:rotateX(24deg)]"
+          className="flex origin-bottom flex-col items-center text-center font-display uppercase leading-[0.92] text-ink [transform:rotateX(24deg)]"
         >
           <span className="text-[clamp(1.5rem,3vw,2.5rem)]">{t("line1")}</span>
           <span className="text-[clamp(2rem,4.5vw,3.75rem)]">{t("line2")}</span>

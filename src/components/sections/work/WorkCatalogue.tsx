@@ -89,8 +89,8 @@ export default function WorkCatalogue({
                     src={project.image}
                     alt={`${project.title} screenshot`}
                     width={280}
-                    height={200}
-                    className="h-auto w-full object-contain"
+                    height={175}
+                    className="aspect-[16/10] h-auto w-full object-contain"
                   />
                 </div>
               )}

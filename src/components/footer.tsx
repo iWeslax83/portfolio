@@ -39,10 +39,10 @@ export default function Footer() {
                         href={c.href}
                         target={external ? "_blank" : undefined}
                         rel={external ? "noopener noreferrer" : undefined}
-                        className="flex items-baseline justify-between gap-4 transition-opacity hover:opacity-70 active:opacity-70"
+                        className="flex min-w-0 items-baseline justify-between gap-4 transition-opacity hover:opacity-70 active:opacity-70"
                       >
                         <span className="font-serif text-xl">{c.label}</span>
-                        <span className="truncate font-mono text-xs text-bg/50">{c.value}</span>
+                        <span className="min-w-0 truncate font-mono text-xs text-bg/50">{c.value}</span>
                       </a>
                     </li>
                   );
