@@ -21,12 +21,21 @@ const PER_ROW = 12;
 const WRAPPER_VH = 400;
 /**
  * How far (vh) the catalogue is pulled up over the end of the pinned stage.
- * The stage fades out over exactly the scroll in which the catalogue rises
- * over it, so the title bar arrives as the stage finishes, never after a
- * blank white screen.
+ * The stage starts fading as the catalogue first enters and is fully white
+ * after FADE_SHARE of that scroll, so no washed-out ghost of the letters
+ * sits under the rising title bar.
  */
 const OVERLAP_VH = 45;
+/**
+ * How far (vh) the gallery is pulled up over the end of the intro. The intro
+ * is already solid black there, so the gallery letters start entering as the
+ * black completes instead of after a plain black hold.
+ */
+const LEAD_VH = 25;
+/** Share of the overlap the fade takes; the rest is clean white. */
+const FADE_SHARE = 0.7;
 const EXIT_START = exitStartFor(OVERLAP_VH, WRAPPER_VH);
+const EXIT_END = EXIT_START + (1 - EXIT_START) * FADE_SHARE;
 const INK = "#0a0a0a";
 const BG = "#ffffff";
 
@@ -100,8 +109,9 @@ function GalleryCard({
  * letters behind screenshot cards that travel right to left, both driven by
  * one scrubbed ScrollTrigger (scrub: 1, so they lag and settle instead of
  * tracking raw scroll). The catalogue overlaps the last OVERLAP_VH of the
- * wrapper, and the stage fades to white while it rises over it. Decorative duplicate of the catalogue below,
- * so it is hidden from assistive tech and out of tab order.
+ * wrapper, and the stage fades to white while it rises over it. Decorative
+ * duplicate of the catalogue below, so it is hidden from assistive tech and
+ * out of tab order.
  */
 export default function WorkGallery({ items }: { items: Project[] }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -109,7 +119,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
+      mm.add(`${MOTION_OK} and (min-width: 768px)`, () => {
         const q = gsap.utils.selector(ref);
         const stage = q("[data-stage]")[0];
         const fading = q("[data-stage-fade]");
@@ -130,7 +140,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
           const vw = window.innerWidth / 100;
           setRot.forEach((set, i) => set(letterSway(i, p)));
           setX.forEach((set, i) => set(cardX(i, total, p) * vw));
-          const e = exitPhase(p, EXIT_START);
+          const e = exitPhase(p, EXIT_START, EXIT_END);
           setFade(1 - e);
           setScale(1 - 0.06 * e);
           stage.style.backgroundColor = e > 0 ? mixBg(e) : "";
@@ -165,6 +175,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
       aria-hidden
       style={{
         height: `${WRAPPER_VH}vh`,
+        marginTop: `-${LEAD_VH}vh`,
         marginBottom: `-${OVERLAP_VH}vh`,
       }}
       className="relative bg-ink"

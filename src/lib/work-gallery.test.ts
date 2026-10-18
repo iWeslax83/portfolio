@@ -85,6 +85,20 @@ describe("exitPhase", () => {
   });
 });
 
+describe("exitPhase with an early end", () => {
+  it("finishes at `end` and stays at 1 after it", () => {
+    expect(exitPhase(0.85, 0.85, 0.955)).toBe(0);
+    expect(exitPhase(0.9025, 0.85, 0.955)).toBeCloseTo(0.5);
+    expect(exitPhase(0.955, 0.85, 0.955)).toBe(1);
+    expect(exitPhase(0.99, 0.85, 0.955)).toBe(1);
+  });
+
+  it("treats an end at or before the start as a hard cut", () => {
+    expect(exitPhase(0.8, 0.9, 0.9)).toBe(0);
+    expect(exitPhase(0.9, 0.9, 0.9)).toBe(1);
+  });
+});
+
 describe("exitStartFor", () => {
   it("starts the exit when the overlapping catalogue first enters", () => {
     // 400vh wrapper pins for 300vh; a 45vh overlap enters 45vh before the end.

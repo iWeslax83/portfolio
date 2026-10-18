@@ -40,11 +40,13 @@ export function letterSway(index: number, progress: number): number {
 }
 
 /**
- * Local 0..1 progress of the gallery's exit, which runs over the last part
- * of the pinned stage (from `start` to 1). 0 before the exit begins.
+ * Local 0..1 progress of the gallery's exit, which runs from `start` to
+ * `end` (default 1, the end of the pinned stage). 0 before `start`, 1 from
+ * `end` on. An `end` at or before `start` is a hard cut at `start`.
  */
-export function exitPhase(progress: number, start = 0.9): number {
-  const p = (progress - start) / (1 - start);
+export function exitPhase(progress: number, start = 0.9, end = 1): number {
+  if (end <= start) return progress >= start ? 1 : 0;
+  const p = (progress - start) / (end - start);
   return Math.min(1, Math.max(0, p));
 }
 

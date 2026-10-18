@@ -22,7 +22,7 @@ export default function WorkIntro() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
+      mm.add(`${MOTION_OK} and (min-width: 768px)`, () => {
         const q = gsap.utils.selector(ref);
         gsap
           .timeline({
