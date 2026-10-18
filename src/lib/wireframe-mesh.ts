@@ -15,12 +15,9 @@ export interface WireframeLine {
   d: string;
 }
 
-export function generateWireframeLines(
-  seed: number,
-  lineCount = LINE_COUNT,
-): WireframeLine[] {
+function rawPoints(seed: number, lineCount: number): number[][] {
   const rand = mulberry32(seed);
-  const lines: WireframeLine[] = [];
+  const lines: number[][] = [];
   const centers = Array.from({ length: 4 }, () => ({
     x: rand() * 1000,
     strength: 40 + rand() * 60,
@@ -28,7 +25,7 @@ export function generateWireframeLines(
 
   for (let i = 0; i < lineCount; i++) {
     const baseX = (i / (lineCount - 1)) * 1000;
-    const points: string[] = [];
+    const points: number[] = [];
     for (let p = 0; p < POINTS_PER_LINE; p++) {
       const y = (p / (POINTS_PER_LINE - 1)) * 600;
       let x = baseX;
@@ -37,11 +34,41 @@ export function generateWireframeLines(
         const falloff = Math.exp(-dist / 220);
         x += Math.sin(y / 90 + c.x) * c.strength * falloff;
       }
-      points.push(`${p === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`);
+      points.push(x, y);
     }
-    lines.push({ d: points.join(" ") });
+    lines.push(points);
   }
   return lines;
+}
+
+/**
+ * The mesh as raw numbers: one array per line, interleaved x,y pairs in the
+ * 0-1000 x 0-600 viewBox space, rounded to 0.1 exactly like the SVG path
+ * data. The client canvas in the hero draws from these, so it matches the
+ * server-rendered SVG point for point.
+ */
+export function generateWireframePoints(
+  seed: number,
+  lineCount = LINE_COUNT,
+): number[][] {
+  return rawPoints(seed, lineCount).map((pts) =>
+    pts.map((v) => Number(v.toFixed(1))),
+  );
+}
+
+export function generateWireframeLines(
+  seed: number,
+  lineCount = LINE_COUNT,
+): WireframeLine[] {
+  return rawPoints(seed, lineCount).map((pts) => {
+    const parts: string[] = [];
+    for (let i = 0; i < pts.length; i += 2) {
+      parts.push(
+        `${i === 0 ? "M" : "L"}${pts[i].toFixed(1)},${pts[i + 1].toFixed(1)}`,
+      );
+    }
+    return { d: parts.join(" ") };
+  });
 }
 
 /**

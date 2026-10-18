@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   generateWireframeLines,
+  generateWireframePoints,
   heroMeshLines,
   wireframeLines,
 } from "./wireframe-mesh";
@@ -18,5 +19,17 @@ describe("wireframe mesh", () => {
 
   it("is deterministic", () => {
     expect(generateWireframeLines(4242, 140)).toEqual(heroMeshLines);
+  });
+});
+
+describe("wireframe mesh points", () => {
+  it("matches the SVG path data point for point", () => {
+    const points = generateWireframePoints(4242, 140);
+    expect(points).toHaveLength(140);
+    points.forEach((line, i) => {
+      const nums = heroMeshLines[i].d.match(/-?\d+\.\d/g)!.map(Number);
+      expect(line.length).toBe(nums.length);
+      line.forEach((v, j) => expect(v).toBeCloseTo(nums[j], 1));
+    });
   });
 });
