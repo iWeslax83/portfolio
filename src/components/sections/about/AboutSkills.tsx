@@ -89,24 +89,33 @@ export default function AboutSkills({ stats }: { stats: GitHubStats | null }) {
           if (split) cleanup.push(() => split.revert());
         });
 
-        // Live GitHub numbers count up to their real value.
+        // Live GitHub numbers count up to their real value. Writes go to
+        // the text node inside a dedicated span, never replacing nodes React
+        // rendered, and the cleanup puts the real value back.
         q("[data-count]").forEach((el) => {
           const target = Number(el.dataset.count);
-          if (!Number.isFinite(target)) return;
+          const text = el.querySelector("[data-count-text]")?.firstChild;
+          if (
+            !Number.isFinite(target) ||
+            !text ||
+            text.nodeType !== Node.TEXT_NODE
+          ) {
+            return;
+          }
           const counter = { p: 0 };
-          el.textContent = countUpText(target, 0);
+          text.nodeValue = countUpText(target, 0);
           const tween = gsap.to(counter, {
             p: 1,
             duration: 1.5,
             ease: EASE.enter,
             paused: true,
             onUpdate: () => {
-              el.textContent = countUpText(target, counter.p);
+              text.nodeValue = countUpText(target, counter.p);
             },
           });
           revealOnce(el, () => tween.play(), "top 90%");
           cleanup.push(() => {
-            el.textContent = String(target);
+            text.nodeValue = String(target);
           });
         });
 

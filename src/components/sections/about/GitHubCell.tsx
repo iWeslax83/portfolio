@@ -25,7 +25,7 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
                 data-count={stats.publicRepos}
                 className="font-display text-5xl leading-none tabular-nums"
               >
-                {stats.publicRepos}
+                <span data-count-text>{stats.publicRepos}</span>
               </dd>
             </div>
             {stats.contributions !== null && (
@@ -35,7 +35,7 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
                   data-count={stats.contributions}
                   className="font-display text-5xl leading-none tabular-nums"
                 >
-                  {stats.contributions}
+                  <span data-count-text>{stats.contributions}</span>
                 </dd>
               </div>
             )}
