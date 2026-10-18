@@ -14,11 +14,6 @@ export interface Project {
   repo?: string;
 }
 
-export interface SkillCategory {
-  key: string;
-  items: string[];
-}
-
 export interface StratosUnit {
   name: string;
   detail: string;

@@ -55,12 +55,5 @@ export function generateWireframeLines(
  */
 export const wireframeLines: WireframeLine[] = generateWireframeLines(4242);
 
-/**
- * A second, differently-seeded mesh for the founder-story beat's
- * rotated diagonal backdrop - same generator, different seed, so it
- * reads as a distinct texture rather than a repeated element.
- */
-export const wireframeLinesAlt: WireframeLine[] = generateWireframeLines(8181);
-
 /** Dense mesh for the full-bleed hero panel (same seed, more lines). */
 export const heroMeshLines: WireframeLine[] = generateWireframeLines(4242, 140);

@@ -18,16 +18,6 @@ export default function OpengraphImage() {
         fontFamily: "sans-serif",
       }}
     >
-      {/* Faint grid backdrop */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "linear-gradient(to right, rgba(10,10,10,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,10,10,0.06) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
       <div
         style={{
           display: "flex",

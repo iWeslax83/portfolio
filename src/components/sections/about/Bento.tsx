@@ -69,9 +69,12 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
                 flip ? "sm:col-start-2 sm:row-start-1 sm:border-l" : "sm:border-r"
               }`}
             >
-              <h3 className="font-display text-[clamp(4rem,8vw,7rem)] uppercase leading-[0.88]">
+              <h3
+                aria-label={s.key === "embedded" ? "Embedded" : s.word.join(" ")}
+                className="font-display text-[clamp(4rem,8vw,7rem)] uppercase leading-[0.88]"
+              >
                 {s.word.map((w) => (
-                  <span key={w} className="block">
+                  <span key={w} aria-hidden className="block">
                     {w}
                   </span>
                 ))}

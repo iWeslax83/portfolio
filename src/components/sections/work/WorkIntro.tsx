@@ -15,7 +15,7 @@ export default function WorkIntro() {
     target: ref,
     offset: ["start start", "end end"],
   });
-  const scale = useTransform(scrollYProgress, [0.15, 1], [1, 14]);
+  const scale = useTransform(scrollYProgress, [0.15, 1], [1, 22]);
 
   return (
     <div ref={ref} className="relative h-[200vh]">

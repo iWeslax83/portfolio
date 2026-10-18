@@ -60,7 +60,7 @@ function GalleryCard({
           className="object-cover object-top"
         />
       </div>
-      <div className="mt-2 flex justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.12em] text-bg">
+      <div className="mt-2 flex justify-between gap-4 bg-ink px-2 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-bg">
         <span className="truncate">{project.title}</span>
         <span className="tabular-nums">
           #{String(index + 1).padStart(3, "0")}/{String(total).padStart(2, "0")}
