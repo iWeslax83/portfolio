@@ -37,7 +37,7 @@ tracked 0.05-0.15em.
    (Anton words, globe, DevOps, live GitHub cell, hatch).
 5. Work `#work`: capsule intro that grows to black, 400vh sticky black
    stage with swaying embossed WORK letters and 7 screenshot cards, then
-   the full catalogue list. Phones and reduced motion get a static gallery.
+   the full catalogue list, pulled up over the end of the stage. Phones and reduced motion get a static gallery.
 6. Ventures `#ventures`: three ruled rows with giant Anton names.
 7. Closing `#contact`: ray burst + perspective headline, DREAM IT / BUILD
    IT, GO circle (mailto), dot band, black footer with giant wordmark.
@@ -50,11 +50,47 @@ tracked 0.05-0.15em.
 
 ## 5. Motion
 
-- framer-motion only. Spring `stiffness: 110, damping: 20` for reveals.
-- Scroll-driven: ticker drift, room skew, capsule scale, Work stage,
-  DREAM/BUILD letters. All pinning is CSS sticky inside a tall wrapper.
-- `prefers-reduced-motion`: no pinning, no scroll transforms, static
-  gallery, all content visible.
+Stack: Lenis smooth scroll plus GSAP (ScrollTrigger, SplitText), set up in
+`src/lib/gsap.ts` and `src/components/smooth-scroll.tsx`. framer-motion is
+left only for the mobile menu and BackToTop presence.
+
+- **Smooth scroll.** Lenis (lerp 0.1, smooth wheel) runs on `gsap.ticker`
+  with lag smoothing off and calls `ScrollTrigger.update` on every scroll.
+  In-page `#id` links go through `lenis.scrollTo`. The mobile menu stops
+  Lenis while open. ScrollTrigger re-measures once when web fonts land.
+- **Eases.** `expo.out` for entrances, `expo.inOut` for state changes,
+  `power4.in` for scale-ups (the WORK capsule). CSS hovers use
+  `cubic-bezier(0.16, 1, 0.3, 1)` over 0.3-0.4s.
+- **Durations and staggers.** 0.8-1.6s for entrances, staggers
+  0.04-0.12s.
+- **Triggered over scrubbed.** Sections play once when they enter
+  (`revealOnce`, `ScrollTrigger.batch` for the catalogue): bars wipe in
+  with scaleX, paragraphs and rows rise and fade, big words rise out of a
+  SplitText clip, GitHub numbers count up to their real value.
+- **Scrubbed only where pinned or tied to scroll.** Ticker drift, room
+  skew, the capsule scale and the Work gallery use `scrub: 1`, so they
+  lag and settle instead of tracking raw scroll. The gallery pins with CSS
+  sticky; the catalogue overlaps its last 45vh and rises over the stage as
+  it fades, so the hand-off never shows a blank screen.
+- **First load.** Header cells drop in, the hero mesh draws from the edges
+  to the centre, the title rises out of a clip, the stars spin in, then
+  the tickers fade up. Once.
+- **Hero mesh.** After the intro, mouse and pen pointers bend the lines
+  away within about 160px (push up to 36px, smooth falloff, zero at the
+  pointer and at the edge). Pointer and bend are damped so it eases in and
+  settles back. It draws in a small canvas lens over the SVG, and only
+  while something moves: never with the hero off screen or the tab hidden.
+  Math in `src/lib/mesh-displacement.ts`. Touch screens get the static
+  mesh.
+- **GO circle.** Gentle scale pulse (0.92-1.04) on a yoyo loop, larger on
+  hover.
+- **`prefers-reduced-motion: reduce`.** Every GSAP animation lives in
+  `gsap.matchMedia()` under `(prefers-reduced-motion: no-preference)`, so
+  with reduced motion there is no Lenis, no pinning, no scrubbed or
+  entrance transforms, no intro, no pointer bend, the static gallery
+  (`.work-animated` / `.work-static`), and all content in its final state.
+- **No JS.** Start states are set by client code only, so server HTML is
+  always fully visible.
 
 ## 6. Rule exceptions (this project only, owner-approved)
 
