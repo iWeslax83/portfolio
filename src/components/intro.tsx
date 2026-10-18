@@ -21,11 +21,21 @@ export default function Intro() {
     let done = false;
     const mm = gsap.matchMedia();
     mm.add(MOTION_OK, () => {
-      const row = document.querySelector<HTMLElement>("[data-intro='header-row']");
-      const cells = gsap.utils.toArray<HTMLElement>("[data-intro='header-cell']");
-      const svg = document.querySelector<SVGSVGElement>("[data-intro='mesh'] svg");
-      const paths = gsap.utils.toArray<SVGPathElement>("[data-intro='mesh'] path");
-      const words = gsap.utils.toArray<HTMLElement>("[data-intro='title-word']");
+      const row = document.querySelector<HTMLElement>(
+        "[data-intro='header-row']",
+      );
+      const cells = gsap.utils.toArray<HTMLElement>(
+        "[data-intro='header-cell']",
+      );
+      const svg = document.querySelector<SVGSVGElement>(
+        "[data-intro='mesh'] svg",
+      );
+      const paths = gsap.utils.toArray<SVGPathElement>(
+        "[data-intro='mesh'] path",
+      );
+      const words = gsap.utils.toArray<HTMLElement>(
+        "[data-intro='title-word']",
+      );
       const stars = gsap.utils.toArray<SVGElement>("#hero-title svg");
       const tickers = gsap.utils.toArray<HTMLElement>("[data-intro='ticker']");
 
@@ -65,7 +75,7 @@ export default function Intro() {
         done = true;
         split.revert();
         gsap.set([row, ...cells, ...stars, ...tickers].filter(Boolean), {
-          clearProps: "all",
+          clearProps: "transform,transformOrigin,visibility,opacity,overflow",
         });
         gsap.set(paths, { clearProps: "strokeDasharray,strokeDashoffset" });
       };
@@ -102,7 +112,10 @@ export default function Intro() {
         // again so the re-run can start the intro, but never leave the page
         // hidden if no re-run comes.
         root.classList.add(INTRO_PENDING);
-        releaseTimer = setTimeout(() => root.classList.remove(INTRO_PENDING), 0);
+        releaseTimer = setTimeout(
+          () => root.classList.remove(INTRO_PENDING),
+          0,
+        );
       }
     };
   });

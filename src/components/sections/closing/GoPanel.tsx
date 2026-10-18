@@ -21,7 +21,13 @@ export default function GoPanel() {
       gsap.fromTo(
         disc.current,
         { scale: 0.92 },
-        { scale: 1.04, duration: 1.4, ease: "sine.inOut", repeat: -1, yoyo: true },
+        {
+          scale: 1.04,
+          duration: 1.4,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+        },
       );
     });
     return () => mm.revert();

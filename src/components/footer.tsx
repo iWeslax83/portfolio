@@ -15,7 +15,12 @@ export default function Footer() {
   return (
     <footer>
       <div className="relative h-16 bg-ink md:h-24">
-        <DotPattern color="var(--color-bg)" gap={10} radius={1.2} className="absolute inset-0 h-full w-full" />
+        <DotPattern
+          color="var(--color-bg)"
+          gap={10}
+          radius={1.2}
+          className="absolute inset-0 h-full w-full"
+        />
       </div>
 
       <div className="relative overflow-hidden border-t border-bg bg-ink text-bg">
@@ -42,7 +47,9 @@ export default function Footer() {
                         className="flex min-w-0 items-baseline justify-between gap-4 transition-opacity duration-[350ms] hover:opacity-70 focus-visible:opacity-70 active:opacity-70"
                       >
                         <span className="font-serif text-xl">{c.label}</span>
-                        <span className="min-w-0 truncate font-mono text-xs text-bg/50">{c.value}</span>
+                        <span className="min-w-0 truncate font-mono text-xs text-bg/50">
+                          {c.value}
+                        </span>
                       </a>
                     </li>
                   );
@@ -74,8 +81,12 @@ export default function Footer() {
           </div>
 
           <div className="mt-14 flex flex-col gap-3 border-t border-bg/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-bg/60">{t("colophon")}</p>
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-bg/60">{t("meta")}</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-bg/60">
+              {t("colophon")}
+            </p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-bg/60">
+              {t("meta")}
+            </p>
           </div>
         </div>
       </div>

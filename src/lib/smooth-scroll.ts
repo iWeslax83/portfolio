@@ -1,5 +1,5 @@
 import type Lenis from "lenis";
-import { expoOut, scrollToHash } from "./anchor";
+import { expoOut, focusTarget, scrollToHash, syncLenis } from "./anchor";
 
 /**
  * The page's single Lenis instance, or null when smooth scroll is off
@@ -40,14 +40,15 @@ export function scrollToId(id: string): boolean {
   if (window.location.hash !== `#${id}`) {
     window.history.pushState(null, "", `#${id}`);
   }
-  // Mirror native fragment navigation: focus targets that accept it (the
-  // skip link's <main tabIndex={-1}>) without letting focus jump the scroll.
-  if (el?.hasAttribute("tabindex")) el.focus({ preventScroll: true });
+  // Native fragment navigation moves the focus start point to the target;
+  // preventDefault skipped that, so do it here without moving the scroll.
+  if (el) focusTarget(el);
   return true;
 }
 
 export function scrollToTop() {
   if (instance) {
+    syncLenis(instance, window.scrollY);
     instance.scrollTo(0, { duration: 1.2, easing: expoOut, force: true });
   } else {
     window.scrollTo({

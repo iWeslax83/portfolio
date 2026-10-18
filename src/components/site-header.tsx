@@ -27,8 +27,9 @@ export default function SiteHeader() {
       <div data-intro="header-row" className="flex h-16 lg:h-24">
         <a
           href="#home"
-          aria-label={t("homeLabel")} data-intro="header-cell"
-          className="group flex w-16 shrink-0 items-center justify-center border-r border-ink transition-colors duration-[350ms] hover:bg-ink focus-visible:bg-ink active:bg-ink lg:w-24"
+          aria-label={t("homeLabel")}
+          data-intro="header-cell"
+          className="flex w-16 shrink-0 items-center justify-center border-r border-ink transition-colors duration-[350ms] hover:bg-ink focus-visible:bg-ink active:bg-ink lg:w-24"
         >
           <Image
             src="/images/logo.webp"
@@ -36,18 +37,22 @@ export default function SiteHeader() {
             width={48}
             height={48}
             priority
-            className="h-9 w-9 transition-[filter] duration-[350ms] group-hover:invert group-focus-visible:invert group-active:invert lg:h-12 lg:w-12"
+            className="h-9 w-9 lg:h-12 lg:w-12"
           />
         </a>
 
-        <div data-intro="header-cell" className="hidden w-56 shrink-0 items-end border-r border-ink px-6 pb-3 xl:flex">
+        <div
+          data-intro="header-cell"
+          className="hidden w-56 shrink-0 items-end border-r border-ink px-6 pb-3 xl:flex"
+        >
           <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink">
             {t("caption")}
           </span>
         </div>
 
         <nav
-          aria-label="Primary" data-intro="header-cell"
+          aria-label="Primary"
+          data-intro="header-cell"
           className="hidden flex-1 items-center justify-around border-r border-ink px-6 lg:flex"
         >
           {navItems.map((item) => {
@@ -73,7 +78,10 @@ export default function SiteHeader() {
           })}
         </nav>
 
-        <div data-intro="header-cell" className="hidden w-12 shrink-0 flex-col border-r border-ink lg:flex">
+        <div
+          data-intro="header-cell"
+          className="hidden w-12 shrink-0 flex-col border-r border-ink lg:flex"
+        >
           <a
             href="https://github.com/iWeslax83"
             target="_blank"
@@ -94,7 +102,10 @@ export default function SiteHeader() {
           </a>
         </div>
 
-        <div data-intro="header-cell" className="hidden w-[22rem] shrink-0 flex-col lg:flex xl:w-[28rem]">
+        <div
+          data-intro="header-cell"
+          className="hidden w-[22rem] shrink-0 flex-col lg:flex xl:w-[28rem]"
+        >
           <p className="flex flex-1 items-center border-b border-ink px-5 font-serif text-lg leading-none xl:text-[22px]">
             {t("statusLine1")}
           </p>
@@ -114,7 +125,8 @@ export default function SiteHeader() {
           type="button"
           onClick={() => setOpen(true)}
           aria-label={t("openMenu")}
-          aria-expanded={open} data-intro="header-cell"
+          aria-expanded={open}
+          data-intro="header-cell"
           className="flex w-16 items-center justify-center border-l border-ink bg-panel transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg lg:hidden"
         >
           <Menu size={22} />

@@ -42,16 +42,51 @@ export function scrollToHash(id: string, deps: ScrollDeps): boolean {
   if (!el) return false;
   const lenis = deps.lenis;
   if (lenis) {
-    // An instant native jump (focus scroll, find-in-page) can land in the
-    // same frame as the click, before Lenis hears its scroll event. Lenis
-    // would then measure from a stale position, so sync it first.
-    const now = deps.currentScroll();
-    if (lenis.isScrolling !== "smooth" && Math.abs(lenis.animatedScroll - now) > 1) {
-      lenis.scrollTo(now, { immediate: true, force: true });
-    }
+    syncLenis(lenis, deps.currentScroll());
     lenis.scrollTo(el, { duration: 1.2, easing: expoOut, force: true });
   } else {
     deps.nativeScroll(el);
   }
   return true;
+}
+
+/**
+ * An instant native jump (focus scroll, find-in-page) can land in the same
+ * frame as a click, before Lenis hears its scroll event. Lenis would then
+ * animate from a stale position, so jump it to the real one first.
+ */
+export function syncLenis(lenis: ScrollerLike, now: number) {
+  if (
+    lenis.isScrolling !== "smooth" &&
+    Math.abs(lenis.animatedScroll - now) > 1
+  ) {
+    lenis.scrollTo(now, { immediate: true, force: true });
+  }
+}
+
+interface Focusable {
+  hasAttribute: (name: string) => boolean;
+  setAttribute: (name: string, value: string) => void;
+  removeAttribute: (name: string) => void;
+  focus: (options?: FocusOptions) => void;
+  addEventListener: (
+    type: "blur",
+    fn: () => void,
+    options?: { once?: boolean },
+  ) => void;
+}
+
+/**
+ * Do what native fragment navigation does for focus: move it to the target
+ * so the next Tab continues from there, not from the clicked link. Sections
+ * get a temporary tabindex="-1" that is removed once focus leaves.
+ */
+export function focusTarget(el: Focusable) {
+  if (!el.hasAttribute("tabindex")) {
+    el.setAttribute("tabindex", "-1");
+    el.addEventListener("blur", () => el.removeAttribute("tabindex"), {
+      once: true,
+    });
+  }
+  el.focus({ preventScroll: true });
 }

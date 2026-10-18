@@ -12,7 +12,11 @@ import { getLenis, scrollToId, setLenis } from "@/lib/smooth-scroll";
  * frame. In-page `#id` links scroll through Lenis; without Lenis the browser
  * handles them natively.
  */
-export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+export default function SmoothScroll({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   useEffect(() => {
     const mm = gsap.matchMedia();
     mm.add(MOTION_OK, () => {

@@ -132,6 +132,12 @@ button,
   border-radius: 2px;
 }
 
+/* Anchor targets take focus so Tab continues from the section (see
+   focusTarget in src/lib/anchor.ts); a ring around a whole section is noise. */
+section[tabindex="-1"]:focus {
+  outline: none;
+}
+
 /* ── Skip link ────────────────────────────────────────────── */
 .skip-link {
   position: fixed;
