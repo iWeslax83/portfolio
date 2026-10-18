@@ -34,7 +34,7 @@ function Globe() {
 function Hatch() {
   const id = `hatch-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   return (
-    <svg aria-hidden className="h-full min-h-40 w-full">
+    <svg aria-hidden data-reveal="cell" className="h-full min-h-40 w-full">
       <defs>
         <pattern
           id={id}
@@ -56,21 +56,34 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
 
   return (
     <div>
-      <p className="border-b border-ink px-6 py-12 text-center font-serif text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.1]">
+      <p
+        data-reveal="row"
+        className="border-b border-ink px-6 py-12 text-center font-serif text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.1]"
+      >
         {t("statement")}
       </p>
 
       {bentoSkills.map((s, i) => {
         const flip = i % 2 === 1;
         return (
-          <div key={s.key} className="grid border-b border-ink sm:grid-cols-2">
+          <div
+            key={s.key}
+            data-reveal="row"
+            className="grid border-b border-ink sm:grid-cols-2"
+          >
             <div
+              data-reveal="cell"
               className={`border-b border-ink p-4 sm:border-b-0 sm:p-5 ${
-                flip ? "sm:col-start-2 sm:row-start-1 sm:border-l" : "sm:border-r"
+                flip
+                  ? "sm:col-start-2 sm:row-start-1 sm:border-l"
+                  : "sm:border-r"
               }`}
             >
               <h3
-                aria-label={s.key === "embedded" ? "Embedded" : s.word.join(" ")}
+                data-reveal="word"
+                aria-label={
+                  s.key === "embedded" ? "Embedded" : s.word.join(" ")
+                }
                 className="font-display text-[clamp(4rem,8vw,7rem)] uppercase leading-[0.88]"
               >
                 {s.word.map((w) => (
@@ -83,7 +96,10 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
                 {s.tools.map((x) => `(${x})`).join(" ")}
               </p>
             </div>
-            <div className={`${labelCell} ${flip ? "sm:col-start-1 sm:row-start-1" : ""}`}>
+            <div
+              data-reveal="cell"
+              className={`${labelCell} ${flip ? "sm:col-start-1 sm:row-start-1" : ""}`}
+            >
               <p>
                 {s.label}
                 <br />
@@ -94,15 +110,24 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
         );
       })}
 
-      <div className="grid border-b border-ink sm:grid-cols-3">
-        <div className="relative flex items-center justify-center border-b border-ink p-8 sm:border-b-0 sm:border-r">
+      <div
+        data-reveal="row"
+        className="grid border-b border-ink sm:grid-cols-3"
+      >
+        <div
+          data-reveal="cell"
+          className="relative flex items-center justify-center border-b border-ink p-8 sm:border-b-0 sm:border-r"
+        >
           <Star className="absolute left-3 top-3 h-4 w-4" />
           <Star className="absolute right-3 top-3 h-4 w-4" />
           <Star className="absolute bottom-3 left-3 h-4 w-4" />
           <Star className="absolute bottom-3 right-3 h-4 w-4" />
           <Globe />
         </div>
-        <div className={`${labelCell} flex-col sm:col-span-2`}>
+        <div
+          data-reveal="cell"
+          className={`${labelCell} flex-col sm:col-span-2`}
+        >
           <p>
             {devopsSkill.label}
             <br />
@@ -114,8 +139,11 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-3">
-        <div className="border-b border-ink sm:col-span-2 sm:border-b-0 sm:border-r">
+      <div data-reveal="row" className="grid sm:grid-cols-3">
+        <div
+          data-reveal="cell"
+          className="border-b border-ink sm:col-span-2 sm:border-b-0 sm:border-r"
+        >
           <GitHubCell stats={stats} />
         </div>
         <Hatch />

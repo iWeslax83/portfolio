@@ -21,14 +21,20 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
           >
             <div className="flex flex-col-reverse">
               <dt className={label}>{t("publicRepos")}</dt>
-              <dd className="font-display text-5xl leading-none tabular-nums">
+              <dd
+                data-count={stats.publicRepos}
+                className="font-display text-5xl leading-none tabular-nums"
+              >
                 {stats.publicRepos}
               </dd>
             </div>
             {stats.contributions !== null && (
               <div className="flex flex-col-reverse">
                 <dt className={label}>{t("contributions")}</dt>
-                <dd className="font-display text-5xl leading-none tabular-nums">
+                <dd
+                  data-count={stats.contributions}
+                  className="font-display text-5xl leading-none tabular-nums"
+                >
                   {stats.contributions}
                 </dd>
               </div>
@@ -40,7 +46,10 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
                 {stats.languages.map((lang) => (
                   <div
                     key={lang.name}
-                    style={{ flex: lang.percentage, backgroundColor: lang.color }}
+                    style={{
+                      flex: lang.percentage,
+                      backgroundColor: lang.color,
+                    }}
                   />
                 ))}
               </div>
