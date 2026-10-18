@@ -30,10 +30,14 @@
   --font-serif: var(--font-instrument), Georgia, serif;
   --font-condensed: var(--font-oswald), "Arial Narrow", sans-serif;
   --font-display-accent: var(--font-metamorphous), Georgia, serif;
+
+  /* ── Motion: hover and state transitions share the expo-out curve ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --default-transition-duration: 350ms;
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
-  scroll-behavior: smooth;
   /* clip (not hidden) contains off-screen reveal transforms without breaking
      position:sticky or window scroll tracking. */
   overflow-x: clip;
@@ -46,6 +50,41 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: clip;
+}
+
+/* Native smooth anchors only while Lenis is off (reduced motion, no JS,
+   before hydration). Lenis puts .lenis on <html>; the two fight otherwise. */
+html:not(.lenis) {
+  scroll-behavior: smooth;
+}
+
+/* Lenis' recommended base rules (lenis/dist/lenis.css). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* First-load intro: an inline <head> script adds .intro-pending (never with
+   reduced motion, never without JS) and the intro removes it after setting
+   each element's start state, so nothing flashes before it animates. */
+.intro-pending [data-intro="header-cell"],
+.intro-pending [data-intro="mesh"],
+.intro-pending [data-intro="ticker"],
+.intro-pending #hero-title {
+  visibility: hidden;
+}
+/* SplitText leaves span wrappers inline; transforms and the clip mask need
+   inline-block. Only exists while the title intro runs. */
+.intro-char,
+.intro-char-mask {
+  display: inline-block;
+  position: relative;
 }
 
 /* Ambient drafting grid + film grain removed: flat canvas (no decorative gradients/noise) */
@@ -73,6 +112,13 @@ section[id] {
 /* ── Touch ────────────────────────────────────────────────── */
 /* Removes the ~300ms tap delay and the native gray tap-flash - every
    interactive element carries its own hover/active feedback instead. */
+/* Tailwind v4 dropped the pointer cursor on buttons. */
+button,
+[role="button"],
+summary {
+  cursor: pointer;
+}
+
 a,
 button,
 [role="button"] {

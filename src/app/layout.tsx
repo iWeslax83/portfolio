@@ -11,6 +11,8 @@ import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import MotionProvider from "@/components/ui/motion-provider";
 import SkipLink from "@/components/ui/skip-link";
+import SmoothScroll from "@/components/smooth-scroll";
+import { INTRO_SCRIPT } from "@/lib/intro-script";
 import "./globals.css";
 
 // Mono: nav, labels, tickers, data readouts.
@@ -87,7 +89,13 @@ export default async function RootLayout({
     <html
       lang="en"
       className={`${mono.variable} ${serif.variable} ${display.variable} ${condensed.variable} ${displayAccent.variable}`}
+      // The intro script and Lenis add classes to <html> before and after
+      // hydration; only this element's own attributes are exempted.
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
+      </head>
       <body className="bg-frame text-ink antialiased">
         <SkipLink />
         <script
@@ -123,7 +131,9 @@ export default async function RootLayout({
           }}
         />
         <NextIntlClientProvider messages={messages}>
-          <MotionProvider>{children}</MotionProvider>
+          <MotionProvider>
+            <SmoothScroll>{children}</SmoothScroll>
+          </MotionProvider>
         </NextIntlClientProvider>
         <Analytics />
       </body>

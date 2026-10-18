@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { navItems } from "@/data/nav-items";
+import { hashTargetId } from "@/lib/anchor";
+import { getLenis, scrollToId } from "@/lib/smooth-scroll";
 
 /** Full-screen black menu sheet with numbered serif links. */
 export default function MobileNav({
@@ -52,12 +54,25 @@ export default function MobileNav({
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
+    getLenis()?.stop();
     return () => {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
-      previous?.focus();
+      getLenis()?.start();
+      // preventScroll: the burger sits at the top of the page, and focusing
+      // it must not yank the viewport away from a section just chosen.
+      previous?.focus({ preventScroll: true });
     };
   }, [open]);
+
+  // Close first (which restarts scrolling), then scroll on the next frame.
+  const onNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const id = hashTargetId(e.currentTarget.getAttribute("href"));
+    onClose();
+    if (!id) return;
+    e.preventDefault();
+    requestAnimationFrame(() => scrollToId(id));
+  };
 
   return (
     <AnimatePresence>
@@ -79,7 +94,7 @@ export default function MobileNav({
               type="button"
               onClick={onClose}
               aria-label={t("closeMenu")}
-              className="flex h-12 w-12 items-center justify-center border border-bg/30 active:bg-bg active:text-ink"
+              className="flex h-12 w-12 items-center justify-center border border-bg/30 transition-colors duration-[350ms] hover:bg-bg hover:text-ink focus-visible:bg-bg focus-visible:text-ink active:bg-bg active:text-ink"
             >
               <X size={22} />
             </button>
@@ -90,8 +105,8 @@ export default function MobileNav({
               <a
                 key={item.key}
                 href={item.href}
-                onClick={onClose}
-                className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl active:opacity-70"
+                onClick={onNavigate}
+                className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
               >
                 <span className="font-mono text-xs text-bg/60">{item.num}</span>
                 {t(item.key)}
@@ -104,6 +119,7 @@ export default function MobileNav({
               href="https://github.com/iWeslax83"
               target="_blank"
               rel="noopener noreferrer"
+              className="transition-colors duration-[350ms] hover:text-bg"
             >
               GitHub
             </a>
@@ -111,6 +127,7 @@ export default function MobileNav({
               href="https://linkedin.com/in/emirsakarya"
               target="_blank"
               rel="noopener noreferrer"
+              className="transition-colors duration-[350ms] hover:text-bg"
             >
               LinkedIn
             </a>

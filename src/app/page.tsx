@@ -2,6 +2,7 @@ import Frame from "@/components/frame";
 import SiteHeader from "@/components/site-header";
 import Footer from "@/components/footer";
 import BackToTop from "@/components/ui/back-to-top";
+import Intro from "@/components/intro";
 import Hero from "@/components/sections/hero/Hero";
 import AboutSkills from "@/components/sections/about/AboutSkills";
 import { getRecentCommits } from "@/lib/git-history";
@@ -30,6 +31,7 @@ export default async function Home() {
       </main>
       <Footer />
       <BackToTop />
+      <Intro />
     </Frame>
   );
 }
