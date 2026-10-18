@@ -66,10 +66,10 @@ export default function Ventures() {
           .timeline({ paused: true, onComplete: () => split.revert() })
           .fromTo(
             rows,
-            { x: -60, autoAlpha: 0 },
+            { x: -60, opacity: 0 },
             {
               x: 0,
-              autoAlpha: 1,
+              opacity: 1,
               duration: 1.2,
               ease: EASE.enter,
               stagger: 0.1,

@@ -73,10 +73,10 @@ export default function BurstHeadline() {
           )
           .fromTo(
             words,
-            { yPercent: 60, autoAlpha: 0 },
+            { yPercent: 60, opacity: 0 },
             {
               yPercent: 0,
-              autoAlpha: 1,
+              opacity: 1,
               duration: 1.2,
               ease: EASE.enter,
               stagger: 0.1,

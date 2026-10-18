@@ -47,8 +47,8 @@ export default function AboutSkills({ stats }: { stats: GitHubStats | null }) {
           .timeline({ paused: true })
           .fromTo(
             paras,
-            { y: 40, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: 1, ease: EASE.enter, stagger: 0.1 },
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1, ease: EASE.enter, stagger: 0.1 },
           );
         revealOnce(q("[data-reveal='paras']")[0], () => parasTl.play());
 
@@ -68,10 +68,10 @@ export default function AboutSkills({ stats }: { stats: GitHubStats | null }) {
             .timeline({ paused: true, onComplete: () => split?.revert() })
             .fromTo(
               cells,
-              { y: 30, autoAlpha: 0 },
+              { y: 30, opacity: 0 },
               {
                 y: 0,
-                autoAlpha: 1,
+                opacity: 1,
                 duration: 1,
                 ease: EASE.enter,
                 stagger: 0.08,

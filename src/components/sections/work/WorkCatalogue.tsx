@@ -84,14 +84,14 @@ export default function WorkCatalogue({
           fresh.forEach((el) => shown.add(el));
           gsap.to(fresh, {
             y: 0,
-            autoAlpha: 1,
+            opacity: 1,
             duration: 1,
             ease: EASE.enter,
             stagger: 0.08,
             overwrite: true,
           });
         };
-        gsap.set(articles, { y: 30, autoAlpha: 0 });
+        gsap.set(articles, { y: 30, opacity: 0 });
         const triggers = ScrollTrigger.batch(articles, {
           start: "top 90%",
           once: true,

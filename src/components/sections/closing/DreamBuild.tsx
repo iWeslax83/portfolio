@@ -45,16 +45,16 @@ export default function DreamBuild() {
           .timeline({ paused: true, defaults: { ease: EASE.enter } })
           .fromTo(
             dream,
-            { xPercent: -160, autoAlpha: 0 },
-            { xPercent: 0, autoAlpha: 1, duration: 0.8, stagger: 0.05 },
+            { xPercent: -160, opacity: 0 },
+            { xPercent: 0, opacity: 1, duration: 0.8, stagger: 0.05 },
             0,
           )
           .fromTo(
             build,
-            { xPercent: 160, autoAlpha: 0 },
+            { xPercent: 160, opacity: 0 },
             {
               xPercent: 0,
-              autoAlpha: 1,
+              opacity: 1,
               duration: 0.8,
               stagger: { each: 0.05, from: "end" },
             },
