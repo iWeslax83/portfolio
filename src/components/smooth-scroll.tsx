@@ -57,7 +57,20 @@ export default function SmoothScroll({
     };
     window.addEventListener("click", onClick);
 
+    // Web fonts change text height after the first measure, which moves
+    // every trigger below. Re-measure once when they land. If they were
+    // already loaded at mount, the triggers were measured with them and a
+    // refresh would only repeat work, so skip it.
+    let live = true;
+    const fonts = document.fonts;
+    if (fonts && fonts.status !== "loaded") {
+      fonts.ready.then(() => {
+        if (live) ScrollTrigger.refresh();
+      });
+    }
+
     return () => {
+      live = false;
       window.removeEventListener("click", onClick);
       mm.revert();
     };
