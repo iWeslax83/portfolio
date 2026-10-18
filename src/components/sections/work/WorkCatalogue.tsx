@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
@@ -8,8 +8,12 @@ import { projects, featuredProjects } from "@/data/projects";
 import type { Project } from "@/lib/types";
 import type { RepoStats } from "@/lib/github-repo-stats";
 import StatusTag from "@/components/ui/status-tag";
-import CatalogFilter, { type CatalogFilterValue } from "@/components/ui/catalog-filter";
+import CatalogFilter, {
+  type CatalogFilterValue,
+} from "@/components/ui/catalog-filter";
 import { SECTION_BAR } from "@/components/sections/about/AboutSkills";
+import { gsap, ScrollTrigger, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
+import { revealOnce } from "@/lib/reveal";
 
 function Links({ links }: { links: Project["links"] }) {
   if (links.length === 0) return null;
@@ -47,13 +51,83 @@ export default function WorkCatalogue({
   const [flagship] = featuredProjects;
   const ordered = [
     flagship,
-    ...projects.filter((p) => p.slug !== flagship.slug).sort((a, b) => a.order - b.order),
+    ...projects
+      .filter((p) => p.slug !== flagship.slug)
+      .sort((a, b) => a.order - b.order),
   ];
   const shown = ordered.filter((p) => filter === "ALL" || p.status === filter);
+  const scope = useRef<HTMLDivElement>(null);
+
+  // The black title bar wipes in as the gallery hands off, then articles
+  // reveal in batches as they arrive. Only transforms and opacity move, so
+  // nothing shifts layout and the #ventures anchor still lands correctly.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        const q = gsap.utils.selector(scope);
+        const bar = q("[data-reveal='bar']")[0];
+        const barTl = gsap
+          .timeline({ paused: true })
+          .fromTo(
+            bar,
+            { scaleX: 0, transformOrigin: "0% 50%" },
+            { scaleX: 1, duration: 1.1, ease: EASE.enter },
+          );
+        revealOnce(bar, () => barTl.play(), "top 95%");
+
+        const articles = q("article");
+        const shown = new WeakSet<Element>();
+        const show = (els: Element[]) => {
+          const fresh = els.filter((el) => !shown.has(el));
+          if (!fresh.length) return;
+          fresh.forEach((el) => shown.add(el));
+          gsap.to(fresh, {
+            y: 0,
+            autoAlpha: 1,
+            duration: 1,
+            ease: EASE.enter,
+            stagger: 0.08,
+            overwrite: true,
+          });
+        };
+        gsap.set(articles, { y: 30, autoAlpha: 0 });
+        const triggers = ScrollTrigger.batch(articles, {
+          start: "top 90%",
+          once: true,
+          onEnter: (els) => show(els),
+        });
+        // A refresh (load with restored scroll, filter change, resize) fires
+        // no callbacks, so reveal anything already at or past its start.
+        const onRefresh = () =>
+          show(
+            triggers
+              .filter((st) => st.progress > 0)
+              .map((st) => st.trigger)
+              .filter((el): el is Element => !!el),
+          );
+        ScrollTrigger.addEventListener("refresh", onRefresh);
+        onRefresh();
+        return () => ScrollTrigger.removeEventListener("refresh", onRefresh);
+      });
+      return () => mm.revert();
+    },
+    { scope },
+  );
+
+  // Filtering reflows the list: re-measure every trigger below it.
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    ScrollTrigger.refresh();
+  }, [filter]);
 
   return (
-    <div className="border-t border-ink">
-      <h3 className={SECTION_BAR}>
+    <div ref={scope} className="border-t border-ink">
+      <h3 data-reveal="bar" className={SECTION_BAR}>
         {t("allTitle")} · {t("count", { count: projects.length })}
       </h3>
       <div className="mx-auto max-w-[1100px] px-4 py-16 sm:px-10">
@@ -63,7 +137,9 @@ export default function WorkCatalogue({
             <article
               key={project.slug}
               className={`grid py-8 ${
-                project.slug === flagship.slug ? "border-2 border-ink px-6 md:px-8" : "border-t border-ink"
+                project.slug === flagship.slug
+                  ? "border-2 border-ink px-6 md:px-8"
+                  : "border-t border-ink"
               }`}
             >
               <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
@@ -75,7 +151,9 @@ export default function WorkCatalogue({
                 </span>
                 <StatusTag status={project.status} />
               </div>
-              <h4 className="font-serif text-3xl leading-[1.1] text-ink">{project.title}</h4>
+              <h4 className="font-serif text-3xl leading-[1.1] text-ink">
+                {project.title}
+              </h4>
               <p className="mt-3 max-w-2xl font-serif text-lg leading-[1.5] text-ink-2">
                 {project.description}
               </p>
