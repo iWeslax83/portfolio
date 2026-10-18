@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { useTranslations } from "next-intl";
 import { CONTACT_EMAIL } from "@/data/contact";
 import { warpedGrid } from "@/lib/warped-grid";
-import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap";
 import WarpedGrid from "@/components/ui/warped-grid";
 
 const grid = warpedGrid({ cols: 12, rows: 5, bulge: -20 });
@@ -18,7 +18,8 @@ export default function GoPanel() {
   useGSAP(() => {
     const mm = gsap.matchMedia();
     mm.add(MOTION_OK, () => {
-      gsap.fromTo(
+      // Only breathes while on screen, so it costs nothing elsewhere.
+      const pulse = gsap.fromTo(
         disc.current,
         { scale: 0.92 },
         {
@@ -27,8 +28,13 @@ export default function GoPanel() {
           ease: "sine.inOut",
           repeat: -1,
           yoyo: true,
+          paused: true,
         },
       );
+      ScrollTrigger.create({
+        trigger: disc.current,
+        onToggle: (self) => (self.isActive ? pulse.play() : pulse.pause()),
+      });
     });
     return () => mm.revert();
   });

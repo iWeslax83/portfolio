@@ -15,12 +15,19 @@ export default function BackToTop() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // The button unmounts once the page is at the top, so hand focus to <main>
+  // (tabIndex -1) instead of dropping it on <body>.
+  const onClick = () => {
+    scrollToTop();
+    document.getElementById("main")?.focus({ preventScroll: true });
+  };
+
   return (
     <AnimatePresence>
       {show && (
         <motion.button
           type="button"
-          onClick={scrollToTop}
+          onClick={onClick}
           aria-label="Back to top"
           initial={{ opacity: 0, scale: 0.6, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}

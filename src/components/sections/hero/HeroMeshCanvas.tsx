@@ -171,9 +171,9 @@ function start(canvas: HTMLCanvasElement, host: HTMLElement): () => void {
     top: number,
     bottom: number,
   ) => {
-    const last = heroMeshPoints[0].length / 2 - 1;
+    const lastRow = heroMeshPoints[0].length / 2 - 1;
     const v0 = Math.max(0, Math.floor(top / rowH) - 1);
-    const v1 = Math.min(last, Math.ceil(bottom / rowH) + 1);
+    const v1 = Math.min(lastRow, Math.ceil(bottom / rowH) + 1);
     if (v1 <= v0) return;
     ctx.lineWidth = crest ? 2.5 : 1;
     // One stroke per line, like the SVG's one path per line. It also keeps
@@ -242,7 +242,7 @@ function start(canvas: HTMLCanvasElement, host: HTMLElement): () => void {
 
   const frame = (now: number) => {
     raf = 0;
-    const dt = Math.min((now - last) / 1000, 0.05);
+    const dt = Math.min(Math.max(0, now - last) / 1000, 0.05);
     last = now;
     const box = host.getBoundingClientRect();
     const lx = tx - box.left;
