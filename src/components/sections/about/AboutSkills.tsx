@@ -59,8 +59,8 @@ export default function AboutSkills({ stats }: { stats: GitHubStats | null }) {
           const words = row.querySelectorAll("[data-reveal='word'] > span");
           const split = words.length
             ? SplitText.create(words, {
-                type: "lines",
-                mask: "lines",
+                type: "words",
+                mask: "words",
                 aria: "none",
               })
             : null;
@@ -79,7 +79,7 @@ export default function AboutSkills({ stats }: { stats: GitHubStats | null }) {
             );
           if (split) {
             tl.fromTo(
-              split.lines,
+              split.words,
               { yPercent: 100 },
               { yPercent: 0, duration: 1.2, ease: EASE.enter, stagger: 0.08 },
               0.1,
