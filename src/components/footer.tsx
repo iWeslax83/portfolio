@@ -39,7 +39,7 @@ export default function Footer() {
                         href={c.href}
                         target={external ? "_blank" : undefined}
                         rel={external ? "noopener noreferrer" : undefined}
-                        className="flex min-w-0 items-baseline justify-between gap-4 transition-opacity hover:opacity-70 active:opacity-70"
+                        className="flex min-w-0 items-baseline justify-between gap-4 transition-opacity duration-[350ms] hover:opacity-70 focus-visible:opacity-70 active:opacity-70"
                       >
                         <span className="font-serif text-xl">{c.label}</span>
                         <span className="min-w-0 truncate font-mono text-xs text-bg/50">{c.value}</span>
@@ -57,10 +57,15 @@ export default function Footer() {
                   <li key={item.key}>
                     <a
                       href={item.href}
-                      className="flex items-baseline justify-between font-serif text-xl transition-opacity hover:opacity-70 active:opacity-70"
+                      className="group flex items-baseline justify-between font-serif text-xl transition-opacity duration-[350ms] hover:opacity-70 focus-visible:opacity-70 active:opacity-70"
                     >
                       {tNav(item.key)}
-                      <span aria-hidden className="text-sm text-bg/60">↗</span>
+                      <span
+                        aria-hidden
+                        className="text-sm text-bg/60 transition-transform duration-[350ms] group-hover:-translate-y-1 group-hover:translate-x-1 group-focus-visible:-translate-y-1 group-focus-visible:translate-x-1"
+                      >
+                        ↗
+                      </span>
                     </a>
                   </li>
                 ))}

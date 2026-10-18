@@ -25,12 +25,13 @@ export default function CatalogFilter({
     <div className="inline-flex flex-wrap items-center gap-2 font-mono text-xs">
       {FILTERS.map((f) => (
         <button
+          type="button"
           key={f}
           onClick={() => onChange(f)}
-          className={`border px-4 py-1.5 transition-colors duration-200 ${
+          className={`border px-4 py-1.5 transition-colors duration-[350ms] ${
             value === f
               ? "border-ink bg-ink text-bg"
-              : "border-rule text-ink-3 hover:text-ink-2 hover:border-rule-strong"
+              : "border-rule text-ink-3 hover:border-ink hover:text-ink focus-visible:border-ink focus-visible:text-ink"
           }`}
           aria-pressed={value === f}
         >
