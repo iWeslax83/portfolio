@@ -60,9 +60,9 @@ identity for narrative simplicity.
   community/company (stratosiha.com). Teluvane is his AI-compliance startup
   (teluvane.com). Viyaro is his autonomous mobility venture (no public site
   yet).
-- Visual system is documented independently in `DESIGN.md` (neutral
-  maximalist typographic system, terminal-green single accent); this file
-  does not restate or govern those decisions.
+- Visual system is documented independently in `DESIGN.md` (black frame,
+  white sheet, no accent color); this file does not restate or govern
+  those decisions.
 
 ## Evidence on Hand
 
