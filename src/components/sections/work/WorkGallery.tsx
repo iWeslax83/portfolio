@@ -1,54 +1,31 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import Image from "next/image";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
 import type { Project } from "@/lib/types";
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { cardRotations } from "@/lib/card-rotations";
-import { cardX, cardY, letterSway } from "@/lib/work-gallery";
+import { cardX, cardY, exitPhase, letterSway } from "@/lib/work-gallery";
 import DotPattern from "@/components/ui/dot-pattern";
+import { STAGE_DOTS } from "./WorkIntro";
 
 const ROWS = ["W", "O", "R", "K"];
 const PER_ROW = 12;
-
-function SwayLetter({
-  letter,
-  index,
-  progress,
-}: {
-  letter: string;
-  index: number;
-  progress: MotionValue<number>;
-}) {
-  const rotate = useTransform(progress, (p) => letterSway(index, p));
-  return (
-    <motion.span
-      style={{ rotate }}
-      className="emboss-light inline-block font-display text-[20vh] leading-none text-bg"
-    >
-      {letter}
-    </motion.span>
-  );
-}
+const INK = "#0a0a0a";
+const BG = "#ffffff";
 
 function GalleryCard({
   project,
   index,
   total,
-  progress,
 }: {
   project: Project;
   index: number;
   total: number;
-  progress: MotionValue<number>;
 }) {
-  const x = useTransform(progress, (p) => `${cardX(index, total, p)}vw`);
   const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
+  const tilt =
+    Math.round(cardRotations[index % cardRotations.length] * 100) / 100;
   const body = (
     <>
       <div className="relative aspect-[16/10] border border-bg bg-panel">
@@ -69,70 +46,138 @@ function GalleryCard({
     </>
   );
 
+  // GSAP moves the <li>; the hover (straighten, grow, lift) lives on the
+  // inner element as a CSS transition, so the two never share a transform.
   return (
-    <motion.li
+    <li
+      data-card
       style={{
-        x,
-        rotate: cardRotations[index % cardRotations.length],
         top: `calc(50% + ${cardY(index)}vh)`,
+        transform: `translateX(${cardX(index, total, 0)}vw)`,
       }}
-      className="absolute left-1/2 w-[min(520px,70vw)] -translate-x-1/2 -translate-y-1/2"
+      className="absolute left-1/2 w-[min(520px,70vw)] -translate-x-1/2 -translate-y-1/2 hover:z-10"
     >
-      {primary ? (
-        <a
-          href={primary.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          tabIndex={-1}
-          className="block"
-        >
-          {body}
-        </a>
-      ) : (
-        body
-      )}
-    </motion.li>
+      <div
+        style={{ "--tilt": `${tilt}deg` } as CSSProperties}
+        className="gallery-card"
+      >
+        {primary ? (
+          <a
+            href={primary.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            tabIndex={-1}
+            className="block"
+          >
+            {body}
+          </a>
+        ) : (
+          body
+        )}
+      </div>
+    </li>
   );
 }
 
 /**
- * Black stage pinned for ~3 viewports: swaying embossed WORK letters behind
- * screenshot cards that travel right to left. Decorative duplicate of the
- * catalogue below, so it is hidden from assistive tech and out of tab order.
+ * Black stage held for ~3 viewports (CSS sticky): swaying embossed WORK
+ * letters behind screenshot cards that travel right to left, both driven by
+ * one scrubbed ScrollTrigger (scrub: 1, so they lag and settle instead of
+ * tracking raw scroll). Over the last 10% the stage fades to white so it
+ * hands off into the catalogue. Decorative duplicate of the catalogue below,
+ * so it is hidden from assistive tech and out of tab order.
  */
 export default function WorkGallery({ items }: { items: Project[] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end end"],
-  });
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        const q = gsap.utils.selector(ref);
+        const stage = q("[data-stage]")[0];
+        const fading = q("[data-stage-fade]");
+        const letters = q("[data-sway]");
+        const cards = q("[data-card]");
+        const setRot = letters.map((l) =>
+          gsap.quickSetter(l, "rotation", "deg"),
+        );
+        const setX = cards.map((c) => gsap.quickSetter(c, "x", "px"));
+        const setFade = gsap.quickSetter(fading, "opacity");
+        const setScale = gsap.quickSetter(fading, "scale");
+        const mixBg = gsap.utils.interpolate(INK, BG);
+        const total = cards.length;
+        const state = { p: 0 };
+
+        const render = () => {
+          const p = state.p;
+          const vw = window.innerWidth / 100;
+          setRot.forEach((set, i) => set(letterSway(i, p)));
+          setX.forEach((set, i) => set(cardX(i, total, p) * vw));
+          const e = exitPhase(p);
+          setFade(1 - e);
+          setScale(1 - 0.06 * e);
+          stage.style.backgroundColor = e > 0 ? mixBg(e) : "";
+        };
+
+        render();
+        gsap.to(state, {
+          p: 1,
+          ease: "none",
+          onUpdate: render,
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+            onRefresh: render,
+          },
+        });
+
+        return () => {
+          stage.style.backgroundColor = "";
+        };
+      });
+      return () => mm.revert();
+    },
+    { scope: ref },
+  );
 
   return (
     <div ref={ref} aria-hidden className="relative h-[400vh] bg-ink">
-      <div className="sticky top-0 h-screen overflow-hidden">
-        <DotPattern color="rgba(255,255,255,0.18)" gap={16} className="absolute inset-0 h-full w-full" />
-        <div className="absolute inset-0 flex flex-col justify-around py-[2vh]">
-          {ROWS.map((letter, r) => (
+      <div data-stage className="sticky top-0 h-screen overflow-hidden bg-ink">
+        <div data-stage-fade className="absolute inset-0">
+          <DotPattern
+            color={STAGE_DOTS.color}
+            gap={STAGE_DOTS.gap}
+            className="absolute inset-0 h-full w-full"
+          />
+        </div>
+        <div
+          data-stage-fade
+          className="absolute inset-0 flex flex-col justify-evenly py-[max(2vh,24px)]"
+        >
+          {ROWS.map((letter) => (
             <div key={letter} className="flex justify-around">
               {Array.from({ length: PER_ROW }, (_, c) => (
-                <SwayLetter
+                <span
                   key={c}
-                  letter={letter}
-                  index={r * PER_ROW + c}
-                  progress={scrollYProgress}
-                />
+                  data-sway
+                  className="emboss-light inline-block font-display text-[18vh] leading-none text-bg"
+                >
+                  {letter}
+                </span>
               ))}
             </div>
           ))}
         </div>
-        <ul className="absolute inset-0">
+        <ul data-stage-fade className="absolute inset-0">
           {items.map((p, i) => (
             <GalleryCard
               key={p.slug}
               project={p}
               index={i}
               total={items.length}
-              progress={scrollYProgress}
             />
           ))}
         </ul>

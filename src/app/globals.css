@@ -199,6 +199,24 @@ section[tabindex="-1"]:focus {
   }
 }
 
+/* Work gallery card. GSAP moves the <li>; this inner layer owns the tilt
+   and the hover (straighten, grow, lift), so the transforms never fight.
+   Pointer users only: the gallery is aria-hidden and out of tab order. */
+.gallery-card {
+  rotate: var(--tilt, 0deg);
+  transition:
+    rotate 0.4s var(--ease-out-expo),
+    scale 0.4s var(--ease-out-expo),
+    translate 0.4s var(--ease-out-expo);
+}
+@media (hover: hover) {
+  [data-card]:hover .gallery-card {
+    rotate: 0deg;
+    scale: 1.04;
+    translate: 0 -12px;
+  }
+}
+
 /* Link underline that draws from the left on hover */
 .link-draw {
   position: relative;

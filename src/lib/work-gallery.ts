@@ -38,3 +38,12 @@ export function cardY(index: number): number {
 export function letterSway(index: number, progress: number): number {
   return r2(Math.sin(index * 0.9 + progress * Math.PI * 2) * 6);
 }
+
+/**
+ * Local 0..1 progress of the gallery's exit, which runs over the last part
+ * of the pinned stage (from `start` to 1). 0 before the exit begins.
+ */
+export function exitPhase(progress: number, start = 0.9): number {
+  const p = (progress - start) / (1 - start);
+  return Math.min(1, Math.max(0, p));
+}

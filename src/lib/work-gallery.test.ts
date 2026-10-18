@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import type { Project } from "@/lib/types";
-import { cardX, cardY, galleryProjects, letterSway } from "./work-gallery";
+import {
+  cardX,
+  cardY,
+  exitPhase,
+  galleryProjects,
+  letterSway,
+} from "./work-gallery";
 
 function project(slug: string, order: number, image?: string): Project {
   return {
@@ -60,5 +66,20 @@ describe("cardY and letterSway", () => {
       expect(Math.abs(v)).toBeLessThanOrEqual(6);
       expect(letterSway(i, 0.37)).toBe(v);
     }
+  });
+});
+
+describe("exitPhase", () => {
+  it("stays at 0 until the exit starts, then runs 0..1", () => {
+    expect(exitPhase(0)).toBe(0);
+    expect(exitPhase(0.9)).toBe(0);
+    expect(exitPhase(0.95)).toBeCloseTo(0.5);
+    expect(exitPhase(1)).toBe(1);
+  });
+
+  it("clamps and honours a custom start", () => {
+    expect(exitPhase(1.4)).toBe(1);
+    expect(exitPhase(-1)).toBe(0);
+    expect(exitPhase(0.8, 0.6)).toBeCloseTo(0.5);
   });
 });
