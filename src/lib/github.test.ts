@@ -42,4 +42,27 @@ describe("fetchGitHubStats", () => {
     expect(stats?.contributions).toBeNull();
     expect(stats?.languages).toEqual([]);
   });
+  it("reports null contributions when GraphQL answers 200 with errors", async () => {
+    vi.resetModules();
+    vi.stubEnv("GITHUB_TOKEN", "x");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockImplementation(async (url: string) => {
+        if (String(url).endsWith("/graphql")) {
+          return new Response(JSON.stringify({ errors: [{ message: "x" }] }), {
+            status: 200,
+          });
+        }
+        const body = String(url).endsWith("/users/iWeslax83")
+          ? { public_repos: 7 }
+          : [];
+        return new Response(JSON.stringify(body), { status: 200 });
+      }),
+    );
+    const { fetchGitHubStats: fresh } = await import("./github");
+    const stats = await fresh();
+    expect(stats).not.toBeNull();
+    expect(stats?.contributions).toBeNull();
+    vi.resetModules();
+  });
 });

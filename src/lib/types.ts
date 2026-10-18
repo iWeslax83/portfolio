@@ -29,5 +29,4 @@ export interface GitHubStats {
   /** null means unknown (no token or API failure), never a stand-in zero. */
   contributions: number | null;
   languages: { name: string; percentage: number; color: string }[];
-  contributionGraph: number[][]; // weeks x days, 0-4 activity level
 }

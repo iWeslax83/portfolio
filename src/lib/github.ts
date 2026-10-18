@@ -23,12 +23,9 @@ async function githubFetch(url: string) {
 type ContributionDay = { contributionCount: number };
 type ContributionWeek = { contributionDays: ContributionDay[] };
 
-async function fetchContributions(): Promise<{
-  graph: number[][];
-  total: number | null;
-}> {
+async function fetchContributions(): Promise<number | null> {
   if (!GITHUB_TOKEN) {
-    return { graph: [], total: null };
+    return null;
   }
 
   const query = `
@@ -57,26 +54,18 @@ async function fetchContributions(): Promise<{
     next: { revalidate: REVALIDATE_SECONDS },
   });
 
-  if (!res.ok) return { graph: [], total: null };
+  if (!res.ok) return null;
 
   const data = await res.json();
-  const weeks: ContributionWeek[] =
-    data.data?.user?.contributionsCollection?.contributionCalendar?.weeks ?? [];
+  const cal = data.data?.user?.contributionsCollection?.contributionCalendar;
+  if (data.errors || !cal) return null;
 
+  const weeks: ContributionWeek[] = cal.weeks ?? [];
   let total = 0;
-  const graph = weeks.map((week) =>
-    week.contributionDays.map((day) => {
-      const count = day.contributionCount;
-      total += count;
-      if (count === 0) return 0;
-      if (count <= 2) return 1;
-      if (count <= 5) return 2;
-      if (count <= 10) return 3;
-      return 4;
-    }),
-  );
-
-  return { graph, total };
+  for (const week of weeks) {
+    for (const day of week.contributionDays) total += day.contributionCount;
+  }
+  return total;
 }
 
 async function fetchLanguageBreakdown(
@@ -142,9 +131,8 @@ export async function fetchGitHubStats(): Promise<GitHubStats | null> {
 
     return {
       publicRepos: user.public_repos,
-      contributions: contributions.total,
+      contributions,
       languages,
-      contributionGraph: contributions.graph,
     };
   } catch (error) {
     console.error("Failed to fetch GitHub stats:", error);
