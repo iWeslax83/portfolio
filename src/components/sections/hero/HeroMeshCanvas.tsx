@@ -6,6 +6,7 @@ import { whenIntroDone } from "@/lib/intro-state";
 import { HERO_MESH_CRESTS, heroMeshPoints } from "@/lib/wireframe-mesh";
 import {
   MESH_RADIUS,
+  MESH_STRENGTH,
   damp,
   displaceLine,
   subdivide,
@@ -13,22 +14,34 @@ import {
 
 /** Mouse or pen users who have not asked for reduced motion. */
 const POINTER_OK = `${MOTION_OK} and (hover: hover) and (pointer: fine)`;
-/** Longest the canvas waits for the intro before taking over anyway. */
+/** Longest the lens waits for the intro before it starts reacting anyway. */
 const INTRO_FALLBACK_MS = 5000;
 /** Smoothing speeds (per second) for the pointer and for the bend itself. */
 const FOLLOW = 14;
 const EASE_IN = 6;
 const EASE_OUT = 4;
 /** Extra points per segment, so a bend reads as a curve, not facets. */
-const DETAIL = 3;
+const DETAIL = 2;
+/**
+ * How far (CSS px) from the pointer the bend can move a pixel: the radius,
+ * the largest push, and slack for segment length and stroke width. The lens
+ * is a square of twice this, so every bent pixel lands inside it.
+ */
+const REACH = MESH_RADIUS + MESH_STRENGTH + 12;
+const LENS = REACH * 2;
+/** Stroke bleed (CSS px) of the thickest line, for picking lines to draw. */
+const BLEED = 3;
 
 /**
- * Interactive layer over the hero's SVG mesh. After the intro has drawn the
- * SVG, this canvas redraws the same 140 lines (same points, same crests) and
- * hides the SVG, then bends the lines away from the pointer. The SVG stays
- * in the server HTML as the static fallback for no JS, touch screens and
- * reduced motion. Rendering only runs while something is moving, and never
- * while the hero is off screen or the tab is hidden.
+ * Pointer lens over the hero's SVG mesh. The SVG always draws the flat mesh.
+ * While the pointer bends it, a small canvas square follows the pointer,
+ * paints the background and redraws the same lines (same points, same
+ * crests) bent away from the pointer. Outside the bend the lines match the
+ * SVG underneath, so the square has no visible edge, and once the bend has
+ * eased back to zero the canvas hides again. Keeping the canvas small keeps
+ * every frame cheap on high-DPR screens. Only for mouse and pen users
+ * without reduced motion, only after the intro has drawn the mesh, and
+ * never while the hero is off screen or the tab is hidden.
  */
 export default function HeroMeshCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -36,13 +49,12 @@ export default function HeroMeshCanvas() {
   useEffect(() => {
     const canvas = ref.current;
     const host = canvas?.parentElement;
-    const svg = host?.querySelector("svg");
-    if (!canvas || !host || !svg) return;
+    if (!canvas || !host) return;
 
     const mq = window.matchMedia(POINTER_OK);
     let stop: (() => void) | null = null;
     const sync = () => {
-      if (mq.matches && !stop) stop = start(canvas, host, svg);
+      if (mq.matches && !stop) stop = start(canvas, host);
       else if (!mq.matches && stop) {
         stop();
         stop = null;
@@ -72,23 +84,21 @@ export default function HeroMeshCanvas() {
     <canvas
       ref={ref}
       aria-hidden
-      className="pointer-events-none absolute inset-0 h-full w-full"
+      style={{ width: LENS, height: LENS }}
+      className="pointer-events-none invisible absolute left-0 top-0 will-change-transform"
     />
   );
 }
 
-function start(
-  canvas: HTMLCanvasElement,
-  host: HTMLElement,
-  svg: SVGSVGElement,
-): () => void {
+function start(canvas: HTMLCanvasElement, host: HTMLElement): () => void {
   const ctx = canvas.getContext("2d");
   if (!ctx) return () => {};
 
-  const color =
-    getComputedStyle(host).getPropertyValue("--color-ink").trim() || "#0a0a0a";
-  // Flat lines draw from the SVG's own points, so the takeover is pixel
-  // exact. Bent lines use a finer, collinear copy so the bend is smooth.
+  const tokens = getComputedStyle(host);
+  const ink = tokens.getPropertyValue("--color-ink").trim() || "#0a0a0a";
+  const paper = tokens.getPropertyValue("--color-bg").trim() || "#ffffff";
+  // Unbent segments draw from the SVG's own points, so the lens matches the
+  // SVG under it. Bent segments use a finer, collinear copy so they curve.
   const fine = heroMeshPoints.map((pts) => subdivide(pts, DETAIL));
   const flat = heroMeshPoints.map((pts) => new Float32Array(pts.length));
   const base = fine.map((pts) => new Float32Array(pts.length));
@@ -96,9 +106,9 @@ function start(
   const minX = new Float32Array(fine.length);
   const maxX = new Float32Array(fine.length);
 
-  let w = 0;
-  let h = 0;
   let dpr = 1;
+  /** Height (CSS px) between two vertices of a line; every line shares it. */
+  let rowH = 1;
   // Pointer in viewport coordinates, smoothed pointer in canvas coordinates,
   // and the bend amplitude (0 = flat mesh, 1 = full push).
   let tx = 0;
@@ -113,39 +123,101 @@ function start(
   let onScreen = true;
   let pageVisible = !document.hidden;
 
-  const strokeLines = (crest: boolean) => {
-    ctx.beginPath();
-    for (let i = 0; i < base.length; i++) {
-      if (HERO_MESH_CRESTS.includes(i) !== crest) continue;
-      let pts = flat[i];
-      if (amp > 0 && px + MESH_RADIUS > minX[i] && px - MESH_RADIUS < maxX[i]) {
-        displaceLine(base[i], out[i], px, py, amp);
-        pts = out[i];
-      }
-      ctx.moveTo(pts[0], pts[1]);
-      for (let j = 2; j < pts.length; j += 2) ctx.lineTo(pts[j], pts[j + 1]);
+  /**
+   * Adds one line to the current path. Segments the bend did not touch are
+   * emitted from the SVG's own coarse points, so pixels away from the
+   * pointer rasterize like the flat mesh; only moved segments use the finer
+   * points.
+   */
+  const addLine = (i: number, v0: number, v1: number) => {
+    const f = flat[i];
+    if (
+      amp === 0 ||
+      px + MESH_RADIUS <= minX[i] ||
+      px - MESH_RADIUS >= maxX[i]
+    ) {
+      ctx.moveTo(f[v0 * 2], f[v0 * 2 + 1]);
+      for (let v = v0 + 1; v <= v1; v++) ctx.lineTo(f[v * 2], f[v * 2 + 1]);
+      return;
     }
-    ctx.lineWidth = crest ? 2.5 : 1;
-    ctx.stroke();
+    const b = base[i];
+    const o = out[i];
+    displaceLine(b, o, px, py, amp);
+    const moved = (k: number) => o[k] !== b[k] || o[k + 1] !== b[k + 1];
+    const step = DETAIL * 2;
+    const k0 = v0 * step;
+    if (moved(k0)) ctx.moveTo(o[k0], o[k0 + 1]);
+    else ctx.moveTo(f[v0 * 2], f[v0 * 2 + 1]);
+    for (let v = v0 + 1; v <= v1; v++) {
+      const end = v * step;
+      const s = end - step;
+      let bent = false;
+      for (let k = s; k <= end && !bent; k += 2) bent = moved(k);
+      if (bent) for (let k = s + 2; k < end; k += 2) ctx.lineTo(o[k], o[k + 1]);
+      if (moved(end)) ctx.lineTo(o[end], o[end + 1]);
+      else ctx.lineTo(f[v * 2], f[v * 2 + 1]);
+    }
   };
 
+  /**
+   * Strokes the lines that can reach the lens box (CSS px), and only the
+   * vertices of each line that fall in its rows: the stroker never works
+   * on segments the lens cannot show.
+   */
+  const strokeLines = (
+    crest: boolean,
+    left: number,
+    right: number,
+    top: number,
+    bottom: number,
+  ) => {
+    const last = heroMeshPoints[0].length / 2 - 1;
+    const v0 = Math.max(0, Math.floor(top / rowH) - 1);
+    const v1 = Math.min(last, Math.ceil(bottom / rowH) + 1);
+    if (v1 <= v0) return;
+    ctx.lineWidth = crest ? 2.5 : 1;
+    // One stroke per line, like the SVG's one path per line. It also keeps
+    // the rasterizer to two edges per row instead of every line at once.
+    for (let i = 0; i < base.length; i++) {
+      if (HERO_MESH_CRESTS.includes(i) !== crest) continue;
+      if (maxX[i] < left || minX[i] > right) continue;
+      ctx.beginPath();
+      addLine(i, v0, v1);
+      ctx.stroke();
+    }
+  };
+
+  /** Moves the lens to the pointer (on whole device pixels) and redraws it. */
   const draw = () => {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = color;
-    strokeLines(false);
-    strokeLines(true);
+    if (amp === 0) {
+      canvas.style.visibility = "";
+      return;
+    }
+    const ox = Math.round((px - REACH) * dpr) / dpr;
+    const oy = Math.round((py - REACH) * dpr) / dpr;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = paper;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.setTransform(dpr, 0, 0, dpr, -ox * dpr, -oy * dpr);
+    ctx.strokeStyle = ink;
+    const l = ox - BLEED;
+    const r = ox + LENS + BLEED;
+    const t = oy - BLEED;
+    const btm = oy + LENS + BLEED;
+    strokeLines(false, l, r, t, btm);
+    strokeLines(true, l, r, t, btm);
+    canvas.style.transform = `translate3d(${ox}px, ${oy}px, 0)`;
+    canvas.style.visibility = "visible";
   };
 
   const resize = () => {
     const box = host.getBoundingClientRect();
-    w = box.width;
-    h = box.height;
     dpr = Math.min(window.devicePixelRatio || 1, 3);
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    const sx = w / 1000;
-    const sy = h / 600;
+    canvas.width = Math.round(LENS * dpr);
+    canvas.height = Math.round(LENS * dpr);
+    const sx = box.width / 1000;
+    const sy = box.height / 600;
+    rowH = Math.max(1e-3, box.height / (heroMeshPoints[0].length / 2 - 1));
     fine.forEach((pts, i) => {
       let lo = Infinity;
       let hi = -Infinity;
@@ -239,8 +311,6 @@ function start(
   const ro = new ResizeObserver(resize);
 
   resize();
-  // Same lines, same place: the canvas replaces the SVG in one frame.
-  svg.style.visibility = "hidden";
   host.addEventListener("pointermove", onMove);
   host.addEventListener("pointerleave", onLeave);
   window.addEventListener("scroll", onScroll, { passive: true });
@@ -256,7 +326,8 @@ function start(
     host.removeEventListener("pointerleave", onLeave);
     window.removeEventListener("scroll", onScroll);
     document.removeEventListener("visibilitychange", onVisibility);
-    svg.style.visibility = "";
+    canvas.style.visibility = "";
+    canvas.style.transform = "";
     canvas.width = 0;
     canvas.height = 0;
   };
