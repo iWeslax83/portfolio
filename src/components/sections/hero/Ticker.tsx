@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { useRef } from "react";
+import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap";
 import type { TickerSegment } from "@/lib/ticker";
 
 /** Framed mono strip that drifts left as the page scrolls. Decorative. */
@@ -16,10 +12,26 @@ export default function Ticker({
   segments: TickerSegment[];
   speed?: number;
 }) {
-  const { scrollY } = useScroll();
-  const reduce = useReducedMotion();
-  const x = useTransform(scrollY, (v) => (reduce ? 0 : -v * speed));
+  const strip = useRef<HTMLDivElement>(null);
   const loop = [...segments, ...segments];
+
+  // Drift = speed x page scroll, over the whole page, lerped by scrub.
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add(MOTION_OK, () => {
+      gsap.to(strip.current, {
+        x: () => -ScrollTrigger.maxScroll(window) * speed,
+        ease: "none",
+        scrollTrigger: {
+          start: 0,
+          end: "max",
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+    });
+    return () => mm.revert();
+  });
 
   return (
     <div
@@ -28,7 +40,7 @@ export default function Ticker({
     >
       <span>▸</span>
       <div className="min-w-0 flex-1 overflow-hidden">
-        <motion.div style={{ x }} className="flex w-max gap-6 whitespace-nowrap">
+        <div ref={strip} className="flex w-max gap-6 whitespace-nowrap">
           {loop.map((s, i) => (
             <span
               key={i}
@@ -37,7 +49,7 @@ export default function Ticker({
               {s.text}
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
       <span>◂</span>
     </div>

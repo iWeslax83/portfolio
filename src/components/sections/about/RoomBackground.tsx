@@ -1,12 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { aboutRoom } from "@/lib/perspective-room";
 
 /** Perspective wireframe behind a centered column. Skews slightly on scroll. */
@@ -16,18 +11,32 @@ export default function RoomBackground({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
+
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add(MOTION_OK, () => {
+      gsap.fromTo(
+        ref.current,
+        { skewY: 2 },
+        {
+          skewY: -2,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        },
+      );
+    });
+    return () => mm.revert();
   });
-  const skewY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [2, -2]);
 
   return (
-    <motion.div
+    <div
       ref={ref}
       aria-hidden
-      style={{ skewY }}
       className={`pointer-events-none absolute inset-0 ${className}`}
     >
       <svg
@@ -48,6 +57,6 @@ export default function RoomBackground({
           />
         ))}
       </svg>
-    </motion.div>
+    </div>
   );
 }
