@@ -37,7 +37,8 @@ tracked 0.05-0.15em.
    (Anton words, globe, DevOps, live GitHub cell, hatch).
 5. Work `#work`: capsule intro that grows to black, 400vh sticky black
    stage with swaying embossed WORK letters and 7 screenshot cards, then
-   the full catalogue list, pulled up over the end of the stage. Phones and reduced motion get a static gallery.
+   the full catalogue list, pulled up over the end of the stage. Phones and
+   reduced motion get a static gallery.
 6. Ventures `#ventures`: three ruled rows with giant Anton names.
 7. Closing `#contact`: ray burst + perspective headline, DREAM IT / BUILD
    IT, GO circle (mailto), dot band, black footer with giant wordmark.

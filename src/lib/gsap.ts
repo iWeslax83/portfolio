@@ -17,7 +17,6 @@ export const MOTION_OK = "(prefers-reduced-motion: no-preference)";
 /** Motion language: see DESIGN.md section 5. */
 export const EASE = {
   enter: "expo.out",
-  change: "expo.inOut",
   scaleUp: "power4.in",
 } as const;
 

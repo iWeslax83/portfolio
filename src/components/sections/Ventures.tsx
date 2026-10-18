@@ -57,6 +57,8 @@ export default function Ventures() {
         const q = gsap.utils.selector(scope);
         const list = q("[data-venture-list]")[0];
         const rows = q("[data-venture-row]");
+        // SplitText note: revert() restores the original markup via innerHTML,
+        // so the split nodes must stay static text (no React children or refs).
         const split = SplitText.create(q("[data-venture-name]"), {
           type: "words",
           mask: "words",

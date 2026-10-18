@@ -4,9 +4,10 @@ import { MotionConfig } from "framer-motion";
 
 /**
  * The globals.css reduced-motion block only collapses CSS animations and
- * transitions. The section reveals are Framer Motion variants, so they need
- * this too: `reducedMotion="user"` drops the transform-based movement for
- * anyone who asked for less motion, leaving a plain opacity change.
+ * transitions. The remaining Framer Motion pieces (header, mobile menu,
+ * back-to-top) need this too: `reducedMotion="user"` drops their
+ * transform-based movement for anyone who asked for less motion, leaving a
+ * plain opacity change. Section motion is GSAP and gated by MOTION_OK.
  */
 export default function MotionProvider({
   children,

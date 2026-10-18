@@ -54,6 +54,8 @@ export default function Intro() {
 
       // Visual characters only: the sr-only label spans are not split, and
       // aria "none" leaves the text readable. Reverted once the rise ends.
+      // SplitText note: revert() restores the original markup via innerHTML,
+      // so the split nodes must stay static text (no React children or refs).
       const split = SplitText.create(words, {
         type: "chars",
         mask: "chars",

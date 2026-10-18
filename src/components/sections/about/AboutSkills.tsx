@@ -57,6 +57,8 @@ export default function AboutSkills({ stats }: { stats: GitHubStats | null }) {
           const found = row.querySelectorAll("[data-reveal='cell']");
           const cells = found.length ? found : [row];
           const words = row.querySelectorAll("[data-reveal='word'] > span");
+          // SplitText note: revert() restores the original markup via innerHTML,
+          // so the split nodes must stay static text (no React children or refs).
           const split = words.length
             ? SplitText.create(words, {
                 type: "words",
