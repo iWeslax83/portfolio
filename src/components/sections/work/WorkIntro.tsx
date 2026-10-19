@@ -28,13 +28,16 @@ export default function WorkIntro({ mode = "in" }: { mode?: "in" | "out" }) {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(`${MOTION_OK} and (min-width: 768px)`, () => {
+      mm.add(MOTION_OK, () => {
         const q = gsap.utils.selector(ref);
         // Scale to a full-height column (with margin, so the rounded ends
         // sit off screen), then to the full width.
         const box = q("[data-intro-capsule]")[0].getBoundingClientRect();
         const tall = (window.innerHeight * 1.6) / box.height;
         const wide = (window.innerWidth * 1.3) / box.width;
+        // The column stays narrower than the screen (phones included), so
+        // the grid shows on both sides until the final widening.
+        const column = Math.min(2, (window.innerWidth * 0.8) / box.width);
         const tl = gsap
           .timeline({
             paused: true,
@@ -52,7 +55,7 @@ export default function WorkIntro({ mode = "in" }: { mode?: "in" | "out" }) {
           )
           .to(
             q("[data-intro-capsule]"),
-            { scaleY: tall, scaleX: 2, duration: 0.4, ease: EASE.scaleUp },
+            { scaleY: tall, scaleX: column, duration: 0.4, ease: EASE.scaleUp },
             0.05,
           )
           .to(

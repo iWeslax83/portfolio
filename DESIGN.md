@@ -39,8 +39,8 @@ tracked 0.05-0.15em.
    and then fills the screen; 400vh sticky black stage where the WORK
    letter rows open out of a packed arch, 7 screenshot cards cross, and the
    rows pack again; then the capsule again, folding the black back up.
-   A keyboard-focusable list carries the same links. Phones and reduced
-   motion get a static gallery.
+   A keyboard-focusable list carries the same links. It runs on phones too
+   (one wide card at a time); reduced motion gets a static gallery.
 6. Closing `#contact`: commit ticker, pinned ray burst (sun a third of the
    way down, rays all round, headline lying on a perspective floor that
    grows, screenshots and stars flying out of the sun), DREAM IT / BUILD

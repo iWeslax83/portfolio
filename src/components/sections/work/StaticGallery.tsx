@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { Project } from "@/lib/types";
 
-/** Phone and reduced-motion version: a WORK band and stacked cards. */
+/** Reduced-motion version: a WORK band and stacked cards. */
 export default function StaticGallery({ items }: { items: Project[] }) {
   return (
     <div aria-hidden className="bg-ink px-4 py-12 text-bg">

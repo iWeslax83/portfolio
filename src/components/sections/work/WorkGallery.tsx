@@ -59,7 +59,7 @@ function GalleryCard({
           src={project.image!}
           alt=""
           fill
-          sizes="(max-width: 1400px) 40vw, 560px"
+          sizes="(max-width: 768px) 62vw, (max-width: 1400px) 40vw, 560px"
           className="object-cover object-top"
         />
       </div>
@@ -81,7 +81,7 @@ function GalleryCard({
         top: `calc(50% + ${cardY(index)}vh)`,
         transform: `translateX(${cardX(index, total, 0)}vw)`,
       }}
-      className="absolute left-1/2 w-[min(560px,40vw)] -translate-x-1/2 -translate-y-1/2 hover:z-10"
+      className="absolute left-1/2 w-[62vw] -translate-x-1/2 -translate-y-1/2 hover:z-10 md:w-[min(560px,40vw)]"
     >
       <div
         style={{ "--tilt": `${tilt}deg` } as CSSProperties}
@@ -120,7 +120,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(`${MOTION_OK} and (min-width: 768px)`, () => {
+      mm.add(MOTION_OK, () => {
         const q = gsap.utils.selector(ref);
         // Hidden while it rises over the intro; shown once pinned.
         const stage = q("[data-stage]");
@@ -163,7 +163,9 @@ export default function WorkGallery({ items }: { items: Project[] }) {
           // Fade out just before the outro takes over.
           setLetters(1 - exitPhase(p, 0.97, 1));
           const cp = (p - CARDS_FROM) / (CARDS_TO - CARDS_FROM);
-          setX.forEach((set, i) => set(cardX(i, total, cp) * vw));
+          // Phones show one wide card at a time, so space them further.
+          const spacing = window.innerWidth < 768 ? 70 : 34;
+          setX.forEach((set, i) => set(cardX(i, total, cp, spacing) * vw));
         };
 
         render();
@@ -205,7 +207,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
         </div>
         <div
           data-letters
-          className="absolute inset-y-0 -left-[45vw] -right-[45vw] flex flex-col justify-evenly"
+          className="absolute inset-y-0 -left-[140vw] -right-[140vw] flex flex-col justify-evenly md:-left-[45vw] md:-right-[45vw]"
         >
           {ROWS.map((letter) => (
             <div key={letter} data-row className="flex justify-around">
@@ -213,7 +215,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
                 <span
                   key={c}
                   data-sway
-                  className="emboss-light inline-block font-display text-[20vh] leading-[0.95] text-bg"
+                  className="emboss-light inline-block font-display text-[16vh] leading-[0.95] text-bg md:text-[20vh]"
                 >
                   {letter}
                 </span>
