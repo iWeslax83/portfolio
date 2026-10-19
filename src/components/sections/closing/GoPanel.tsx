@@ -13,8 +13,8 @@ const grid = lensGrid({
   cols: 12,
   rows: 8,
   ...LENS,
-  radius: 300,
-  strength: 0.45,
+  radius: 160,
+  strength: 0.5,
 });
 
 export default function GoPanel() {

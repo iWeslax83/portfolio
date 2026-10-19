@@ -6,7 +6,8 @@ import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { warpedGrid } from "@/lib/warped-grid";
 import WarpedGrid from "@/components/ui/warped-grid";
 
-const grid = warpedGrid({ cols: 12, rows: 7, bulge: 0 });
+/** Bowed outward like the reference's backdrop behind the two lines. */
+const grid = warpedGrid({ cols: 12, rows: 7, bulge: 36 });
 
 const LINE =
   "whitespace-nowrap font-condensed text-[clamp(4rem,11vw,10rem)] font-bold leading-[0.9] tracking-[0.02em]";

@@ -8,7 +8,7 @@ import Star from "@/components/ui/star";
 import GitHubCell from "./GitHubCell";
 
 const labelCell =
-  "flex items-center justify-center p-6 text-center font-serif text-[clamp(1.4rem,2.4vw,2rem)] leading-[1.1]";
+  "flex items-center justify-center p-3 text-center font-serif text-[clamp(1rem,2.4vw,2rem)] leading-[1.1] sm:p-6";
 
 function Globe() {
   return (
@@ -18,7 +18,7 @@ function Globe() {
       fill="none"
       stroke="currentColor"
       strokeWidth="1"
-      className="h-24 w-24"
+      className="h-16 w-16 sm:h-24 sm:w-24"
     >
       <g transform="rotate(-20 50 50)">
         <ellipse cx="50" cy="50" rx="34" ry="40" />
@@ -69,22 +69,20 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
           <div
             key={s.key}
             data-reveal="row"
-            className="grid border-b border-ink sm:grid-cols-2"
+            className="grid grid-cols-2 border-b border-ink"
           >
             <div
               data-reveal="cell"
-              className={`border-b border-ink p-4 sm:border-b-0 sm:p-5 ${
-                flip
-                  ? "sm:col-start-2 sm:row-start-1 sm:border-l"
-                  : "sm:border-r"
-              }`}
+              className={`p-3 sm:p-5 ${
+                flip ? "col-start-2 row-start-1 border-l" : "border-r"
+              } border-ink`}
             >
               <h3
                 data-reveal="word"
                 aria-label={
                   s.key === "embedded" ? "Embedded" : s.word.join(" ")
                 }
-                className="font-display text-[clamp(4rem,8vw,7rem)] uppercase leading-[0.88]"
+                className="font-display text-[clamp(2.75rem,8vw,7rem)] uppercase leading-[0.88]"
               >
                 {s.word.map((w) => (
                   <span key={w} aria-hidden className="block">
@@ -92,7 +90,7 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
                   </span>
                 ))}
               </h3>
-              <ul className="mt-3 font-serif text-sm leading-[1.35]">
+              <ul className="mt-3 font-serif text-xs leading-[1.35] sm:text-sm">
                 {s.tools.map((x) => (
                   <li key={x}>({x})</li>
                 ))}
@@ -100,7 +98,7 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
             </div>
             <div
               data-reveal="cell"
-              className={`${labelCell} ${flip ? "sm:col-start-1 sm:row-start-1" : ""}`}
+              className={`${labelCell} ${flip ? "col-start-1 row-start-1" : ""}`}
             >
               <p>
                 {s.label}
@@ -114,11 +112,11 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
 
       <div
         data-reveal="row"
-        className="grid border-b border-ink sm:grid-cols-3"
+        className="grid grid-cols-3 border-b border-ink"
       >
         <div
           data-reveal="cell"
-          className="relative flex items-center justify-center border-b border-ink p-8 sm:border-b-0 sm:border-r"
+          className="relative flex items-center justify-center border-r border-ink p-4 sm:p-8"
         >
           <Star className="absolute left-3 top-3 h-4 w-4" />
           <Star className="absolute right-3 top-3 h-4 w-4" />
@@ -128,23 +126,23 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
         </div>
         <div
           data-reveal="cell"
-          className={`${labelCell} flex-col sm:col-span-2`}
+          className={`${labelCell} col-span-2 flex-col`}
         >
           <p>
             {devopsSkill.label}
             <br />
             {devopsSkill.sub}
           </p>
-          <p className="mt-3 font-serif text-sm">
+          <p className="mt-3 font-serif text-xs sm:text-sm">
             {devopsSkill.tools.map((x) => `(${x})`).join(" ")}
           </p>
         </div>
       </div>
 
-      <div data-reveal="row" className="grid sm:grid-cols-3">
+      <div data-reveal="row" className="grid grid-cols-3">
         <div
           data-reveal="cell"
-          className="border-b border-ink sm:col-span-2 sm:border-b-0 sm:border-r"
+          className="col-span-2 border-r border-ink"
         >
           <GitHubCell stats={stats} />
         </div>

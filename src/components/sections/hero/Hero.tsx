@@ -11,7 +11,7 @@ export default function Hero({ commits }: { commits: CommitEntry[] }) {
     <section id="home" aria-labelledby="hero-title">
       <div
         data-intro="mesh"
-        className="relative h-[45vh] overflow-hidden lg:h-[55vh]"
+        className="relative h-[60vh] overflow-hidden sm:h-[45vh] lg:h-[55vh]"
       >
         <WireframeMesh
           lines={heroMeshLines}
