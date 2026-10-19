@@ -10,7 +10,10 @@ export default function SideRails({
   right: string;
 }) {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 hidden lg:block"
+    >
       <div className="absolute inset-y-0 left-8">
         <p className={`${rail} rotate-180`}>{left}</p>
       </div>

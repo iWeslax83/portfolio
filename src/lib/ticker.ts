@@ -37,7 +37,10 @@ export function buildTickerSegments(
         text: `${commit.hash} ${truncate(commit.message)}`,
       });
     } else if (slot === 2) {
-      out.push({ kind: "rule", text: "/".repeat(12 + Math.floor(rand() * 24)) });
+      out.push({
+        kind: "rule",
+        text: "/".repeat(12 + Math.floor(rand() * 24)),
+      });
     } else {
       const len = 8 + Math.floor(rand() * 40);
       let bits = "";

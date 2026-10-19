@@ -81,8 +81,8 @@ export default async function OpengraphImage() {
               maxWidth: 960,
             }}
           >
-            Building autonomous drones and the software behind them, from
-            Bursa, Türkiye.
+            Building autonomous drones and the software behind them, from Bursa,
+            Türkiye.
           </div>
         </div>
 

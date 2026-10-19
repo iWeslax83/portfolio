@@ -25,7 +25,8 @@ export function warpedGrid({
     const pts: string[] = [];
     for (let s = 0; s <= STEPS; s++) {
       const y = (s / STEPS) * H;
-      const x = x0 + ((x0 - W / 2) / (W / 2)) * bulge * Math.sin((Math.PI * y) / H);
+      const x =
+        x0 + ((x0 - W / 2) / (W / 2)) * bulge * Math.sin((Math.PI * y) / H);
       pts.push(`${s === 0 ? "M" : "L"}${r1(x)},${r1(y)}`);
     }
     paths.push({ d: pts.join(" ") });
@@ -36,7 +37,8 @@ export function warpedGrid({
     const pts: string[] = [];
     for (let s = 0; s <= STEPS; s++) {
       const x = (s / STEPS) * W;
-      const y = y0 + ((y0 - H / 2) / (H / 2)) * bulge * Math.sin((Math.PI * x) / W);
+      const y =
+        y0 + ((y0 - H / 2) / (H / 2)) * bulge * Math.sin((Math.PI * x) / W);
       pts.push(`${s === 0 ? "M" : "L"}${r1(x)},${r1(y)}`);
     }
     paths.push({ d: pts.join(" ") });
