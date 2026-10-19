@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import { ventures, type Venture } from "@/data/ventures";
 import { gsap, SplitText, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
@@ -44,8 +44,7 @@ function Row({ venture, index }: { venture: Venture; index: number }) {
   );
 }
 
-export default function Ventures() {
-  const t = useTranslations("ventures");
+export default function Ventures({ t }: { t: Messages["ventures"] }) {
   const scope = useRef<HTMLElement>(null);
 
   // Rows slide in from the left, staggered, and each big name rises out of
@@ -100,7 +99,7 @@ export default function Ventures() {
     >
       <RoomBackground className="opacity-15" />
       <h2 id="ventures-title" className={`relative ${SECTION_BAR}`}>
-        {t("title")}
+        {t.title}
       </h2>
       <ul data-venture-list className="relative">
         {ventures.map((v, i) => (

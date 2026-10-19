@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import type { GitHubStats } from "@/lib/types";
 import { gsap, SplitText, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
@@ -16,8 +16,15 @@ export const SECTION_BAR =
 
 const PARAGRAPHS = ["p1", "p2", "p3", "p4"] as const;
 
-export default function AboutSkills({ stats }: { stats: GitHubStats | null }) {
-  const t = useTranslations("about");
+export default function AboutSkills({
+  stats,
+  t,
+  skills,
+}: {
+  stats: GitHubStats | null;
+  t: Messages["about"];
+  skills: Messages["skills"];
+}) {
   const scope = useRef<HTMLElement>(null);
 
   // Entrances. Start states are set here (client, before paint), never in
@@ -136,23 +143,23 @@ export default function AboutSkills({ stats }: { stats: GitHubStats | null }) {
       className="relative overflow-clip"
     >
       <RoomBackground />
-      <SideRails left={t("railLeft")} right={t("railRight")} />
+      <SideRails left={t.railLeft} right={t.railRight} />
       <div className="relative mx-auto w-full max-w-[640px] border-x border-ink bg-bg">
         <h2 id="about-title" data-reveal="bar" className={SECTION_BAR}>
-          {t("barAbout")}
+          {t.barAbout}
         </h2>
         <div
           data-reveal="paras"
           className="space-y-8 px-6 py-14 font-serif text-[22px] leading-[1.5] tracking-[-0.01em] sm:px-[72px] sm:py-20 sm:text-[30px]"
         >
           {PARAGRAPHS.map((k) => (
-            <p key={k}>{t(k)}</p>
+            <p key={k}>{t[k]}</p>
           ))}
         </div>
         <h2 data-reveal="bar" className={SECTION_BAR}>
-          {t("barSkills")}
+          {t.barSkills}
         </h2>
-        <Bento stats={stats} />
+        <Bento stats={stats} t={skills} />
       </div>
     </section>
   );

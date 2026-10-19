@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { warpedGrid } from "@/lib/warped-grid";
 import WarpedGrid from "@/components/ui/warped-grid";
@@ -43,8 +43,7 @@ function Line({ text, side }: { text: string; side: "left" | "right" }) {
  * opposite sides. Both lines stay whole and solid black at every point, so
  * any resting state is readable.
  */
-export default function DreamBuild() {
-  const t = useTranslations("closing");
+export default function DreamBuild({ t }: { t: Messages["closing"] }) {
   const scope = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -56,7 +55,8 @@ export default function DreamBuild() {
         const build = q("[data-dream-line='left'] > div");
         // How far each line travels to reach the opposite side.
         const travel = (el: Element) =>
-          (el.parentElement?.clientWidth ?? 0) - el.getBoundingClientRect().width;
+          (el.parentElement?.clientWidth ?? 0) -
+          el.getBoundingClientRect().width;
         gsap
           .timeline({
             defaults: { ease: "none" },
@@ -82,7 +82,7 @@ export default function DreamBuild() {
       className="relative flex min-h-[80vh] flex-col justify-start gap-[14vh] overflow-clip px-4 pb-16 pt-[6vh] sm:px-6"
     >
       <WarpedGrid paths={grid} className="absolute inset-0 h-full w-full" />
-      <p className="sr-only">{t("dreamBuild")}</p>
+      <p className="sr-only">{t.dreamBuild}</p>
       <Line text="DREAM IT" side="right" />
       <Line text="BUILD IT" side="left" />
     </div>

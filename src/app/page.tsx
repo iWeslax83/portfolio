@@ -9,20 +9,24 @@ import { getRecentCommits } from "@/lib/git-history";
 import Work from "@/components/sections/work/Work";
 import Closing from "@/components/sections/closing/Closing";
 import { fetchGitHubStats } from "@/lib/github";
+import { loadMessages } from "@/lib/messages";
 
 export default async function Home() {
   const commits = getRecentCommits();
-  const githubStats = await fetchGitHubStats();
+  const [githubStats, m] = await Promise.all([
+    fetchGitHubStats(),
+    loadMessages(),
+  ]);
   return (
     <Frame>
-      <SiteHeader />
+      <SiteHeader t={m.nav} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero commits={commits} />
-        <AboutSkills stats={githubStats} />
+        <AboutSkills stats={githubStats} t={m.about} skills={m.skills} />
         <Work />
-        <Closing commits={commits} />
+        <Closing commits={commits} t={m.closing} />
       </main>
-      <Footer />
+      <Footer t={m.footer} nav={m.nav} />
       <BackToTop />
       <Intro />
     </Frame>

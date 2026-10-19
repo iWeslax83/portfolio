@@ -6,8 +6,6 @@ import {
   Oswald,
   Metamorphous,
 } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
 import SkipLink from "@/components/ui/skip-link";
 import SmoothScroll from "@/components/smooth-scroll";
@@ -77,13 +75,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const messages = await getMessages();
-
   return (
     <html
       lang="en"
@@ -129,9 +125,7 @@ export default async function RootLayout({
             }),
           }}
         />
-        <NextIntlClientProvider messages={messages}>
-          <SmoothScroll>{children}</SmoothScroll>
-        </NextIntlClientProvider>
+        <SmoothScroll>{children}</SmoothScroll>
         <Analytics />
       </body>
     </html>

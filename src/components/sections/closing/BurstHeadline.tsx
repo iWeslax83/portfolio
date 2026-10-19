@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { radialRaysFrom } from "@/lib/radial-burst";
 import { projects } from "@/data/projects";
@@ -45,8 +45,7 @@ const flyers = all.filter((f) => f.kind !== "image" || f.src);
  * toward the viewer as the page scrolls, while screenshots and stars fly
  * out of the sun past the edges. Without motion it is a still poster.
  */
-export default function BurstHeadline() {
-  const t = useTranslations("closing");
+export default function BurstHeadline({ t }: { t: Messages["closing"] }) {
   const scope = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -167,16 +166,16 @@ export default function BurstHeadline() {
             className="flex origin-bottom flex-col items-center text-center font-display uppercase leading-[0.86] text-ink [transform:rotateX(46deg)]"
           >
             <span className="block text-[clamp(1.75rem,min(5vw,9vh),4.5rem)]">
-              {t("line1")}
+              {t.line1}
             </span>
             <span className="block text-[clamp(2.25rem,min(7vw,12vh),6.5rem)]">
-              {t("line2")}
+              {t.line2}
             </span>
             <span className="block text-[clamp(3.25rem,min(13vw,21vh),12rem)]">
-              {t("line3")}
+              {t.line3}
             </span>
             <span className="block text-[clamp(5rem,min(32vw,44vh),26rem)]">
-              {t("line4")}
+              {t.line4}
             </span>
           </h2>
         </div>

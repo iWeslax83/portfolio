@@ -1,7 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import type { GitHubStats } from "@/lib/types";
 import { bentoSkills, devopsSkill } from "@/data/skills";
 import Star from "@/components/ui/star";
@@ -51,16 +51,20 @@ function Hatch() {
   );
 }
 
-export default function Bento({ stats }: { stats: GitHubStats | null }) {
-  const t = useTranslations("skills");
-
+export default function Bento({
+  stats,
+  t,
+}: {
+  stats: GitHubStats | null;
+  t: Messages["skills"];
+}) {
   return (
     <div>
       <p
         data-reveal="row"
         className="border-b border-ink px-6 py-12 text-center font-serif text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.1]"
       >
-        {t("statement")}
+        {t.statement}
       </p>
 
       {bentoSkills.map((s, i) => {
@@ -110,10 +114,7 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
         );
       })}
 
-      <div
-        data-reveal="row"
-        className="grid grid-cols-3 border-b border-ink"
-      >
+      <div data-reveal="row" className="grid grid-cols-3 border-b border-ink">
         <div
           data-reveal="cell"
           className="relative flex items-center justify-center border-r border-ink p-4 sm:p-8"
@@ -124,10 +125,7 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
           <Star className="absolute bottom-3 right-3 h-4 w-4" />
           <Globe />
         </div>
-        <div
-          data-reveal="cell"
-          className={`${labelCell} col-span-2 flex-col`}
-        >
+        <div data-reveal="cell" className={`${labelCell} col-span-2 flex-col`}>
           <p>
             {devopsSkill.label}
             <br />
@@ -140,11 +138,8 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
       </div>
 
       <div data-reveal="row" className="grid grid-cols-3">
-        <div
-          data-reveal="cell"
-          className="col-span-2 border-r border-ink"
-        >
-          <GitHubCell stats={stats} />
+        <div data-reveal="cell" className="col-span-2 border-r border-ink">
+          <GitHubCell stats={stats} t={t} />
         </div>
         <Hatch />
       </div>

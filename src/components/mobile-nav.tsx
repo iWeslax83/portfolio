@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import { X } from "lucide-react";
 import { navItems } from "@/data/nav-items";
 import { hashTargetId } from "@/lib/anchor";
@@ -11,11 +11,12 @@ import { getLenis, scrollToId } from "@/lib/smooth-scroll";
 export default function MobileNav({
   open,
   onClose,
+  t,
 }: {
   open: boolean;
   onClose: () => void;
+  t: Messages["nav"];
 }) {
-  const t = useTranslations("nav");
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
@@ -83,7 +84,7 @@ export default function MobileNav({
       ref={dialogRef}
       role="dialog"
       aria-modal="true"
-      aria-label={t("menu")}
+      aria-label={t.menu}
       aria-hidden={!open}
       className={`fixed inset-0 z-[70] flex flex-col bg-ink p-6 text-bg duration-200 ${
         // Visibility flips at once on open (so the close button can take
@@ -98,14 +99,14 @@ export default function MobileNav({
           ref={closeRef}
           type="button"
           onClick={onClose}
-          aria-label={t("closeMenu")}
+          aria-label={t.closeMenu}
           className="flex h-12 w-12 items-center justify-center border border-bg/30 transition-colors duration-[350ms] hover:bg-bg hover:text-ink focus-visible:bg-bg focus-visible:text-ink active:bg-bg active:text-ink"
         >
           <X size={22} />
         </button>
       </div>
 
-      <nav aria-label={t("menu")} className="mt-10 flex flex-col">
+      <nav aria-label={t.menu} className="mt-10 flex flex-col">
         {navItems.map((item) => (
           <a
             key={item.key}
@@ -114,7 +115,7 @@ export default function MobileNav({
             className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
           >
             <span className="font-mono text-xs text-bg/60">{item.num}</span>
-            {t(item.key)}
+            {t[item.key]}
           </a>
         ))}
       </nav>

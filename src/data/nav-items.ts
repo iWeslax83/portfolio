@@ -1,5 +1,7 @@
+import type { Messages } from "@/lib/messages";
+
 export interface NavItem {
-  key: string;
+  key: keyof Messages["nav"];
   href: string;
   num: string;
 }

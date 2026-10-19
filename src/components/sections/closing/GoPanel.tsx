@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import { CONTACT_EMAIL } from "@/data/contact";
 import { lensGrid } from "@/lib/warped-grid";
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap";
@@ -17,8 +17,7 @@ const grid = lensGrid({
   strength: 0.5,
 });
 
-export default function GoPanel() {
-  const t = useTranslations("closing");
+export default function GoPanel({ t }: { t: Messages["closing"] }) {
   const disc = useRef<HTMLSpanElement>(null);
 
   // A slow breathing pulse on the disc. The link itself carries the hover
@@ -52,7 +51,7 @@ export default function GoPanel() {
       <WarpedGrid paths={grid} className="absolute inset-0 h-full w-full" />
       <a
         href={`mailto:${CONTACT_EMAIL}`}
-        aria-label={t("goLabel")}
+        aria-label={t.goLabel}
         style={{ top: `${(LENS.cy / 600) * 100}%` }}
         className="group absolute left-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full font-display text-4xl text-bg transition-[scale] duration-[400ms] hover:scale-[1.18] focus-visible:scale-[1.18] active:scale-95"
       >
@@ -61,7 +60,7 @@ export default function GoPanel() {
           aria-hidden
           className="absolute inset-0 rounded-full bg-ink"
         />
-        <span className="relative">{t("go")}</span>
+        <span className="relative">{t.go}</span>
       </a>
     </div>
   );

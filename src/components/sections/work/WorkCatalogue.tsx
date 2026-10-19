@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { projects, featuredProjects } from "@/data/projects";
 import type { Project } from "@/lib/types";
@@ -43,10 +42,12 @@ function Links({ links }: { links: Project["links"] }) {
 /** The full, accessible project list. Every project, every link. */
 export default function WorkCatalogue({
   repoStats,
+  title,
 }: {
   repoStats: Record<string, RepoStats | null>;
+  /** Heading, counted and worded on the server. */
+  title: string;
 }) {
-  const t = useTranslations("projects");
   const [filter, setFilter] = useState<CatalogFilterValue>("ALL");
   const [flagship] = featuredProjects;
   const ordered = [
@@ -131,7 +132,7 @@ export default function WorkCatalogue({
       className="border-t border-ink bg-bg"
     >
       <h2 id="catalogue-title" data-reveal="bar" className={SECTION_BAR}>
-        {t("allTitle")} · {t("count", { count: projects.length })}
+        {title}
       </h2>
       <div className="mx-auto max-w-[1100px] px-4 py-16 sm:px-10">
         <CatalogFilter value={filter} onChange={setFilter} />

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import { Menu } from "lucide-react";
 import { SECTION_IDS, navItems } from "@/data/nav-items";
 import { useActiveSection } from "@/lib/use-active-section";
@@ -18,8 +18,7 @@ const socialCell =
  * Desktop: logo, caption, nav, social, two-line tagline. Below lg: logo and
  * a burger that opens the full-screen menu.
  */
-export default function SiteHeader() {
-  const t = useTranslations("nav");
+export default function SiteHeader({ t }: { t: Messages["nav"] }) {
   const [open, setOpen] = useState(false);
   const active = useActiveSection(SECTION_IDS);
   const pathname = usePathname();
@@ -30,7 +29,7 @@ export default function SiteHeader() {
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- a plain hash link: on the home page the smooth-scroll handler takes it, elsewhere it is a normal load */}
         <a
           href="/#home"
-          aria-label={t("homeLabel")}
+          aria-label={t.homeLabel}
           data-intro="header-cell"
           className="flex w-16 shrink-0 items-center justify-center border-r border-ink transition-colors duration-[350ms] hover:bg-ink focus-visible:bg-ink active:bg-ink lg:w-24"
         >
@@ -49,7 +48,7 @@ export default function SiteHeader() {
           className="hidden w-56 shrink-0 items-end border-r border-ink px-6 pb-3 xl:flex"
         >
           <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink">
-            {t("caption")}
+            {t.caption}
           </span>
         </div>
 
@@ -72,7 +71,7 @@ export default function SiteHeader() {
                   isActive ? "text-ink" : "text-ink-2 hover:text-ink"
                 }`}
               >
-                {t(item.key)}
+                {t[item.key]}
                 {isActive && (
                   <span
                     aria-hidden
@@ -113,16 +112,16 @@ export default function SiteHeader() {
           className="hidden w-[22rem] shrink-0 flex-col lg:flex xl:w-[28rem]"
         >
           <p className="flex flex-1 items-center border-b border-ink px-5 font-serif text-lg leading-none xl:text-[22px]">
-            {t("statusLine1")}
+            {t.statusLine1}
           </p>
           <p className="flex flex-1 items-center gap-[0.3em] px-5 font-serif text-lg leading-none xl:text-[22px]">
-            {t("statusLine2")}
+            {t.statusLine2}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- see the logo link */}
             <a
               href="/#contact"
               className="underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
             >
-              {t("getInTouch")}
+              {t.getInTouch}
             </a>
           </p>
         </div>
@@ -131,7 +130,7 @@ export default function SiteHeader() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          aria-label={t("openMenu")}
+          aria-label={t.openMenu}
           aria-expanded={open}
           data-intro="header-cell"
           className="flex w-16 items-center justify-center border-l border-ink bg-panel transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg lg:hidden"
@@ -140,7 +139,7 @@ export default function SiteHeader() {
         </button>
       </div>
 
-      <MobileNav open={open} onClose={() => setOpen(false)} />
+      <MobileNav open={open} onClose={() => setOpen(false)} t={t} />
     </header>
   );
 }

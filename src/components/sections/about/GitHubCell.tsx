@@ -1,17 +1,21 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import type { Messages } from "@/lib/messages";
 import type { GitHubStats } from "@/lib/types";
 
 const label = "font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2";
 
 /** Live GitHub numbers. Real data or an honest "unavailable", never filler. */
-export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
-  const t = useTranslations("skills");
-
+export default function GitHubCell({
+  stats,
+  t,
+}: {
+  stats: GitHubStats | null;
+  t: Messages["skills"];
+}) {
   return (
     <div className="flex flex-col p-6">
-      <p className={label}>{t("githubLabel")}</p>
+      <p className={label}>{t.githubLabel}</p>
       {stats ? (
         <>
           <dl
@@ -20,7 +24,7 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
             }`}
           >
             <div className="flex flex-col-reverse">
-              <dt className={label}>{t("publicRepos")}</dt>
+              <dt className={label}>{t.publicRepos}</dt>
               <dd
                 data-count={stats.publicRepos}
                 className="font-display text-5xl leading-none tabular-nums"
@@ -30,7 +34,7 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
             </div>
             {stats.contributions !== null && (
               <div className="flex flex-col-reverse">
-                <dt className={label}>{t("contributions")}</dt>
+                <dt className={label}>{t.contributions}</dt>
                 <dd
                   data-count={stats.contributions}
                   className="font-display text-5xl leading-none tabular-nums"
@@ -68,7 +72,7 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
         </>
       ) : (
         <p className="mt-4 font-serif text-xl leading-[1.5]">
-          {t("githubUnavailable")}
+          {t.githubUnavailable}
         </p>
       )}
       <a
@@ -77,7 +81,7 @@ export default function GitHubCell({ stats }: { stats: GitHubStats | null }) {
         rel="noopener noreferrer"
         className="mt-auto pt-5 font-mono text-xs underline decoration-1 underline-offset-4 hover:decoration-2"
       >
-        {t("githubLink")} ↗
+        {t.githubLink} ↗
       </a>
     </div>
   );
