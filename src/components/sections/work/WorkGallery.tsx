@@ -21,23 +21,24 @@ const PER_ROW = 12;
 const WRAPPER_VH = 400;
 /**
  * How far (vh) the catalogue is pulled up over the end of the pinned stage.
- * The stage starts fading as the catalogue first enters and is fully white
- * after FADE_SHARE of that scroll, so no washed-out ghost of the letters
- * sits under the rising title bar.
+ * A full viewport, so the white sheet rises over the still-dark stage like a
+ * curtain and covers it exactly as the pin releases: the stage never scrolls
+ * out on its own, so there is no blank stretch above the catalogue.
  */
-const OVERLAP_VH = 45;
+const OVERLAP_VH = 100;
 /**
  * How far (vh) the gallery is pulled up over the end of the intro. The intro
  * is already solid black there, so the gallery letters start entering as the
  * black completes instead of after a plain black hold.
  */
-const LEAD_VH = 25;
-/** Share of the overlap the fade takes; the rest is clean white. */
-const FADE_SHARE = 0.7;
+const LEAD_VH = 35;
+/**
+ * How dark the stage gets under the rising sheet (0 to 1). A black shade
+ * over the whole stage, so the cards stay opaque instead of turning see
+ * through over the letters.
+ */
+const DIM = 0.65;
 const EXIT_START = exitStartFor(OVERLAP_VH, WRAPPER_VH);
-const EXIT_END = EXIT_START + (1 - EXIT_START) * FADE_SHARE;
-const INK = "#0a0a0a";
-const BG = "#ffffff";
 
 function GalleryCard({
   project,
@@ -109,7 +110,7 @@ function GalleryCard({
  * letters behind screenshot cards that travel right to left, both driven by
  * one scrubbed ScrollTrigger (scrub: 1, so they lag and settle instead of
  * tracking raw scroll). The catalogue overlaps the last OVERLAP_VH of the
- * wrapper, and the stage fades to white while it rises over it. Decorative
+ * wrapper and rises over the stage while its content dims. Decorative
  * duplicate of the catalogue below, so it is hidden from assistive tech and
  * out of tab order.
  */
@@ -121,17 +122,15 @@ export default function WorkGallery({ items }: { items: Project[] }) {
       const mm = gsap.matchMedia();
       mm.add(`${MOTION_OK} and (min-width: 768px)`, () => {
         const q = gsap.utils.selector(ref);
-        const stage = q("[data-stage]")[0];
-        const fading = q("[data-stage-fade]");
+        const layers = q("[data-stage-layer]");
         const letters = q("[data-sway]");
         const cards = q("[data-card]");
         const setRot = letters.map((l) =>
           gsap.quickSetter(l, "rotation", "deg"),
         );
         const setX = cards.map((c) => gsap.quickSetter(c, "x", "px"));
-        const setFade = gsap.quickSetter(fading, "opacity");
-        const setScale = gsap.quickSetter(fading, "scale");
-        const mixBg = gsap.utils.interpolate(INK, BG);
+        const setShade = gsap.quickSetter(q("[data-stage-shade]"), "opacity");
+        const setScale = gsap.quickSetter(layers, "scale");
         const total = cards.length;
         const state = { p: 0 };
 
@@ -140,10 +139,9 @@ export default function WorkGallery({ items }: { items: Project[] }) {
           const vw = window.innerWidth / 100;
           setRot.forEach((set, i) => set(letterSway(i, p)));
           setX.forEach((set, i) => set(cardX(i, total, p) * vw));
-          const e = exitPhase(p, EXIT_START, EXIT_END);
-          setFade(1 - e);
+          const e = exitPhase(p, EXIT_START);
+          setShade(DIM * e);
           setScale(1 - 0.06 * e);
-          stage.style.backgroundColor = e > 0 ? mixBg(e) : "";
         };
 
         render();
@@ -159,10 +157,6 @@ export default function WorkGallery({ items }: { items: Project[] }) {
             onRefresh: render,
           },
         });
-
-        return () => {
-          stage.style.backgroundColor = "";
-        };
       });
       return () => mm.revert();
     },
@@ -181,7 +175,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
       className="relative bg-ink"
     >
       <div data-stage className="sticky top-0 h-screen overflow-hidden bg-ink">
-        <div data-stage-fade className="absolute inset-0">
+        <div data-stage-layer className="absolute inset-0">
           <DotPattern
             color={STAGE_DOTS.color}
             gap={STAGE_DOTS.gap}
@@ -189,7 +183,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
           />
         </div>
         <div
-          data-stage-fade
+          data-stage-layer
           className="absolute inset-0 flex flex-col justify-evenly py-[max(2vh,24px)]"
         >
           {ROWS.map((letter) => (
@@ -206,7 +200,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
             </div>
           ))}
         </div>
-        <ul data-stage-fade className="absolute inset-0">
+        <ul data-stage-layer className="absolute inset-0">
           {items.map((p, i) => (
             <GalleryCard
               key={p.slug}
@@ -216,6 +210,10 @@ export default function WorkGallery({ items }: { items: Project[] }) {
             />
           ))}
         </ul>
+        <div
+          data-stage-shade
+          className="pointer-events-none absolute inset-0 bg-ink opacity-0"
+        />
       </div>
     </div>
   );

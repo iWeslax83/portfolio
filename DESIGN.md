@@ -71,8 +71,9 @@ left only for the mobile menu and BackToTop presence.
 - **Scrubbed only where pinned or tied to scroll.** Ticker drift, room
   skew, the capsule scale and the Work gallery use `scrub: 1`, so they
   lag and settle instead of tracking raw scroll. The gallery pins with CSS
-  sticky; the catalogue overlaps its last 45vh and rises over the stage as
-  it fades, so the hand-off never shows a blank screen.
+  sticky; the catalogue overlaps its last viewport and rises over the
+  dimming stage like a curtain, covering it as the pin releases, so the
+  hand-off never shows a blank screen.
 - **First load.** Header cells drop in, the hero mesh draws from the edges
   to the centre, the title rises out of a clip, the stars spin in, then
   the tickers fade up. Once.
