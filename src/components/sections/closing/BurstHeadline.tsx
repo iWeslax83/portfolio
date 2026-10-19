@@ -172,10 +172,10 @@ export default function BurstHeadline() {
             <span className="block text-[clamp(2.25rem,min(7vw,12vh),6.5rem)]">
               {t("line2")}
             </span>
-            <span className="block text-[clamp(3.25rem,min(12vw,19vh),11rem)]">
+            <span className="block text-[clamp(3.25rem,min(13vw,21vh),12rem)]">
               {t("line3")}
             </span>
-            <span className="block text-[clamp(4.5rem,min(24vw,32vh),19rem)]">
+            <span className="block text-[clamp(5rem,min(32vw,44vh),26rem)]">
               {t("line4")}
             </span>
           </h2>

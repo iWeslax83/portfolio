@@ -18,8 +18,12 @@ import DotPattern from "@/components/ui/dot-pattern";
 import { STAGE_DOTS } from "./WorkIntro";
 
 const ROWS = ["W", "O", "R", "K"];
-/** Letters per row: about seven fit across, the rest bleed off the sides. */
-const PER_ROW = 9;
+/**
+ * Letters per row, on a row 190vw wide: about eight fit across and the rest
+ * bleed off the sides. Packed, the row closes to half its width, so the
+ * whole row shows as one dense block.
+ */
+const PER_ROW = 15;
 /** Wrapper height (vh): the stage pins for this minus one viewport. */
 const WRAPPER_VH = 400;
 /**
@@ -32,9 +36,9 @@ const LEAD_VH = 105;
 const CARDS_FROM = 0.08;
 const CARDS_TO = 0.88;
 /** How far (vh) the packed block's ends rise, so it bends into an arch. */
-const ARCH_VH = 7;
-/** Row width (scaleX) when fully packed. */
-const PACKED = 0.38;
+const ARCH_VH = 5;
+/** Row spacing (scaleX) when fully packed; letters keep their shape. */
+const PACKED = 0.5;
 
 function GalleryCard({
   project,
@@ -133,6 +137,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
         const letters = q("[data-sway]");
         const cards = q("[data-card]");
         const setRow = rows.map((r) => gsap.quickSetter(r, "scaleX"));
+        const setLetterX = gsap.quickSetter(q("[data-sway]"), "scaleX");
         const setLetters = gsap.quickSetter(letterBox, "opacity");
         const setRot = letters.map((l) =>
           gsap.quickSetter(l, "rotation", "deg"),
@@ -147,14 +152,16 @@ export default function WorkGallery({ items }: { items: Project[] }) {
           const vw = window.innerWidth / 100;
           const spread = rowSpread(p);
           const packed = 1 - spread;
-          setRow.forEach((set) => set(PACKED + (1 - PACKED) * spread));
+          const k = PACKED + (1 - PACKED) * spread;
+          setRow.forEach((set) => set(k));
+          setLetterX(1 / k);
           letters.forEach((_, i) => {
             const col = i % PER_ROW;
             setRot[i](letterSway(i, p) * (0.4 + 0.6 * spread));
             setY[i](letterBob(i, p) + letterArch(col, PER_ROW) * ARCH_VH * packed);
           });
-          // Fade in as the intro hands over, out as the outro takes over.
-          setLetters(Math.min(1, p / 0.02, 1 - exitPhase(p, 0.95, 1)));
+          // Fade out just before the outro takes over.
+          setLetters(1 - exitPhase(p, 0.97, 1));
           const cp = (p - CARDS_FROM) / (CARDS_TO - CARDS_FROM);
           setX.forEach((set, i) => set(cardX(i, total, cp) * vw));
         };
@@ -198,7 +205,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
         </div>
         <div
           data-letters
-          className="absolute inset-y-0 -left-[8vw] -right-[8vw] flex flex-col justify-evenly"
+          className="absolute inset-y-0 -left-[45vw] -right-[45vw] flex flex-col justify-evenly"
         >
           {ROWS.map((letter) => (
             <div key={letter} data-row className="flex justify-around">
@@ -206,7 +213,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
                 <span
                   key={c}
                   data-sway
-                  className="emboss-light inline-block font-display text-[22vh] leading-[0.95] text-bg"
+                  className="emboss-light inline-block font-display text-[20vh] leading-[0.95] text-bg"
                 >
                   {letter}
                 </span>

@@ -11,7 +11,7 @@ export default function Hero({ commits }: { commits: CommitEntry[] }) {
     <section id="home" aria-labelledby="hero-title">
       <div
         data-intro="mesh"
-        className="relative h-[45vh] overflow-hidden lg:h-[62vh]"
+        className="relative h-[45vh] overflow-hidden lg:h-[55vh]"
       >
         <WireframeMesh
           lines={heroMeshLines}
@@ -26,16 +26,20 @@ export default function Hero({ commits }: { commits: CommitEntry[] }) {
       </div>
       <h1
         id="hero-title"
-        className="flex flex-wrap items-center justify-center gap-x-[0.3em] px-4 py-8 text-center font-display-accent text-[clamp(3rem,9vw,7.5rem)] leading-[0.95] text-ink"
+        className="flex flex-col items-center px-4 py-6 text-center font-display-accent text-[clamp(3rem,10.5vw,9.5rem)] leading-[0.8] text-ink"
       >
         <span className="sr-only">Emir Sakarya: </span>
-        <span data-intro="title-word">UAV</span>
-        <span className="sr-only">, </span>
-        <Star className="h-[0.4em] w-[0.4em]" />
-        <span data-intro="title-word">AI</span>
-        <span className="sr-only">, </span>
-        <Star className="h-[0.4em] w-[0.4em]" />
-        <span data-intro="title-word">FOUNDER</span>
+        <span className="flex items-center justify-center gap-x-[0.3em]">
+          <span data-intro="title-word">UAV</span>
+          <span className="sr-only">, </span>
+          <Star className="h-[0.4em] w-[0.4em]" />
+          <span data-intro="title-word">AI</span>
+          <span className="sr-only">, </span>
+          <Star className="h-[0.4em] w-[0.4em]" />
+        </span>
+        <span data-intro="title-word" className="block">
+          FOUNDER
+        </span>
       </h1>
       <div data-intro="ticker">
         <Ticker

@@ -92,9 +92,11 @@ export default function Bento({ stats }: { stats: GitHubStats | null }) {
                   </span>
                 ))}
               </h3>
-              <p className="mt-3 font-serif text-sm leading-[1.5]">
-                {s.tools.map((x) => `(${x})`).join(" ")}
-              </p>
+              <ul className="mt-3 font-serif text-sm leading-[1.35]">
+                {s.tools.map((x) => (
+                  <li key={x}>({x})</li>
+                ))}
+              </ul>
             </div>
             <div
               data-reveal="cell"
