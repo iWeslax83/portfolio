@@ -6,15 +6,24 @@ export interface RepoStats {
   lastCommitDate: string; // ISO date, e.g. "2026-08-09"
 }
 
-async function githubFetch(url: string) {
+/** Set once GitHub rejects the token (401); later calls go out anonymously. */
+let tokenRejected = false;
+
+async function githubFetch(url: string): Promise<Response> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github.v3+json",
   };
-  if (GITHUB_TOKEN) headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
+  if (GITHUB_TOKEN && !tokenRejected) {
+    headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
+  }
   const res = await fetch(url, {
     headers,
     next: { revalidate: REVALIDATE_SECONDS },
   });
+  if (res.status === 401 && headers.Authorization) {
+    tokenRejected = true;
+    return githubFetch(url);
+  }
   if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
   return res;
 }

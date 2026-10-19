@@ -42,6 +42,31 @@ describe("fetchGitHubStats", () => {
     expect(stats?.contributions).toBeNull();
     expect(stats?.languages).toEqual([]);
   });
+  it("falls back to anonymous calls when the token is rejected", async () => {
+    vi.resetModules();
+    vi.stubEnv("GITHUB_TOKEN", "expired");
+    const fetchMock = vi
+      .fn()
+      .mockImplementation(async (url: string, init?: RequestInit) => {
+        const headers = (init?.headers ?? {}) as Record<string, string>;
+        if (headers.Authorization) {
+          return new Response("bad credentials", { status: 401 });
+        }
+        const body = String(url).endsWith("/users/iWeslax83")
+          ? { public_repos: 7 }
+          : [];
+        return new Response(JSON.stringify(body), { status: 200 });
+      });
+    vi.stubGlobal("fetch", fetchMock);
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const { fetchGitHubStats: fresh } = await import("./github");
+    const stats = await fresh();
+    expect(stats?.publicRepos).toBe(7);
+    expect(stats?.contributions).toBeNull();
+    expect(stats?.languages).toEqual([]);
+    vi.resetModules();
+  });
+
   it("reports null contributions when GraphQL answers 200 with errors", async () => {
     vi.resetModules();
     vi.stubEnv("GITHUB_TOKEN", "x");

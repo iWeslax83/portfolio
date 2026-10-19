@@ -5,17 +5,32 @@ const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const REVALIDATE_SECONDS = 86400;
 const MAX_REPOS_FOR_LANG_BREAKDOWN = 30;
 
+/**
+ * Set once GitHub answers 401 to the token (expired or revoked). From then
+ * on calls go out anonymously, so the repo count still shows instead of the
+ * whole cell going to "unavailable".
+ */
+let tokenRejected = false;
+const hasToken = () => Boolean(GITHUB_TOKEN) && !tokenRejected;
+
 async function githubFetch(url: string) {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github.v3+json",
   };
-  if (GITHUB_TOKEN) {
+  if (hasToken()) {
     headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
   }
   const res = await fetch(url, {
     headers,
     next: { revalidate: REVALIDATE_SECONDS },
   });
+  if (res.status === 401 && headers.Authorization) {
+    if (!tokenRejected) {
+      console.warn("GITHUB_TOKEN was rejected (401); using anonymous calls.");
+    }
+    tokenRejected = true;
+    return githubFetch(url);
+  }
   if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
   return res.json();
 }
@@ -24,7 +39,7 @@ type ContributionDay = { contributionCount: number };
 type ContributionWeek = { contributionDays: ContributionDay[] };
 
 async function fetchContributions(): Promise<number | null> {
-  if (!GITHUB_TOKEN) {
+  if (!hasToken()) {
     return null;
   }
 
@@ -54,6 +69,7 @@ async function fetchContributions(): Promise<number | null> {
     next: { revalidate: REVALIDATE_SECONDS },
   });
 
+  if (res.status === 401) tokenRejected = true;
   if (!res.ok) return null;
 
   const data = await res.json();
@@ -72,8 +88,9 @@ async function fetchLanguageBreakdown(
   repos: { languages_url: string; pushed_at: string }[],
 ): Promise<GitHubStats["languages"]> {
   // Unauthenticated GitHub API is 60 req/hr - skip per-repo language fan-out
-  // entirely when no token is configured (one call per repo would burn the quota).
-  if (!GITHUB_TOKEN) {
+  // entirely when no working token is configured (one call per repo would burn
+  // the quota).
+  if (!hasToken()) {
     return [];
   }
 
