@@ -56,11 +56,10 @@ export default function WorkCatalogue({
       .sort((a, b) => a.order - b.order),
   ];
   const shown = ordered.filter((p) => filter === "ALL" || p.status === filter);
-  const scope = useRef<HTMLDivElement>(null);
+  const scope = useRef<HTMLElement>(null);
 
-  // The black title bar wipes in as the gallery hands off, then articles
-  // reveal in batches as they arrive. Only transforms and opacity move, so
-  // nothing shifts layout and the #ventures anchor still lands correctly.
+  // The black title bar wipes in, then articles reveal in batches as they
+  // arrive. Only transforms and opacity move, so nothing shifts layout.
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
@@ -126,12 +125,14 @@ export default function WorkCatalogue({
   }, [filter]);
 
   return (
-    // Relative + z-[1] + its own background: in motion mode the catalogue
-    // is pulled up over the end of the pinned gallery and must paint on top.
-    <div ref={scope} className="relative z-[1] border-t border-ink bg-bg">
-      <h3 data-reveal="bar" className={SECTION_BAR}>
+    <section
+      ref={scope}
+      aria-labelledby="catalogue-title"
+      className="border-t border-ink bg-bg"
+    >
+      <h2 id="catalogue-title" data-reveal="bar" className={SECTION_BAR}>
         {t("allTitle")} · {t("count", { count: projects.length })}
-      </h3>
+      </h2>
       <div className="mx-auto max-w-[1100px] px-4 py-16 sm:px-10">
         <CatalogFilter value={filter} onChange={setFilter} />
         <div className="mt-8">
@@ -184,6 +185,6 @@ export default function WorkCatalogue({
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

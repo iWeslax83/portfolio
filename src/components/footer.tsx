@@ -14,7 +14,7 @@ export default function Footer() {
 
   return (
     <footer>
-      <div className="relative h-16 bg-ink md:h-24">
+      <div className="relative h-24 bg-ink md:h-[220px]">
         <DotPattern
           color="var(--color-bg)"
           gap={10}
@@ -26,7 +26,7 @@ export default function Footer() {
       <div className="relative overflow-hidden border-t border-bg bg-ink text-bg">
         <p
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-1/4 select-none whitespace-nowrap text-center font-display text-[18vw] leading-none opacity-[0.08]"
+          className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none whitespace-nowrap text-center font-display text-[10.5vw] leading-none opacity-[0.1]"
         >
           {t("wordmark")}
         </p>

@@ -50,7 +50,10 @@ export default function SmoothScroll({
         return;
       }
       const link = (e.target as Element | null)?.closest?.("a[href]");
-      const id = hashTargetId(link?.getAttribute("href"));
+      const id = hashTargetId(
+        link?.getAttribute("href"),
+        window.location.pathname,
+      );
       if (!id || !document.getElementById(id)) return;
       e.preventDefault();
       scrollToId(id);

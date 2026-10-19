@@ -2,33 +2,45 @@
 
 import { useRef } from "react";
 import { useTranslations } from "next-intl";
-import { gsap, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
-import { revealOnce } from "@/lib/reveal";
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { warpedGrid } from "@/lib/warped-grid";
 import WarpedGrid from "@/components/ui/warped-grid";
 
-const grid = warpedGrid({ cols: 12, rows: 6, bulge: 24 });
+const grid = warpedGrid({ cols: 12, rows: 7, bulge: 0 });
 
+const LINE =
+  "whitespace-nowrap font-condensed text-[clamp(4rem,11vw,10rem)] font-bold leading-[0.9] tracking-[0.02em]";
+
+/**
+ * One line and its reflection: the same words flipped under it in flat
+ * gray, cut to the top half so it reads as a reflection on the floor.
+ */
 function Line({ text, side }: { text: string; side: "left" | "right" }) {
   return (
-    <p
-      aria-hidden
+    <div
       data-dream-line={side}
-      className="relative flex justify-center font-condensed text-[clamp(4rem,12vw,11rem)] font-bold leading-none tracking-[-0.01em] text-ink"
+      className={`relative flex ${side === "right" ? "justify-end" : "justify-start"}`}
     >
-      {text.split("").map((c, i) => (
-        <span key={i} data-dream-char className="inline-block whitespace-pre">
-          {c}
-        </span>
-      ))}
-    </p>
+      <div className="relative">
+        <p aria-hidden className={`${LINE} text-ink`}>
+          {text}
+        </p>
+        <p
+          aria-hidden
+          className={`${LINE} absolute inset-x-0 top-full h-[0.45em] overflow-hidden text-rule-strong`}
+        >
+          <span className="block -scale-y-100">{text}</span>
+        </p>
+      </div>
+    </div>
   );
 }
 
 /**
- * DREAM IT slides in from the left and BUILD IT from the right, letter by
- * letter, when the block enters. Both rest fully black and tightly set; no
- * pin and no scrubbing, so the resting state is always the readable one.
+ * DREAM IT sits right and BUILD IT left, each over its reflection, on a
+ * square grid. As the block scrolls through, the two lines cross to the
+ * opposite sides. Both lines stay whole and solid black at every point, so
+ * any resting state is readable.
  */
 export default function DreamBuild() {
   const t = useTranslations("closing");
@@ -39,28 +51,24 @@ export default function DreamBuild() {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         const q = gsap.utils.selector(scope);
-        const dream = q("[data-dream-line='left'] [data-dream-char]");
-        const build = q("[data-dream-line='right'] [data-dream-char]");
-        const tl = gsap
-          .timeline({ paused: true, defaults: { ease: EASE.enter } })
-          .fromTo(
-            dream,
-            { xPercent: -160, opacity: 0 },
-            { xPercent: 0, opacity: 1, duration: 0.8, stagger: 0.05 },
-            0,
-          )
-          .fromTo(
-            build,
-            { xPercent: 160, opacity: 0 },
-            {
-              xPercent: 0,
-              opacity: 1,
-              duration: 0.8,
-              stagger: { each: 0.05, from: "end" },
+        const dream = q("[data-dream-line='right'] > div");
+        const build = q("[data-dream-line='left'] > div");
+        // How far each line travels to reach the opposite side.
+        const travel = (el: Element) =>
+          (el.parentElement?.clientWidth ?? 0) - el.getBoundingClientRect().width;
+        gsap
+          .timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: {
+              trigger: scope.current,
+              start: "top 70%",
+              end: "bottom 30%",
+              scrub: 1,
+              invalidateOnRefresh: true,
             },
-            0.25,
-          );
-        revealOnce(scope.current, () => tl.play(), "top 65%");
+          })
+          .fromTo(dream, { x: 0 }, { x: () => -travel(dream[0]) }, 0)
+          .fromTo(build, { x: 0 }, { x: () => travel(build[0]) }, 0);
       });
       return () => mm.revert();
     },
@@ -70,12 +78,12 @@ export default function DreamBuild() {
   return (
     <div
       ref={scope}
-      className="relative flex min-h-[80vh] flex-col justify-center gap-4 overflow-clip border-t border-ink py-24"
+      className="relative flex min-h-[80vh] flex-col justify-start gap-[14vh] overflow-clip px-4 pb-16 pt-[6vh] sm:px-6"
     >
       <WarpedGrid paths={grid} className="absolute inset-0 h-full w-full" />
       <p className="sr-only">{t("dreamBuild")}</p>
-      <Line text="DREAM IT" side="left" />
-      <Line text="BUILD IT" side="right" />
+      <Line text="DREAM IT" side="right" />
+      <Line text="BUILD IT" side="left" />
     </div>
   );
 }

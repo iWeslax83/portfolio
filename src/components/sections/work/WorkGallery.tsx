@@ -3,42 +3,38 @@
 import { useRef, type CSSProperties } from "react";
 import Image from "next/image";
 import type { Project } from "@/lib/types";
-import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { cardRotations } from "@/lib/card-rotations";
 import {
   cardX,
   cardY,
   exitPhase,
-  exitStartFor,
+  letterArch,
+  letterBob,
   letterSway,
+  rowSpread,
 } from "@/lib/work-gallery";
 import DotPattern from "@/components/ui/dot-pattern";
 import { STAGE_DOTS } from "./WorkIntro";
 
 const ROWS = ["W", "O", "R", "K"];
-const PER_ROW = 12;
+/** Letters per row: about seven fit across, the rest bleed off the sides. */
+const PER_ROW = 9;
 /** Wrapper height (vh): the stage pins for this minus one viewport. */
 const WRAPPER_VH = 400;
 /**
- * How far (vh) the catalogue is pulled up over the end of the pinned stage.
- * A full viewport, so the white sheet rises over the still-dark stage like a
- * curtain and covers it exactly as the pin releases: the stage never scrolls
- * out on its own, so there is no blank stretch above the catalogue.
+ * How far (vh) the gallery is pulled up over the intro: it pins as the intro
+ * turns solid black (90% of the intro's 50vh pin), so the packed letters
+ * appear with no black hold. It stays invisible while rising over the intro.
  */
-const OVERLAP_VH = 100;
-/**
- * How far (vh) the gallery is pulled up over the end of the intro. The intro
- * is already solid black there, so the gallery letters start entering as the
- * black completes instead of after a plain black hold.
- */
-const LEAD_VH = 35;
-/**
- * How dark the stage gets under the rising sheet (0 to 1). A black shade
- * over the whole stage, so the cards stay opaque instead of turning see
- * through over the letters.
- */
-const DIM = 0.65;
-const EXIT_START = exitStartFor(OVERLAP_VH, WRAPPER_VH);
+const LEAD_VH = 105;
+/** Cards cross between these progress points, clear of the packed ends. */
+const CARDS_FROM = 0.08;
+const CARDS_TO = 0.88;
+/** How far (vh) the packed block's ends rise, so it bends into an arch. */
+const ARCH_VH = 7;
+/** Row width (scaleX) when fully packed. */
+const PACKED = 0.38;
 
 function GalleryCard({
   project,
@@ -59,7 +55,7 @@ function GalleryCard({
           src={project.image!}
           alt=""
           fill
-          sizes="(max-width: 1024px) 70vw, 520px"
+          sizes="(max-width: 1400px) 40vw, 560px"
           className="object-cover object-top"
         />
       </div>
@@ -81,7 +77,7 @@ function GalleryCard({
         top: `calc(50% + ${cardY(index)}vh)`,
         transform: `translateX(${cardX(index, total, 0)}vw)`,
       }}
-      className="absolute left-1/2 w-[min(520px,70vw)] -translate-x-1/2 -translate-y-1/2 hover:z-10"
+      className="absolute left-1/2 w-[min(560px,40vw)] -translate-x-1/2 -translate-y-1/2 hover:z-10"
     >
       <div
         style={{ "--tilt": `${tilt}deg` } as CSSProperties}
@@ -109,10 +105,10 @@ function GalleryCard({
  * Black stage held for ~3 viewports (CSS sticky): swaying embossed WORK
  * letters behind screenshot cards that travel right to left, both driven by
  * one scrubbed ScrollTrigger (scrub: 1, so they lag and settle instead of
- * tracking raw scroll). The catalogue overlaps the last OVERLAP_VH of the
- * wrapper and rises over the stage while its content dims. Decorative
- * duplicate of the catalogue below, so it is hidden from assistive tech and
- * out of tab order.
+ * tracking raw scroll). The letter rows open out of a packed arch at the
+ * start and pack back at the end, where the outro capsule takes over.
+ * Decorative: the same links are in Work's focusable list, so this is
+ * hidden from assistive tech and out of tab order.
  */
 export default function WorkGallery({ items }: { items: Project[] }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -122,26 +118,45 @@ export default function WorkGallery({ items }: { items: Project[] }) {
       const mm = gsap.matchMedia();
       mm.add(`${MOTION_OK} and (min-width: 768px)`, () => {
         const q = gsap.utils.selector(ref);
-        const layers = q("[data-stage-layer]");
+        // Hidden while it rises over the intro; shown once pinned.
+        const stage = q("[data-stage]");
+        gsap.set(stage, { autoAlpha: 0 });
+        ScrollTrigger.create({
+          trigger: ref.current,
+          start: "top top",
+          onToggle: (self) =>
+            gsap.set(stage, { autoAlpha: self.isActive ? 1 : 0 }),
+          onLeave: () => gsap.set(stage, { autoAlpha: 1 }),
+        });
+        const rows = q("[data-row]");
+        const letterBox = q("[data-letters]");
         const letters = q("[data-sway]");
         const cards = q("[data-card]");
+        const setRow = rows.map((r) => gsap.quickSetter(r, "scaleX"));
+        const setLetters = gsap.quickSetter(letterBox, "opacity");
         const setRot = letters.map((l) =>
           gsap.quickSetter(l, "rotation", "deg"),
         );
+        const setY = letters.map((l) => gsap.quickSetter(l, "y", "vh"));
         const setX = cards.map((c) => gsap.quickSetter(c, "x", "px"));
-        const setShade = gsap.quickSetter(q("[data-stage-shade]"), "opacity");
-        const setScale = gsap.quickSetter(layers, "scale");
         const total = cards.length;
         const state = { p: 0 };
 
         const render = () => {
           const p = state.p;
           const vw = window.innerWidth / 100;
-          setRot.forEach((set, i) => set(letterSway(i, p)));
-          setX.forEach((set, i) => set(cardX(i, total, p) * vw));
-          const e = exitPhase(p, EXIT_START);
-          setShade(DIM * e);
-          setScale(1 - 0.06 * e);
+          const spread = rowSpread(p);
+          const packed = 1 - spread;
+          setRow.forEach((set) => set(PACKED + (1 - PACKED) * spread));
+          letters.forEach((_, i) => {
+            const col = i % PER_ROW;
+            setRot[i](letterSway(i, p) * (0.4 + 0.6 * spread));
+            setY[i](letterBob(i, p) + letterArch(col, PER_ROW) * ARCH_VH * packed);
+          });
+          // Fade in as the intro hands over, out as the outro takes over.
+          setLetters(Math.min(1, p / 0.02, 1 - exitPhase(p, 0.95, 1)));
+          const cp = (p - CARDS_FROM) / (CARDS_TO - CARDS_FROM);
+          setX.forEach((set, i) => set(cardX(i, total, cp) * vw));
         };
 
         render();
@@ -170,12 +185,11 @@ export default function WorkGallery({ items }: { items: Project[] }) {
       style={{
         height: `${WRAPPER_VH}vh`,
         marginTop: `-${LEAD_VH}vh`,
-        marginBottom: `-${OVERLAP_VH}vh`,
       }}
-      className="relative bg-ink"
+      className="relative"
     >
       <div data-stage className="sticky top-0 h-screen overflow-hidden bg-ink">
-        <div data-stage-layer className="absolute inset-0">
+        <div className="absolute inset-0">
           <DotPattern
             color={STAGE_DOTS.color}
             gap={STAGE_DOTS.gap}
@@ -183,16 +197,16 @@ export default function WorkGallery({ items }: { items: Project[] }) {
           />
         </div>
         <div
-          data-stage-layer
-          className="absolute inset-0 flex flex-col justify-evenly py-[max(2vh,24px)]"
+          data-letters
+          className="absolute inset-y-0 -left-[8vw] -right-[8vw] flex flex-col justify-evenly"
         >
           {ROWS.map((letter) => (
-            <div key={letter} className="flex justify-around">
+            <div key={letter} data-row className="flex justify-around">
               {Array.from({ length: PER_ROW }, (_, c) => (
                 <span
                   key={c}
                   data-sway
-                  className="emboss-light inline-block font-display text-[18vh] leading-none text-bg"
+                  className="emboss-light inline-block font-display text-[22vh] leading-[0.95] text-bg"
                 >
                   {letter}
                 </span>
@@ -200,7 +214,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
             </div>
           ))}
         </div>
-        <ul data-stage-layer className="absolute inset-0">
+        <ul className="absolute inset-0">
           {items.map((p, i) => (
             <GalleryCard
               key={p.slug}
@@ -210,10 +224,6 @@ export default function WorkGallery({ items }: { items: Project[] }) {
             />
           ))}
         </ul>
-        <div
-          data-stage-shade
-          className="pointer-events-none absolute inset-0 bg-ink opacity-0"
-        />
       </div>
     </div>
   );

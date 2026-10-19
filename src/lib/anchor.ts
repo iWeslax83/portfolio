@@ -26,10 +26,16 @@ export const expoOut = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
 /**
  * Id of the section an in-page link points at, or null when the href is not
- * a same-page `#id` link (external, mailto, bare `#`, or a path + hash).
+ * a same-page link (external, mailto, bare `#`, or another page). `/#id`
+ * counts as in-page only when `pathname` is the home page.
  */
-export function hashTargetId(href: string | null | undefined): string | null {
-  if (!href || !href.startsWith("#") || href.length < 2) return null;
+export function hashTargetId(
+  href: string | null | undefined,
+  pathname?: string,
+): string | null {
+  if (!href) return null;
+  if (pathname === "/" && href.startsWith("/#")) href = href.slice(1);
+  if (!href.startsWith("#") || href.length < 2) return null;
   return href.slice(1);
 }
 

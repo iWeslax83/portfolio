@@ -4,9 +4,11 @@ import {
   cardX,
   cardY,
   exitPhase,
-  exitStartFor,
   galleryProjects,
+  letterArch,
+  letterBob,
   letterSway,
+  rowSpread,
 } from "./work-gallery";
 
 function project(slug: string, order: number, image?: string): Project {
@@ -39,8 +41,8 @@ describe("galleryProjects", () => {
 
 describe("cardX", () => {
   it("starts the first card right of center and ends the last card left", () => {
-    expect(cardX(0, 7, 0)).toBe(60);
-    expect(cardX(6, 7, 1)).toBe(-60);
+    expect(cardX(0, 7, 0)).toBe(75);
+    expect(cardX(6, 7, 1)).toBe(-75);
   });
 
   it("clamps progress outside 0..1", () => {
@@ -99,15 +101,38 @@ describe("exitPhase with an early end", () => {
   });
 });
 
-describe("exitStartFor", () => {
-  it("starts the exit when the overlapping catalogue first enters", () => {
-    // 400vh wrapper pins for 300vh; a 45vh overlap enters 45vh before the end.
-    expect(exitStartFor(45, 400)).toBeCloseTo(0.85);
-    expect(exitStartFor(30, 400)).toBeCloseTo(0.9);
+describe("rowSpread", () => {
+  it("opens from a packed block, holds, then packs again", () => {
+    expect(rowSpread(0)).toBe(0);
+    expect(rowSpread(0.12)).toBe(1);
+    expect(rowSpread(0.5)).toBe(1);
+    expect(rowSpread(0.88)).toBe(1);
+    expect(rowSpread(1)).toBe(0);
   });
 
-  it("clamps to the pinned range", () => {
-    expect(exitStartFor(0, 400)).toBe(1);
-    expect(exitStartFor(500, 400)).toBe(0);
+  it("moves smoothly and stays in 0..1", () => {
+    const a = rowSpread(0.03);
+    const b = rowSpread(0.06);
+    expect(a).toBeGreaterThan(0);
+    expect(b).toBeGreaterThan(a);
+    expect(rowSpread(-1)).toBe(0);
+    expect(rowSpread(2)).toBe(0);
+  });
+});
+
+describe("letterArch", () => {
+  it("is 0 at the middle letter and -1 at both ends", () => {
+    expect(letterArch(4, 9)).toBe(0);
+    expect(letterArch(0, 9)).toBe(-1);
+    expect(letterArch(8, 9)).toBe(-1);
+    expect(letterArch(2, 9)).toBeCloseTo(-0.25);
+  });
+});
+
+describe("letterBob", () => {
+  it("stays within the amplitude", () => {
+    for (let i = 0; i < 20; i++) {
+      expect(Math.abs(letterBob(i, i / 20))).toBeLessThanOrEqual(2.5);
+    }
   });
 });

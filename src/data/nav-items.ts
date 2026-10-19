@@ -4,18 +4,18 @@ export interface NavItem {
   num: string;
 }
 
-/** Every in-page section id, in page order. */
-export const SECTION_IDS = [
-  "home",
-  "about",
-  "work",
-  "ventures",
-  "contact",
-] as const;
+/** Every in-page section id on the home page, in page order. */
+export const SECTION_IDS = ["home", "about", "work", "contact"] as const;
 
+/**
+ * Five header cells, like the reference's. Absolute hrefs, so the same
+ * links work from the projects page; on the home page the smooth-scroll
+ * handler treats `/#id` as an in-page jump.
+ */
 export const navItems: NavItem[] = [
-  { key: "about", href: "#about", num: "01" },
-  { key: "work", href: "#work", num: "02" },
-  { key: "ventures", href: "#ventures", num: "03" },
-  { key: "contact", href: "#contact", num: "04" },
+  { key: "about", href: "/#about", num: "01" },
+  { key: "work", href: "/#work", num: "02" },
+  { key: "projects", href: "/projects", num: "03" },
+  { key: "ventures", href: "/projects#ventures", num: "04" },
+  { key: "contact", href: "/#contact", num: "05" },
 ];

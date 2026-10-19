@@ -2,10 +2,17 @@ import type { MetadataRoute } from "next";
 
 // Pinned to the last meaningful content update. Bump manually when the
 // portfolio gets significant edits so crawlers see a real lastModified.
-const LAST_CONTENT_UPDATE = new Date("2026-07-24");
+const LAST_CONTENT_UPDATE = new Date("2026-10-19");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://emirsakarya.vercel.app";
 
-  return [{ url: baseUrl, lastModified: LAST_CONTENT_UPDATE, priority: 1.0 }];
+  return [
+    { url: baseUrl, lastModified: LAST_CONTENT_UPDATE, priority: 1.0 },
+    {
+      url: `${baseUrl}/projects`,
+      lastModified: LAST_CONTENT_UPDATE,
+      priority: 0.8,
+    },
+  ];
 }

@@ -3,11 +3,19 @@
 import { useRef } from "react";
 import { useTranslations } from "next-intl";
 import { CONTACT_EMAIL } from "@/data/contact";
-import { warpedGrid } from "@/lib/warped-grid";
+import { lensGrid } from "@/lib/warped-grid";
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap";
 import WarpedGrid from "@/components/ui/warped-grid";
 
-const grid = warpedGrid({ cols: 12, rows: 5, bulge: -20 });
+/** Lens centre in the grid's 1000x600 viewBox; GO sits on it. */
+const LENS = { cx: 500, cy: 270 };
+const grid = lensGrid({
+  cols: 12,
+  rows: 8,
+  ...LENS,
+  radius: 300,
+  strength: 0.45,
+});
 
 export default function GoPanel() {
   const t = useTranslations("closing");
@@ -40,12 +48,13 @@ export default function GoPanel() {
   });
 
   return (
-    <div className="relative h-[60vh] min-h-[420px] overflow-clip border-t border-ink">
+    <div className="relative h-[75vh] min-h-[460px] overflow-clip border-t border-ink">
       <WarpedGrid paths={grid} className="absolute inset-0 h-full w-full" />
       <a
         href={`mailto:${CONTACT_EMAIL}`}
         aria-label={t("goLabel")}
-        className="group absolute left-1/2 top-10 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-full font-display text-4xl text-bg transition-[scale] duration-[400ms] hover:scale-[1.18] focus-visible:scale-[1.18] active:scale-95"
+        style={{ top: `${(LENS.cy / 600) * 100}%` }}
+        className="group absolute left-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full font-display text-4xl text-bg transition-[scale] duration-[400ms] hover:scale-[1.18] focus-visible:scale-[1.18] active:scale-95"
       >
         <span
           ref={disc}

@@ -46,3 +46,51 @@ export function warpedGrid({
 
   return paths;
 }
+
+/**
+ * A square grid in the same 1000x600 viewBox, magnified around (cx, cy) as
+ * if seen through a lens: points within `radius` are pushed outward by up
+ * to `strength` (0.5 = 50%), easing to no change at the rim. Points outside
+ * the radius stay on the flat grid. Deterministic.
+ */
+export function lensGrid({
+  cols,
+  rows,
+  cx,
+  cy,
+  radius,
+  strength,
+}: {
+  cols: number;
+  rows: number;
+  cx: number;
+  cy: number;
+  radius: number;
+  strength: number;
+}): GridPath[] {
+  const steps = STEPS * 2;
+  const warp = (x: number, y: number) => {
+    const dx = x - cx;
+    const dy = y - cy;
+    const d = Math.hypot(dx, dy);
+    if (d >= radius) return [x, y];
+    const f = 1 + strength * (1 - d / radius) ** 2;
+    return [cx + dx * f, cy + dy * f];
+  };
+  const line = (at: (s: number) => [number, number]) => {
+    const pts: string[] = [];
+    for (let s = 0; s <= steps; s++) {
+      const [x, y] = warp(...at(s / steps));
+      pts.push(`${s === 0 ? "M" : "L"}${r1(x)},${r1(y)}`);
+    }
+    return { d: pts.join(" ") };
+  };
+  const paths: GridPath[] = [];
+  for (let c = 0; c <= cols; c++) {
+    paths.push(line((t) => [(c / cols) * W, t * H]));
+  }
+  for (let r = 0; r <= rows; r++) {
+    paths.push(line((t) => [t * W, (r / rows) * H]));
+  }
+  return paths;
+}

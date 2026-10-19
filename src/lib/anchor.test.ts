@@ -19,7 +19,14 @@ describe("hashTargetId", () => {
     expect(hashTargetId(null)).toBeNull();
     expect(hashTargetId("https://github.com/iWeslax83")).toBeNull();
     expect(hashTargetId("mailto:a@b.c")).toBeNull();
+    expect(hashTargetId("/projects#ventures")).toBeNull();
+  });
+
+  it("treats a root path + hash as in-page only on the home page", () => {
+    expect(hashTargetId("/#about", "/")).toBe("about");
+    expect(hashTargetId("/#about", "/projects")).toBeNull();
     expect(hashTargetId("/#about")).toBeNull();
+    expect(hashTargetId("/#", "/")).toBeNull();
   });
 });
 

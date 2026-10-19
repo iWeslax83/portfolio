@@ -1,21 +1,49 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { gsap, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
-import { revealOnce } from "@/lib/reveal";
+import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { radialRaysFrom } from "@/lib/radial-burst";
-import { polylineLength } from "@/lib/polyline-length";
+import { projects } from "@/data/projects";
+import { galleryProjects } from "@/lib/work-gallery";
 import RadialBurst from "@/components/ui/radial-burst";
+import Star from "@/components/ui/star";
 
+/** Sun position in the 1000x1000 ray viewBox (stretched to the stage). */
 const CX = 500;
-const CY = 40;
-const rays = radialRaysFrom(CX, CY, 64, 1400);
+const CY = 380;
+const rays = radialRaysFrom(CX, CY, 72, 1500);
+
+/** Square cells of the floor the headline lies on. */
+const FLOOR_COLS = 16;
+const FLOOR_ROWS = 6;
+
+type Flyer =
+  | { kind: "image"; src: string; angle: number; delay: number }
+  | { kind: "star" | "block"; angle: number; delay: number };
 
 /**
- * Ray burst over a leaning four-line headline, standing on a ruled floor.
- * The headline and the floor are in normal flow (the block grows to fit
- * them), so the floor can never cover the last line at any viewport.
+ * Things that fly out of the sun as the section scrolls: three real project
+ * screenshots, two stars and a black block. Angles in degrees (0 = right,
+ * 90 = down), delays as a share of the scroll.
+ */
+const shots = galleryProjects(projects).slice(0, 3);
+const all: Flyer[] = [
+  { kind: "image", src: shots[0]?.image ?? "", angle: 200, delay: 0 },
+  { kind: "star", angle: 330, delay: 0.08 },
+  { kind: "block", angle: 20, delay: 0.18 },
+  { kind: "image", src: shots[1]?.image ?? "", angle: 150, delay: 0.3 },
+  { kind: "star", angle: 250, delay: 0.42 },
+  { kind: "image", src: shots[2]?.image ?? "", angle: 300, delay: 0.5 },
+];
+const flyers = all.filter((f) => f.kind !== "image" || f.src);
+
+/**
+ * Pinned ray burst. A small sun sits a third of the way down with rays in
+ * every direction; the headline lies on a ruled floor below it and grows
+ * toward the viewer as the page scrolls, while screenshots and stars fly
+ * out of the sun past the edges. Without motion it is a still poster.
  */
 export default function BurstHeadline() {
   const t = useTranslations("closing");
@@ -26,64 +54,47 @@ export default function BurstHeadline() {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         const q = gsap.utils.selector(scope);
-        const svg = scope.current?.querySelector("[data-burst] svg");
-        const lines = gsap.utils.toArray<SVGLineElement>(
-          q("[data-burst] line"),
+        const items = q("[data-flyer]");
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            trigger: scope.current,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: 1,
+          },
+        });
+        tl.fromTo(
+          q("[data-headline]"),
+          { scale: 0.45 },
+          { scale: 1, duration: 1, ease: "power1.out" },
+          0,
+        ).fromTo(
+          q("[data-burst-disc]"),
+          { scale: 0.4 },
+          { scale: 1, duration: 0.5 },
+          0,
         );
-        const words = q("[data-headline-line]");
-        const disc = q("[data-burst-disc]");
-
-        // Non-scaling strokes on a stretched viewBox: dashes are measured in
-        // screen pixels, so scale each ray before measuring it.
-        const box = svg?.getBoundingClientRect();
-        const sx = box ? box.width / 1000 : 1;
-        const sy = box ? box.height / 1000 : 1;
-        const lengths = rays.map(
-          (r) => polylineLength(`M${CX},${CY} L${r.x2},${r.y2}`, sx, sy) + 2,
-        );
-
-        const tl = gsap
-          .timeline({
-            paused: true,
-            onComplete: () => {
-              gsap.set(lines, {
-                clearProps: "strokeDasharray,strokeDashoffset",
-              });
-            },
-          })
-          .fromTo(
-            disc,
-            { scale: 0 },
-            { scale: 1, duration: 0.9, ease: EASE.enter },
-            0,
-          )
-          .fromTo(
-            lines,
+        items.forEach((el, i) => {
+          const f = flyers[i];
+          const rad = (f.angle * Math.PI) / 180;
+          // Far enough to leave the screen in any direction.
+          const dist = Math.hypot(window.innerWidth, window.innerHeight) * 0.75;
+          tl.fromTo(
+            el,
+            { x: 0, y: 0, scale: 0.05, autoAlpha: 0, rotation: 0 },
             {
-              strokeDasharray: (i: number) => `${lengths[i]} ${lengths[i]}`,
-              strokeDashoffset: (i: number) => lengths[i],
+              x: Math.cos(rad) * dist,
+              y: Math.sin(rad) * dist,
+              scale: 1.6,
+              autoAlpha: 1,
+              rotation: f.angle > 90 && f.angle < 270 ? -24 : 24,
+              duration: 0.5,
+              ease: "power2.in",
             },
-            {
-              strokeDashoffset: 0,
-              duration: 1.5,
-              ease: EASE.enter,
-              stagger: { amount: 0.4, from: "center" },
-            },
-            0.1,
-          )
-          .fromTo(
-            words,
-            { yPercent: 60, opacity: 0 },
-            {
-              yPercent: 0,
-              opacity: 1,
-              duration: 1.2,
-              ease: EASE.enter,
-              stagger: 0.1,
-            },
-            0.25,
+            f.delay,
           );
-        revealOnce(scope.current, () => tl.play(), "top 75%");
+        });
       });
       return () => mm.revert();
     },
@@ -91,11 +102,8 @@ export default function BurstHeadline() {
   );
 
   return (
-    <div
-      ref={scope}
-      className="relative flex min-h-[90vh] flex-col overflow-clip"
-    >
-      <div data-burst className="absolute inset-0">
+    <div ref={scope} className="relative h-screen motion-safe:h-[170vh]">
+      <div className="sticky top-0 h-screen overflow-hidden">
         <RadialBurst
           rays={rays}
           cx={CX}
@@ -103,50 +111,75 @@ export default function BurstHeadline() {
           stroke="var(--color-ink)"
           className="absolute inset-0 h-full w-full"
         />
-      </div>
-      <span
-        data-burst-disc
-        aria-hidden
-        className="absolute left-1/2 top-[4%] -ml-7 -mt-7 h-14 w-14 rounded-full border border-ink bg-bg"
-      />
-      <div className="relative flex flex-1 items-end justify-center px-4 pb-[5vh] pt-[20vh] [perspective:1200px]">
-        <h2
-          id="contact-title"
-          className="flex origin-bottom flex-col items-center text-center font-display uppercase leading-[0.95] text-ink [transform:rotateX(12deg)]"
+
+        {/* Floor: a square grid laid back in perspective under the words. */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-[40%] [perspective:600px]"
         >
+          <div className="absolute -left-1/4 bottom-0 grid h-[160%] w-[150%] origin-bottom grid-cols-16 border-t border-ink bg-bg [transform:rotateX(52deg)]">
+            {Array.from({ length: FLOOR_COLS * FLOOR_ROWS }, (_, i) => (
+              <span key={i} className="border-b border-r border-ink" />
+            ))}
+          </div>
+        </div>
+
+        <div
+          aria-hidden
+          className="absolute"
+          style={{ left: `${CX / 10}%`, top: `${CY / 10}%` }}
+        >
+          {flyers.map((f, i) => (
+            <span
+              key={i}
+              data-flyer
+              className="invisible absolute -translate-x-1/2 -translate-y-1/2"
+            >
+              {f.kind === "image" ? (
+                <span className="relative block aspect-[16/10] w-[18vw] min-w-40 border border-ink bg-panel">
+                  <Image
+                    src={f.src}
+                    alt=""
+                    fill
+                    sizes="30vw"
+                    className="object-cover object-top"
+                  />
+                </span>
+              ) : f.kind === "star" ? (
+                <Star className="block h-10 w-10 text-ink" />
+              ) : (
+                <span className="block h-[14vw] w-[14vw] bg-ink" />
+              )}
+            </span>
+          ))}
           <span
-            data-headline-line
-            className="block text-[clamp(2rem,min(5vw,8vh),4.25rem)]"
+            data-burst-disc
+            className="absolute -ml-8 -mt-8 block h-16 w-16 rounded-full border border-ink bg-bg"
           >
-            {t("line1")}
+            <span className="absolute inset-[22%] rounded-full border border-ink" />
           </span>
-          <span
-            data-headline-line
-            className="block text-[clamp(2.5rem,min(7vw,11vh),6rem)]"
+        </div>
+
+        <div className="absolute inset-x-0 bottom-[6%] top-[46%] flex items-end justify-center px-4 [perspective:700px]">
+          <h2
+            id="contact-title"
+            data-headline
+            className="flex origin-bottom flex-col items-center text-center font-display uppercase leading-[0.86] text-ink [transform:rotateX(46deg)]"
           >
-            {t("line2")}
-          </span>
-          <span
-            data-headline-line
-            className="block text-[clamp(3.5rem,min(13vw,17vh),10rem)]"
-          >
-            {t("line3")}
-          </span>
-          <span
-            data-headline-line
-            className="block text-[clamp(5rem,min(26vw,27vh),16rem)]"
-          >
-            {t("line4")}
-          </span>
-        </h2>
-      </div>
-      <div
-        aria-hidden
-        className="relative grid h-[14vh] min-h-20 grid-cols-12 border-t border-ink bg-bg"
-      >
-        {Array.from({ length: 12 }, (_, i) => (
-          <span key={i} className="border-r border-ink last:border-r-0" />
-        ))}
+            <span className="block text-[clamp(1.75rem,min(5vw,9vh),4.5rem)]">
+              {t("line1")}
+            </span>
+            <span className="block text-[clamp(2.25rem,min(7vw,12vh),6.5rem)]">
+              {t("line2")}
+            </span>
+            <span className="block text-[clamp(3.25rem,min(12vw,19vh),11rem)]">
+              {t("line3")}
+            </span>
+            <span className="block text-[clamp(4.5rem,min(24vw,32vh),19rem)]">
+              {t("line4")}
+            </span>
+          </h2>
+        </div>
       </div>
     </div>
   );

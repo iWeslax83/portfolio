@@ -2,6 +2,7 @@
   "nav": {
     "about": "About",
     "work": "Work",
+    "projects": "Projects",
     "ventures": "Ventures",
     "contact": "Contact",
     "caption": "Emir Sakarya · Bursa",
@@ -18,7 +19,8 @@
   },
   "projects": {
     "count": "{count} projects",
-    "allTitle": "All projects"
+    "allTitle": "All projects",
+    "listLabel": "Projects in the gallery"
   },
   "skills": {
     "statement": "Hardware × AI × Production Software",

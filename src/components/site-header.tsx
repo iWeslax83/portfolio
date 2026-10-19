@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Menu } from "lucide-react";
@@ -21,12 +22,14 @@ export default function SiteHeader() {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   const active = useActiveSection(SECTION_IDS);
+  const pathname = usePathname();
 
   return (
     <header className="relative z-40 border-b border-ink bg-bg">
       <div data-intro="header-row" className="flex h-16 lg:h-24">
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- a plain hash link: on the home page the smooth-scroll handler takes it, elsewhere it is a normal load */}
         <a
-          href="#home"
+          href="/#home"
           aria-label={t("homeLabel")}
           data-intro="header-cell"
           className="flex w-16 shrink-0 items-center justify-center border-r border-ink transition-colors duration-[350ms] hover:bg-ink focus-visible:bg-ink active:bg-ink lg:w-24"
@@ -56,7 +59,10 @@ export default function SiteHeader() {
           className="hidden flex-1 items-center justify-around border-r border-ink px-6 lg:flex"
         >
           {navItems.map((item) => {
-            const isActive = active === item.href.slice(1);
+            const isActive =
+              pathname === "/"
+                ? item.href === `/#${active}`
+                : item.href === pathname;
             return (
               <a
                 key={item.key}
@@ -111,8 +117,9 @@ export default function SiteHeader() {
           </p>
           <p className="flex flex-1 items-center gap-[0.3em] px-5 font-serif text-lg leading-none xl:text-[22px]">
             {t("statusLine2")}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- see the logo link */}
             <a
-              href="#contact"
+              href="/#contact"
               className="underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
             >
               {t("getInTouch")}

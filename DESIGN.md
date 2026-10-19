@@ -35,13 +35,21 @@ tracked 0.05-0.15em.
 4. About + Skills `#about`: perspective room, vertical side rails, 640px
    bordered column with black ABOUT/SKILLS bars, four paragraphs, bento
    (Anton words, globe, DevOps, live GitHub cell, hatch).
-5. Work `#work`: capsule intro that grows to black, 400vh sticky black
-   stage with swaying embossed WORK letters and 7 screenshot cards, then
-   the full catalogue list, pulled up over the end of the stage. Phones and
-   reduced motion get a static gallery.
-6. Ventures `#ventures`: three ruled rows with giant Anton names.
-7. Closing `#contact`: ray burst + perspective headline, DREAM IT / BUILD
-   IT, GO circle (mailto), dot band, black footer with giant wordmark.
+5. Work `#work`: capsule on a square grid that grows into a black column
+   and then fills the screen; 400vh sticky black stage where the WORK
+   letter rows open out of a packed arch, 7 screenshot cards cross, and the
+   rows pack again; then the capsule again, folding the black back up.
+   A keyboard-focusable list carries the same links. Phones and reduced
+   motion get a static gallery.
+6. Closing `#contact`: commit ticker, pinned ray burst (sun a third of the
+   way down, rays all round, headline lying on a perspective floor that
+   grows, screenshots and stars flying out of the sun), DREAM IT / BUILD
+   IT crossing sides over flat gray reflections, GO circle on a lens-bulged
+   grid (mailto), dot band, black footer with the wordmark behind the
+   link columns.
+7. `/projects`: page title, Ventures (three ruled rows with giant Anton
+   names) and the full catalogue. The header has five cells like the
+   reference: About, Work, Projects, Ventures, Contact.
 
 ## 4. Components
 
@@ -71,9 +79,10 @@ left only for the mobile menu and BackToTop presence.
 - **Scrubbed only where pinned or tied to scroll.** Ticker drift, room
   skew, the capsule scale and the Work gallery use `scrub: 1`, so they
   lag and settle instead of tracking raw scroll. The gallery pins with CSS
-  sticky; the catalogue overlaps its last viewport and rises over the
-  dimming stage like a curtain, covering it as the pin releases, so the
-  hand-off never shows a blank screen.
+  sticky and stays invisible while it rises over the intro; it shows the
+  moment it pins, when the intro is solid black. The outro capsule overlaps
+  the gallery's last viewport the same way, so neither hand-off shows a
+  blank black hold.
 - **First load.** Header cells drop in, the hero mesh draws from the edges
   to the centre, the title rises out of a clip, the stars spin in, then
   the tickers fade up. Once.

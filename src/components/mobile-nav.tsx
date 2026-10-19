@@ -67,7 +67,10 @@ export default function MobileNav({
 
   // Close first (which restarts scrolling), then scroll on the next frame.
   const onNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const id = hashTargetId(e.currentTarget.getAttribute("href"));
+    const id = hashTargetId(
+      e.currentTarget.getAttribute("href"),
+      window.location.pathname,
+    );
     onClose();
     if (!id) return;
     e.preventDefault();
