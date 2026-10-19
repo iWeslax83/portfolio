@@ -16,6 +16,12 @@ describe("polylineLength", () => {
     expect(polylineLength("M0,0 L3,4", 2, 0.5)).toBeCloseTo(Math.hypot(6, 2));
   });
 
+  it("reads relative steps after a lowercase l", () => {
+    // 0,0 -> 3,4 -> 3,14
+    expect(polylineLength("M0,0 l3,4 0,10")).toBeCloseTo(15);
+    expect(polylineLength("M1,1 l-.3,.4")).toBeCloseTo(0.5);
+  });
+
   it("returns 0 for an empty or single-point path", () => {
     expect(polylineLength("")).toBe(0);
     expect(polylineLength("M5,5")).toBe(0);

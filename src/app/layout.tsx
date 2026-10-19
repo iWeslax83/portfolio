@@ -9,7 +9,6 @@ import {
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/next";
-import MotionProvider from "@/components/ui/motion-provider";
 import SkipLink from "@/components/ui/skip-link";
 import SmoothScroll from "@/components/smooth-scroll";
 import { INTRO_SCRIPT } from "@/lib/intro-script";
@@ -131,9 +130,7 @@ export default async function RootLayout({
           }}
         />
         <NextIntlClientProvider messages={messages}>
-          <MotionProvider>
-            <SmoothScroll>{children}</SmoothScroll>
-          </MotionProvider>
+          <SmoothScroll>{children}</SmoothScroll>
         </NextIntlClientProvider>
         <Analytics />
       </body>

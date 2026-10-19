@@ -56,18 +56,32 @@ export function generateWireframePoints(
   );
 }
 
+/** Tenths as the shortest number text: 154 -> "15.4", -3 -> "-.3", 150 -> "15". */
+function tenths(n: number): string {
+  const sign = n < 0 ? "-" : "";
+  const a = Math.abs(n);
+  const whole = Math.floor(a / 10);
+  const frac = a % 10;
+  return sign + (frac ? `${whole || ""}.${frac}` : `${whole}`);
+}
+
+/**
+ * Path data for each line: an absolute start, then relative steps
+ * ("M x,y l dx,dy dx,dy ..."). Steps are taken between the same 0.1-rounded
+ * points the canvas uses, in whole tenths, so they add up exactly and the
+ * markup is much shorter than absolute "L x,y" pairs.
+ */
 export function generateWireframeLines(
   seed: number,
   lineCount = LINE_COUNT,
 ): WireframeLine[] {
-  return rawPoints(seed, lineCount).map((pts) => {
-    const parts: string[] = [];
-    for (let i = 0; i < pts.length; i += 2) {
-      parts.push(
-        `${i === 0 ? "M" : "L"}${pts[i].toFixed(1)},${pts[i + 1].toFixed(1)}`,
-      );
+  return generateWireframePoints(seed, lineCount).map((pts) => {
+    const t = pts.map((v) => Math.round(v * 10));
+    const steps: string[] = [];
+    for (let i = 2; i < t.length; i += 2) {
+      steps.push(`${tenths(t[i] - t[i - 2])},${tenths(t[i + 1] - t[i - 1])}`);
     }
-    return { d: parts.join(" ") };
+    return { d: `M${tenths(t[0])},${tenths(t[1])} l${steps.join(" ")}` };
   });
 }
 

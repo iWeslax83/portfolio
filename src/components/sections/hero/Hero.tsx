@@ -1,9 +1,8 @@
 import type { CommitEntry } from "@/lib/git-history";
-import { HERO_MESH_CRESTS, heroMeshLines } from "@/lib/wireframe-mesh";
 import { buildTickerSegments } from "@/lib/ticker";
-import WireframeMesh from "@/components/ui/wireframe-mesh";
 import Star from "@/components/ui/star";
 import Ticker from "./Ticker";
+import HeroMesh from "./HeroMesh";
 import HeroMeshCanvas from "./HeroMeshCanvas";
 
 export default function Hero({ commits }: { commits: CommitEntry[] }) {
@@ -13,12 +12,7 @@ export default function Hero({ commits }: { commits: CommitEntry[] }) {
         data-intro="mesh"
         className="relative h-[60vh] overflow-hidden sm:h-[45vh] lg:h-[55vh]"
       >
-        <WireframeMesh
-          lines={heroMeshLines}
-          stroke="var(--color-ink)"
-          crests={HERO_MESH_CRESTS}
-          className="absolute inset-0 h-full w-full"
-        />
+        <HeroMesh />
         <HeroMeshCanvas />
       </div>
       <div data-intro="ticker">

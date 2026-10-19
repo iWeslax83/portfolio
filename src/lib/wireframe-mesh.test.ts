@@ -23,15 +23,32 @@ describe("wireframe mesh", () => {
   });
 });
 
+/** Absolute x,y pairs from "M x,y l dx,dy dx,dy ..." path data. */
+function decode(d: string): number[] {
+  const nums = d.match(/-?(?:\d+\.?\d*|\.\d+)/g)!.map(Number);
+  const out = [nums[0], nums[1]];
+  for (let k = 2; k < nums.length; k += 2) {
+    out.push(out[k - 2] + nums[k], out[k - 1] + nums[k + 1]);
+  }
+  return out;
+}
+
 describe("wireframe mesh points", () => {
   it("matches the SVG path data point for point", () => {
     const points = generateWireframePoints(4242, 140);
     expect(points).toHaveLength(140);
     points.forEach((line, i) => {
-      const nums = heroMeshLines[i].d.match(/-?\d+\.\d/g)!.map(Number);
-      expect(line.length).toBe(nums.length);
-      line.forEach((v, j) => expect(v).toBeCloseTo(nums[j], 1));
+      const abs = decode(heroMeshLines[i].d);
+      expect(abs.length).toBe(line.length);
+      line.forEach((v, j) => expect(abs[j]).toBeCloseTo(v, 6));
     });
+  });
+
+  it("writes short relative path data", () => {
+    const d = heroMeshLines[0].d;
+    expect(d).toMatch(/^M[\d.]+,[\d.]+ l/);
+    // Absolute "L x,y" output was about 520 characters per line.
+    expect(d.length).toBeLessThan(400);
   });
 });
 

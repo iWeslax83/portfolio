@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { navItems } from "@/data/nav-items";
 import { hashTargetId } from "@/lib/anchor";
@@ -77,66 +76,67 @@ export default function MobileNav({
     requestAnimationFrame(() => scrollToId(id));
   };
 
+  // Always mounted so it can fade out; closed means invisible, which also
+  // takes it out of the tab order and the accessibility tree.
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          ref={dialogRef}
-          role="dialog"
-          aria-modal="true"
-          aria-label={t("menu")}
-          className="fixed inset-0 z-[70] flex flex-col bg-ink p-6 text-bg"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+    <div
+      ref={dialogRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label={t("menu")}
+      aria-hidden={!open}
+      className={`fixed inset-0 z-[70] flex flex-col bg-ink p-6 text-bg duration-200 ${
+        // Visibility flips at once on open (so the close button can take
+        // focus right away) and only waits out the fade on close.
+        open
+          ? "visible opacity-100 transition-opacity"
+          : "invisible opacity-0 transition-[opacity,visibility]"
+      }`}
+    >
+      <div className="flex justify-end">
+        <button
+          ref={closeRef}
+          type="button"
+          onClick={onClose}
+          aria-label={t("closeMenu")}
+          className="flex h-12 w-12 items-center justify-center border border-bg/30 transition-colors duration-[350ms] hover:bg-bg hover:text-ink focus-visible:bg-bg focus-visible:text-ink active:bg-bg active:text-ink"
         >
-          <div className="flex justify-end">
-            <button
-              ref={closeRef}
-              type="button"
-              onClick={onClose}
-              aria-label={t("closeMenu")}
-              className="flex h-12 w-12 items-center justify-center border border-bg/30 transition-colors duration-[350ms] hover:bg-bg hover:text-ink focus-visible:bg-bg focus-visible:text-ink active:bg-bg active:text-ink"
-            >
-              <X size={22} />
-            </button>
-          </div>
+          <X size={22} />
+        </button>
+      </div>
 
-          <nav aria-label={t("menu")} className="mt-10 flex flex-col">
-            {navItems.map((item) => (
-              <a
-                key={item.key}
-                href={item.href}
-                onClick={onNavigate}
-                className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
-              >
-                <span className="font-mono text-xs text-bg/60">{item.num}</span>
-                {t(item.key)}
-              </a>
-            ))}
-          </nav>
+      <nav aria-label={t("menu")} className="mt-10 flex flex-col">
+        {navItems.map((item) => (
+          <a
+            key={item.key}
+            href={item.href}
+            onClick={onNavigate}
+            className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
+          >
+            <span className="font-mono text-xs text-bg/60">{item.num}</span>
+            {t(item.key)}
+          </a>
+        ))}
+      </nav>
 
-          <div className="mt-auto flex gap-6 font-mono text-xs uppercase tracking-[0.1em] text-bg/70">
-            <a
-              href="https://github.com/iWeslax83"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors duration-[350ms] hover:text-bg"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/emirsakarya"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors duration-[350ms] hover:text-bg"
-            >
-              LinkedIn
-            </a>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      <div className="mt-auto flex gap-6 font-mono text-xs uppercase tracking-[0.1em] text-bg/70">
+        <a
+          href="https://github.com/iWeslax83"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors duration-[350ms] hover:text-bg"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://linkedin.com/in/emirsakarya"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors duration-[350ms] hover:text-bg"
+        >
+          LinkedIn
+        </a>
+      </div>
+    </div>
   );
 }

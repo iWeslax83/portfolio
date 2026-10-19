@@ -77,9 +77,19 @@ export default function Intro() {
       gsap.set(tickers, { autoAlpha: 0 });
       root.classList.remove(INTRO_PENDING);
 
+      // Put the title back as plain text the moment its letters land, not
+      // at the end of the whole intro: the browser counts the restored text
+      // as the page's largest paint, so a late revert reads as a slow load.
+      let reverted = false;
+      const restoreTitle = () => {
+        if (reverted) return;
+        reverted = true;
+        split.revert();
+      };
+
       const finish = () => {
         done = true;
-        split.revert();
+        restoreTitle();
         gsap.set([row, ...cells, ...stars, ...tickers].filter(Boolean), {
           clearProps: "transform,transformOrigin,visibility,opacity,overflow",
         });
@@ -99,7 +109,16 @@ export default function Intro() {
           },
           0.1,
         )
-        .to(split.chars, { yPercent: 0, duration: 1.2, stagger: 0.04 }, 0.35)
+        .to(
+          split.chars,
+          {
+            yPercent: 0,
+            duration: 0.9,
+            stagger: 0.03,
+            onComplete: restoreTitle,
+          },
+          0.3,
+        )
         .to(stars, { scale: 1, rotation: 0, duration: 1.2, stagger: 0.12 }, 0.6)
         .to(
           tickers,
@@ -108,7 +127,7 @@ export default function Intro() {
         );
 
       return () => {
-        if (!done) split.revert();
+        if (!done) restoreTitle();
       };
     });
 
