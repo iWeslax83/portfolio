@@ -20,7 +20,7 @@ export default function Hero({ commits }: { commits: CommitEntry[] }) {
       </div>
       <h1
         id="hero-title"
-        className="flex flex-col items-center px-4 py-6 text-center font-display-accent text-[clamp(3rem,10.5vw,9.5rem)] leading-[0.8] text-ink"
+        className="flex flex-col items-center px-4 py-4 text-center font-display-accent text-[clamp(3rem,min(9vw,13vh),8.25rem)] leading-[0.74] tracking-[-0.003em] text-ink [-webkit-text-stroke:0.025em_currentColor]"
       >
         <span className="sr-only">Emir Sakarya: </span>
         <span className="flex items-center justify-center gap-x-[0.3em]">
