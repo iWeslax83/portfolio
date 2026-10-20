@@ -26,8 +26,7 @@ export default async function NotFound() {
             404
           </h1>
           <p className="mx-auto mt-8 max-w-md text-pretty font-serif text-2xl leading-[1.5]">
-            This page does not exist. It may have moved, or the link has a
-            typo.
+            This page does not exist. It may have moved, or the link has a typo.
           </p>
         </div>
         <div className="grid sm:grid-cols-2">
