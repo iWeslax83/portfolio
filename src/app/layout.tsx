@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   JetBrains_Mono,
   Instrument_Serif,
@@ -54,6 +54,13 @@ const displayAccent = Metamorphous({
   variable: "--font-metamorphous",
   display: "swap",
 });
+
+// The browser chrome matches the black page frame; the site has no dark
+// theme, so form controls and scrollbars stay light.
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+  colorScheme: "light",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://emirsakarya.vercel.app"),

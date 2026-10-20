@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Frame from "@/components/frame";
 import SiteHeader from "@/components/site-header";
 import Footer from "@/components/footer";
@@ -10,6 +11,8 @@ import Work from "@/components/sections/work/Work";
 import Closing from "@/components/sections/closing/Closing";
 import { fetchGitHubStats } from "@/lib/github";
 import { loadMessages } from "@/lib/messages";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default async function Home() {
   const commits = getRecentCommits();
