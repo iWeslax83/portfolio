@@ -158,7 +158,9 @@ export default function WorkGallery({ items }: { items: Project[] }) {
           letters.forEach((_, i) => {
             const col = i % PER_ROW;
             setRot[i](letterSway(i, p) * (0.4 + 0.6 * spread));
-            setY[i](letterBob(i, p) + letterArch(col, PER_ROW) * ARCH_VH * packed);
+            setY[i](
+              letterBob(i, p) + letterArch(col, PER_ROW) * ARCH_VH * packed,
+            );
           });
           // Fade out just before the outro takes over.
           setLetters(1 - exitPhase(p, 0.97, 1));
