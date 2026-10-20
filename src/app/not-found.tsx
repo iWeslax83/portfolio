@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Frame from "@/components/frame";
 import SiteHeader from "@/components/site-header";
 import Footer from "@/components/footer";
@@ -32,15 +31,16 @@ export default async function NotFound() {
           </p>
         </div>
         <div className="grid sm:grid-cols-2">
-          <Link
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- the root not-found ships with every page, and next/link would add ~48KB to all of them for two links */}
+          <a
             href="/"
             className={`${linkCell} border-b border-ink sm:border-b-0 sm:border-r`}
           >
             Back to the home page
-          </Link>
-          <Link href="/projects" className={linkCell}>
+          </a>
+          <a href="/projects" className={linkCell}>
             See all projects
-          </Link>
+          </a>
         </div>
       </main>
       <Footer t={m.footer} nav={m.nav} />
