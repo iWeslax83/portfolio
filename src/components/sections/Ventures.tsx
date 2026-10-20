@@ -29,7 +29,9 @@ function Row({ venture, index }: { venture: Venture; index: number }) {
         <p className="font-mono text-xs uppercase tracking-[0.1em] text-ink-2">
           {String(index + 1).padStart(2, "0")} · {venture.role}
         </p>
-        <p className="mt-3 font-serif text-xl leading-[1.5]">{venture.proof}</p>
+        <p className="mt-3 text-pretty font-serif text-xl leading-[1.5]">
+          {venture.proof}
+        </p>
         {venture.units && (
           <ul className="mt-4 space-y-1 font-mono text-[11px] uppercase tracking-[0.08em] text-ink-2">
             {venture.units.map((u) => (

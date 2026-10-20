@@ -153,7 +153,9 @@ export default function AboutSkills({
           className="space-y-8 px-6 py-14 font-serif text-[22px] leading-[1.5] tracking-[-0.01em] sm:px-[72px] sm:py-20 sm:text-[30px]"
         >
           {PARAGRAPHS.map((k) => (
-            <p key={k}>{t[k]}</p>
+            <p key={k} className="text-pretty">
+              {t[k]}
+            </p>
           ))}
         </div>
         <h2 data-reveal="bar" className={SECTION_BAR}>

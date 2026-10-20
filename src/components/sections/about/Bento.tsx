@@ -62,7 +62,7 @@ export default function Bento({
     <div>
       <p
         data-reveal="row"
-        className="border-b border-ink px-6 py-12 text-center font-serif text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.1]"
+        className="text-balance border-b border-ink px-6 py-12 text-center font-serif text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.1]"
       >
         {t.statement}
       </p>

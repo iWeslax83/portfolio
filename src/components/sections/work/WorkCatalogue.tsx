@@ -189,7 +189,7 @@ export default function WorkCatalogue({
               <h3 className="text-balance font-serif text-3xl leading-[1.1] text-ink">
                 {project.title}
               </h3>
-              <p className="mt-3 max-w-2xl font-serif text-lg leading-[1.5] text-ink-2">
+              <p className="mt-3 max-w-2xl text-pretty font-serif text-lg leading-[1.5] text-ink-2">
                 {project.description}
               </p>
               <p className="mt-4 font-mono text-[11px] leading-relaxed text-ink-2">
