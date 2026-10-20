@@ -20,7 +20,9 @@ export default function GitHubCell({
         <>
           <dl
             className={`mt-4 grid gap-4 ${
-              stats.contributions !== null ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"
+              stats.contributions !== null
+                ? "grid-cols-1 sm:grid-cols-2"
+                : "grid-cols-1"
             }`}
           >
             <div className="flex flex-col-reverse">
