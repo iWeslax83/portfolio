@@ -144,13 +144,13 @@ export default function AboutSkills({
     >
       <RoomBackground />
       <SideRails left={t.railLeft} right={t.railRight} />
-      <div className="relative mx-auto w-full max-w-[640px] border-x border-ink bg-bg">
+      <div className="relative mx-8 max-w-[640px] border-x border-ink bg-bg sm:mx-auto">
         <h2 id="about-title" data-reveal="bar" className={SECTION_BAR}>
           {t.barAbout}
         </h2>
         <div
           data-reveal="paras"
-          className="space-y-8 px-6 py-14 font-serif text-[22px] leading-[1.5] tracking-[-0.01em] sm:px-[72px] sm:py-20 sm:text-[30px]"
+          className="space-y-8 px-6 py-14 font-serif text-2xl leading-[1.5] tracking-[-0.01em] sm:px-[72px] sm:py-20 sm:text-[32px]"
         >
           {PARAGRAPHS.map((k) => (
             <p key={k} className="text-pretty">

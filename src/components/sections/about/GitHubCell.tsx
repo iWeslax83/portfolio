@@ -20,7 +20,7 @@ export default function GitHubCell({
         <>
           <dl
             className={`mt-4 grid gap-4 ${
-              stats.contributions !== null ? "grid-cols-2" : "grid-cols-1"
+              stats.contributions !== null ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"
             }`}
           >
             <div className="flex flex-col-reverse">
@@ -79,7 +79,7 @@ export default function GitHubCell({
         href="https://github.com/iWeslax83"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-auto pt-5 font-mono text-xs underline decoration-1 underline-offset-4 hover:decoration-2"
+        className="mt-auto whitespace-nowrap pt-5 font-mono text-xs underline decoration-1 underline-offset-4 hover:decoration-2"
       >
         {t.githubLink} ↗
       </a>
