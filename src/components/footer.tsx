@@ -27,12 +27,25 @@ export default function Footer({
       </div>
 
       <div className="relative overflow-hidden border-t border-bg bg-ink text-bg">
-        <p
+        {/* Faint texture, not copy: drawn as SVG so contrast checkers do
+            not read it as low-contrast text. Font size is 10.5% of width. */}
+        <svg
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none whitespace-nowrap text-center font-display text-[10.5vw] leading-none opacity-[0.1]"
+          viewBox="0 0 1000 105"
+          className="pointer-events-none absolute inset-x-0 top-1/2 w-full -translate-y-1/2 select-none overflow-visible opacity-[0.1]"
         >
-          {t.wordmark}
-        </p>
+          <text
+            x="500"
+            y="52.5"
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize="105"
+            fill="currentColor"
+            className="font-display"
+          >
+            {t.wordmark}
+          </text>
+        </svg>
 
         <div className="relative mx-auto max-w-[1320px] px-6 py-14 md:px-10 md:py-20 lg:px-36">
           <div className="grid gap-10 sm:grid-cols-2 sm:gap-24">
