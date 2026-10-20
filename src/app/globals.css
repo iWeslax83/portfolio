@@ -218,6 +218,22 @@ section[tabindex="-1"]:focus {
   }
 }
 
+/* GO disc: a slow breathing pulse. A CSS transform animation runs on the
+   compositor, so it costs the main thread nothing and pauses off screen. */
+@media (prefers-reduced-motion: no-preference) {
+  .go-breathe {
+    animation: go-breathe 1.4s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
+  }
+}
+@keyframes go-breathe {
+  from {
+    transform: scale(0.92);
+  }
+  to {
+    transform: scale(1.04);
+  }
+}
+
 /* Link underline that draws from the left on hover */
 .link-draw {
   position: relative;
