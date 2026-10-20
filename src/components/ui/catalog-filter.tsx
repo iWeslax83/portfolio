@@ -1,7 +1,6 @@
 "use client";
 
-const FILTERS = ["ALL", "SHIPPED", "IN_PROGRESS", "ARCHIVED"] as const;
-export type CatalogFilterValue = (typeof FILTERS)[number];
+import { CATALOG_FILTERS, type CatalogFilterValue } from "@/lib/catalog-filter";
 
 const LABELS: Record<CatalogFilterValue, string> = {
   ALL: "ALL",
@@ -23,7 +22,7 @@ export default function CatalogFilter({
 }) {
   return (
     <div className="inline-flex flex-wrap items-center gap-2 font-mono text-xs">
-      {FILTERS.map((f) => (
+      {CATALOG_FILTERS.map((f) => (
         <button
           type="button"
           key={f}

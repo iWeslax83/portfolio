@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { projects, featuredProjects } from "@/data/projects";
 import type { Project } from "@/lib/types";
 import type { RepoStats } from "@/lib/github-repo-stats";
 import StatusTag from "@/components/ui/status-tag";
-import CatalogFilter, {
+import CatalogFilter from "@/components/ui/catalog-filter";
+import {
+  filterFromSearch,
+  searchForFilter,
   type CatalogFilterValue,
-} from "@/components/ui/catalog-filter";
+} from "@/lib/catalog-filter";
 import { SECTION_BAR } from "@/components/sections/about/AboutSkills";
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
+import { formatDay } from "@/lib/format-date";
 
 function Links({ links }: { links: Project["links"] }) {
   if (links.length === 0) return null;
@@ -39,6 +43,17 @@ function Links({ links }: { links: Project["links"] }) {
   );
 }
 
+/** replaceState fires no event, so the filter buttons notify directly. */
+const filterListeners = new Set<() => void>();
+function subscribeToFilter(notify: () => void) {
+  filterListeners.add(notify);
+  window.addEventListener("popstate", notify);
+  return () => {
+    filterListeners.delete(notify);
+    window.removeEventListener("popstate", notify);
+  };
+}
+
 /** The full, accessible project list. Every project, every link. */
 export default function WorkCatalogue({
   repoStats,
@@ -48,7 +63,13 @@ export default function WorkCatalogue({
   /** Heading, counted and worded on the server. */
   title: string;
 }) {
-  const [filter, setFilter] = useState<CatalogFilterValue>("ALL");
+  // The filter lives in the URL (?status=shipped), so a filtered list can
+  // be shared. The page is static, so the server snapshot is always ALL.
+  const filter = useSyncExternalStore(
+    subscribeToFilter,
+    () => filterFromSearch(window.location.search),
+    () => "ALL" as const,
+  );
   const [flagship] = featuredProjects;
   const ordered = [
     flagship,
@@ -115,6 +136,16 @@ export default function WorkCatalogue({
     { scope },
   );
 
+  const choose = (next: CatalogFilterValue) => {
+    const { pathname, search, hash } = window.location;
+    window.history.replaceState(
+      window.history.state,
+      "",
+      `${pathname}${searchForFilter(search, next)}${hash}`,
+    );
+    filterListeners.forEach((notify) => notify());
+  };
+
   // Filtering reflows the list: re-measure every trigger below it.
   const firstRender = useRef(true);
   useEffect(() => {
@@ -135,7 +166,7 @@ export default function WorkCatalogue({
         {title}
       </h2>
       <div className="mx-auto max-w-[1100px] px-4 py-16 sm:px-10">
-        <CatalogFilter value={filter} onChange={setFilter} />
+        <CatalogFilter value={filter} onChange={choose} />
         <div className="mt-8">
           {shown.map((project, i) => (
             <article
@@ -179,7 +210,7 @@ export default function WorkCatalogue({
               {project.repo && repoStats[project.repo] && (
                 <p className="mt-4 font-mono text-[11px] text-ink-2">
                   {repoStats[project.repo]!.commitCount} commits · last commit{" "}
-                  {repoStats[project.repo]!.lastCommitDate}
+                  {formatDay(repoStats[project.repo]!.lastCommitDate)}
                 </p>
               )}
             </article>
