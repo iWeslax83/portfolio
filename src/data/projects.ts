@@ -79,7 +79,7 @@ export const projects: Project[] = [
     slug: "live-wildfire",
     title: "Wildfire Spread Forecast Map",
     description:
-      "Pulls real active fires from NASA FIRMS onto a world map. Click one and it takes that fire's wind, terrain slope, fuel cover, and humidity and animates where it spreads over the next 12 to 24 hours. The engine is a simplified Alexandridis (2008) cellular-automata model running in a Web Worker.",
+      "Pulls real active fires from NASA FIRMS onto a world map. Click one and it takes that fire’s wind, terrain slope, fuel cover, and humidity and animates where it spreads over the next 12 to 24 hours. The engine is a simplified Alexandridis (2008) cellular-automata model running in a Web Worker.",
     tag: "simulation",
     tagDetail: "live · GDG Çadırlı Hackathon",
     techPills: [
@@ -188,7 +188,7 @@ export const projects: Project[] = [
     slug: "duran",
     title: "DurAn",
     description:
-      "TEKNOFEST finalist (Bağımlılıklarla Mücadelede Teknolojik Uygulamalar Yarışması), built as team captain of Stratos Root. A two-part early-warning system for gambling relapse: an ESP32S3 wristband (MAX30102 PPG, GSR, MPU6050, DS18B20) fused on-device with a React Native app's behavioral signal to detect craving spikes inside a 3-minute window. Fully on-device, no server, no stored raw data, only event timestamps persisted. 94% detection accuracy against simulated relapse events, 14 passing unit tests across the physiological and behavioral pipelines, behind a three-tier escalating intervention flow (nudge, pause screen, breathing exercise + YEDAM hotline).",
+      "TEKNOFEST finalist (Bağımlılıklarla Mücadelede Teknolojik Uygulamalar Yarışması), built as team captain of Stratos Root. A two-part early-warning system for gambling relapse: an ESP32S3 wristband (MAX30102 PPG, GSR, MPU6050, DS18B20) fused on-device with a React Native app’s behavioral signal to detect craving spikes inside a 3-minute window. Fully on-device, no server, no stored raw data, only event timestamps persisted. 94% detection accuracy against simulated relapse events, 14 passing unit tests across the physiological and behavioral pipelines, behind a three-tier escalating intervention flow (nudge, pause screen, breathing exercise + YEDAM hotline).",
     tag: "AI",
     tagDetail: "TEKNOFEST Finalist · ESP32S3 + React Native",
     techPills: ["React Native", "TypeScript", "ESP32S3", "Bluetooth LE"],

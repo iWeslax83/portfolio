@@ -15,7 +15,7 @@
     "homeLabel": "Emir Sakarya, back to top"
   },
   "ventures": {
-    "title": "What I've Built"
+    "title": "What I’ve Built"
   },
   "projects": {
     "count": "{count} projects",
@@ -31,7 +31,7 @@
     "githubLink": "github.com/iWeslax83"
   },
   "closing": {
-    "line1": "Let's",
+    "line1": "Let’s",
     "line2": "Build",
     "line3": "Something",
     "line4": "Real",
@@ -51,9 +51,9 @@
     "barSkills": "Skills",
     "railLeft": "Emir Sakarya · Founder & Engineer · Bursa / TR · N°01",
     "railRight": "Section 01 · About × Skills · Scroll to explore · 2026",
-    "p1": "I build things that have to work outside a demo: a drone that has to land where it said it would, an audit log that has to hold up when someone checks it. If something on this page can't be checked, it shouldn't be here.",
+    "p1": "I build things that have to work outside a demo: a drone that has to land where it said it would, an audit log that has to hold up when someone checks it. If something on this page can’t be checked, it shouldn’t be here.",
     "p2": "I founded STRATOS İHA, a TEKNOFEST UAV community in Bursa, and lead electronics and software for its 25-person engineering org. In its first year the program reached the TEKNOFEST 2026 rotorcraft final (16th of 3,715 teams) and the NASA Space Apps Turkey final.",
-    "p3": "On the aircraft I work with Pixhawk 6C, Raspberry Pi 5, ArduPilot and OpenCV, plus PCB design and sensor fusion. On the web it's React, Next.js and TypeScript up front, Node.js, FastAPI, Postgres and Redis behind them, shipped with Docker, Kubernetes and Vercel. For AI I build agent systems with LangGraph and Claude.",
+    "p3": "On the aircraft I work with Pixhawk 6C, Raspberry Pi 5, ArduPilot and OpenCV, plus PCB design and sensor fusion. On the web it’s React, Next.js and TypeScript up front, Node.js, FastAPI, Postgres and Redis behind them, shipped with Docker, Kubernetes and Vercel. For AI I build agent systems with LangGraph and Claude.",
     "p4": "Right now: Teluvane, a multi-tenant platform that hash-chains every AI agent action against EU AI Act, ISO 42001, NIST AI RMF and SOC 2; Viyaro, a BOSİAD-funded autonomous mobility venture with 50,000+ rides across 10+ companies; and Zero-G Pharma, first in Türkiye at NASA Space Apps 2025 (global top 50 of 6,000+ teams). Student at Tofaş Fen Lisesi, class of 2028."
   }
 }
