@@ -155,9 +155,9 @@ export default function WorkCatalogue({
                 </span>
                 <StatusTag status={project.status} />
               </div>
-              <h4 className="font-serif text-3xl leading-[1.1] text-ink">
+              <h3 className="text-balance font-serif text-3xl leading-[1.1] text-ink">
                 {project.title}
-              </h4>
+              </h3>
               <p className="mt-3 max-w-2xl font-serif text-lg leading-[1.5] text-ink-2">
                 {project.description}
               </p>

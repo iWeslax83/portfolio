@@ -11,7 +11,7 @@ import RoomBackground from "@/components/sections/about/RoomBackground";
 function Row({ venture, index }: { venture: Venture; index: number }) {
   return (
     <div className="grid gap-6 px-4 py-8 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-end lg:py-12">
-      <p
+      <h3
         data-venture-name
         className="break-words font-display text-[clamp(3rem,10vw,9rem)] uppercase leading-[0.85]"
       >
@@ -24,7 +24,7 @@ function Row({ venture, index }: { venture: Venture; index: number }) {
             ↗
           </span>
         )}
-      </p>
+      </h3>
       <div>
         <p className="font-mono text-xs uppercase tracking-[0.1em] text-ink-2">
           {String(index + 1).padStart(2, "0")} · {venture.role}
