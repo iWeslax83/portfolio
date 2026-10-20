@@ -81,7 +81,7 @@ function GalleryCard({
         top: `calc(50% + ${cardY(index)}vh)`,
         transform: `translateX(${cardX(index, total, 0)}vw)`,
       }}
-      className="absolute left-1/2 w-[62vw] -translate-x-1/2 -translate-y-1/2 hover:z-10 md:w-[min(560px,40vw)]"
+      className="absolute left-1/2 w-[62vw] -translate-x-1/2 -translate-y-1/2 will-change-transform hover:z-10 md:w-[min(560px,40vw)]"
     >
       <div
         style={{ "--tilt": `${tilt}deg` } as CSSProperties}
@@ -217,7 +217,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
                 <span
                   key={c}
                   data-sway
-                  className="emboss-light inline-block font-display text-[16vh] leading-[0.95] text-bg md:text-[20vh]"
+                  className="emboss-light inline-block font-display will-change-transform text-[16vh] leading-[0.95] text-bg md:text-[20vh]"
                 >
                   {letter}
                 </span>

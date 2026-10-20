@@ -37,7 +37,7 @@ export default function RoomBackground({
     <div
       ref={ref}
       aria-hidden
-      className={`pointer-events-none absolute inset-0 ${className}`}
+      className={`pointer-events-none absolute inset-0 will-change-transform ${className}`}
     >
       <svg
         viewBox="0 0 1000 1000"
