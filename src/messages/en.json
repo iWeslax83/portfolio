@@ -37,6 +37,14 @@
       "web": "web"
     }
   },
+  "project": {
+    "back": "All projects",
+    "overview": "About the project",
+    "stack": "Built with",
+    "navLabel": "Other projects",
+    "previous": "Previous",
+    "next": "Next"
+  },
   "skills": {
     "statement": "Hardware × AI × Production Software",
     "githubLabel": "GitHub · live",

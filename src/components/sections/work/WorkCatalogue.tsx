@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
 import type { Messages } from "@/lib/messages";
 import type { Locale } from "@/lib/locales";
 import type { Project } from "@/lib/types";
@@ -18,31 +17,9 @@ import { SECTION_BAR } from "@/components/sections/about/AboutSkills";
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
 import { formatDay } from "@/lib/format-date";
-
-function Links({ links }: { links: Project["links"] }) {
-  if (links.length === 0) return null;
-  return (
-    <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
-      {links.map((link) => {
-        const external = link.href.startsWith("http");
-        return (
-          <a
-            key={link.label}
-            href={link.href}
-            target={external ? "_blank" : undefined}
-            rel={external ? "noopener noreferrer" : undefined}
-            className={`link-draw inline-flex items-center gap-1 font-mono text-xs ${
-              link.isPrimary ? "text-ink" : "text-ink-2 hover:text-ink"
-            }`}
-          >
-            {link.label}
-            <ArrowUpRight size={12} aria-hidden />
-          </a>
-        );
-      })}
-    </div>
-  );
-}
+import { localizedPath } from "@/lib/locale-path";
+import { orderedProjects } from "@/lib/project-nav";
+import ProjectLinks from "./ProjectLinks";
 
 /** replaceState fires no event, so the filter buttons notify directly. */
 const filterListeners = new Set<() => void>();
@@ -85,15 +62,8 @@ export default function WorkCatalogue({
     IN_PROGRESS: status.inProgress,
     ARCHIVED: status.archived,
   };
-  const [flagship] = projects
-    .filter((p) => p.featured)
-    .sort((a, b) => a.order - b.order);
-  const ordered = [
-    flagship,
-    ...projects
-      .filter((p) => p.slug !== flagship.slug)
-      .sort((a, b) => a.order - b.order),
-  ];
+  const ordered = orderedProjects(projects);
+  const flagship = ordered[0];
   const shown = ordered.filter((p) => filter === "ALL" || p.status === filter);
   const scope = useRef<HTMLElement>(null);
 
@@ -193,7 +163,7 @@ export default function WorkCatalogue({
             <article
               key={project.slug}
               className={`grid py-8 ${
-                project.slug === flagship.slug
+                project.slug === flagship?.slug
                   ? "border-2 border-ink px-6 md:px-8"
                   : "border-t border-ink"
               }`}
@@ -209,7 +179,12 @@ export default function WorkCatalogue({
                 <StatusTag status={project.status} labels={statusLabels} />
               </div>
               <h3 className="text-balance font-serif text-3xl leading-[1.1] text-ink">
-                {project.title}
+                <a
+                  href={localizedPath(locale, `/projects/${project.slug}`)}
+                  className="link-draw"
+                >
+                  {project.title}
+                </a>
               </h3>
               <p className="mt-3 max-w-2xl text-pretty font-serif text-lg leading-[1.5] text-ink-2">
                 {project.description}
@@ -217,7 +192,7 @@ export default function WorkCatalogue({
               <p className="mt-4 font-mono text-[11px] leading-relaxed text-ink-2">
                 {project.techPills.join("  ·  ")}
               </p>
-              <Links links={project.links} />
+              <ProjectLinks links={project.links} />
               {project.image && (
                 <div className="relative mt-5 flex min-h-[160px] max-w-[280px] items-center justify-center overflow-hidden border border-ink bg-panel p-6">
                   <Image

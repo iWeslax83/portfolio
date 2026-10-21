@@ -3,6 +3,8 @@
 import { useRef, type CSSProperties } from "react";
 import Image from "next/image";
 import type { Project } from "@/lib/types";
+import type { Locale } from "@/lib/locales";
+import { localizedPath } from "@/lib/locale-path";
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { cardRotations } from "@/lib/card-rotations";
 import {
@@ -44,12 +46,13 @@ function GalleryCard({
   project,
   index,
   total,
+  locale,
 }: {
   project: Project;
   index: number;
   total: number;
+  locale: Locale;
 }) {
-  const primary = project.links.find((l) => l.isPrimary) ?? project.links[0];
   const tilt =
     Math.round(cardRotations[index % cardRotations.length] * 100) / 100;
   const body = (
@@ -87,19 +90,13 @@ function GalleryCard({
         style={{ "--tilt": `${tilt}deg` } as CSSProperties}
         className="gallery-card"
       >
-        {primary ? (
-          <a
-            href={primary.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            tabIndex={-1}
-            className="block"
-          >
-            {body}
-          </a>
-        ) : (
-          body
-        )}
+        <a
+          href={localizedPath(locale, `/projects/${project.slug}`)}
+          tabIndex={-1}
+          className="block"
+        >
+          {body}
+        </a>
       </div>
     </li>
   );
@@ -114,7 +111,13 @@ function GalleryCard({
  * Decorative: the same links are in Work's focusable list, so this is
  * hidden from assistive tech and out of tab order.
  */
-export default function WorkGallery({ items }: { items: Project[] }) {
+export default function WorkGallery({
+  items,
+  locale,
+}: {
+  items: Project[];
+  locale: Locale;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -232,6 +235,7 @@ export default function WorkGallery({ items }: { items: Project[] }) {
               project={p}
               index={i}
               total={items.length}
+              locale={locale}
             />
           ))}
         </ul>

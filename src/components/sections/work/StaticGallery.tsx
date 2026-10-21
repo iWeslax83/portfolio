@@ -1,8 +1,16 @@
 import Image from "next/image";
 import type { Project } from "@/lib/types";
+import type { Locale } from "@/lib/locales";
+import { localizedPath } from "@/lib/locale-path";
 
 /** Reduced-motion version: a WORK band and stacked cards. */
-export default function StaticGallery({ items }: { items: Project[] }) {
+export default function StaticGallery({
+  items,
+  locale,
+}: {
+  items: Project[];
+  locale: Locale;
+}) {
   return (
     <div aria-hidden className="bg-ink px-4 py-12 text-bg">
       <p className="emboss-light text-center font-display text-[28vw] leading-none md:text-[14rem]">
@@ -10,7 +18,6 @@ export default function StaticGallery({ items }: { items: Project[] }) {
       </p>
       <ul className="mx-auto mt-10 max-w-[640px] space-y-10">
         {items.map((p, i) => {
-          const primary = p.links.find((l) => l.isPrimary) ?? p.links[0];
           const body = (
             <>
               <div className="relative aspect-[16/10] border border-bg bg-panel">
@@ -33,19 +40,13 @@ export default function StaticGallery({ items }: { items: Project[] }) {
           );
           return (
             <li key={p.slug}>
-              {primary ? (
-                <a
-                  href={primary.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  tabIndex={-1}
-                  className="block"
-                >
-                  {body}
-                </a>
-              ) : (
-                body
-              )}
+              <a
+                href={localizedPath(locale, `/projects/${p.slug}`)}
+                tabIndex={-1}
+                className="block"
+              >
+                {body}
+              </a>
             </li>
           );
         })}

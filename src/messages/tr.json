@@ -37,6 +37,14 @@
       "web": "web"
     }
   },
+  "project": {
+    "back": "Tüm projeler",
+    "overview": "Proje hakkında",
+    "stack": "Kullanılan teknolojiler",
+    "navLabel": "Diğer projeler",
+    "previous": "Önceki",
+    "next": "Sonraki"
+  },
   "skills": {
     "statement": "Donanım × Yapay Zeka × Sahada Çalışan Yazılım",
     "githubLabel": "GitHub · canlı",

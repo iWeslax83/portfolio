@@ -27,21 +27,16 @@ export default function Work() {
         className="sr-only focus-within:not-sr-only focus-within:block focus-within:border-b focus-within:border-ink focus-within:p-6"
       >
         <ul className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.1em]">
-          {items.map((p) => {
-            const primary = p.links.find((l) => l.isPrimary) ?? p.links[0];
-            return primary ? (
-              <li key={p.slug}>
-                <a
-                  href={primary.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-draw"
-                >
-                  {p.title}
-                </a>
-              </li>
-            ) : null;
-          })}
+          {items.map((p) => (
+            <li key={p.slug}>
+              <a
+                href={localizedPath(locale, `/projects/${p.slug}`)}
+                className="link-draw"
+              >
+                {p.title}
+              </a>
+            </li>
+          ))}
           <li>
             <a href={localizedPath(locale, "/projects")} className="link-draw">
               {t("allTitle")} · {t("count", { count: projects.length })}
@@ -51,11 +46,11 @@ export default function Work() {
       </nav>
       <div className="work-animated">
         <WorkIntro />
-        <WorkGallery items={items} />
+        <WorkGallery items={items} locale={locale} />
         <WorkIntro mode="out" />
       </div>
       <div className="work-static">
-        <StaticGallery items={items} />
+        <StaticGallery items={items} locale={locale} />
       </div>
     </section>
   );
