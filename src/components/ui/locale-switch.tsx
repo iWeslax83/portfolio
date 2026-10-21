@@ -8,9 +8,9 @@ const LOCALES: Locale[] = ["en", "tr"];
 
 /**
  * EN / TR as two plain links to the same page in the other language. The
- * current section's hash is carried over on click, so switching keeps the
- * reader where they were. `className` lays out the group, `linkClassName`
- * styles each link (header cell or mobile-menu row).
+ * current query string and section hash are carried over on click, so
+ * switching keeps the reader's filter and place. `className` lays out the
+ * group, `linkClassName` styles each link (header cell or mobile-menu row).
  */
 export default function LocaleSwitch({
   locale,
@@ -38,7 +38,8 @@ export default function LocaleSwitch({
             title={labels[to]}
             aria-current={current ? "true" : undefined}
             onClick={(e) => {
-              e.currentTarget.href = href + window.location.hash;
+              e.currentTarget.href =
+                href + window.location.search + window.location.hash;
             }}
             className={`${linkClassName ?? ""} ${
               current ? "underline decoration-1 underline-offset-4" : ""
