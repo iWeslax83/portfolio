@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import type { Messages } from "@/lib/messages";
 import type { GitHubStats } from "@/lib/types";
+import type { BentoSkill, DevopsSkill } from "@/data/skills";
 import { gsap, SplitText, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
 import { countUpText } from "@/lib/count-up";
@@ -20,10 +21,14 @@ export default function AboutSkills({
   stats,
   t,
   skills,
+  bentoSkills,
+  devops,
 }: {
   stats: GitHubStats | null;
   t: Messages["about"];
   skills: Messages["skills"];
+  bentoSkills: BentoSkill[];
+  devops: DevopsSkill;
 }) {
   const scope = useRef<HTMLElement>(null);
 
@@ -161,7 +166,12 @@ export default function AboutSkills({
         <h2 data-reveal="bar" className={SECTION_BAR}>
           {t.barSkills}
         </h2>
-        <Bento stats={stats} t={skills} />
+        <Bento
+          stats={stats}
+          t={skills}
+          bentoSkills={bentoSkills}
+          devopsSkill={devops}
+        />
       </div>
     </section>
   );

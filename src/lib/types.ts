@@ -14,6 +14,15 @@ export interface Project {
   repo?: string;
 }
 
+/**
+ * A project's copy in another language, merged over the English record by
+ * slug. `links` maps an English link label to its translated label; hrefs
+ * never change.
+ */
+export type ProjectCopy = Partial<
+  Pick<Project, "title" | "description" | "tagDetail" | "techPills">
+> & { links?: Record<string, string> };
+
 export interface StratosUnit {
   name: string;
   detail: string;

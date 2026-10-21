@@ -45,3 +45,5 @@ export const devopsSkill = {
   label: "Docker / Kubernetes / Vercel",
   sub: "Ship & Deploy",
 };
+
+export type DevopsSkill = typeof devopsSkill;

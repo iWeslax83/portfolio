@@ -1,12 +1,15 @@
 import { Project } from "@/lib/types";
 
-const statusLabel: Record<Project["status"], string> = {
-  SHIPPED: "SHIPPED",
-  IN_PROGRESS: "IN PROGRESS",
-  ARCHIVED: "ARCHIVED",
-};
+export type StatusLabels = Record<Project["status"], string>;
 
-export default function StatusTag({ status }: { status: Project["status"] }) {
+export default function StatusTag({
+  status,
+  labels,
+}: {
+  status: Project["status"];
+  /** Worded on the server, per locale. */
+  labels: StatusLabels;
+}) {
   return (
     <span className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.14em] text-ink-3">
       <span
@@ -19,7 +22,7 @@ export default function StatusTag({ status }: { status: Project["status"] }) {
         }`}
         aria-hidden
       />
-      {statusLabel[status]}
+      {labels[status]}
     </span>
   );
 }

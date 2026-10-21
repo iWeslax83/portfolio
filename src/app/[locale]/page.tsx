@@ -12,6 +12,7 @@ import Work from "@/components/sections/work/Work";
 import Closing from "@/components/sections/closing/Closing";
 import { fetchGitHubStats } from "@/lib/github";
 import { loadMessages } from "@/lib/messages";
+import { getBentoSkills, getDevopsSkill } from "@/lib/localize";
 
 export default async function Home({
   params,
@@ -30,12 +31,18 @@ export default async function Home({
       <SiteHeader t={m.nav} locale={locale} />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero commits={commits} />
-        <AboutSkills stats={githubStats} t={m.about} skills={m.skills} />
+        <AboutSkills
+          stats={githubStats}
+          t={m.about}
+          skills={m.skills}
+          bentoSkills={getBentoSkills(locale)}
+          devops={getDevopsSkill(locale)}
+        />
         <Work />
         <Closing commits={commits} t={m.closing} />
       </main>
       <Footer t={m.footer} nav={m.nav} locale={locale} />
-      <BackToTop />
+      <BackToTop label={m.common.backToTop} />
       <Intro />
     </Frame>
   );

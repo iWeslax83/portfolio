@@ -2,13 +2,6 @@
 
 import { CATALOG_FILTERS, type CatalogFilterValue } from "@/lib/catalog-filter";
 
-const LABELS: Record<CatalogFilterValue, string> = {
-  ALL: "ALL",
-  SHIPPED: "SHIPPED",
-  IN_PROGRESS: "IN PROGRESS",
-  ARCHIVED: "ARCHIVED",
-};
-
 /**
  * Segmented filter control: bordered rectangular tags, never fully rounded.
  * The active segment is filled; inactive segments are plain bordered text.
@@ -16,9 +9,12 @@ const LABELS: Record<CatalogFilterValue, string> = {
 export default function CatalogFilter({
   value,
   onChange,
+  labels,
 }: {
   value: CatalogFilterValue;
   onChange: (value: CatalogFilterValue) => void;
+  /** Worded on the server, per locale. */
+  labels: Record<CatalogFilterValue, string>;
 }) {
   return (
     <div className="inline-flex flex-wrap items-center gap-2 font-mono text-xs">
@@ -34,7 +30,7 @@ export default function CatalogFilter({
           }`}
           aria-pressed={value === f}
         >
-          {LABELS[f]}
+          {labels[f]}
         </button>
       ))}
     </div>

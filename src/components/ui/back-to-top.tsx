@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { scrollToTop } from "@/lib/smooth-scroll";
 
-export default function BackToTop() {
+export default function BackToTop({ label }: { label: string }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function BackToTop() {
     <button
       type="button"
       onClick={onClick}
-      aria-label="Back to top"
+      aria-label={label}
       aria-hidden={!show}
       tabIndex={show ? 0 : -1}
       className={`fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center border border-rule bg-panel text-ink transition-[opacity,translate,scale,visibility,color,background-color,border-color] duration-[350ms] ease-[cubic-bezier(0.34,1.4,0.64,1)] hover:-translate-y-[3px] hover:border-ink hover:bg-ink hover:text-bg focus-visible:border-ink focus-visible:bg-ink focus-visible:text-bg active:scale-90 ${

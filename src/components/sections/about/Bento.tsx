@@ -3,7 +3,7 @@
 import { useId } from "react";
 import type { Messages } from "@/lib/messages";
 import type { GitHubStats } from "@/lib/types";
-import { bentoSkills, devopsSkill } from "@/data/skills";
+import type { BentoSkill, DevopsSkill } from "@/data/skills";
 import Star from "@/components/ui/star";
 import GitHubCell from "./GitHubCell";
 
@@ -54,9 +54,14 @@ function Hatch() {
 export default function Bento({
   stats,
   t,
+  bentoSkills,
+  devopsSkill,
 }: {
   stats: GitHubStats | null;
   t: Messages["skills"];
+  /** Already in the page's language. */
+  bentoSkills: BentoSkill[];
+  devopsSkill: DevopsSkill;
 }) {
   return (
     <div>

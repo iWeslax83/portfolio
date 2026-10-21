@@ -1,7 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { localizedPath } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";
-import { projects } from "@/data/projects";
+import { getProjects } from "@/lib/localize";
 import { galleryProjects } from "@/lib/work-gallery";
 import WorkIntro from "./WorkIntro";
 import WorkGallery from "./WorkGallery";
@@ -15,11 +15,12 @@ import StaticGallery from "./StaticGallery";
 export default function Work() {
   const t = useTranslations("projects");
   const locale = useLocale() as Locale;
+  const projects = getProjects(locale);
   const items = galleryProjects(projects);
   return (
     <section id="work" aria-labelledby="work-title">
       <h2 id="work-title" className="sr-only">
-        Work
+        {t("workTitle")}
       </h2>
       <nav
         aria-label={t("listLabel")}

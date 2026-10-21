@@ -45,6 +45,18 @@ const flyers = all.filter((f) => f.kind !== "image" || f.src);
  * toward the viewer as the page scrolls, while screenshots and stars fly
  * out of the sun past the edges. Without motion it is a still poster.
  */
+/**
+ * The last word is the biggest. Sized for a word of up to five letters
+ * ("Real"); a longer one (Turkish "Yapalım") shrinks in proportion, so it
+ * still fits across a phone.
+ */
+function lastLineSize(word: string): string {
+  const fit = Math.min(1, 5 / word.length);
+  return fit === 1
+    ? "clamp(5rem,min(32vw,44vh),26rem)"
+    : `clamp(5rem,calc(min(32vw,44vh) * ${fit.toFixed(3)}),26rem)`;
+}
+
 export default function BurstHeadline({ t }: { t: Messages["closing"] }) {
   const scope = useRef<HTMLDivElement>(null);
 
@@ -174,7 +186,7 @@ export default function BurstHeadline({ t }: { t: Messages["closing"] }) {
             <span className="block text-[clamp(3.25rem,min(13vw,21vh),12rem)]">
               {t.line3}
             </span>
-            <span className="block text-[clamp(5rem,min(32vw,44vh),26rem)]">
+            <span className="block" style={{ fontSize: lastLineSize(t.line4) }}>
               {t.line4}
             </span>
           </h2>

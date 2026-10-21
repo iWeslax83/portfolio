@@ -23,7 +23,12 @@
   "projects": {
     "count": "{count} projects",
     "allTitle": "All projects",
-    "listLabel": "Projects in the gallery"
+    "listLabel": "Projects in the gallery",
+    "heading": "Projects",
+    "workTitle": "Work",
+    "commits": "commits",
+    "lastCommit": "last commit",
+    "screenshotAlt": "{title} screenshot"
   },
   "skills": {
     "statement": "Hardware × AI × Production Software",
@@ -58,5 +63,21 @@
     "p2": "I founded STRATOS İHA, a TEKNOFEST UAV community in Bursa, and lead electronics and software for its 25-person engineering org. In its first year the program reached the TEKNOFEST 2026 rotorcraft final (16th of 3,715 teams) and the NASA Space Apps Turkey final.",
     "p3": "On the aircraft I work with Pixhawk 6C, Raspberry Pi 5, ArduPilot and OpenCV, plus PCB design and sensor fusion. On the web it’s React, Next.js and TypeScript up front, Node.js, FastAPI, Postgres and Redis behind them, shipped with Docker, Kubernetes and Vercel. For AI I build agent systems with LangGraph and Claude.",
     "p4": "Right now: Teluvane, a multi-tenant platform that hash-chains every AI agent action against EU AI Act, ISO 42001, NIST AI RMF and SOC 2; Viyaro, a BOSİAD-funded autonomous mobility venture with 50,000+ rides across 10+ companies; and Zero-G Pharma, first in Türkiye at NASA Space Apps 2025 (global top 50 of 6,000+ teams). Student at Tofaş Fen Lisesi, class of 2028."
+  },
+  "status": {
+    "shipped": "SHIPPED",
+    "inProgress": "IN PROGRESS",
+    "archived": "ARCHIVED",
+    "all": "ALL"
+  },
+  "common": {
+    "backToTop": "Back to top"
+  },
+  "meta": {
+    "title": "Emir Sakarya - Founder & Engineer",
+    "description": "Founder & Head of Electronics & Software at STRATOS İHA. Embedded-systems and full-stack engineer building autonomous drones, AI systems, and production web apps in Bursa, Türkiye.",
+    "shareDescription": "Founder & Head of Electronics & Software at STRATOS İHA. Building autonomous drones and the software behind them.",
+    "projectsTitle": "Projects - Emir Sakarya",
+    "projectsDescription": "Every project and venture Emir Sakarya has built: UAVs, AI agents, full-stack apps and the companies behind them."
   }
 }

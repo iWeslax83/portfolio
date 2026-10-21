@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import type { Messages } from "@/lib/messages";
-import { ventures, type Venture } from "@/data/ventures";
+import type { Venture } from "@/data/ventures";
 import { gsap, SplitText, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
 import { SECTION_BAR } from "@/components/sections/about/AboutSkills";
@@ -46,7 +46,14 @@ function Row({ venture, index }: { venture: Venture; index: number }) {
   );
 }
 
-export default function Ventures({ t }: { t: Messages["ventures"] }) {
+export default function Ventures({
+  t,
+  ventures,
+}: {
+  t: Messages["ventures"];
+  /** Already in the page's language. */
+  ventures: Venture[];
+}) {
   const scope = useRef<HTMLElement>(null);
 
   // Rows slide in from the left, staggered, and each big name rises out of

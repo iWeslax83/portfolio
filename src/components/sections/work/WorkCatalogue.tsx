@@ -3,7 +3,7 @@
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { projects, featuredProjects } from "@/data/projects";
+import type { Messages } from "@/lib/messages";
 import type { Project } from "@/lib/types";
 import type { RepoStats } from "@/lib/github-repo-stats";
 import StatusTag from "@/components/ui/status-tag";
@@ -56,12 +56,19 @@ function subscribeToFilter(notify: () => void) {
 
 /** The full, accessible project list. Every project, every link. */
 export default function WorkCatalogue({
+  projects,
   repoStats,
   title,
+  t,
+  status,
 }: {
+  /** Every project, already in the page's language. */
+  projects: Project[];
   repoStats: Record<string, RepoStats | null>;
   /** Heading, counted and worded on the server. */
   title: string;
+  t: Messages["projects"];
+  status: Messages["status"];
 }) {
   // The filter lives in the URL (?status=shipped), so a filtered list can
   // be shared. The page is static, so the server snapshot is always ALL.
@@ -70,7 +77,14 @@ export default function WorkCatalogue({
     () => filterFromSearch(window.location.search),
     () => "ALL" as const,
   );
-  const [flagship] = featuredProjects;
+  const statusLabels = {
+    SHIPPED: status.shipped,
+    IN_PROGRESS: status.inProgress,
+    ARCHIVED: status.archived,
+  };
+  const [flagship] = projects
+    .filter((p) => p.featured)
+    .sort((a, b) => a.order - b.order);
   const ordered = [
     flagship,
     ...projects
@@ -166,7 +180,11 @@ export default function WorkCatalogue({
         {title}
       </h2>
       <div className="mx-auto max-w-[1100px] px-4 py-16 sm:px-10">
-        <CatalogFilter value={filter} onChange={choose} />
+        <CatalogFilter
+          value={filter}
+          onChange={choose}
+          labels={{ ALL: status.all, ...statusLabels }}
+        />
         <div className="mt-8">
           {shown.map((project, i) => (
             <article
@@ -184,7 +202,7 @@ export default function WorkCatalogue({
                 <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2">
                   {project.tag}
                 </span>
-                <StatusTag status={project.status} />
+                <StatusTag status={project.status} labels={statusLabels} />
               </div>
               <h3 className="text-balance font-serif text-3xl leading-[1.1] text-ink">
                 {project.title}
@@ -200,7 +218,7 @@ export default function WorkCatalogue({
                 <div className="relative mt-5 flex min-h-[160px] max-w-[280px] items-center justify-center overflow-hidden border border-ink bg-panel p-6">
                   <Image
                     src={project.image}
-                    alt={`${project.title} screenshot`}
+                    alt={t.screenshotAlt.replace("{title}", project.title)}
                     width={280}
                     height={175}
                     className="aspect-[16/10] h-auto w-full object-contain"
@@ -209,7 +227,8 @@ export default function WorkCatalogue({
               )}
               {project.repo && repoStats[project.repo] && (
                 <p className="mt-4 font-mono text-[11px] text-ink-2">
-                  {repoStats[project.repo]!.commitCount} commits · last commit{" "}
+                  {repoStats[project.repo]!.commitCount} {t.commits} ·{" "}
+                  {t.lastCommit}{" "}
                   {formatDay(repoStats[project.repo]!.lastCommitDate)}
                 </p>
               )}

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { hasLocale } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../../i18n/routing";
 import { localeAlternates } from "@/lib/locale-path";
@@ -18,25 +18,7 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-const baseMetadata: Metadata = {
-  metadataBase: new URL("https://emirsakarya.vercel.app"),
-  title: "Emir Sakarya - Founder & Engineer",
-  description:
-    "Founder & Head of Electronics & Software at STRATOS İHA. Embedded-systems and full-stack engineer building autonomous drones, AI systems, and production web apps in Bursa, Türkiye.",
-  openGraph: {
-    title: "Emir Sakarya - Founder & Engineer",
-    description:
-      "Founder & Head of Electronics & Software at STRATOS İHA. Building autonomous drones and the software behind them.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Emir Sakarya - Founder & Engineer",
-    description:
-      "Founder & Head of Electronics & Software at STRATOS İHA. Building autonomous drones and the software behind them.",
-  },
-  robots: { index: true, follow: true },
-};
+const metadataBase = new URL("https://emirsakarya.vercel.app");
 
 // Only the listed locales exist; anything else falls through to
 // app/global-not-found.tsx as a fully server-rendered 404.
@@ -52,9 +34,22 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) return baseMetadata;
-  return { ...baseMetadata, alternates: localeAlternates(locale, "/") };
+  const requested = (await params).locale;
+  const locale = hasLocale(routing.locales, requested)
+    ? requested
+    : routing.defaultLocale;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  const title = t("title");
+  const share = t("shareDescription");
+  return {
+    metadataBase,
+    title,
+    description: t("description"),
+    openGraph: { title, description: share, type: "website" },
+    twitter: { card: "summary_large_image", title, description: share },
+    robots: { index: true, follow: true },
+    alternates: localeAlternates(locale, "/"),
+  };
 }
 
 export default async function LocaleLayout({
