@@ -8,7 +8,7 @@ export const projectsTr: Record<string, ProjectCopy> = {
   "otonom-iha": {
     title: "Otonom Döner Kanatlı Multikopter İHA",
     description:
-      "TEKNOFEST İnsansız Hava Araçları yarışması için yaptığımız quadcopter: Pixhawk 6C / Raspberry Pi 5 / ArduPilot yığını, OpenCV ile hedef tespiti. Elektronik ve Yazılım Kaptanı olarak uçuş kontrolcüsü entegrasyonu, sensör yığını ve otonom görev planlaması bende. 19,76 dakika askıda kalma süresi, 12 km otonom menzil ve hassas iniş; ilk yılında TEKNOFEST döner kanat finali ve NASA Space Apps Türkiye finali. Halka açık otonom uçuş gösterileri Anadolu Ajansı ve Bursa Hakimiyet’te haber oldu.",
+      "TEKNOFEST İnsansız Hava Araçları yarışması için yaptığımız quadcopter: Pixhawk 6C / Raspberry Pi 5 / ArduPilot yığını, OpenCV ile hedef tespiti. Elektronik ve Yazılım Kaptanı olarak uçuş kontrolcüsü entegrasyonu, sensör yığını ve otonom görev planlaması bende. 19,76 dakika havada asılı kalma süresi, 12 km otonom menzil ve hassas iniş; araç ilk yılında TEKNOFEST döner kanat finaline ve NASA Space Apps Türkiye finaline kaldı. Halka açık otonom uçuş gösterileri Anadolu Ajansı ve Bursa Hakimiyet’te haber oldu.",
     tagDetail: "TEKNOFEST 2026 · Döner Kanat",
     techPills: [
       "gömülü sistemler",
@@ -60,7 +60,7 @@ export const projectsTr: Record<string, ProjectCopy> = {
   },
   duran: {
     description:
-      "TEKNOFEST finalisti (Bağımlılıklarla Mücadelede Teknolojik Uygulamalar Yarışması), Stratos Root’un takım kaptanı olarak geliştirdim. Kumar bağımlılığında nükse karşı iki parçalı bir erken uyarı sistemi: ESP32S3 bileklik (MAX30102 PPG, GSR, MPU6050, DS18B20) verisi, React Native uygulamasının davranışsal sinyaliyle cihaz üzerinde birleştirilir ve istek krizleri 3 dakikalık bir pencere içinde yakalanır. Tamamen cihaz üzerinde çalışır: sunucu yok, ham veri saklanmaz, yalnızca olay zaman damgaları kaydedilir. Simüle edilmiş nüks olaylarına karşı %94 tespit doğruluğu, fizyolojik ve davranışsal hatlarda 14 geçen birim testi; arkasında giderek güçlenen üç kademeli bir müdahale akışı var (hatırlatma, duraklatma ekranı, nefes egzersizi + YEDAM hattı).",
+      "TEKNOFEST Bağımlılıklarla Mücadelede Teknolojik Uygulamalar Yarışması’nda finale kaldı; Stratos Root’un takım kaptanı olarak geliştirdim. Kumar bağımlılığında nükse karşı iki parçalı bir erken uyarı sistemi: ESP32S3 bileklik (MAX30102 PPG, GSR, MPU6050, DS18B20) verisi, React Native uygulamasının davranışsal sinyaliyle cihaz üzerinde birleştirilir ve istek krizleri 3 dakikalık bir pencere içinde yakalanır. Tamamen cihaz üzerinde çalışır: sunucu yok, ham veri saklanmaz, yalnızca olay zaman damgaları kaydedilir. Simüle edilmiş nüks olaylarına karşı %94 tespit doğruluğu, fizyolojik ve davranışsal hatlarda 14 geçen birim testi; arkasında giderek güçlenen üç kademeli bir müdahale akışı var (hatırlatma, duraklatma ekranı, nefes egzersizi + YEDAM hattı).",
     tagDetail: "TEKNOFEST Finalisti · ESP32S3 + React Native",
   },
   "smart-cane": {

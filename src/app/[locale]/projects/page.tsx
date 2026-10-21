@@ -58,6 +58,7 @@ export default async function ProjectsPage({
           title={`${t("allTitle")} · ${t("count", { count: projects.length })}`}
           t={m.projects}
           status={m.status}
+          locale={locale}
         />
       </main>
       <Footer t={m.footer} nav={m.nav} locale={locale} />

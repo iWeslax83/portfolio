@@ -28,7 +28,14 @@
     "workTitle": "Work",
     "commits": "commits",
     "lastCommit": "last commit",
-    "screenshotAlt": "{title} screenshot"
+    "screenshotAlt": "{title} screenshot",
+    "tags": {
+      "competition": "competition",
+      "AI": "AI",
+      "simulation": "simulation",
+      "full-stack": "full-stack",
+      "web": "web"
+    }
   },
   "skills": {
     "statement": "Hardware × AI × Production Software",

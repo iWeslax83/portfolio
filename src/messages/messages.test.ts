@@ -5,6 +5,7 @@ import { projectsTr } from "@/data/tr/projects";
 import { venturesTr } from "@/data/tr/ventures";
 import { stratosUnitsTr } from "@/data/tr/stratos";
 import { bentoSkillsTr, devopsSkillTr } from "@/data/tr/skills";
+import { projects } from "@/data/projects";
 
 const EM_DASH = "\u2014";
 
@@ -36,6 +37,8 @@ const SAME_IN_BOTH = new Set([
   "skills.githubLink",
   "closing.go",
   "footer.meta",
+  "projects.tags.full-stack",
+  "projects.tags.web",
 ]);
 
 describe("tr.json", () => {
@@ -60,6 +63,17 @@ describe("tr.json", () => {
     for (const [k, v] of enLeaves) {
       const names = (s: string) => (s.match(/\{\w+\}/g) ?? []).sort();
       expect(names(trMap.get(k) ?? ""), k).toEqual(names(v));
+    }
+  });
+});
+
+describe("project tag labels", () => {
+  const tags = [...new Set(projects.map((p) => p.tag))];
+
+  it("label every tag in projects.ts in both languages", () => {
+    for (const messages of [en, tr]) {
+      const labels: Record<string, string> = messages.projects.tags;
+      for (const tag of tags) expect(labels[tag], tag).toBeTruthy();
     }
   });
 });

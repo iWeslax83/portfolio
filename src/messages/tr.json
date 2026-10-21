@@ -6,7 +6,7 @@
     "ventures": "Girişimler",
     "contact": "İletişim",
     "caption": "Emir Sakarya · Bursa",
-    "statusLine1": "Bursa’da, Türkiye’de üretiyorum.",
+    "statusLine1": "Bursa, Türkiye’den üretiyorum.",
     "statusLine2": "Kurduğum ürünleri yayına alıyorum.",
     "getInTouch": "İletişime geç",
     "menu": "Menü",
@@ -28,7 +28,14 @@
     "workTitle": "İşler",
     "commits": "commit",
     "lastCommit": "son commit",
-    "screenshotAlt": "{title} ekran görüntüsü"
+    "screenshotAlt": "{title} ekran görüntüsü",
+    "tags": {
+      "competition": "yarışma",
+      "AI": "yapay zeka",
+      "simulation": "simülasyon",
+      "full-stack": "full-stack",
+      "web": "web"
+    }
   },
   "skills": {
     "statement": "Donanım × Yapay Zeka × Sahada Çalışan Yazılım",
@@ -59,7 +66,7 @@
     "barSkills": "Yetenekler",
     "railLeft": "Emir Sakarya · Kurucu ve Mühendis · Bursa / TR · N°01",
     "railRight": "Bölüm 01 · Hakkımda × Yetenekler · Keşfetmek için kaydır · 2026",
-    "p1": "Demo dışında da çalışması gereken şeyler yapıyorum: söylediği yere inmesi gereken bir İHA, biri kontrol ettiğinde ayakta kalması gereken bir denetim kaydı. Bu sayfada doğrulanamayan bir şey varsa, burada olmamalı.",
+    "p1": "Demo dışında da çalışması gereken şeyler yapıyorum: hedeflediği yere inmesi gereken bir İHA, biri incelediğinde tutarlı çıkması gereken bir denetim kaydı. Bu sayfada doğrulanamayan bir şey varsa, burada olmamalı.",
     "p2": "Bursa’da bir TEKNOFEST İHA topluluğu olan STRATOS İHA’yı kurdum; 25 kişilik mühendislik ekibinin elektronik ve yazılım tarafını yönetiyorum. Program ilk yılında TEKNOFEST 2026 döner kanat finaline (3.715 takım arasında 16.) ve NASA Space Apps Türkiye finaline çıktı.",
     "p3": "Hava aracında Pixhawk 6C, Raspberry Pi 5, ArduPilot ve OpenCV ile çalışıyorum, PCB tasarımı ve sensör füzyonu da işin içinde. Web tarafında önde React, Next.js ve TypeScript, arkada Node.js, FastAPI, Postgres ve Redis var; hepsini Docker, Kubernetes ve Vercel ile yayına alıyorum. Yapay zeka tarafında LangGraph ve Claude ile ajan sistemleri kuruyorum.",
     "p4": "Şu an üzerinde olduklarım: her yapay zeka ajanı eylemini hash zincirine bağlayıp EU AI Act, ISO 42001, NIST AI RMF ve SOC 2’ye göre denetleyen çok kiracılı platform Teluvane; BOSİAD destekli, 10’dan fazla şirkette 50.000’i aşkın yolculuğa ulaşan otonom mobilite girişimi Viyaro; ve NASA Space Apps 2025’te Türkiye birincisi olan (6.000’den fazla takım arasında küresel ilk 50) Zero-G Pharma. Tofaş Fen Lisesi öğrencisiyim, 2028’de mezun oluyorum."

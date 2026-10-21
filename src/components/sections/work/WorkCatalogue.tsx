@@ -4,6 +4,7 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { Messages } from "@/lib/messages";
+import type { Locale } from "@/lib/locales";
 import type { Project } from "@/lib/types";
 import type { RepoStats } from "@/lib/github-repo-stats";
 import StatusTag from "@/components/ui/status-tag";
@@ -61,6 +62,7 @@ export default function WorkCatalogue({
   title,
   t,
   status,
+  locale,
 }: {
   /** Every project, already in the page's language. */
   projects: Project[];
@@ -69,6 +71,7 @@ export default function WorkCatalogue({
   title: string;
   t: Messages["projects"];
   status: Messages["status"];
+  locale: Locale;
 }) {
   // The filter lives in the URL (?status=shipped), so a filtered list can
   // be shared. The page is static, so the server snapshot is always ALL.
@@ -200,7 +203,8 @@ export default function WorkCatalogue({
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2">
-                  {project.tag}
+                  {(t.tags as Record<string, string>)[project.tag] ??
+                    project.tag}
                 </span>
                 <StatusTag status={project.status} labels={statusLabels} />
               </div>
@@ -229,7 +233,7 @@ export default function WorkCatalogue({
                 <p className="mt-4 font-mono text-[11px] text-ink-2">
                   {repoStats[project.repo]!.commitCount} {t.commits} ·{" "}
                   {t.lastCommit}{" "}
-                  {formatDay(repoStats[project.repo]!.lastCommitDate)}
+                  {formatDay(repoStats[project.repo]!.lastCommitDate, locale)}
                 </p>
               )}
             </article>
