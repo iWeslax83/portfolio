@@ -157,9 +157,10 @@ export default function SiteHeader({
               href={RESUME_PATH}
               target="_blank"
               rel="noopener noreferrer"
+              hrefLang="en"
               className="underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
             >
-              {t.resume}
+              {t.resumeShort}
             </a>
           </p>
         </div>

@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { closeSync, openSync, readSync, statSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { closeSync, openSync, readFileSync, readSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
 const pdf = join(root, "public", "resume.pdf");
 const tex = join(root, "resume.tex");
+const sidecar = join(root, "src", "data", "resume-source.sha256");
 
 describe("public/resume.pdf", () => {
   it("exists and is a PDF", () => {
@@ -15,7 +17,11 @@ describe("public/resume.pdf", () => {
     expect(buf.toString("latin1")).toBe("%PDF-");
   });
 
-  it("is not older than resume.tex (run npm run resume)", () => {
-    expect(statSync(pdf).mtimeMs).toBeGreaterThanOrEqual(statSync(tex).mtimeMs);
+  it("was built from the current resume.tex", () => {
+    const current = createHash("sha256")
+      .update(readFileSync(tex))
+      .digest("hex");
+    const built = readFileSync(sidecar, "utf8").trim();
+    expect(built, "resume.tex changed: run npm run resume").toBe(current);
   });
 });

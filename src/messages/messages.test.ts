@@ -32,6 +32,7 @@ function strings(value: unknown): string[] {
 /** Values that read the same in both languages (names, handles, tech). */
 const SAME_IN_BOTH = new Set([
   "nav.caption",
+  "nav.resumeShort",
   "nav.langEn",
   "nav.langTr",
   "skills.githubLink",
