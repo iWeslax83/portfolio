@@ -10,6 +10,8 @@ import { fetchRepoStats } from "@/lib/github-repo-stats";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/lib/locales";
 import { localeAlternates } from "@/lib/locale-path";
+import JsonLd from "@/components/ui/json-ld";
+import { venturesJsonLd } from "@/lib/structured-data";
 import { loadMessages } from "@/lib/messages";
 
 export async function generateMetadata({
@@ -46,6 +48,7 @@ export default async function ProjectsPage({
   ]);
   return (
     <Frame>
+      <JsonLd data={venturesJsonLd(getVentures(locale))} />
       <SiteHeader t={m.nav} locale={locale} />
       <main id="main" tabIndex={-1} className="outline-none">
         <h1 className="border-b border-ink px-4 py-10 text-center font-display text-[clamp(3rem,12vw,10rem)] uppercase leading-[0.85] sm:px-10">

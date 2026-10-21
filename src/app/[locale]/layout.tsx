@@ -5,6 +5,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../../i18n/routing";
 import { localeAlternates } from "@/lib/locale-path";
+import JsonLd from "@/components/ui/json-ld";
+import { SITE_URL, personJsonLd } from "@/lib/structured-data";
 import SkipLink from "@/components/ui/skip-link";
 import SmoothScroll from "@/components/smooth-scroll";
 import { INTRO_SCRIPT } from "@/lib/intro-script";
@@ -18,7 +20,7 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-const metadataBase = new URL("https://emirsakarya.vercel.app");
+const metadataBase = new URL(SITE_URL);
 
 // Only the listed locales exist; anything else falls through to
 // app/global-not-found.tsx as a fully server-rendered 404.
@@ -76,38 +78,7 @@ export default async function LocaleLayout({
       </head>
       <body className="bg-frame text-ink antialiased">
         <SkipLink />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Emir Sakarya",
-              jobTitle:
-                "Founder & Head of Electronics & Software, STRATOS İHA · Embedded & Full-Stack Engineer",
-              url: "https://emirsakarya.vercel.app",
-              sameAs: [
-                "https://github.com/iWeslax83",
-                "https://linkedin.com/in/emirsakarya",
-                "https://www.stratosiha.com",
-              ],
-              worksFor: {
-                "@type": "Organization",
-                name: "STRATOS İHA",
-                url: "https://www.stratosiha.com",
-              },
-              alumniOf: {
-                "@type": "EducationalOrganization",
-                name: "Tofaş Fen Lisesi",
-              },
-              address: {
-                "@type": "PostalAddress",
-                addressLocality: "Bursa",
-                addressCountry: "TR",
-              },
-            }),
-          }}
-        />
+        <JsonLd data={personJsonLd()} />
         <SmoothScroll>{children}</SmoothScroll>
         <Analytics />
       </body>

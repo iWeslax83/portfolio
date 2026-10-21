@@ -10,6 +10,8 @@ import { getProjects } from "@/lib/localize";
 import { fetchRepoStats } from "@/lib/github-repo-stats";
 import type { Locale } from "@/lib/locales";
 import { localeAlternates } from "@/lib/locale-path";
+import JsonLd from "@/components/ui/json-ld";
+import { projectJsonLd } from "@/lib/structured-data";
 import { loadMessages } from "@/lib/messages";
 import {
   adjacentProjects,
@@ -57,6 +59,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
   ]);
   return (
     <Frame>
+      <JsonLd data={projectJsonLd(project, locale)} />
       <SiteHeader t={m.nav} locale={locale} />
       <main id="main" tabIndex={-1} className="outline-none">
         <ProjectDetail
