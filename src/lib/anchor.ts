@@ -1,3 +1,5 @@
+import { stripLocale } from "./locale-path";
+
 /** The bits of Lenis that anchor scrolling needs. */
 export interface ScrollerLike {
   animatedScroll: number;
@@ -27,14 +29,19 @@ export const expoOut = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 /**
  * Id of the section an in-page link points at, or null when the href is not
  * a same-page link (external, mailto, bare `#`, or another page). `/#id`
- * counts as in-page only when `pathname` is the home page.
+ * (or `/tr#id`) counts as in-page only when `pathname` is that home page.
  */
 export function hashTargetId(
   href: string | null | undefined,
   pathname?: string,
 ): string | null {
   if (!href) return null;
-  if (pathname === "/" && href.startsWith("/#")) href = href.slice(1);
+  if (pathname && stripLocale(pathname) === "/") {
+    // "/#" for English, "/tr#" for Turkish: the href form of this home page.
+    const home = pathname.replace(/\/$/, "");
+    const prefix = home === "" ? "/#" : `${home}#`;
+    if (href.startsWith(prefix)) href = href.slice(prefix.length - 1);
+  }
   if (!href.startsWith("#") || href.length < 2) return null;
   return href.slice(1);
 }

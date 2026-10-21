@@ -7,10 +7,15 @@ import {
   Metamorphous,
 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { routing } from "../../../i18n/routing";
+import { localeAlternates } from "@/lib/locale-path";
 import SkipLink from "@/components/ui/skip-link";
 import SmoothScroll from "@/components/smooth-scroll";
 import { INTRO_SCRIPT } from "@/lib/intro-script";
-import "./globals.css";
+import "../globals.css";
 
 // Mono: nav, labels, tickers, data readouts.
 const mono = JetBrains_Mono({
@@ -62,7 +67,7 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL("https://emirsakarya.vercel.app"),
   title: "Emir Sakarya - Founder & Engineer",
   description:
@@ -82,14 +87,35 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+/** Pages override `alternates` with their own path; this covers the home page. */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) return baseMetadata;
+  return { ...baseMetadata, alternates: localeAlternates(locale, "/") };
+}
+
+export default async function LocaleLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+  setRequestLocale(locale);
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${mono.variable} ${serif.variable} ${display.variable} ${condensed.variable} ${displayAccent.variable}`}
       // The intro script and Lenis add classes to <html> before and after
       // hydration; only this element's own attributes are exempted.

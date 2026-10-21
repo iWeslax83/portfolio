@@ -10,9 +10,10 @@ export interface NavItem {
 export const SECTION_IDS = ["home", "about", "work", "contact"] as const;
 
 /**
- * Five header cells, like the reference's. Absolute hrefs, so the same
- * links work from the projects page; on the home page the smooth-scroll
- * handler treats `/#id` as an in-page jump.
+ * Five header cells, like the reference's. Absolute English hrefs, so the
+ * same links work from the projects page; components pass them through
+ * `localizedPath` for `/tr`. On the home page the smooth-scroll handler
+ * treats `/#id` (or `/tr#id`) as an in-page jump.
  */
 export const navItems: NavItem[] = [
   { key: "about", href: "/#about", num: "01" },

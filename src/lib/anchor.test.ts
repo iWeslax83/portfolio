@@ -28,6 +28,12 @@ describe("hashTargetId", () => {
     expect(hashTargetId("/#about")).toBeNull();
     expect(hashTargetId("/#", "/")).toBeNull();
   });
+
+  it("treats /tr as a home page too", () => {
+    expect(hashTargetId("/tr#about", "/tr")).toBe("about");
+    expect(hashTargetId("/tr#about", "/")).toBe(null);
+    expect(hashTargetId("/#about", "/tr")).toBe(null);
+  });
 });
 
 function deps(overrides: Partial<ScrollDeps> = {}): ScrollDeps {

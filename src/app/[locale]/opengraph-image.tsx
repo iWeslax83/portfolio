@@ -1,10 +1,16 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { routing } from "../../../i18n/routing";
 
 export const alt = "Emir Sakarya - Founder & Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// One card per locale, rendered at build time like the pages.
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 // Satori needs TTF/OTF, not the woff2 next/font serves, so the OG card
 // reads its own copies of the site's two display faces (OFL, see the

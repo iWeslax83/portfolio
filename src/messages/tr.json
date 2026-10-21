@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "about": "About",
+    "work": "Work",
+    "projects": "Projects",
+    "ventures": "Ventures",
+    "contact": "Contact",
+    "caption": "Emir Sakarya · Bursa",
+    "statusLine1": "Building from Bursa, Türkiye.",
+    "statusLine2": "Shipping founder-built products.",
+    "getInTouch": "Get in touch",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "homeLabel": "Emir Sakarya, back to top",
+    "language": "Language",
+    "langEn": "English",
+    "langTr": "Türkçe"
+  },
+  "ventures": {
+    "title": "What I’ve Built"
+  },
+  "projects": {
+    "count": "{count} projects",
+    "allTitle": "All projects",
+    "listLabel": "Projects in the gallery"
+  },
+  "skills": {
+    "statement": "Hardware × AI × Production Software",
+    "githubLabel": "GitHub · live",
+    "publicRepos": "public repos",
+    "contributions": "contributions",
+    "githubUnavailable": "GitHub data unavailable right now.",
+    "githubLink": "github.com/iWeslax83"
+  },
+  "closing": {
+    "line1": "Let’s",
+    "line2": "Build",
+    "line3": "Something",
+    "line4": "Real",
+    "dreamBuild": "Dream it. Build it.",
+    "go": "GO",
+    "goLabel": "Go: email Emir Sakarya"
+  },
+  "footer": {
+    "colophon": "Designed and built by Emir Sakarya in Bursa, Türkiye.",
+    "meta": "Next.js · 2026",
+    "wordmark": "FOUNDER ENGINEER",
+    "contactHeading": "Contact",
+    "navHeading": "Navigation"
+  },
+  "about": {
+    "barAbout": "About",
+    "barSkills": "Skills",
+    "railLeft": "Emir Sakarya · Founder & Engineer · Bursa / TR · N°01",
+    "railRight": "Section 01 · About × Skills · Scroll to explore · 2026",
+    "p1": "I build things that have to work outside a demo: a drone that has to land where it said it would, an audit log that has to hold up when someone checks it. If something on this page can’t be checked, it shouldn’t be here.",
+    "p2": "I founded STRATOS İHA, a TEKNOFEST UAV community in Bursa, and lead electronics and software for its 25-person engineering org. In its first year the program reached the TEKNOFEST 2026 rotorcraft final (16th of 3,715 teams) and the NASA Space Apps Turkey final.",
+    "p3": "On the aircraft I work with Pixhawk 6C, Raspberry Pi 5, ArduPilot and OpenCV, plus PCB design and sensor fusion. On the web it’s React, Next.js and TypeScript up front, Node.js, FastAPI, Postgres and Redis behind them, shipped with Docker, Kubernetes and Vercel. For AI I build agent systems with LangGraph and Claude.",
+    "p4": "Right now: Teluvane, a multi-tenant platform that hash-chains every AI agent action against EU AI Act, ISO 42001, NIST AI RMF and SOC 2; Viyaro, a BOSİAD-funded autonomous mobility venture with 50,000+ rides across 10+ companies; and Zero-G Pharma, first in Türkiye at NASA Space Apps 2025 (global top 50 of 6,000+ teams). Student at Tofaş Fen Lisesi, class of 2028."
+  }
+}

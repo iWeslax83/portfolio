@@ -1,4 +1,6 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { localizedPath } from "@/lib/locale-path";
+import type { Locale } from "../../../../i18n/routing";
 import { projects } from "@/data/projects";
 import { galleryProjects } from "@/lib/work-gallery";
 import WorkIntro from "./WorkIntro";
@@ -12,6 +14,7 @@ import StaticGallery from "./StaticGallery";
  */
 export default function Work() {
   const t = useTranslations("projects");
+  const locale = useLocale() as Locale;
   const items = galleryProjects(projects);
   return (
     <section id="work" aria-labelledby="work-title">
@@ -39,7 +42,7 @@ export default function Work() {
             ) : null;
           })}
           <li>
-            <a href="/projects" className="link-draw">
+            <a href={localizedPath(locale, "/projects")} className="link-draw">
               {t("allTitle")} · {t("count", { count: projects.length })}
             </a>
           </li>

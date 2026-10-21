@@ -8,6 +8,9 @@ import { Menu } from "lucide-react";
 import { SECTION_IDS, navItems } from "@/data/nav-items";
 import { useActiveSection } from "@/lib/use-active-section";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/social-icons";
+import LocaleSwitch from "@/components/ui/locale-switch";
+import { localizedPath, stripLocale } from "@/lib/locale-path";
+import type { Locale } from "../../i18n/routing";
 import MobileNav from "./mobile-nav";
 
 const socialCell =
@@ -18,17 +21,25 @@ const socialCell =
  * Desktop: logo, caption, nav, social, two-line tagline. Below lg: logo and
  * a burger that opens the full-screen menu.
  */
-export default function SiteHeader({ t }: { t: Messages["nav"] }) {
+export default function SiteHeader({
+  t,
+  locale,
+}: {
+  t: Messages["nav"];
+  locale: Locale;
+}) {
   const [open, setOpen] = useState(false);
   const active = useActiveSection(SECTION_IDS);
-  const pathname = usePathname();
+  const pathname = stripLocale(usePathname());
+  const href = (path: string) => localizedPath(locale, path);
+  const langLabels = { en: t.langEn, tr: t.langTr, label: t.language };
 
   return (
     <header className="relative z-40 border-b border-ink bg-bg">
       <div data-intro="header-row" className="flex h-16 lg:h-24">
-        {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- a plain hash link: on the home page the smooth-scroll handler takes it, elsewhere it is a normal load */}
+        {/* A plain hash link: on the home page the smooth-scroll handler takes it, elsewhere it is a normal load */}
         <a
-          href="/#home"
+          href={href("/#home")}
           aria-label={t.homeLabel}
           data-intro="header-cell"
           className="flex w-16 shrink-0 items-center justify-center border-r border-ink transition-colors duration-[350ms] hover:bg-ink focus-visible:bg-ink active:bg-ink lg:w-24"
@@ -65,7 +76,7 @@ export default function SiteHeader({ t }: { t: Messages["nav"] }) {
             return (
               <a
                 key={item.key}
-                href={item.href}
+                href={href(item.href)}
                 aria-current={isActive ? "true" : undefined}
                 className="group flex flex-1 items-center justify-center font-mono text-sm uppercase tracking-[0.05em] text-ink transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg"
               >
@@ -116,6 +127,18 @@ export default function SiteHeader({ t }: { t: Messages["nav"] }) {
 
         <div
           data-intro="header-cell"
+          className="hidden w-12 shrink-0 border-r border-ink lg:flex"
+        >
+          <LocaleSwitch
+            locale={locale}
+            labels={langLabels}
+            className="flex flex-1 flex-col [&>a:first-child]:border-b [&>a:first-child]:border-ink"
+            linkClassName={`${socialCell} font-mono text-xs uppercase tracking-[0.05em] duration-[350ms] focus-visible:bg-ink focus-visible:text-bg`}
+          />
+        </div>
+
+        <div
+          data-intro="header-cell"
           className="hidden w-[22rem] shrink-0 flex-col lg:flex xl:w-[28rem]"
         >
           <p className="flex flex-1 items-center border-b border-ink px-5 font-serif text-lg leading-none xl:text-[22px]">
@@ -123,9 +146,8 @@ export default function SiteHeader({ t }: { t: Messages["nav"] }) {
           </p>
           <p className="flex flex-1 items-center gap-[0.3em] px-5 font-serif text-lg leading-none xl:text-[22px]">
             {t.statusLine2}
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- see the logo link */}
             <a
-              href="/#contact"
+              href={href("/#contact")}
               className="underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
             >
               {t.getInTouch}
@@ -146,7 +168,12 @@ export default function SiteHeader({ t }: { t: Messages["nav"] }) {
         </button>
       </div>
 
-      <MobileNav open={open} onClose={() => setOpen(false)} t={t} />
+      <MobileNav
+        open={open}
+        onClose={() => setOpen(false)}
+        t={t}
+        locale={locale}
+      />
     </header>
   );
 }

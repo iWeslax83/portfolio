@@ -4,6 +4,8 @@ import type { Messages } from "@/lib/messages";
 import { navItems } from "@/data/nav-items";
 import { contactLinks } from "@/data/contact";
 import DotPattern from "@/components/ui/dot-pattern";
+import { localizedPath } from "@/lib/locale-path";
+import type { Locale } from "../../i18n/routing";
 
 const heading =
   "mb-5 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-bg/60";
@@ -11,9 +13,11 @@ const heading =
 export default function Footer({
   t,
   nav,
+  locale,
 }: {
   t: Messages["footer"];
   nav: Messages["nav"];
+  locale: Locale;
 }) {
   return (
     <footer>
@@ -79,7 +83,7 @@ export default function Footer({
                 {navItems.map((item) => (
                   <li key={item.key}>
                     <a
-                      href={item.href}
+                      href={localizedPath(locale, item.href)}
                       className="group flex items-baseline justify-between font-serif text-xl transition-opacity duration-[350ms] hover:opacity-70 focus-visible:opacity-70 active:opacity-70"
                     >
                       {nav[item.key]}

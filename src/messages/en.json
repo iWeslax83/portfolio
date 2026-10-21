@@ -12,7 +12,10 @@
     "menu": "Menu",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "homeLabel": "Emir Sakarya, back to top"
+    "homeLabel": "Emir Sakarya, back to top",
+    "language": "Language",
+    "langEn": "English",
+    "langTr": "Türkçe"
   },
   "ventures": {
     "title": "What I’ve Built"

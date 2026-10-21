@@ -6,16 +6,21 @@ import { X } from "lucide-react";
 import { navItems } from "@/data/nav-items";
 import { hashTargetId } from "@/lib/anchor";
 import { getLenis, scrollToId } from "@/lib/smooth-scroll";
+import { localizedPath } from "@/lib/locale-path";
+import LocaleSwitch from "@/components/ui/locale-switch";
+import type { Locale } from "../../i18n/routing";
 
 /** Full-screen black menu sheet with numbered serif links. */
 export default function MobileNav({
   open,
   onClose,
   t,
+  locale,
 }: {
   open: boolean;
   onClose: () => void;
   t: Messages["nav"];
+  locale: Locale;
 }) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -110,7 +115,7 @@ export default function MobileNav({
         {navItems.map((item) => (
           <a
             key={item.key}
-            href={item.href}
+            href={localizedPath(locale, item.href)}
             onClick={onNavigate}
             className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
           >
@@ -119,6 +124,13 @@ export default function MobileNav({
           </a>
         ))}
       </nav>
+
+      <LocaleSwitch
+        locale={locale}
+        labels={{ en: t.langEn, tr: t.langTr, label: t.language }}
+        className="mt-8 flex gap-6 font-mono text-xs uppercase tracking-[0.1em]"
+        linkClassName="py-2 transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
+      />
 
       <div className="mt-auto flex gap-6 font-mono text-xs uppercase tracking-[0.1em] text-bg/70">
         <a
