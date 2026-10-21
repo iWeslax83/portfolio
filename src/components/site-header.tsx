@@ -65,7 +65,7 @@ export default function SiteHeader({
         </div>
 
         <nav
-          aria-label="Primary"
+          aria-label={t.primaryLabel}
           data-intro="header-cell"
           className="hidden flex-1 border-r border-ink lg:flex"
         >
@@ -81,10 +81,10 @@ export default function SiteHeader({
                 aria-current={isActive ? "true" : undefined}
                 className="group flex flex-1 items-center justify-center font-mono text-sm uppercase tracking-[0.05em] text-ink transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg"
               >
-                {/* Cell fills on hover and an arrow slides in, as on the reference. */}
+                {/* Cell fills on hover; from xl an arrow also slides in, as on the reference. Below xl the Turkish labels fill their cells, so it stays out. */}
                 <span
                   aria-hidden
-                  className="w-0 overflow-hidden text-[10px] opacity-0 transition-all duration-[350ms] group-hover:mr-2 group-hover:w-2 group-hover:opacity-100 group-focus-visible:mr-2 group-focus-visible:w-2 group-focus-visible:opacity-100"
+                  className="hidden w-0 overflow-hidden text-[10px] opacity-0 transition-all duration-[350ms] group-hover:mr-2 group-hover:w-2 group-hover:opacity-100 group-focus-visible:mr-2 group-focus-visible:w-2 group-focus-visible:opacity-100 xl:inline"
                 >
                   ▸
                 </span>
