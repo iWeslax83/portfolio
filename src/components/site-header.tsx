@@ -10,7 +10,7 @@ import { useActiveSection } from "@/lib/use-active-section";
 import { GitHubIcon, LinkedInIcon } from "@/components/ui/social-icons";
 import LocaleSwitch from "@/components/ui/locale-switch";
 import { localizedPath, stripLocale } from "@/lib/locale-path";
-import type { Locale } from "../../i18n/routing";
+import type { Locale } from "@/lib/locales";
 import MobileNav from "./mobile-nav";
 
 const socialCell =

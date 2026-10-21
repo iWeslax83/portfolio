@@ -1,4 +1,4 @@
-import { routing, type Locale } from "../../i18n/routing";
+import { DEFAULT_LOCALE, LOCALES, type Locale } from "./locales";
 
 /** A path with a file extension in its last segment (`/resume.pdf`). */
 function isStaticFile(path: string): boolean {
@@ -12,7 +12,7 @@ function isStaticFile(path: string): boolean {
  * static files are returned untouched.
  */
 export function localizedPath(locale: Locale, href: string): string {
-  if (locale === routing.defaultLocale || !href.startsWith("/")) return href;
+  if (locale === DEFAULT_LOCALE || !href.startsWith("/")) return href;
   if (href.startsWith("//")) return href;
   const cut = href.search(/[?#]/);
   const path = cut === -1 ? href : href.slice(0, cut);
@@ -27,7 +27,7 @@ export function localizedPath(locale: Locale, href: string): string {
  * during prerendering, so server and client agree.
  */
 export function stripLocale(pathname: string): string {
-  for (const locale of routing.locales) {
+  for (const locale of LOCALES) {
     if (pathname === `/${locale}`) return "/";
     if (pathname.startsWith(`/${locale}/`)) {
       return pathname.slice(locale.length + 1);
@@ -49,10 +49,23 @@ export function localeAlternates(locale: Locale, path: string) {
   return {
     canonical: localizedPath(locale, path),
     languages: {
-      ...Object.fromEntries(
-        routing.locales.map((l) => [l, localizedPath(l, path)]),
-      ),
-      "x-default": localizedPath(routing.defaultLocale, path),
+      ...Object.fromEntries(LOCALES.map((l) => [l, localizedPath(l, path)])),
+      "x-default": localizedPath(DEFAULT_LOCALE, path),
     },
   };
+}
+
+/**
+ * Regex source matching every locale's home pathname: `/`, `/tr`, `/tr/`.
+ * Exported as a string so the inline intro script can embed it.
+ */
+export const HOME_PATH_SOURCE = `^/(?:(?:${LOCALES.filter(
+  (l) => l !== DEFAULT_LOCALE,
+).join("|")})/?)?$`;
+
+const HOME_PATH = new RegExp(HOME_PATH_SOURCE);
+
+/** True on any locale's home page. */
+export function isHomePath(pathname: string): boolean {
+  return HOME_PATH.test(pathname);
 }

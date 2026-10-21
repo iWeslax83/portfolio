@@ -1,6 +1,6 @@
 import { useLocale, useTranslations } from "next-intl";
 import { localizedPath } from "@/lib/locale-path";
-import type { Locale } from "../../../../i18n/routing";
+import type { Locale } from "@/lib/locales";
 import { projects } from "@/data/projects";
 import { galleryProjects } from "@/lib/work-gallery";
 import WorkIntro from "./WorkIntro";

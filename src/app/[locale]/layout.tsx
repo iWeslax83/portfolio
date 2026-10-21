@@ -1,11 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import {
-  JetBrains_Mono,
-  Instrument_Serif,
-  Anton,
-  Oswald,
-  Metamorphous,
-} from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -15,50 +8,8 @@ import { localeAlternates } from "@/lib/locale-path";
 import SkipLink from "@/components/ui/skip-link";
 import SmoothScroll from "@/components/smooth-scroll";
 import { INTRO_SCRIPT } from "@/lib/intro-script";
+import { fontVariables } from "../site-fonts";
 import "../globals.css";
-
-// Mono: nav, labels, tickers, data readouts.
-const mono = JetBrains_Mono({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "700"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
-
-// Body serif: narrow editorial serif for reading copy and the header
-// tagline. A free stand-in chosen for structure, not a copy of any paid face.
-const serif = Instrument_Serif({
-  subsets: ["latin", "latin-ext"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument",
-  display: "swap",
-});
-
-// Condensed display: bento words, WORK letters, venture names, closing
-// headline, footer wordmark.
-const display = Anton({
-  subsets: ["latin", "latin-ext"],
-  weight: "400",
-  variable: "--font-anton",
-  display: "swap",
-});
-
-// DREAM IT / BUILD IT only.
-const condensed = Oswald({
-  subsets: ["latin", "latin-ext"],
-  weight: ["700"],
-  variable: "--font-oswald",
-  display: "swap",
-});
-
-// Hero title only.
-const displayAccent = Metamorphous({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-metamorphous",
-  display: "swap",
-});
 
 // The browser chrome matches the black page frame; the site has no dark
 // theme, so form controls and scrollbars stay light.
@@ -86,6 +37,10 @@ const baseMetadata: Metadata = {
   },
   robots: { index: true, follow: true },
 };
+
+// Only the listed locales exist; anything else falls through to
+// app/global-not-found.tsx as a fully server-rendered 404.
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -116,7 +71,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${mono.variable} ${serif.variable} ${display.variable} ${condensed.variable} ${displayAccent.variable}`}
+      className={fontVariables}
       // The intro script and Lenis add classes to <html> before and after
       // hydration; only this element's own attributes are exempted.
       suppressHydrationWarning

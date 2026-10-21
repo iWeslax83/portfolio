@@ -8,7 +8,7 @@ import WorkCatalogue from "@/components/sections/work/WorkCatalogue";
 import { projects } from "@/data/projects";
 import { fetchRepoStats } from "@/lib/github-repo-stats";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import type { Locale } from "../../../../i18n/routing";
+import type { Locale } from "@/lib/locales";
 import { localeAlternates } from "@/lib/locale-path";
 import { loadMessages } from "@/lib/messages";
 

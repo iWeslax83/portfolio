@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: import.meta.dirname,
   },
+  experimental: {
+    // app/global-not-found.tsx: the site 404 for paths outside [locale].
+    globalNotFound: true,
+  },
   images: {
     formats: ["image/webp"],
   },

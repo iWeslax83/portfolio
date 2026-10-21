@@ -8,7 +8,7 @@ import { hashTargetId } from "@/lib/anchor";
 import { getLenis, scrollToId } from "@/lib/smooth-scroll";
 import { localizedPath } from "@/lib/locale-path";
 import LocaleSwitch from "@/components/ui/locale-switch";
-import type { Locale } from "../../i18n/routing";
+import type { Locale } from "@/lib/locales";
 
 /** Full-screen black menu sheet with numbered serif links. */
 export default function MobileNav({

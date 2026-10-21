@@ -5,7 +5,7 @@ import { navItems } from "@/data/nav-items";
 import { contactLinks } from "@/data/contact";
 import DotPattern from "@/components/ui/dot-pattern";
 import { localizedPath } from "@/lib/locale-path";
-import type { Locale } from "../../i18n/routing";
+import type { Locale } from "@/lib/locales";
 
 const heading =
   "mb-5 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-bg/60";

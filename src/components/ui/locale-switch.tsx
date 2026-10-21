@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import type { Locale } from "../../../i18n/routing";
+import type { Locale } from "@/lib/locales";
 import { switchLocalePath } from "@/lib/locale-path";
 
 const LOCALES: Locale[] = ["en", "tr"];

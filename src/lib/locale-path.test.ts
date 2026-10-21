@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { localizedPath, stripLocale, switchLocalePath } from "./locale-path";
+import {
+  isHomePath,
+  localizedPath,
+  stripLocale,
+  switchLocalePath,
+} from "./locale-path";
 
 describe("localizedPath", () => {
   it("leaves English paths unprefixed", () => {
@@ -45,5 +50,21 @@ describe("stripLocale", () => {
     expect(stripLocale("/")).toBe("/");
     expect(stripLocale("/projects")).toBe("/projects");
     expect(stripLocale("/trivia")).toBe("/trivia");
+  });
+});
+
+describe("isHomePath", () => {
+  it("matches every locale home, with or without a trailing slash", () => {
+    expect(isHomePath("/")).toBe(true);
+    expect(isHomePath("/tr")).toBe(true);
+    expect(isHomePath("/tr/")).toBe(true);
+  });
+
+  it("rejects every other page", () => {
+    expect(isHomePath("/projects")).toBe(false);
+    expect(isHomePath("/tr/projects")).toBe(false);
+    expect(isHomePath("/trivia")).toBe(false);
+    expect(isHomePath("/en")).toBe(false);
+    expect(isHomePath("")).toBe(false);
   });
 });

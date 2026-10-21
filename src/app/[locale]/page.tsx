@@ -1,5 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
-import type { Locale } from "../../../i18n/routing";
+import type { Locale } from "@/lib/locales";
 import Frame from "@/components/frame";
 import SiteHeader from "@/components/site-header";
 import Footer from "@/components/footer";
