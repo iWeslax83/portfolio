@@ -10,12 +10,14 @@ import { getProjects } from "@/lib/localize";
 import { fetchRepoStats } from "@/lib/github-repo-stats";
 import type { Locale } from "@/lib/locales";
 import { localeAlternates } from "@/lib/locale-path";
+import { shareMetadata } from "@/lib/share-metadata";
 import JsonLd from "@/components/ui/json-ld";
 import { projectJsonLd } from "@/lib/structured-data";
 import { loadMessages } from "@/lib/messages";
 import {
   adjacentProjects,
   firstSentence,
+  metaDescription,
   orderedProjects,
 } from "@/lib/project-nav";
 import { projects } from "@/data/projects";
@@ -39,10 +41,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = (await params) as { locale: Locale; slug: string };
   const project = getProjects(locale).find((p) => p.slug === slug)!;
+  const path = `/projects/${slug}`;
+  const title = `${project.title} - Emir Sakarya`;
+  const description = metaDescription(firstSentence(project.description));
   return {
-    title: `${project.title} - Emir Sakarya`,
-    description: firstSentence(project.description),
-    alternates: localeAlternates(locale, `/projects/${slug}`),
+    title,
+    description,
+    alternates: localeAlternates(locale, path),
+    ...shareMetadata({ locale, path, title, description, type: "article" }),
   };
 }
 

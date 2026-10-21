@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import Frame from "@/components/frame";
 import SiteHeader from "@/components/site-header";
 import Footer from "@/components/footer";
@@ -10,21 +10,35 @@ import { fetchRepoStats } from "@/lib/github-repo-stats";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/lib/locales";
 import { localeAlternates } from "@/lib/locale-path";
+import { shareMetadata } from "@/lib/share-metadata";
 import JsonLd from "@/components/ui/json-ld";
 import { venturesJsonLd } from "@/lib/structured-data";
 import { loadMessages } from "@/lib/messages";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  {
+    params,
+  }: {
+    params: Promise<{ locale: string }>;
+  },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const locale = (await params).locale as Locale;
   const t = await getTranslations({ locale, namespace: "meta" });
+  const title = t("projectsTitle");
+  const description = t("projectsDescription");
   return {
-    title: t("projectsTitle"),
-    description: t("projectsDescription"),
+    title,
+    description,
     alternates: localeAlternates(locale, "/projects"),
+    ...shareMetadata({
+      locale,
+      path: "/projects",
+      title,
+      description,
+      type: "website",
+      parent: await parent,
+    }),
   };
 }
 

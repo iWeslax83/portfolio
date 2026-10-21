@@ -30,3 +30,18 @@ export function firstSentence(text: string): string {
   const match = text.match(/^[\s\S]*?[.!?](?=\s)/);
   return (match ? match[0] : text).trim();
 }
+
+/**
+ * `text` capped at `max` characters for a meta description. Longer text is
+ * cut at the last space that leaves room for a trailing "…", with trailing
+ * punctuation dropped; a single word longer than the cap is cut hard.
+ */
+export function metaDescription(text: string, max = 160): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= max) return clean;
+  const room = clean.slice(0, max - 1);
+  // A word that ends right at the cut stays whole.
+  const space = clean[max - 1] === " " ? room.length : room.lastIndexOf(" ");
+  const cut = space > 0 ? room.slice(0, space) : room;
+  return `${cut.replace(/[\s,;:.!?-]+$/, "")}…`;
+}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "../../../../../i18n/routing";
 import Frame from "@/components/frame";
@@ -9,7 +9,9 @@ import { notes, loadNote } from "@/content/notes";
 import { SHOW_DRAFTS, publishedNotes, type NoteMeta } from "@/lib/notes";
 import type { Locale } from "@/lib/locales";
 import { localizedPath } from "@/lib/locale-path";
+import { shareMetadata } from "@/lib/share-metadata";
 import { formatDay } from "@/lib/format-date";
+import { metaDescription } from "@/lib/project-nav";
 import { loadMessages, type Messages } from "@/lib/messages";
 
 type Params = Promise<{ locale: string; slug?: string[] }>;
@@ -35,28 +37,50 @@ function englishOnly(path: string): Metadata["alternates"] {
   return { canonical: localizedPath("en", path) };
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: Params },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const { locale, slug } = (await params) as {
     locale: Locale;
     slug?: string[];
   };
   const note = slug && listed.find((n) => n.slug === slug[0]);
   if (note) {
+    const path = `/notes/${note.slug}`;
+    const title = `${note.title} - Emir Sakarya`;
+    const description = metaDescription(note.summary);
     return {
-      title: `${note.title} - Emir Sakarya`,
-      description: note.summary,
-      alternates: englishOnly(`/notes/${note.slug}`),
+      title,
+      description,
+      alternates: englishOnly(path),
+      ...shareMetadata({
+        locale,
+        path,
+        canonicalPath: localizedPath("en", path),
+        title,
+        description,
+        type: "article",
+        parent: await parent,
+      }),
     };
   }
   const t = await getTranslations({ locale, namespace: "meta" });
+  const title = t("notesTitle");
+  const description = t("notesDescription");
   return {
-    title: t("notesTitle"),
-    description: t("notesDescription"),
+    title,
+    description,
     alternates: englishOnly("/notes"),
+    ...shareMetadata({
+      locale,
+      path: "/notes",
+      canonicalPath: localizedPath("en", "/notes"),
+      title,
+      description,
+      type: "website",
+      parent: await parent,
+    }),
   };
 }
 

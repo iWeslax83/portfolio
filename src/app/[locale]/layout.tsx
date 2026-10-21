@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "../../../i18n/routing";
 import { localeAlternates } from "@/lib/locale-path";
+import { shareMetadata } from "@/lib/share-metadata";
 import JsonLd from "@/components/ui/json-ld";
 import { SITE_URL, personJsonLd } from "@/lib/structured-data";
 import SkipLink from "@/components/ui/skip-link";
@@ -47,8 +48,13 @@ export async function generateMetadata({
     metadataBase,
     title,
     description: t("description"),
-    openGraph: { title, description: share, type: "website" },
-    twitter: { card: "summary_large_image", title, description: share },
+    ...shareMetadata({
+      locale,
+      path: "/",
+      title,
+      description: share,
+      type: "website",
+    }),
     robots: { index: true, follow: true },
     alternates: localeAlternates(locale, "/"),
   };
