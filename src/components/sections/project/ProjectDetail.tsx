@@ -5,7 +5,7 @@ import type { Project } from "@/lib/types";
 import type { RepoStats } from "@/lib/github-repo-stats";
 import StatusTag, { type StatusLabels } from "@/components/ui/status-tag";
 import ProjectLinks from "@/components/sections/work/ProjectLinks";
-import { SECTION_BAR } from "@/components/sections/about/AboutSkills";
+import { SECTION_BAR } from "@/components/sections/section-bar";
 import { localizedPath } from "@/lib/locale-path";
 import { formatDay } from "@/lib/format-date";
 

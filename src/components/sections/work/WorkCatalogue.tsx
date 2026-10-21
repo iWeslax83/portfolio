@@ -13,7 +13,7 @@ import {
   searchForFilter,
   type CatalogFilterValue,
 } from "@/lib/catalog-filter";
-import { SECTION_BAR } from "@/components/sections/about/AboutSkills";
+import { SECTION_BAR } from "@/components/sections/section-bar";
 import { gsap, ScrollTrigger, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
 import { formatDay } from "@/lib/format-date";

@@ -5,6 +5,7 @@
     "projects": "Projeler",
     "ventures": "Girişimler",
     "contact": "İletişim",
+    "notes": "Notlar",
     "caption": "Emir Sakarya · Bursa",
     "statusLine1": "Bursa, Türkiye’den üretiyorum.",
     "statusLine2": "Kurduğum ürünleri çıkarıyorum.",
@@ -46,6 +47,13 @@
     "navLabel": "Diğer projeler",
     "previous": "Önceki",
     "next": "Sonraki"
+  },
+  "notes": {
+    "heading": "Notlar",
+    "back": "Tüm notlar",
+    "englishMarker": "(EN)",
+    "draft": "Taslak",
+    "englishOnly": "Notlar İngilizce yazılıyor."
   },
   "skills": {
     "statement": "Donanım × Yapay Zeka × Sahada Çalışan Yazılım",
@@ -95,6 +103,8 @@
     "description": "STRATOS İHA’nın kurucusu, elektronik ve yazılım sorumlusu. Bursa’da otonom İHA’lar, yapay zeka sistemleri ve gerçek kullanımda web uygulamaları geliştiren gömülü sistemler ve full-stack mühendisi.",
     "shareDescription": "STRATOS İHA’nın kurucusu, elektronik ve yazılım sorumlusu. Otonom İHA’ları ve onları çalıştıran yazılımı geliştiriyorum.",
     "projectsTitle": "Projeler - Emir Sakarya",
-    "projectsDescription": "Emir Sakarya’nın kurduğu ve geliştirdiği tüm proje ve girişimler: İHA’lar, yapay zeka ajanları, full-stack uygulamalar ve arkalarındaki şirketler."
+    "projectsDescription": "Emir Sakarya’nın kurduğu ve geliştirdiği tüm proje ve girişimler: İHA’lar, yapay zeka ajanları, full-stack uygulamalar ve arkalarındaki şirketler.",
+    "notesTitle": "Notlar - Emir Sakarya",
+    "notesDescription": "Emir Sakarya’nın projelerinin nasıl çalıştığını, anlattığı kodla birlikte açıkladığı kısa yazılar."
   }
 }

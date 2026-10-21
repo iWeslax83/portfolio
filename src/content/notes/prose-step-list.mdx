@@ -1,0 +1,64 @@
+PROSE takes one sentence, like "get the top 5 Hacker News titles, bullet them, draft an email", and turns it into a typed task graph that an engine runs step by step. I built it for the TREX 2026 AI hackathon, and one decision made the rest of it work: the model never writes the graph.
+
+## The problem with asking for a graph
+
+A task graph in PROSE is a real data structure. `lib/schema.ts` defines it with Zod. Every `TaskNode` has an `id`, a `seamId` that ties it back to a clause of the sentence, a tool and method, params, a list of `inputs`, an `outputType`, and optional `branch` and `verify` predicates. Every `TaskEdge` has its own id, a `from`, a `to`, and a kind, `data` or `branch`. On top of that sits a checksum over the whole plan.
+
+Asking a model to emit all of that as JSON means asking it to keep a lot of bookkeeping straight at once: unique ids, edges that point at nodes that exist, inputs that agree with the edges, a checksum that matches the content. Get any one of those wrong and the graph is invalid. Picking tools and params is the part a model can do. The bookkeeping is the part I didn't want to trust it with.
+
+## What the model is allowed to say
+
+So the prompt in `lib/providers/llm.ts` asks for something much smaller. The model returns strict JSON of the shape `{"steps":[...]}`, and each step fills in `PlanStep` from `lib/providers/assemble.ts`:
+
+```ts
+export interface PlanStep {
+  tool: string;
+  method: string;
+  params?: Record<string, unknown>;
+  /** feed the previous producing node's whole output into this step */
+  consumesPrevious?: boolean;
+  /** kind hint for the clause label */
+  kind?: Clause["kind"];
+  /** a condition over the previous node's output that gates this step */
+  condition?: {
+    field: string;
+    op: Predicate["op"];
+    label?: string;
+    value?: unknown;
+  };
+}
+```
+
+The step list leaves out ids, edges, output types and the checksum. "This step uses the output of the one before it" is a boolean. A branch is a condition on the previous step's output. The request goes out at temperature 0, and `parseSteps` cuts the JSON object out of the reply, so a model that wraps its answer in a code fence still parses. A reply with no steps throws.
+
+## What the engine owns
+
+`assembleFromSteps` walks that list in order and builds the graph itself. For each step it looks the tool up in the registry, and an unknown tool drops that one step while the plan carries on. Then it checks the params against that tool's Zod schema and drops the step if they fail. One special case: `math.eval` only evaluates literal arithmetic, and the comment in the file says models reach for it to "average" or "sum" another step's output. The engine drops those with this check:
+
+```ts
+if (!/^[\d\s+\-*/%.()]+$/.test(expr) || !/\d/.test(expr)) continue;
+```
+
+Only the steps that survive get a number. A counter called `seq` goes up once per survivor, the node id is `n${seq}`, and the seam id is the same number padded to two digits. Dropped steps never take a number, so the ids have no gaps.
+
+When a step sets `consumesPrevious`, the engine adds the previous node's id to `inputs`. For text and email tools it also fills in a reference like `$n1` as the text or body, and for `aggregate` it fills in `items`, so the executor knows where the data comes from. The engine builds edges from `inputs`, and the only id that can land in `inputs` belongs to the node added just before, so every edge points at a node already in the graph. The output type comes from the tool definition.
+
+If no step survives, the compiler throws a `CompileError` that asks you to rephrase the intent. Otherwise the last thing it does is stamp the checksum.
+
+## The checksum
+
+`lib/checksum.ts` has no crypto import, so it runs the same in Node and edge runtimes. `stableStringify` sorts object keys recursively, so key order can't change the hash. `graphChecksum` hashes the trimmed sentence plus the nodes and edges with 32-bit FNV-1a and formats the result as `ps:`, four hex digits, and the node count. The `checksum`, `ticks` and `compiledBy` fields stay out of the hash on purpose, so the provider that compiled a plan doesn't change its identity.
+
+Since the engine produces the nodes, the edges and the hash, the model has no way to hand back a checksum that disagrees with its graph.
+
+## When the model fails anyway
+
+All of this sits inside a `try` in `makeLLMProvider`. If the HTTP call fails, the reply has no steps, or assembly throws, PROSE logs a warning and compiles the sentence with the deterministic mock compiler in `lib/providers/mock.ts`. `selectProvider` in `lib/providers/index.ts` makes the same choice up front when a hosted provider is set but its key is missing. That is why the deployed app works with no environment variables at all.
+
+Step dropping came later than the rest. The commit that added it, `d4ba623`, is titled "compiler: drop malformed/impossible LLM steps instead of failing the run". Before that commit, a sloppy step could fail the whole run. After it, the rest of the graph still executes.
+
+## What I took from it
+
+I let the model choose the tools, the params and the order, and I keep it away from anything code can derive. Ids, edges, types and hashes all follow from the step list, so the model never writes them. A bad reply now costs a step at most, and the engine still gets a graph whose edges and checksum agree.
+
+The source is at [github.com/iWeslax83/prose](https://github.com/iWeslax83/prose), and the files named above are the place to start.

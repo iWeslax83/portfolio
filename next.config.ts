@@ -1,7 +1,10 @@
+import createMDX from "@next/mdx";
 import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
+// Notes in src/content/notes are .mdx; mdx-components.tsx styles them.
+const withMDX = createMDX();
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -14,6 +17,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   // Pin the workspace root so Turbopack doesn't infer a parent dir when stray
   // lockfiles exist higher up the tree (otherwise module resolution breaks).
   turbopack: {
@@ -36,4 +40,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default withNextIntl(withMDX(nextConfig));

@@ -5,6 +5,7 @@
     "projects": "Projects",
     "ventures": "Ventures",
     "contact": "Contact",
+    "notes": "Notes",
     "caption": "Emir Sakarya · Bursa",
     "statusLine1": "Building from Bursa, Türkiye.",
     "statusLine2": "Shipping founder-built products.",
@@ -46,6 +47,13 @@
     "navLabel": "Other projects",
     "previous": "Previous",
     "next": "Next"
+  },
+  "notes": {
+    "heading": "Notes",
+    "back": "All notes",
+    "englishMarker": "(EN)",
+    "draft": "Draft",
+    "englishOnly": "Notes are written in English."
   },
   "skills": {
     "statement": "Hardware × AI × Production Software",
@@ -95,6 +103,8 @@
     "description": "Founder & Head of Electronics & Software at STRATOS İHA. Embedded-systems and full-stack engineer building autonomous drones, AI systems, and production web apps in Bursa, Türkiye.",
     "shareDescription": "Founder & Head of Electronics & Software at STRATOS İHA. Building autonomous drones and the software behind them.",
     "projectsTitle": "Projects - Emir Sakarya",
-    "projectsDescription": "Every project and venture Emir Sakarya has built: UAVs, AI agents, full-stack apps and the companies behind them."
+    "projectsDescription": "Every project and venture Emir Sakarya has built: UAVs, AI agents, full-stack apps and the companies behind them.",
+    "notesTitle": "Notes - Emir Sakarya",
+    "notesDescription": "Short write-ups by Emir Sakarya on how his projects work, with the code they describe."
   }
 }

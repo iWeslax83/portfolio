@@ -1,7 +1,7 @@
 import Frame from "@/components/frame";
 import SiteHeader from "@/components/site-header";
 import Footer from "@/components/footer";
-import { SECTION_BAR } from "@/components/sections/about/AboutSkills";
+import { SECTION_BAR } from "@/components/sections/section-bar";
 import type { Messages } from "@/lib/messages";
 import { localizedPath } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";

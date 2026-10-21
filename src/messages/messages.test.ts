@@ -38,6 +38,7 @@ const SAME_IN_BOTH = new Set([
   "skills.githubLink",
   "closing.go",
   "footer.meta",
+  "notes.englishMarker",
   "projects.tags.full-stack",
   "projects.tags.web",
 ]);

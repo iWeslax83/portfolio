@@ -10,10 +10,7 @@ import { countUpText } from "@/lib/count-up";
 import RoomBackground from "./RoomBackground";
 import SideRails from "./SideRails";
 import Bento from "./Bento";
-
-/** Black full-width label bar used to open a block (ABOUT, SKILLS, ...). */
-export const SECTION_BAR =
-  "bg-ink py-1 text-center font-mono text-xs font-bold uppercase tracking-[0.1em] text-bg";
+import { SECTION_BAR } from "@/components/sections/section-bar";
 
 const PARAGRAPHS = ["p1", "p2", "p3", "p4"] as const;
 

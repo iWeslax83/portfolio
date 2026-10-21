@@ -5,7 +5,7 @@ import type { Messages } from "@/lib/messages";
 import type { Venture } from "@/data/ventures";
 import { gsap, SplitText, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
-import { SECTION_BAR } from "@/components/sections/about/AboutSkills";
+import { SECTION_BAR } from "@/components/sections/section-bar";
 import RoomBackground from "@/components/sections/about/RoomBackground";
 
 function Row({ venture, index }: { venture: Venture; index: number }) {
