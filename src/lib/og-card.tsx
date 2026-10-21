@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import type { Locale } from "@/lib/locales";
+import { upperForLocale } from "@/lib/og-text";
 
 export const ogSize = { width: 1200, height: 630 };
 
@@ -28,6 +30,7 @@ export async function renderOgCard(input: {
   kicker: string;
   title: string;
   subtitle: string;
+  locale: Locale;
   /** Overrides the length-based title size (the home card is deliberately larger). */
   titleSize?: number;
 }): Promise<ImageResponse> {
@@ -79,10 +82,9 @@ export async function renderOgCard(input: {
               fontFamily: "Anton",
               fontSize: input.titleSize ?? titleSize(input.title),
               lineHeight: 0.92,
-              textTransform: "uppercase",
             }}
           >
-            {input.title}
+            {upperForLocale(input.title, input.locale)}
           </div>
           <div
             style={{

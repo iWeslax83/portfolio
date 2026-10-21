@@ -1,3 +1,4 @@
+import type { Locale } from "@/lib/locales";
 import { routing } from "../../../i18n/routing";
 import { ogSize, renderOgCard } from "@/lib/og-card";
 
@@ -10,10 +11,16 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default function OpengraphImage() {
+export default async function OpengraphImage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = (await params) as { locale: Locale };
   return renderOgCard({
     kicker: "FOUNDER & HEAD OF ELECTRONICS & SOFTWARE · STRATOS İHA",
     title: "Emir Sakarya",
+    locale,
     titleSize: 150,
     subtitle:
       "Building autonomous drones and the software behind them, from Bursa, Türkiye.",
