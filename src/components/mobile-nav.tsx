@@ -7,6 +7,7 @@ import { navItems } from "@/data/nav-items";
 import { hashTargetId } from "@/lib/anchor";
 import { getLenis, scrollToId } from "@/lib/smooth-scroll";
 import { localizedPath } from "@/lib/locale-path";
+import { RESUME_PATH } from "@/data/contact";
 import LocaleSwitch from "@/components/ui/locale-switch";
 import type { Locale } from "@/lib/locales";
 
@@ -123,6 +124,15 @@ export default function MobileNav({
             {t[item.key]}
           </a>
         ))}
+        <a
+          href={RESUME_PATH}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
+        >
+          <span className="font-mono text-xs text-bg/60">PDF</span>
+          {t.resume}
+        </a>
       </nav>
 
       <LocaleSwitch

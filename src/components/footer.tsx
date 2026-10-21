@@ -2,7 +2,7 @@
 
 import type { Messages } from "@/lib/messages";
 import { navItems } from "@/data/nav-items";
-import { contactLinks } from "@/data/contact";
+import { RESUME_PATH, contactLinks } from "@/data/contact";
 import DotPattern from "@/components/ui/dot-pattern";
 import { localizedPath } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";
@@ -57,7 +57,8 @@ export default function Footer({
               <p className={heading}>{t.contactHeading}</p>
               <ul className="space-y-3">
                 {contactLinks.map((c) => {
-                  const external = c.href.startsWith("http");
+                  const isResume = c.href === RESUME_PATH;
+                  const external = c.href.startsWith("http") || isResume;
                   return (
                     <li key={c.label}>
                       <a
@@ -66,7 +67,9 @@ export default function Footer({
                         rel={external ? "noopener noreferrer" : undefined}
                         className="flex min-w-0 items-baseline justify-between gap-4 transition-opacity duration-[350ms] hover:opacity-70 focus-visible:opacity-70 active:opacity-70"
                       >
-                        <span className="font-serif text-xl">{c.label}</span>
+                        <span className="font-serif text-xl">
+                          {isResume ? nav.resume : c.label}
+                        </span>
                         <span className="min-w-0 truncate font-mono text-xs text-bg/50">
                           {c.value}
                         </span>

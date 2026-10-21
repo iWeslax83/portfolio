@@ -11,6 +11,7 @@ import { GitHubIcon, LinkedInIcon } from "@/components/ui/social-icons";
 import LocaleSwitch from "@/components/ui/locale-switch";
 import { localizedPath, stripLocale } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";
+import { RESUME_PATH } from "@/data/contact";
 import MobileNav from "./mobile-nav";
 
 const socialCell =
@@ -151,6 +152,14 @@ export default function SiteHeader({
               className="underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
             >
               {t.getInTouch}
+            </a>
+            <a
+              href={RESUME_PATH}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
+            >
+              {t.resume}
             </a>
           </p>
         </div>
