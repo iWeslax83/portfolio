@@ -3,6 +3,7 @@ import { featuredProjects, projects } from "@/data/projects";
 import {
   adjacentProjects,
   firstSentence,
+  FLAGSHIP_COMPANION,
   metaDescription,
   orderedProjects,
 } from "./project-nav";
@@ -14,8 +15,12 @@ describe("orderedProjects", () => {
     expect(list[0].slug).toBe(featuredProjects[0].slug);
   });
 
+  it("puts the flagship's companion right after it", () => {
+    expect(list[1].slug).toBe(FLAGSHIP_COMPANION);
+  });
+
   it("orders the rest by ascending order", () => {
-    const rest = list.slice(1).map((p) => p.order);
+    const rest = list.slice(2).map((p) => p.order);
     expect(rest).toEqual([...rest].sort((a, b) => a - b));
   });
 
