@@ -159,7 +159,7 @@ export const projects: Project[] = [
         isPrimary: false,
       },
     ],
-    image: "/images/projects/stratos-akademi.png",
+    image: "/images/projects/stratos-akademi-dashboard.png",
     featured: true,
     order: 6,
     status: "SHIPPED",
@@ -167,11 +167,11 @@ export const projects: Project[] = [
   },
   {
     slug: "masa-hesaplari",
-    title: "Masa Hesapları",
+    title: "TableTab",
     description:
       "QR-code table-ordering and bill-splitting web app for restaurants. The customer scans the table QR, browses a localized menu, orders, and splits the check by item, evenly, or in full. A 12-table Postgres schema (Drizzle ORM on Neon) covers table sessions, orders, split-payment item locks, and waiter calls, with role-based panels for admin, waiter, and kitchen. Live order status streams to the customer over server-sent events; card payments run through iyzico alongside fast-IBAN and cash flows. Turkish/English i18n via a locale cookie keeps printed QR links valid across languages, with allergen/diet filtering over 7 fixed tags, JWT auth, and a daily cron that flags unpaid tables.",
     tag: "full-stack",
-    tagDetail: "2026 · Next.js 16 + Neon",
+    tagDetail: "live · Next.js 16 + Neon",
     techPills: [
       "Next.js 16",
       "React 19",
@@ -179,7 +179,14 @@ export const projects: Project[] = [
       "Neon Postgres",
       "TypeScript",
     ],
-    links: [],
+    links: [
+      {
+        label: "live",
+        href: "https://xtabletabs.vercel.app",
+        isPrimary: true,
+      },
+    ],
+    image: "/images/projects/masa-hesaplari.png",
     featured: false,
     order: 7,
     status: "SHIPPED",

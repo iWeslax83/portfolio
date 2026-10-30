@@ -18,8 +18,10 @@ import { gsap, ScrollTrigger, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
 import { formatDay } from "@/lib/format-date";
 import { localizedPath } from "@/lib/locale-path";
-import { orderedProjects } from "@/lib/project-nav";
+import { FLAGSHIP_COMPANION, orderedProjects } from "@/lib/project-nav";
 import ProjectLinks from "./ProjectLinks";
+
+const FRAME = "border-2 border-ink px-6 md:px-8";
 
 /** replaceState fires no event, so the filter buttons notify directly. */
 const filterListeners = new Set<() => void>();
@@ -65,6 +67,9 @@ export default function WorkCatalogue({
   const ordered = orderedProjects(projects);
   const flagship = ordered[0];
   const shown = ordered.filter((p) => filter === "ALL" || p.status === filter);
+  // The flagship and its companion share one framed row when both are shown.
+  const paired =
+    shown[0]?.slug === flagship?.slug && shown[1]?.slug === FLAGSHIP_COMPANION;
   const scope = useRef<HTMLElement>(null);
 
   // The black title bar wipes in, then articles reveal in batches as they
@@ -158,15 +163,17 @@ export default function WorkCatalogue({
           onChange={choose}
           labels={{ ALL: status.all, ...statusLabels }}
         />
-        <div className="mt-8">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2">
           {shown.map((project, i) => (
             <article
               key={project.slug}
-              className={`grid py-8 ${
-                project.slug === flagship?.slug
-                  ? "border-2 border-ink px-6 md:px-8"
-                  : "border-t border-ink"
-              }`}
+              className={`grid content-start py-8 ${
+                paired && i === 1
+                  ? `${FRAME} border-t-0 md:border-l-0 md:border-t-2`
+                  : project.slug === flagship?.slug
+                    ? FRAME
+                    : "border-t border-ink"
+              } ${paired && i < 2 ? "" : "md:col-span-2"}`}
             >
               <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
                 <span className="font-mono text-xs tabular-nums text-ink-2">

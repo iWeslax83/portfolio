@@ -57,6 +57,8 @@ export const projectsTr: Record<string, ProjectCopy> = {
   "masa-hesaplari": {
     description:
       "Restoranlar için QR kodla masadan sipariş ve hesap bölme uygulaması. Müşteri masadaki QR’ı okutur, kendi dilindeki menüye bakar, sipariş verir ve hesabı ürün ürün, eşit ya da tamamını tek seferde öder. 12 tabloluk Postgres şeması (Neon üzerinde Drizzle ORM) masa oturumlarını, siparişleri, bölünmüş ödemelerde ürün kilitlerini ve garson çağrılarını kapsar; yönetici, garson ve mutfak için rol bazlı paneller var. Sipariş durumu müşteriye server-sent events ile canlı akar; kartla ödemeler iyzico üzerinden, hızlı IBAN ve nakit akışlarıyla yan yana çalışır. Dil çerezine dayanan Türkçe/İngilizce i18n, basılı QR bağlantılarını her dilde geçerli tutar; ayrıca 7 sabit etiket üzerinden alerjen/diyet filtresi, JWT kimlik doğrulama ve ödenmemiş masaları işaretleyen günlük bir cron işi var.",
+    tagDetail: "canlı · Next.js 16 + Neon",
+    links: { live: "canlı" },
   },
   duran: {
     description:
