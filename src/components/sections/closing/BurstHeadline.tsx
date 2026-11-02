@@ -175,15 +175,15 @@ export default function BurstHeadline({ t }: { t: Messages["closing"] }) {
           <h2
             id="contact-title"
             data-headline
-            className="flex origin-bottom flex-col items-center text-center font-display uppercase leading-[0.86] text-ink [transform:rotateX(46deg)]"
+            className="flex origin-bottom flex-col items-center text-center font-display uppercase leading-none text-ink [transform:rotateX(46deg)]"
           >
-            <span className="block text-[clamp(1.75rem,min(5vw,9vh),4.5rem)]">
+            <span className="mb-[0.2em] block text-[clamp(1.75rem,min(5vw,9vh),4.5rem)]">
               {t.line1}
             </span>
-            <span className="block text-[clamp(2.25rem,min(7vw,12vh),6.5rem)]">
+            <span className="mb-[0.2em] block text-[clamp(2.25rem,min(7vw,12vh),6.5rem)]">
               {t.line2}
             </span>
-            <span className="block text-[clamp(3.25rem,min(13vw,21vh),12rem)]">
+            <span className="mb-[0.2em] block text-[clamp(3.25rem,min(13vw,21vh),12rem)]">
               {t.line3}
             </span>
             <span className="block" style={{ fontSize: lastLineSize(t.line4) }}>
