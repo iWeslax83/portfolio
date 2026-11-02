@@ -35,12 +35,16 @@ tracked 0.05-0.15em.
 4. About + Skills `#about`: perspective room, vertical side rails, 640px
    bordered column with black ABOUT/SKILLS bars, four paragraphs, bento
    (Anton words, globe, DevOps, live GitHub cell, hatch).
-5. Work `#work`: capsule on a square grid that grows into a black column
-   and then fills the screen; 400vh sticky black stage where the WORK
-   letter rows open out of a packed arch, 7 screenshot cards cross, and the
-   rows pack again; then the capsule again, folding the black back up.
-   A keyboard-focusable list carries the same links. It runs on phones too
-   (one wide card at a time); reduced motion gets a static gallery.
+5. Work `#work`: a 450vh section whose fixed black stage (dot texture,
+   perspective scene) sits under a sticky white sheet with a capsule hole,
+   ring and clipped grid. Scrolling slides the hole over the packed WORK
+   column, a shared zoom flies into the capsule, the letter rows fan out
+   in perspective and 8 screenshot cards cross between the letters, then
+   the zoom folds back and the sheet scrolls away. Cards carry the
+   reference caption format (`TITLE  #K7QX-0002/08`). A keyboard-focusable
+   list carries the same links. It runs on phones too; reduced motion gets
+   a static gallery. Spec:
+   `docs/superpowers/specs/2026-11-02-work-reference-parity-design.md`.
 6. Closing `#contact`: commit ticker, pinned ray burst (sun a third of the
    way down, rays all round, headline lying on a perspective floor that
    grows, screenshots and stars flying out of the sun), DREAM IT / BUILD
@@ -55,13 +59,15 @@ tracked 0.05-0.15em.
 
 - Status: `StatusTag` squares (filled / outlined / light). Never pills.
 - Buttons and links: sharp corners, underline or fill inversion on hover.
-- The WORK capsule and GO circle are the only rounded shapes.
+- The Work mask's capsule hole and ring, and the GO circle, are the only
+  rounded shapes.
 
 ## 5. Motion
 
 Stack: Lenis smooth scroll plus GSAP (ScrollTrigger, SplitText), set up in
-`src/lib/gsap.ts` and `src/components/smooth-scroll.tsx`. framer-motion is
-left only for the mobile menu and BackToTop presence.
+`src/lib/gsap.ts` and `src/components/smooth-scroll.tsx`. The mobile menu
+and BackToTop run on plain CSS transitions (opacity, translate, scale),
+no animation library.
 
 - **Smooth scroll.** Lenis (lerp 0.1, smooth wheel) runs on `gsap.ticker`
   with lag smoothing off and calls `ScrollTrigger.update` on every scroll.
@@ -77,12 +83,12 @@ left only for the mobile menu and BackToTop presence.
   with scaleX, paragraphs and rows rise and fade, big words rise out of a
   SplitText clip, GitHub numbers count up to their real value.
 - **Scrubbed only where pinned or tied to scroll.** Ticker drift, room
-  skew, the capsule scale and the Work gallery use `scrub: 1`, so they
-  lag and settle instead of tracking raw scroll. The gallery pins with CSS
-  sticky and stays invisible while it rises over the intro; it shows the
-  moment it pins, when the intro is solid black. The outro capsule overlaps
-  the gallery's last viewport the same way, so neither hand-off shows a
-  blank black hold.
+  skew and the capsule scale use `scrub: 1`, so they lag and settle
+  instead of tracking raw scroll. The Work stage uses `scrub: true`
+  instead: its pin is a native sticky mask, so the scroll-driven zoom has
+  to track scroll exactly or the hole and the letters drift out of sync.
+  The fixed stage is clipped to its section by `clip-path: inset(0)` and
+  toggled off while the section is off screen.
 - **First load.** Header cells drop in, the hero mesh draws from the edges
   to the centre, the title rises out of a clip, the stars spin in, then
   the tickers fade up. Once.

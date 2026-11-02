@@ -176,9 +176,16 @@ section[tabindex="-1"]:focus {
 
 /* ── Drafting language ────────────────────────────────────── */
 
-/* Embossed white letters on black (Work gallery): a hard gray offset. */
-.emboss-light {
-  text-shadow: 3px 3px 0 #8f8f8f;
+/* Work stage letters: a gray copy behind the glyph, pushed to the outer
+   side and stretched a touch, reads as an extrusion rim on black. --side
+   is -1..1 across each row (set inline per letter). */
+.work-letter::before {
+  content: attr(data-letter);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: #999;
+  transform: translateX(calc(var(--side, 0) * 1.8px)) scale(1.05, 1.02);
 }
 
 /* Work section variants. The pinned, scroll-driven gallery runs at every
@@ -197,24 +204,6 @@ section[tabindex="-1"]:focus {
   }
   .work-static {
     display: none;
-  }
-}
-
-/* Work gallery card. GSAP moves the <li>; this inner layer owns the tilt
-   and the hover (straighten, grow, lift), so the transforms never fight.
-   Pointer users only: the gallery is aria-hidden and out of tab order. */
-.gallery-card {
-  rotate: var(--tilt, 0deg);
-  transition:
-    rotate 0.4s var(--ease-out-expo),
-    scale 0.4s var(--ease-out-expo),
-    translate 0.4s var(--ease-out-expo);
-}
-@media (hover: hover) {
-  [data-card]:hover .gallery-card {
-    rotate: 0deg;
-    scale: 1.04;
-    translate: 0 -12px;
   }
 }
 

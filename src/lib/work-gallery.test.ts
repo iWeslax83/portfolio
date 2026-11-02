@@ -1,15 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Project } from "@/lib/types";
-import {
-  cardX,
-  cardY,
-  exitPhase,
-  galleryProjects,
-  letterArch,
-  letterBob,
-  letterSway,
-  rowSpread,
-} from "./work-gallery";
+import { galleryProjects } from "./work-gallery";
 
 function project(slug: string, order: number, image?: string): Project {
   return {
@@ -36,103 +27,5 @@ describe("galleryProjects", () => {
       project("a", 0, "/images/projects/a.png"),
     ];
     expect(galleryProjects(all).map((p) => p.slug)).toEqual(["a", "b"]);
-  });
-});
-
-describe("cardX", () => {
-  it("starts the first card right of center and ends the last card left", () => {
-    expect(cardX(0, 7, 0)).toBe(75);
-    expect(cardX(6, 7, 1)).toBe(-75);
-  });
-
-  it("clamps progress outside 0..1", () => {
-    expect(cardX(0, 7, -1)).toBe(cardX(0, 7, 0));
-    expect(cardX(0, 7, 2)).toBe(cardX(0, 7, 1));
-  });
-
-  it("moves every card left as progress grows", () => {
-    for (let i = 0; i < 7; i++) {
-      expect(cardX(i, 7, 0.6)).toBeLessThan(cardX(i, 7, 0.5));
-    }
-  });
-});
-
-describe("cardY and letterSway", () => {
-  it("cycles three vertical offsets", () => {
-    expect(cardY(0)).toBe(cardY(3));
-    expect(new Set([cardY(0), cardY(1), cardY(2)]).size).toBe(3);
-  });
-
-  it("keeps sway within +-6 degrees and is deterministic", () => {
-    for (let i = 0; i < 48; i++) {
-      const v = letterSway(i, 0.37);
-      expect(Math.abs(v)).toBeLessThanOrEqual(6);
-      expect(letterSway(i, 0.37)).toBe(v);
-    }
-  });
-});
-
-describe("exitPhase", () => {
-  it("stays at 0 until the exit starts, then runs 0..1", () => {
-    expect(exitPhase(0)).toBe(0);
-    expect(exitPhase(0.9)).toBe(0);
-    expect(exitPhase(0.95)).toBeCloseTo(0.5);
-    expect(exitPhase(1)).toBe(1);
-  });
-
-  it("clamps and honours a custom start", () => {
-    expect(exitPhase(1.4)).toBe(1);
-    expect(exitPhase(-1)).toBe(0);
-    expect(exitPhase(0.8, 0.6)).toBeCloseTo(0.5);
-  });
-});
-
-describe("exitPhase with an early end", () => {
-  it("finishes at `end` and stays at 1 after it", () => {
-    expect(exitPhase(0.85, 0.85, 0.955)).toBe(0);
-    expect(exitPhase(0.9025, 0.85, 0.955)).toBeCloseTo(0.5);
-    expect(exitPhase(0.955, 0.85, 0.955)).toBe(1);
-    expect(exitPhase(0.99, 0.85, 0.955)).toBe(1);
-  });
-
-  it("treats an end at or before the start as a hard cut", () => {
-    expect(exitPhase(0.8, 0.9, 0.9)).toBe(0);
-    expect(exitPhase(0.9, 0.9, 0.9)).toBe(1);
-  });
-});
-
-describe("rowSpread", () => {
-  it("opens from a packed block, holds, then packs again", () => {
-    expect(rowSpread(0)).toBe(0);
-    expect(rowSpread(0.12)).toBe(1);
-    expect(rowSpread(0.5)).toBe(1);
-    expect(rowSpread(0.88)).toBe(1);
-    expect(rowSpread(1)).toBe(0);
-  });
-
-  it("moves smoothly and stays in 0..1", () => {
-    const a = rowSpread(0.03);
-    const b = rowSpread(0.06);
-    expect(a).toBeGreaterThan(0);
-    expect(b).toBeGreaterThan(a);
-    expect(rowSpread(-1)).toBe(0);
-    expect(rowSpread(2)).toBe(0);
-  });
-});
-
-describe("letterArch", () => {
-  it("is 0 at the middle letter and -1 at both ends", () => {
-    expect(letterArch(4, 9)).toBe(0);
-    expect(letterArch(0, 9)).toBe(-1);
-    expect(letterArch(8, 9)).toBe(-1);
-    expect(letterArch(2, 9)).toBeCloseTo(-0.25);
-  });
-});
-
-describe("letterBob", () => {
-  it("stays within the amplitude", () => {
-    for (let i = 0; i < 20; i++) {
-      expect(Math.abs(letterBob(i, i / 20))).toBeLessThanOrEqual(2.5);
-    }
   });
 });

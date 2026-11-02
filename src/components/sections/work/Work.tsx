@@ -3,14 +3,15 @@ import { localizedPath } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";
 import { getProjects } from "@/lib/localize";
 import { galleryProjects } from "@/lib/work-gallery";
-import WorkIntro from "./WorkIntro";
-import WorkGallery from "./WorkGallery";
+import WorkStage from "./WorkStage";
 import StaticGallery from "./StaticGallery";
 
 /**
- * Capsule, pinned gallery, capsule again: the reference's Work rhythm. The
- * gallery is decorative motion, so the real links live in a list that is
- * hidden until it takes keyboard focus; the full record is on /projects.
+ * The reference's Work rhythm: a fixed black stage under a sticky white
+ * sheet with a capsule hole that slides over it, then a shared zoom flies
+ * into the hole while WORK rows fan out and project cards cross. The scene
+ * is decorative motion, so the real links live in a list that is hidden
+ * until it takes keyboard focus; the full record is on /projects.
  */
 export default function Work() {
   const t = useTranslations("projects");
@@ -45,9 +46,7 @@ export default function Work() {
         </ul>
       </nav>
       <div className="work-animated">
-        <WorkIntro />
-        <WorkGallery items={items} locale={locale} />
-        <WorkIntro mode="out" />
+        <WorkStage items={items} locale={locale} />
       </div>
       <div className="work-static">
         <StaticGallery items={items} locale={locale} />
