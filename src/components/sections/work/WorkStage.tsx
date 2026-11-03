@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import type { Project } from "@/lib/types";
 import type { Locale } from "@/lib/locales";
-import { localizedPath } from "@/lib/locale-path";
+import { cardLinkProps } from "@/lib/work-gallery";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import DotPattern from "@/components/ui/dot-pattern";
 import {
@@ -263,11 +263,7 @@ export default function WorkStage({
               style={{ zIndex: 2, visibility: "hidden" }}
               className="absolute top-1/2 left-1/2 w-[86vw] -translate-x-1/2 -translate-y-1/2 p-[4px_4px_0] md:w-[50vw] md:p-[8px_8px_0]"
             >
-              <a
-                href={localizedPath(locale, `/projects/${p.slug}`)}
-                tabIndex={-1}
-                className="block"
-              >
+              <a {...cardLinkProps(p, locale)} tabIndex={-1} className="block">
                 <div className="relative aspect-[16/10] bg-panel">
                   {showCards && (
                     <Image

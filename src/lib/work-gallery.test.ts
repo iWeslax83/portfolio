@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Project } from "@/lib/types";
-import { galleryProjects } from "./work-gallery";
+import { cardLinkProps, galleryProjects } from "./work-gallery";
 
 function project(slug: string, order: number, image?: string): Project {
   return {
@@ -27,5 +27,33 @@ describe("galleryProjects", () => {
       project("a", 0, "/images/projects/a.png"),
     ];
     expect(galleryProjects(all).map((p) => p.slug)).toEqual(["a", "b"]);
+  });
+});
+
+describe("cardLinkProps", () => {
+  it("opens the primary live link in a new tab", () => {
+    const p = {
+      ...project("a", 0),
+      links: [
+        {
+          label: "source code",
+          href: "https://github.com/x/a",
+          isPrimary: false,
+        },
+        { label: "live", href: "https://a.example", isPrimary: true },
+      ],
+    };
+    expect(cardLinkProps(p, "en")).toEqual({
+      href: "https://a.example",
+      target: "_blank",
+      rel: "noopener noreferrer",
+    });
+  });
+
+  it("falls back to the localized detail page", () => {
+    expect(cardLinkProps(project("a", 0), "en")).toEqual({
+      href: "/projects/a",
+    });
+    expect(cardLinkProps(project("a", 0), "tr").href).toBe("/tr/projects/a");
   });
 });

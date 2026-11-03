@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { Project } from "@/lib/types";
 import type { Locale } from "@/lib/locales";
-import { localizedPath } from "@/lib/locale-path";
+import { cardLinkProps } from "@/lib/work-gallery";
 import { cardKey } from "@/lib/work-scene";
 
 /** Reduced-motion version: a WORK band and stacked cards. */
@@ -63,11 +63,7 @@ export default function StaticGallery({
           );
           return (
             <li key={p.slug}>
-              <a
-                href={localizedPath(locale, `/projects/${p.slug}`)}
-                tabIndex={-1}
-                className="block"
-              >
+              <a {...cardLinkProps(p, locale)} tabIndex={-1} className="block">
                 {body}
               </a>
             </li>

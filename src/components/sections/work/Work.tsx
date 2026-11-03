@@ -2,7 +2,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { localizedPath } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";
 import { getProjects } from "@/lib/localize";
-import { galleryProjects } from "@/lib/work-gallery";
+import { cardLinkProps, galleryProjects } from "@/lib/work-gallery";
 import WorkStage from "./WorkStage";
 import StaticGallery from "./StaticGallery";
 
@@ -30,10 +30,7 @@ export default function Work() {
         <ul className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.1em]">
           {items.map((p) => (
             <li key={p.slug}>
-              <a
-                href={localizedPath(locale, `/projects/${p.slug}`)}
-                className="link-draw"
-              >
+              <a {...cardLinkProps(p, locale)} className="link-draw">
                 {p.title}
               </a>
             </li>

@@ -159,6 +159,9 @@ extrusion style instead of `.emboss-light`.
 
 ## 3. Not in scope
 
-Card hover effects (the reference shows none), the reference's animated
-canvas (our dots are a static SVG pattern), live-site links on cards
-(cards keep linking to `/projects/[slug]`).
+Card hover effects (the reference shows none) and the reference's animated
+canvas (our dots are a static SVG pattern).
+
+Cards and the keyboard list open each project's primary (live) link in a
+new tab, like the reference; a project without one falls back to its
+`/projects/[slug]` page (`cardLinkProps`).
