@@ -118,7 +118,7 @@ export const projects: Project[] = [
     links: [
       {
         label: "live",
-        href: "https://tofas-fen-webapp.vercel.app",
+        href: "https://tofasfen.com",
         isPrimary: true,
       },
       {
@@ -150,7 +150,7 @@ export const projects: Project[] = [
     links: [
       {
         label: "live",
-        href: "https://stratos-akademi.vercel.app",
+        href: "https://akademi.stratosiha.com",
         isPrimary: true,
       },
       {
