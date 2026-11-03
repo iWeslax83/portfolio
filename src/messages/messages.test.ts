@@ -39,6 +39,9 @@ const SAME_IN_BOTH = new Set([
   "closing.go",
   "footer.meta",
   "notes.englishMarker",
+  "hero.prompt",
+  "hero.locValue",
+  "hero.orgValue",
   "projects.tags.full-stack",
   "projects.tags.web",
 ]);

@@ -21,7 +21,7 @@ import { localizedPath } from "@/lib/locale-path";
 import { FLAGSHIP_COMPANION, orderedProjects } from "@/lib/project-nav";
 import ProjectLinks from "./ProjectLinks";
 
-const FRAME = "border-2 border-ink px-6 md:px-8";
+const FRAME = "border-2 border-accent px-6 md:px-8";
 
 /** replaceState fires no event, so the filter buttons notify directly. */
 const filterListeners = new Set<() => void>();
@@ -152,7 +152,7 @@ export default function WorkCatalogue({
     <section
       ref={scope}
       aria-labelledby="catalogue-title"
-      className="border-t border-ink bg-bg"
+      className="border-t border-edge bg-bg"
     >
       <h2 id="catalogue-title" data-reveal="bar" className={SECTION_BAR}>
         {title}
@@ -172,7 +172,7 @@ export default function WorkCatalogue({
                   ? `${FRAME} border-t-0 md:border-l-0 md:border-t-2`
                   : project.slug === flagship?.slug
                     ? FRAME
-                    : "border-t border-ink"
+                    : "border-t border-edge"
               } ${paired && i < 2 ? "" : "md:col-span-2"}`}
             >
               <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
@@ -185,7 +185,7 @@ export default function WorkCatalogue({
                 </span>
                 <StatusTag status={project.status} labels={statusLabels} />
               </div>
-              <h3 className="text-balance font-serif text-3xl leading-[1.1] text-ink">
+              <h3 className="text-balance font-mono text-xl font-bold leading-[1.2] text-ink">
                 <a
                   href={localizedPath(locale, `/projects/${project.slug}`)}
                   className="link-draw"
@@ -193,7 +193,7 @@ export default function WorkCatalogue({
                   {project.title}
                 </a>
               </h3>
-              <p className="mt-3 max-w-2xl text-pretty font-serif text-lg leading-[1.5] text-ink-2">
+              <p className="mt-3 max-w-2xl text-pretty font-mono text-[13px] leading-[1.7] text-ink-2">
                 {project.description}
               </p>
               <p className="mt-4 font-mono text-[11px] leading-relaxed text-ink-2">
@@ -201,7 +201,7 @@ export default function WorkCatalogue({
               </p>
               <ProjectLinks links={project.links} />
               {project.image && (
-                <div className="relative mt-5 flex min-h-[160px] max-w-[280px] items-center justify-center overflow-hidden border border-ink bg-panel p-6">
+                <div className="relative mt-5 flex min-h-[160px] max-w-[280px] items-center justify-center overflow-hidden border border-edge bg-panel p-6">
                   <Image
                     src={project.image}
                     alt={t.screenshotAlt.replace("{title}", project.title)}

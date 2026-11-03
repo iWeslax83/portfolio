@@ -56,6 +56,23 @@
     "draft": "Draft",
     "englishOnly": "Notes are written in English."
   },
+  "hero": {
+    "prompt": "emir@bursa ~ % whoami",
+    "loc": "LOCATION",
+    "org": "ORG",
+    "team": "TEAM",
+    "rides": "RIDES",
+    "status": "STATUS",
+    "locValue": "BURSA, TR",
+    "orgValue": "STRATOS İHA",
+    "teamValue": "25 ENGINEERS",
+    "ridesValue": "50,000+",
+    "statusValue": "● ACTIVE",
+    "log1": "boot: portfolio v2026 loaded - evidence mode ON",
+    "log2": "mount: /ventures/stratos-iha ... ok (25 pax)",
+    "log3": "mount: /ventures/teluvane ... ok (hash-chained audit)",
+    "log4": "mount: /ventures/viyaro ... ok (50k rides)"
+  },
   "skills": {
     "statement": "Hardware × AI × Production Software",
     "githubLabel": "GitHub · live",

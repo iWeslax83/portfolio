@@ -18,7 +18,7 @@ import "../globals.css";
 // theme, so form controls and scrollbars stay light.
 export const viewport: Viewport = {
   themeColor: "#0a0a0a",
-  colorScheme: "light",
+  colorScheme: "dark",
 };
 
 const metadataBase = new URL(SITE_URL);

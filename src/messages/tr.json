@@ -56,6 +56,23 @@
     "draft": "Taslak",
     "englishOnly": "Notlar İngilizce yazılıyor."
   },
+  "hero": {
+    "prompt": "emir@bursa ~ % whoami",
+    "loc": "KONUM",
+    "org": "EKİP",
+    "team": "KADRO",
+    "rides": "YOLCULUK",
+    "status": "DURUM",
+    "locValue": "BURSA, TR",
+    "orgValue": "STRATOS İHA",
+    "teamValue": "25 MÜHENDİS",
+    "ridesValue": "50.000+",
+    "statusValue": "● AKTİF",
+    "log1": "boot: portfolio v2026 yüklendi - kanıt modu AÇIK",
+    "log2": "mount: /ventures/stratos-iha ... tamam (25 kişi)",
+    "log3": "mount: /ventures/teluvane ... tamam (hash zincirli denetim)",
+    "log4": "mount: /ventures/viyaro ... tamam (50 bin yolculuk)"
+  },
   "skills": {
     "statement": "Donanım × Yapay Zeka × Sahada Çalışan Yazılım",
     "githubLabel": "GitHub · canlı",

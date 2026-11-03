@@ -12,15 +12,15 @@ export default function Icon() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#ffffff",
+        background: "#0a0e0a",
         borderRadius: 14,
         fontFamily: "monospace",
-        fontSize: 40,
-        fontWeight: 700,
+        fontSize: 34,
+        fontWeight: 800,
       }}
     >
-      <span style={{ color: "#0a0a0a" }}>e</span>
-      <span style={{ color: "#0a0a0a" }}>.</span>
+      <span style={{ color: "#4dff7c" }}>e</span>
+      <span style={{ color: "#d2f0da" }}>_</span>
     </div>,
     { ...size },
   );

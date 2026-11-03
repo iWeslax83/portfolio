@@ -25,11 +25,11 @@ export default function NotFoundContent({
       <SiteHeader t={m.nav} locale={locale} />
       <main id="main" tabIndex={-1} className="outline-none">
         <p className={SECTION_BAR}>Error 404</p>
-        <div className="border-b border-ink px-4 py-16 text-center sm:py-24">
-          <h1 className="font-display text-[clamp(6rem,30vw,22rem)] leading-[0.85]">
+        <div className="border-b border-edge px-4 py-16 text-center sm:py-24">
+          <h1 className="font-mono text-[clamp(5rem,26vw,16rem)] font-extrabold leading-[0.9] text-accent">
             404
           </h1>
-          <p className="mx-auto mt-8 max-w-md text-pretty font-serif text-2xl leading-[1.5]">
+          <p className="mx-auto mt-8 max-w-md text-pretty font-mono text-sm leading-[1.7]">
             This page does not exist. It may have moved, or the link has a typo.
           </p>
         </div>
@@ -37,7 +37,7 @@ export default function NotFoundContent({
           {/* Plain links, not next/link: the 404 ships with every page, and next/link would add ~48KB to all of them for two links */}
           <a
             href={localizedPath(locale, "/")}
-            className={`${linkCell} border-b border-ink sm:border-b-0 sm:border-r`}
+            className={`${linkCell} border-b border-edge sm:border-b-0 sm:border-r`}
           >
             Back to the home page
           </a>

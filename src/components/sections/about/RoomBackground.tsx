@@ -51,7 +51,7 @@ export default function RoomBackground({
             y1={l.y1}
             x2={l.x2}
             y2={l.y2}
-            stroke="var(--color-ink)"
+            stroke="var(--color-rule)"
             strokeWidth="1"
             vectorEffect="non-scaling-stroke"
           />

@@ -25,8 +25,8 @@ export default function CatalogFilter({
           onClick={() => onChange(f)}
           className={`border px-4 py-1.5 transition-colors duration-[350ms] ${
             value === f
-              ? "border-ink bg-ink text-bg"
-              : "border-rule text-ink-3 hover:border-ink hover:text-ink focus-visible:border-ink focus-visible:text-ink"
+              ? "border-edge bg-ink text-bg"
+              : "border-rule text-ink-3 hover:border-edge hover:text-ink focus-visible:border-edge focus-visible:text-ink"
           }`}
           aria-pressed={value === f}
         >

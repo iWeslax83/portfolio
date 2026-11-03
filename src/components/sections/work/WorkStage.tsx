@@ -220,9 +220,9 @@ export default function WorkStage({
       aria-hidden
       className="relative h-[450vh] [clip-path:inset(0)]"
     >
-      <div data-stage className="fixed inset-0 z-0 bg-ink">
+      <div data-stage className="fixed inset-0 z-0 bg-deep">
         <DotPattern
-          color="rgba(255,255,255,0.7)"
+          color="rgba(77,255,124,0.35)"
           gap={24}
           radius={0.75}
           className="absolute inset-0 h-full w-full"
@@ -249,7 +249,7 @@ export default function WorkStage({
                       "--side": count > 1 ? (2 * slot) / (count - 1) - 1 : 0,
                     } as CSSProperties
                   }
-                  className="work-letter absolute left-1/2 -translate-x-1/2 font-display text-[22.8vh] leading-[0.74] text-bg"
+                  className="work-letter absolute left-1/2 -translate-x-1/2 font-display font-extrabold text-[18vh] leading-[0.9] text-ink"
                 >
                   {ROW_LETTERS[row]}
                 </span>
@@ -264,7 +264,7 @@ export default function WorkStage({
               className="absolute top-1/2 left-1/2 w-[86vw] -translate-x-1/2 -translate-y-1/2 p-[4px_4px_0] md:w-[50vw] md:p-[8px_8px_0]"
             >
               <a {...cardLinkProps(p, locale)} tabIndex={-1} className="block">
-                <div className="relative aspect-[16/10] bg-panel">
+                <div className="relative aspect-[16/10] border border-edge bg-panel">
                   {showCards && (
                     <Image
                       src={p.image!}
@@ -275,7 +275,7 @@ export default function WorkStage({
                     />
                   )}
                 </div>
-                <div className="flex justify-between p-2 font-mono text-[11px] uppercase tracking-[0.15em] text-bg">
+                <div className="flex justify-between p-2 font-mono text-[11px] uppercase tracking-[0.15em] text-ink-2">
                   <span className="truncate">{p.title}</span>
                   <span className="tabular-nums">
                     {cardKey(p.slug, i, items.length)}
@@ -303,7 +303,7 @@ export default function WorkStage({
           <path
             data-ring
             fill="none"
-            stroke="var(--color-ink)"
+            stroke="var(--color-accent)"
             strokeWidth={1}
             vectorEffect="non-scaling-stroke"
             d=""
@@ -312,7 +312,7 @@ export default function WorkStage({
             <path
               data-grid
               fill="none"
-              stroke="var(--color-ink)"
+              stroke="var(--color-rule-strong)"
               strokeWidth={1}
               vectorEffect="non-scaling-stroke"
               d=""

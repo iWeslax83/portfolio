@@ -1,119 +1,81 @@
 # Design System: Emir Sakarya - Portfolio
 
-Black-framed, white-sheet, typographic system modeled on the structure of
-bekirerdem.dev (layout, rhythm and motion patterns only; no text, assets,
-code or paid fonts copied). Spec:
-`docs/superpowers/specs/2026-10-17-bekirerdem-full-clone-design.md`.
+Phosphor-terminal / flight-log system. Dark ground, pale-green ink, one
+bright accent, monospace everything: log lines, prompt chrome, telemetry
+readouts, inverse-video bars. Replaces the black-frame/white-sheet system
+that mirrored bekirerdem.dev; the work-scene mechanics (pinned capsule
+gallery, tickers, mesh) stay, reskinned. Spec:
+`docs/superpowers/specs/2026-11-03-terminal-flightlog-redesign-design.md`.
 
 ## 1. Color
 
-- Frame `#0A0A0A`, canvas `#FFFFFF`, ink `#0A0A0A`, ink-2 `#6B6B6B`,
-  ink-3 `#767676`, panel `#F5F5F3`, rules `rgba(10,10,10,0.12/0.28)`.
-- No accent color, no gradients, no blur. Dot and hatch textures are SVG
-  patterns. GitHub language colors in the GitHub cell are external data.
+- Ground `#0A0E0A`, panels `#0F140F`/`#131A13`, deep `#070A07` (stage,
+  footer, mobile menu).
+- Ink `#D2F0DA`, ink-2 `#5F8F6C`, ink-3 `#7FAE8B`.
+- ONE accent: `#4DFF7C` phosphor green: commits, statuses, counts, prompt
+  glyphs, hovers, cursor.
+- Edges `rgba(77,255,124,0.28)`, rules `0.14/0.30`. No gradients, no
+  blur, no purple, no pill badges.
+- Scanlines: fixed 3px repeating overlay at 45% of 12% black,
+  pointer-events none.
+- Inverse video: `bg-ink` + `text-bg` is the highlighted state (bars,
+  hover fills, active filter).
 
 ## 2. Type
 
-| Role | Font |
-|---|---|
-| Reading copy, tagline, footer links | Instrument Serif 400 |
-| Bento words, WORK letters, venture names, closing headline, wordmark | Anton |
-| Hero title only | Metamorphous |
-| DREAM IT / BUILD IT only | Oswald 700 |
-| Labels, nav, tickers, data | JetBrains Mono |
+One face: JetBrains Mono 400/500/700/800. Everything: display, body,
+labels, data. Hierarchy by size and weight only. Display = 700/800,
+tracking -0.02em; body 14-17px lh 1.7; labels 10-12px uppercase tracking
+0.1-0.25em.
 
-About copy 30px / 22px, line-height 1.5. Mono labels 11-14px uppercase,
-tracked 0.05-0.15em.
+## 3. Page structure
 
-## 3. Page structure (in order)
+1. No page frame: full-bleed dark.
+2. Header: cell grid (mono mark `ES_`, caption, nav, social, locale,
+   two-line status). Hover = inverse video.
+3. Hero `#home`: ticker, green wireframe mesh band (pointer bend kept),
+   prompt `emir@bursa ~ % whoami`, title `UAV / AI / FOUNDER` 800 with
+   accent slashes + blinking block cursor, 5-cell telemetry strip
+   (facts only), 4-line boot log, second ticker.
+4. About `#about`: dim green perspective room, side rails, centered
+   panel column. `~/` inverse-video bars (SECTION_BAR), mono paragraphs,
+   statement, bento (mono 800 words, tool lists, globe, DevOps, live
+   GitHub cell with accent counts, hatch).
+5. Work `#work`: same pinned capsule scene on `deep`: pale-green mono
+   WORK letters, accent ring + clipped grid, sheet in `bg` so the hole
+   reads as the page opening onto the stage. Cards carry
+   `TITLE #XXXX-000N/NN` captions.
+6. Ventures `#ventures`: ruled rows, `[N] role` accent index, mono 800
+   names (hover accent).
+7. Closing `#contact`: ticker, `./initiate-contact.sh` prompt + cursor,
+   four headline lines (2 and 4 accent), CH-1..4 channel grid
+   (email/github/linkedin/cv). No burst, no DREAM IT/BUILD IT, no GO
+   disc (deleted with their components and libs).
+8. `/projects`: accent mono h1, ventures + catalogue (accent flagship
+   frame, inverse bars). `/notes`, 404 same tokens.
 
-1. Frame: 16px black edges (8px under 640px), fixed.
-2. Header: in-flow cell grid (logo, caption, nav, GitHub/LinkedIn,
-   two-line serif tagline). Below lg: logo + burger, full-screen black menu.
-3. Hero `#home`: dense black warped mesh, framed commit/binary ticker,
-   centered "UAV ✦ AI ✦ FOUNDER", second ticker.
-4. About + Skills `#about`: perspective room, vertical side rails, 640px
-   bordered column with black ABOUT/SKILLS bars, four paragraphs, bento
-   (Anton words, globe, DevOps, live GitHub cell, hatch).
-5. Work `#work`: a 450vh section whose fixed black stage (dot texture,
-   perspective scene) sits under a sticky white sheet with a capsule hole,
-   ring and clipped grid. Scrolling slides the hole over the packed WORK
-   column, a shared zoom flies into the capsule, the letter rows fan out
-   in perspective and 8 screenshot cards cross between the letters, then
-   the zoom folds back and the sheet scrolls away. Cards carry the
-   reference caption format (`TITLE  #K7QX-0002/08`). A keyboard-focusable
-   list carries the same links. It runs on phones too; reduced motion gets
-   a static gallery. Spec:
-   `docs/superpowers/specs/2026-11-02-work-reference-parity-design.md`.
-6. Closing `#contact`: commit ticker, pinned ray burst (sun a third of the
-   way down, rays all round, headline lying on a perspective floor that
-   grows, screenshots and stars flying out of the sun), DREAM IT / BUILD
-   IT crossing sides over flat gray reflections, GO circle on a lens-bulged
-   grid (mailto), dot band, black footer with the wordmark behind the
-   link columns.
-7. `/projects`: page title, Ventures (three ruled rows with giant Anton
-   names) and the full catalogue. The header has five cells like the
-   reference: About, Work, Projects, Ventures, Contact.
+## 4. Motion
 
-## 4. Components
+Lenis + GSAP unchanged: intro (header cells, mesh draw, title chars,
+tickers), scroll-driven tickers and room skew (`scrub: 1`), work-stage
+`scrub: true` pin, revealOnce entrances, count-up GitHub numbers. New:
+CSS `cursor-blink` (1.1s steps) on hero and closing cursors. All GSAP
+under `prefers-reduced-motion: no-preference`; reduced motion keeps the
+static gallery and final-state content.
 
-- Status: `StatusTag` squares (filled / outlined / light). Never pills.
-- Buttons and links: sharp corners, underline or fill inversion on hover.
-- The Work mask's capsule hole and ring, and the GO circle, are the only
-  rounded shapes.
+## 5. Components
 
-## 5. Motion
+- StatusTag: accent square (shipped), accent outline (in progress),
+  ink-3 (archived). Text, not pills.
+- Links: mono, accent on hover or inverse video; `link-draw` underline.
+- Buttons/borders: sharp corners, `border-edge`.
 
-Stack: Lenis smooth scroll plus GSAP (ScrollTrigger, SplitText), set up in
-`src/lib/gsap.ts` and `src/components/smooth-scroll.tsx`. The mobile menu
-and BackToTop run on plain CSS transitions (opacity, translate, scale),
-no animation library.
+## 6. Surfaces
 
-- **Smooth scroll.** Lenis (lerp 0.1, smooth wheel) runs on `gsap.ticker`
-  with lag smoothing off and calls `ScrollTrigger.update` on every scroll.
-  In-page `#id` links go through `lenis.scrollTo`. The mobile menu stops
-  Lenis while open. ScrollTrigger re-measures once when web fonts land.
-- **Eases.** `expo.out` for entrances, `expo.inOut` for state changes,
-  `power4.in` for scale-ups (the WORK capsule). CSS hovers use
-  `cubic-bezier(0.16, 1, 0.3, 1)` over 0.3-0.4s.
-- **Durations and staggers.** 0.8-1.6s for entrances, staggers
-  0.04-0.12s.
-- **Triggered over scrubbed.** Sections play once when they enter
-  (`revealOnce`, `ScrollTrigger.batch` for the catalogue): bars wipe in
-  with scaleX, paragraphs and rows rise and fade, big words rise out of a
-  SplitText clip, GitHub numbers count up to their real value.
-- **Scrubbed only where pinned or tied to scroll.** Ticker drift, room
-  skew and the capsule scale use `scrub: 1`, so they lag and settle
-  instead of tracking raw scroll. The Work stage uses `scrub: true`
-  instead: its pin is a native sticky mask, so the scroll-driven zoom has
-  to track scroll exactly or the hole and the letters drift out of sync.
-  The fixed stage is clipped to its section by `clip-path: inset(0)` and
-  toggled off while the section is off screen.
-- **First load.** Header cells drop in, the hero mesh draws from the edges
-  to the centre, the title rises out of a clip, the stars spin in, then
-  the tickers fade up. Once.
-- **Hero mesh.** After the intro, mouse and pen pointers bend the lines
-  away within about 160px (push up to 36px, smooth falloff, zero at the
-  pointer and at the edge). Pointer and bend are damped so it eases in and
-  settles back. It draws in a small canvas lens over the SVG, and only
-  while something moves: never with the hero off screen or the tab hidden.
-  Math in `src/lib/mesh-displacement.ts`. Touch screens get the static
-  mesh.
-- **GO circle.** Gentle scale pulse (0.92-1.04) on a yoyo loop, larger on
-  hover.
-- **`prefers-reduced-motion: reduce`.** Every GSAP animation lives in
-  `gsap.matchMedia()` under `(prefers-reduced-motion: no-preference)`, so
-  with reduced motion there is no Lenis, no pinning, no scrubbed or
-  entrance transforms, no intro, no pointer bend, the static gallery
-  (`.work-animated` / `.work-static`), and all content in its final state.
-- **No JS.** Start states are set by client code only, so server HTML is
-  always fully visible.
-
-## 6. Rule exceptions (this project only, owner-approved)
-
-- Centered hero.
-- Decorative scroll motion in the closing sequence (burst, DREAM IT /
-  BUILD IT, warped grid). The reference's smiley icon is not used.
+- Favicon `icon.tsx`: dark tile, green `e_`. OG cards: dark, mono, accent
+  kickers (JetBrains Mono TTF in `src/app/fonts/og/`).
+- `colorScheme` metadata: `"dark"`.
+- Header logo: text mark `ES_` (the old webp is light-on-dark illegible).
 
 ## 7. Not copied
 

@@ -40,7 +40,7 @@ const components: MDXComponents = {
   pre: ({ children }) => (
     <pre
       tabIndex={0}
-      className={`${BLEED} mb-6 overflow-x-auto border-y border-ink bg-panel px-6 py-5 font-mono text-[13px] leading-[1.6] sm:px-12 sm:text-sm [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-[1em]`}
+      className={`${BLEED} mb-6 overflow-x-auto border-y border-edge bg-panel px-6 py-5 font-mono text-[13px] leading-[1.6] sm:px-12 sm:text-sm [&>code]:bg-transparent [&>code]:p-0 [&>code]:text-[1em]`}
     >
       {children}
     </pre>
@@ -49,7 +49,7 @@ const components: MDXComponents = {
     <code className="bg-panel px-1 font-mono text-[0.72em]">{children}</code>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="mb-6 border-l-2 border-ink pl-5">
+    <blockquote className="mb-6 border-l-2 border-edge pl-5">
       {children}
     </blockquote>
   ),

@@ -24,13 +24,13 @@ function NavCell({
     <a
       href={localizedPath(locale, `/projects/${project.slug}`)}
       className={`group block px-4 py-8 transition-colors duration-300 hover:bg-ink hover:text-bg sm:px-10 ${
-        align === "end" ? "border-l border-ink text-right" : ""
+        align === "end" ? "border-l border-edge text-right" : ""
       }`}
     >
       <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2 group-hover:text-bg">
         {align === "start" ? `← ${label}` : `${label} →`}
       </span>
-      <span className="mt-2 block text-balance font-serif text-xl leading-[1.2] sm:text-2xl">
+      <span className="mt-2 block text-balance font-mono text-base font-bold leading-[1.3] sm:text-lg">
         {project.title}
       </span>
     </a>
@@ -64,16 +64,16 @@ export default function ProjectDetail({
     (projectsT.tags as Record<string, string>)[project.tag] ?? project.tag;
   return (
     <article>
-      <p className="border-b border-ink px-4 py-3 font-mono text-xs uppercase tracking-[0.1em] sm:px-10">
+      <p className="border-b border-edge px-4 py-3 font-mono text-xs uppercase tracking-[0.1em] sm:px-10">
         <a href={localizedPath(locale, "/projects")} className="link-draw">
           <span aria-hidden>← </span>
           {t.back}
         </a>
       </p>
-      <h1 className="break-words border-b border-ink px-4 py-10 text-center font-display text-[clamp(2.5rem,8vw,7rem)] uppercase leading-[0.9] text-balance sm:px-10">
+      <h1 className="break-words border-b border-edge px-4 py-10 text-center font-mono text-[clamp(1.6rem,5vw,3.75rem)] font-extrabold uppercase leading-[1.05] tracking-[-0.02em] text-balance sm:px-10">
         {project.title}
       </h1>
-      <div className="grid grid-cols-2 gap-px border-b border-ink bg-ink md:grid-cols-[auto_auto_minmax(0,1fr)_auto]">
+      <div className="grid grid-cols-2 gap-px border-b border-edge bg-edge md:grid-cols-[auto_auto_minmax(0,1fr)_auto]">
         <p className="bg-bg px-4 py-3 font-mono text-xs tabular-nums text-ink-2 sm:px-10">
           {String(index).padStart(2, "0")}
         </p>
@@ -89,7 +89,7 @@ export default function ProjectDetail({
       </div>
       <h2 className={SECTION_BAR}>{t.overview}</h2>
       <div className="mx-auto max-w-[1100px] px-4 py-16 sm:px-10">
-        <p className="max-w-3xl text-pretty font-serif text-xl leading-[1.5] sm:text-2xl">
+        <p className="max-w-3xl text-pretty font-mono text-[15px] leading-[1.7] sm:text-base">
           {project.description}
         </p>
         <h3 className="mt-10 font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2">
@@ -100,7 +100,7 @@ export default function ProjectDetail({
         </p>
         <ProjectLinks links={project.links} />
         {project.image && (
-          <div className="mt-10 border border-ink bg-panel">
+          <div className="mt-10 border border-edge bg-panel">
             <Image
               src={project.image}
               alt={projectsT.screenshotAlt.replace("{title}", project.title)}
@@ -121,7 +121,7 @@ export default function ProjectDetail({
       {prev && next && (
         <nav
           aria-label={t.navLabel}
-          className="grid grid-cols-2 border-t border-ink"
+          className="grid grid-cols-2 border-t border-edge"
         >
           <NavCell
             project={prev}

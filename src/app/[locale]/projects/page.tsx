@@ -65,7 +65,7 @@ export default async function ProjectsPage({
       <JsonLd data={venturesJsonLd(getVentures(locale))} />
       <SiteHeader t={m.nav} locale={locale} />
       <main id="main" tabIndex={-1} className="outline-none">
-        <h1 className="border-b border-ink px-4 py-10 text-center font-display text-[clamp(3rem,12vw,10rem)] uppercase leading-[0.85] sm:px-10">
+        <h1 className="border-b border-edge px-4 py-10 text-center font-mono text-[clamp(2rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.02em] text-accent sm:px-10">
           {m.projects.heading}
         </h1>
         <Ventures t={m.ventures} ventures={getVentures(locale)} />

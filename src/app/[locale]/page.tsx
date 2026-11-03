@@ -30,7 +30,7 @@ export default async function Home({
     <Frame>
       <SiteHeader t={m.nav} locale={locale} />
       <main id="main" tabIndex={-1} className="outline-none">
-        <Hero commits={commits} />
+        <Hero commits={commits} t={m.hero} />
         <AboutSkills
           stats={githubStats}
           t={m.about}

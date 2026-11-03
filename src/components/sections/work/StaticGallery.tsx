@@ -13,8 +13,8 @@ export default function StaticGallery({
   locale: Locale;
 }) {
   return (
-    <div aria-hidden className="bg-ink px-4 py-12 text-bg">
-      <p className="text-center font-display text-[28vw] leading-none md:text-[14rem]">
+    <div aria-hidden className="bg-deep px-4 py-12 text-ink">
+      <p className="text-center font-display font-extrabold text-[26vw] leading-none md:text-[12rem]">
         <span
           data-letter="W"
           className="work-letter relative isolate inline-block"
@@ -44,7 +44,7 @@ export default function StaticGallery({
         {items.map((p, i) => {
           const body = (
             <>
-              <div className="relative aspect-[16/10] bg-panel">
+              <div className="relative aspect-[16/10] border border-edge bg-panel">
                 <Image
                   src={p.image!}
                   alt=""

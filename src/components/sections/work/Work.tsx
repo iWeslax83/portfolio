@@ -25,7 +25,7 @@ export default function Work() {
       </h2>
       <nav
         aria-label={t("listLabel")}
-        className="sr-only focus-within:not-sr-only focus-within:block focus-within:border-b focus-within:border-ink focus-within:p-6"
+        className="sr-only focus-within:not-sr-only focus-within:block focus-within:border-b focus-within:border-edge focus-within:p-6"
       >
         <ul className="flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-[0.1em]">
           {items.map((p) => (

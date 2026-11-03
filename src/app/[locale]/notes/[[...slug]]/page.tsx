@@ -112,7 +112,7 @@ function DraftMark({ label, locale }: { label: string; locale: Locale }) {
   return (
     <span
       lang={locale}
-      className="ml-3 border border-ink px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em]"
+      className="ml-3 border border-edge px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em]"
     >
       {label}
     </span>
@@ -123,17 +123,17 @@ function NotesIndex({ t, locale }: { t: Messages["notes"]; locale: Locale }) {
   const translated = locale !== "en";
   return (
     <>
-      <h1 className="border-b border-ink px-4 py-10 text-center font-display text-[clamp(3rem,12vw,10rem)] uppercase leading-[0.85] sm:px-10">
+      <h1 className="border-b border-edge px-4 py-10 text-center font-mono text-[clamp(2rem,8vw,5.5rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.02em] text-accent sm:px-10">
         {t.heading}
       </h1>
       {translated && (
-        <p className="border-b border-ink px-4 py-3 font-mono text-xs uppercase tracking-[0.1em] text-ink-2 sm:px-10">
+        <p className="border-b border-edge px-4 py-3 font-mono text-xs uppercase tracking-[0.1em] text-ink-2 sm:px-10">
           {t.englishOnly}
         </p>
       )}
       <ul>
         {listed.map((n) => (
-          <li key={n.slug} className="border-b border-ink">
+          <li key={n.slug} className="border-b border-edge">
             <a
               href={localizedPath(locale, `/notes/${n.slug}`)}
               hrefLang="en"
@@ -145,7 +145,7 @@ function NotesIndex({ t, locale }: { t: Messages["notes"]; locale: Locale }) {
               <span>
                 <span
                   lang="en"
-                  className="block text-balance font-serif text-2xl leading-[1.2] sm:text-[32px]"
+                  className="block text-balance font-mono text-base font-bold leading-[1.3] sm:text-lg"
                 >
                   {n.title}
                   {translated && (
@@ -157,7 +157,7 @@ function NotesIndex({ t, locale }: { t: Messages["notes"]; locale: Locale }) {
                 </span>
                 <span
                   lang="en"
-                  className="mt-3 block max-w-[60ch] font-serif text-lg leading-[1.5] text-ink-2 group-hover:text-bg group-focus-visible:text-bg"
+                  className="mt-3 block max-w-[60ch] font-mono text-[13px] leading-[1.7] text-ink-2 group-hover:text-bg group-focus-visible:text-bg"
                 >
                   {n.summary}
                 </span>
@@ -182,7 +182,7 @@ async function NoteArticle({
   const { default: Body } = await loadNote(note.slug);
   return (
     <article lang="en">
-      <p className="border-b border-ink px-4 py-3 font-mono text-xs uppercase tracking-[0.1em] sm:px-10">
+      <p className="border-b border-edge px-4 py-3 font-mono text-xs uppercase tracking-[0.1em] sm:px-10">
         <a
           href={localizedPath(locale, "/notes")}
           lang={locale}
@@ -192,16 +192,16 @@ async function NoteArticle({
           {t.back}
         </a>
       </p>
-      <header className="border-b border-ink px-4 py-10 text-center sm:px-10">
+      <header className="border-b border-edge px-4 py-10 text-center sm:px-10">
         <p className="font-mono text-xs uppercase tracking-[0.1em] tabular-nums text-ink-2">
           <time dateTime={note.date}>{formatDay(note.date)}</time>
           {note.draft && <DraftMark label={t.draft} locale={locale} />}
         </p>
-        <h1 className="mx-auto mt-6 max-w-[18ch] text-balance font-display text-[clamp(2.5rem,7vw,6rem)] uppercase leading-[0.9]">
+        <h1 className="mx-auto mt-6 max-w-[18ch] text-balance font-mono text-[clamp(1.6rem,5vw,3.75rem)] font-extrabold uppercase leading-[1.05] tracking-[-0.02em]">
           {note.title}
         </h1>
       </header>
-      <div className="mx-4 max-w-[760px] border-x border-ink px-6 py-14 font-serif text-[22px] leading-[1.5] tracking-[-0.01em] sm:mx-auto sm:px-12 sm:py-20 sm:text-[30px]">
+      <div className="mx-4 max-w-[760px] border-x border-edge px-6 py-14 font-mono text-[14px] leading-[1.75] sm:mx-auto sm:px-12 sm:py-20 sm:text-[16px]">
         <Body />
       </div>
     </article>

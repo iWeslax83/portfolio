@@ -1,5 +1,5 @@
 const rail =
-  "sticky top-[30vh] font-mono text-[11px] uppercase tracking-[0.3em] text-ink [writing-mode:vertical-rl]";
+  "sticky top-[30vh] font-mono text-[11px] uppercase tracking-[0.3em] text-ink-2 [writing-mode:vertical-rl]";
 
 /** Vertical mono captions on both edges, desktop only. Decorative. */
 export default function SideRails({

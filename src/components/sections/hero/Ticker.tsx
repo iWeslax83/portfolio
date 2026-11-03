@@ -36,7 +36,7 @@ export default function Ticker({
   return (
     <div
       aria-hidden
-      className="flex h-9 items-center gap-3 border-y border-ink px-4 font-mono text-[10px] leading-none tracking-[0.04em] text-ink"
+      className="flex h-9 items-center gap-3 border-y border-edge px-4 font-mono text-[10px] leading-none tracking-[0.04em] text-ink-2"
     >
       <span>▸</span>
       <div className="min-w-0 flex-1 overflow-hidden">
@@ -44,7 +44,7 @@ export default function Ticker({
           {loop.map((s, i) => (
             <span
               key={i}
-              className={s.kind === "commit" ? "text-ink" : "text-ink-2"}
+              className={s.kind === "commit" ? "text-accent" : "text-ink-2"}
             >
               {s.text}
             </span>

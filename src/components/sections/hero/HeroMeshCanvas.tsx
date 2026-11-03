@@ -95,8 +95,8 @@ function start(canvas: HTMLCanvasElement, host: HTMLElement): () => void {
   if (!ctx) return () => {};
 
   const tokens = getComputedStyle(host);
-  const ink = tokens.getPropertyValue("--color-ink").trim() || "#0a0a0a";
-  const paper = tokens.getPropertyValue("--color-bg").trim() || "#ffffff";
+  const ink = tokens.getPropertyValue("--color-ink").trim() || "#d2f0da";
+  const paper = tokens.getPropertyValue("--color-bg").trim() || "#0a0e0a";
   // Unbent segments draw from the SVG's own points, so the lens matches the
   // SVG under it. Bent segments use a finer, collinear copy so they curve.
   const fine = heroMeshPoints.map((pts) => subdivide(pts, DETAIL));

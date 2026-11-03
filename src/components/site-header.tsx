@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
 import type { Messages } from "@/lib/messages";
 import { Menu } from "lucide-react";
 import { SECTION_IDS, navItems } from "@/data/nav-items";
@@ -36,30 +35,23 @@ export default function SiteHeader({
   const langLabels = { en: t.langEn, tr: t.langTr, label: t.language };
 
   return (
-    <header className="relative z-40 border-b border-ink bg-bg">
+    <header className="relative z-40 border-b border-edge bg-bg">
       <div data-intro="header-row" className="flex h-16 lg:h-24">
         {/* A plain hash link: on the home page the smooth-scroll handler takes it, elsewhere it is a normal load */}
         <a
           href={href("/#home")}
           aria-label={t.homeLabel}
           data-intro="header-cell"
-          className="flex w-16 shrink-0 items-center justify-center border-r border-ink transition-colors duration-[350ms] hover:bg-ink focus-visible:bg-ink active:bg-ink lg:w-24"
+          className="flex w-16 shrink-0 items-center justify-center border-r border-edge font-mono text-lg font-bold tracking-tight text-accent transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg lg:w-24"
         >
-          <Image
-            src="/images/logo.webp"
-            alt=""
-            width={48}
-            height={48}
-            priority
-            className="h-9 w-9 lg:h-12 lg:w-12"
-          />
+          ES_
         </a>
 
         <div
           data-intro="header-cell"
-          className="hidden w-56 shrink-0 items-end border-r border-ink px-6 pb-3 xl:flex"
+          className="hidden w-56 shrink-0 items-end border-r border-edge px-6 pb-3 xl:flex"
         >
-          <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink">
+          <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-2">
             {t.caption}
           </span>
         </div>
@@ -67,7 +59,7 @@ export default function SiteHeader({
         <nav
           aria-label={t.primaryLabel}
           data-intro="header-cell"
-          className="hidden flex-1 border-r border-ink lg:flex"
+          className="hidden flex-1 border-r border-edge lg:flex"
         >
           {navItems.map((item) => {
             const isActive =
@@ -79,7 +71,7 @@ export default function SiteHeader({
                 key={item.key}
                 href={href(item.href)}
                 aria-current={isActive ? "true" : undefined}
-                className="group flex flex-1 items-center justify-center font-mono text-sm uppercase tracking-[0.05em] text-ink transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg"
+                className="group flex flex-1 items-center justify-center font-mono text-sm uppercase tracking-[0.05em] text-ink-2 transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg"
               >
                 {/* Cell fills on hover; from xl an arrow also slides in, as on the reference. Below xl the Turkish labels fill their cells, so it stays out. */}
                 <span
@@ -104,14 +96,14 @@ export default function SiteHeader({
 
         <div
           data-intro="header-cell"
-          className="hidden w-12 shrink-0 flex-col border-r border-ink lg:flex"
+          className="hidden w-12 shrink-0 flex-col border-r border-edge lg:flex"
         >
           <a
             href="https://github.com/iWeslax83"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            className={`${socialCell} border-b border-ink`}
+            className={`${socialCell} border-b border-edge`}
           >
             <GitHubIcon className="h-[18px] w-[18px]" />
           </a>
@@ -128,12 +120,12 @@ export default function SiteHeader({
 
         <div
           data-intro="header-cell"
-          className="hidden w-12 shrink-0 border-r border-ink lg:flex"
+          className="hidden w-12 shrink-0 border-r border-edge lg:flex"
         >
           <LocaleSwitch
             locale={locale}
             labels={langLabels}
-            className="flex flex-1 flex-col [&>a:first-child]:border-b [&>a:first-child]:border-ink"
+            className="flex flex-1 flex-col [&>a:first-child]:border-b [&>a:first-child]:border-edge"
             linkClassName={`${socialCell} font-mono text-xs uppercase tracking-[0.05em] duration-[350ms] focus-visible:bg-ink focus-visible:text-bg`}
           />
         </div>
@@ -142,14 +134,14 @@ export default function SiteHeader({
           data-intro="header-cell"
           className="hidden w-[22rem] shrink-0 flex-col lg:flex xl:w-[28rem]"
         >
-          <p className="flex flex-1 items-center border-b border-ink px-5 font-serif text-lg leading-none xl:text-[22px]">
+          <p className="flex flex-1 items-center border-b border-edge px-5 font-mono text-xs leading-none text-ink-2">
             {t.statusLine1}
           </p>
-          <p className="flex flex-1 items-center gap-[0.3em] px-5 font-serif text-lg leading-none xl:text-[22px]">
+          <p className="flex flex-1 items-center gap-[0.5em] px-5 font-mono text-xs leading-none text-ink-2">
             {t.statusLine2}
             <a
               href={href("/#contact")}
-              className="underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
+              className="text-accent underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
             >
               {t.getInTouch}
             </a>
@@ -158,7 +150,7 @@ export default function SiteHeader({
               target="_blank"
               rel="noopener noreferrer"
               hrefLang="en"
-              className="underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
+              className="text-accent underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
             >
               {t.resumeShort}
             </a>
@@ -172,7 +164,7 @@ export default function SiteHeader({
           aria-label={t.openMenu}
           aria-expanded={open}
           data-intro="header-cell"
-          className="flex w-16 items-center justify-center border-l border-ink bg-panel transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg lg:hidden"
+          className="flex w-16 items-center justify-center border-l border-edge bg-panel transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg lg:hidden"
         >
           <Menu size={22} />
         </button>

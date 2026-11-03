@@ -4,6 +4,7 @@ import type { Messages } from "@/lib/messages";
 import type { GitHubStats } from "@/lib/types";
 
 const label = "font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2";
+const number = "font-mono text-4xl font-extrabold leading-none text-accent tabular-nums";
 
 /** Live GitHub numbers. Real data or an honest "unavailable", never filler. */
 export default function GitHubCell({
@@ -27,20 +28,14 @@ export default function GitHubCell({
           >
             <div className="flex flex-col-reverse">
               <dt className={label}>{t.publicRepos}</dt>
-              <dd
-                data-count={stats.publicRepos}
-                className="font-display text-5xl leading-none tabular-nums"
-              >
+              <dd data-count={stats.publicRepos} className={number}>
                 <span data-count-text>{stats.publicRepos}</span>
               </dd>
             </div>
             {stats.contributions !== null && (
               <div className="flex flex-col-reverse">
                 <dt className={label}>{t.contributions}</dt>
-                <dd
-                  data-count={stats.contributions}
-                  className="font-display text-5xl leading-none tabular-nums"
-                >
+                <dd data-count={stats.contributions} className={number}>
                   <span data-count-text>{stats.contributions}</span>
                 </dd>
               </div>
@@ -73,7 +68,7 @@ export default function GitHubCell({
           )}
         </>
       ) : (
-        <p className="mt-4 font-serif text-xl leading-[1.5]">
+        <p className="mt-4 font-mono text-sm leading-[1.6] text-ink-2">
           {t.githubUnavailable}
         </p>
       )}

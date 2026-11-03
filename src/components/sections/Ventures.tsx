@@ -13,7 +13,7 @@ function Row({ venture, index }: { venture: Venture; index: number }) {
     <div className="grid gap-6 px-4 py-8 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-end lg:py-12">
       <h3
         data-venture-name
-        className="break-words font-display text-[clamp(3rem,10vw,9rem)] uppercase leading-[0.85]"
+        className="break-words font-display text-[clamp(1.9rem,6.5vw,5.25rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.02em] transition-colors group-hover:text-accent"
       >
         {venture.name}
         {venture.href && (
@@ -26,10 +26,10 @@ function Row({ venture, index }: { venture: Venture; index: number }) {
         )}
       </h3>
       <div>
-        <p className="font-mono text-xs uppercase tracking-[0.1em] text-ink-2">
-          {String(index + 1).padStart(2, "0")} · {venture.role}
+        <p className="font-mono text-xs uppercase tracking-[0.1em] text-accent">
+          [{index + 1}] {venture.role}
         </p>
-        <p className="mt-3 text-pretty font-serif text-xl leading-[1.5]">
+        <p className="mt-3 text-pretty font-mono text-sm leading-[1.7] text-ink-2">
           {venture.proof}
         </p>
         {venture.units && (
@@ -104,21 +104,21 @@ export default function Ventures({
       ref={scope}
       id="ventures"
       aria-labelledby="ventures-title"
-      className="relative overflow-clip border-t border-ink"
+      className="relative overflow-clip border-t border-edge"
     >
-      <RoomBackground className="opacity-15" />
+      <RoomBackground className="opacity-60" />
       <h2 id="ventures-title" className={`relative ${SECTION_BAR}`}>
         {t.title}
       </h2>
       <ul data-venture-list className="relative">
         {ventures.map((v, i) => (
-          <li key={v.name} data-venture-row className="border-b border-ink">
+          <li key={v.name} data-venture-row className="border-b border-edge">
             {v.href ? (
               <a
                 href={v.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block transition-colors hover:bg-panel"
+                className="group block transition-colors hover:bg-panel-2"
               >
                 <Row venture={v} index={i} />
               </a>

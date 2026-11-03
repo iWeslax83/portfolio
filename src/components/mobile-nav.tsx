@@ -92,7 +92,7 @@ export default function MobileNav({
       aria-modal="true"
       aria-label={t.menu}
       aria-hidden={!open}
-      className={`fixed inset-0 z-[70] flex flex-col bg-ink p-6 text-bg duration-200 ${
+      className={`fixed inset-0 z-[70] flex flex-col bg-deep p-6 text-ink duration-200 ${
         // Visibility flips at once on open (so the close button can take
         // focus right away) and only waits out the fade on close.
         open
@@ -106,7 +106,7 @@ export default function MobileNav({
           type="button"
           onClick={onClose}
           aria-label={t.closeMenu}
-          className="flex h-12 w-12 items-center justify-center border border-bg/30 transition-colors duration-[350ms] hover:bg-bg hover:text-ink focus-visible:bg-bg focus-visible:text-ink active:bg-bg active:text-ink"
+          className="flex h-12 w-12 items-center justify-center border border-edge transition-colors duration-[350ms] hover:bg-ink hover:text-accent focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg"
         >
           <X size={22} />
         </button>
@@ -118,9 +118,9 @@ export default function MobileNav({
             key={item.key}
             href={localizedPath(locale, item.href)}
             onClick={onNavigate}
-            className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
+            className="flex items-baseline gap-4 border-b border-rule py-5 font-mono text-3xl font-bold transition-colors duration-[350ms] hover:text-accent active:text-accent"
           >
-            <span className="font-mono text-xs text-bg/60">{item.num}</span>
+            <span className="font-mono text-xs text-ink-2">{item.num}</span>
             {t[item.key]}
           </a>
         ))}
@@ -128,9 +128,9 @@ export default function MobileNav({
           href={RESUME_PATH}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-baseline gap-4 border-b border-bg/20 py-5 font-serif text-4xl transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
+          className="flex items-baseline gap-4 border-b border-rule py-5 font-mono text-3xl font-bold transition-colors duration-[350ms] hover:text-accent active:text-accent"
         >
-          <span className="font-mono text-xs text-bg/60">PDF</span>
+          <span className="font-mono text-xs text-ink-2">PDF</span>
           {t.resume}
         </a>
       </nav>
@@ -139,15 +139,15 @@ export default function MobileNav({
         locale={locale}
         labels={{ en: t.langEn, tr: t.langTr, label: t.language }}
         className="mt-8 flex gap-6 font-mono text-xs uppercase tracking-[0.1em]"
-        linkClassName="py-2 transition-opacity duration-[350ms] hover:opacity-70 active:opacity-70"
+        linkClassName="py-2 transition-colors duration-[350ms] hover:text-accent active:text-accent"
       />
 
-      <div className="mt-auto flex gap-6 font-mono text-xs uppercase tracking-[0.1em] text-bg/70">
+      <div className="mt-auto flex gap-6 font-mono text-xs uppercase tracking-[0.1em] text-ink-2">
         <a
           href="https://github.com/iWeslax83"
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-colors duration-[350ms] hover:text-bg"
+          className="transition-colors duration-[350ms] hover:text-accent"
         >
           GitHub
         </a>
@@ -155,7 +155,7 @@ export default function MobileNav({
           href="https://linkedin.com/in/emirsakarya"
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-colors duration-[350ms] hover:text-bg"
+          className="transition-colors duration-[350ms] hover:text-accent"
         >
           LinkedIn
         </a>

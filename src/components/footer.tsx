@@ -8,7 +8,7 @@ import { localizedPath } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";
 
 const heading =
-  "mb-5 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-bg/60";
+  "mb-5 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-ink-2";
 
 export default function Footer({
   t,
@@ -21,16 +21,16 @@ export default function Footer({
 }) {
   return (
     <footer>
-      <div className="relative h-24 bg-ink md:h-[220px]">
+      <div className="relative h-24 bg-deep md:h-[220px]">
         <DotPattern
-          color="var(--color-bg)"
+          color="rgba(77,255,124,0.3)"
           gap={10}
           radius={1.2}
           className="absolute inset-0 h-full w-full"
         />
       </div>
 
-      <div className="relative overflow-hidden border-t border-bg bg-ink text-bg">
+      <div className="relative overflow-hidden border-t border-edge bg-deep text-ink">
         {/* Faint texture, not copy: drawn as SVG so contrast checkers do
             not read it as low-contrast text. Font size is 10.5% of width. */}
         <svg
@@ -67,10 +67,10 @@ export default function Footer({
                         rel={external ? "noopener noreferrer" : undefined}
                         className="flex min-w-0 items-baseline justify-between gap-4 transition-opacity duration-[350ms] hover:opacity-70 focus-visible:opacity-70 active:opacity-70"
                       >
-                        <span className="font-serif text-xl">
+                        <span className="font-mono text-base">
                           {isResume ? nav.resume : c.label}
                         </span>
-                        <span className="min-w-0 truncate font-mono text-xs text-bg/50">
+                        <span className="min-w-0 truncate font-mono text-xs text-ink-2">
                           {c.value}
                         </span>
                       </a>
@@ -87,12 +87,12 @@ export default function Footer({
                   <li key={item.key}>
                     <a
                       href={localizedPath(locale, item.href)}
-                      className="group flex items-baseline justify-between font-serif text-xl transition-opacity duration-[350ms] hover:opacity-70 focus-visible:opacity-70 active:opacity-70"
+                      className="group flex items-baseline justify-between font-mono text-base transition-colors duration-[350ms] hover:text-accent focus-visible:text-accent active:text-accent"
                     >
                       {nav[item.key]}
                       <span
                         aria-hidden
-                        className="text-sm text-bg/60 transition-transform duration-[350ms] group-hover:-translate-y-1 group-hover:translate-x-1 group-focus-visible:-translate-y-1 group-focus-visible:translate-x-1"
+                        className="text-sm text-ink-2 transition-transform duration-[350ms] group-hover:-translate-y-1 group-hover:translate-x-1 group-focus-visible:-translate-y-1 group-focus-visible:translate-x-1"
                       >
                         ↗
                       </span>
@@ -103,11 +103,11 @@ export default function Footer({
             </div>
           </div>
 
-          <div className="mt-14 flex flex-col gap-3 border-t border-bg/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-bg/60">
+          <div className="mt-14 flex flex-col gap-3 border-t border-rule pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2">
               {t.colophon}
             </p>
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-bg/60">
+            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2">
               {t.meta}
             </p>
           </div>
