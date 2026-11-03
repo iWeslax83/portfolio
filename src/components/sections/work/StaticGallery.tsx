@@ -1,7 +1,8 @@
 import Image from "next/image";
 import type { Project } from "@/lib/types";
 import type { Locale } from "@/lib/locales";
-import { localizedPath } from "@/lib/locale-path";
+import { cardLinkProps } from "@/lib/work-gallery";
+import { cardKey } from "@/lib/work-scene";
 
 /** Reduced-motion version: a WORK band and stacked cards. */
 export default function StaticGallery({
@@ -13,14 +14,37 @@ export default function StaticGallery({
 }) {
   return (
     <div aria-hidden className="bg-ink px-4 py-12 text-bg">
-      <p className="emboss-light text-center font-display text-[28vw] leading-none md:text-[14rem]">
-        WORK
+      <p className="text-center font-display text-[28vw] leading-none md:text-[14rem]">
+        <span
+          data-letter="W"
+          className="work-letter relative isolate inline-block"
+        >
+          W
+        </span>
+        <span
+          data-letter="O"
+          className="work-letter relative isolate inline-block"
+        >
+          O
+        </span>
+        <span
+          data-letter="R"
+          className="work-letter relative isolate inline-block"
+        >
+          R
+        </span>
+        <span
+          data-letter="K"
+          className="work-letter relative isolate inline-block"
+        >
+          K
+        </span>
       </p>
       <ul className="mx-auto mt-10 max-w-[640px] space-y-10">
         {items.map((p, i) => {
           const body = (
             <>
-              <div className="relative aspect-[16/10] border border-bg bg-panel">
+              <div className="relative aspect-[16/10] bg-panel">
                 <Image
                   src={p.image!}
                   alt=""
@@ -29,22 +53,17 @@ export default function StaticGallery({
                   className="object-cover object-top"
                 />
               </div>
-              <div className="mt-2 flex justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.12em]">
+              <div className="mt-2 flex justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.15em]">
                 <span className="truncate">{p.title}</span>
                 <span className="tabular-nums">
-                  #{String(i + 1).padStart(3, "0")}/
-                  {String(items.length).padStart(2, "0")}
+                  {cardKey(p.slug, i, items.length)}
                 </span>
               </div>
             </>
           );
           return (
             <li key={p.slug}>
-              <a
-                href={localizedPath(locale, `/projects/${p.slug}`)}
-                tabIndex={-1}
-                className="block"
-              >
+              <a {...cardLinkProps(p, locale)} tabIndex={-1} className="block">
                 {body}
               </a>
             </li>

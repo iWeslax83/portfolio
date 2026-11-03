@@ -48,8 +48,11 @@ identity for narrative simplicity.
 
 ## Capabilities and Constraints
 
-- Next.js 16 (App Router), single-page site, Tailwind CSS 4, Framer Motion,
-  next-intl (English only currently), Vercel deployment.
+- Next.js 16 (App Router): a one-page home plus `/projects`,
+  `/projects/[slug]` and `/notes` (MDX, listed in the nav once a note is
+  published). Tailwind CSS 4, GSAP (ScrollTrigger, SplitText) with Lenis
+  smooth scroll, next-intl with English at the bare URLs and Turkish under
+  `/tr`, Vercel deployment.
 - Live GitHub data (contribution graph, per-project commit stats, language
   mix) is fetched via the GitHub API, real values only, never filler numbers.
 - No CMS: all project/skill content lives in `src/data/*.ts`.
