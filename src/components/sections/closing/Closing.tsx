@@ -52,9 +52,13 @@ export default function Closing({
         </h2>
         <ul className="mt-16 grid grid-cols-1 border border-edge sm:grid-cols-2 lg:grid-cols-4">
           {contactLinks.map((c, i) => {
-            const external = c.href.startsWith("http") || c.href.endsWith(".pdf");
+            const external =
+              c.href.startsWith("http") || c.href.endsWith(".pdf");
             return (
-              <li key={c.label} className="border-b border-edge last:border-b-0 sm:border-b-0 sm:border-l sm:first:border-l-0">
+              <li
+                key={c.label}
+                className="border-b border-edge last:border-b-0 sm:border-b-0 sm:border-l sm:first:border-l-0"
+              >
                 <a
                   href={c.href}
                   target={external ? "_blank" : undefined}

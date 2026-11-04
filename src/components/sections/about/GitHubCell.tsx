@@ -4,7 +4,8 @@ import type { Messages } from "@/lib/messages";
 import type { GitHubStats } from "@/lib/types";
 
 const label = "font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2";
-const number = "font-mono text-4xl font-extrabold leading-none text-accent tabular-nums";
+const number =
+  "font-mono text-4xl font-extrabold leading-none text-accent tabular-nums";
 
 /** Live GitHub numbers. Real data or an honest "unavailable", never filler. */
 export default function GitHubCell({

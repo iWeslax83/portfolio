@@ -26,13 +26,17 @@
 
   /* ── Type: one face. JetBrains Mono carries display, body and
      data; size and weight do the hierarchy work. ──────────── */
-  --font-display: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
+  --font-display:
+    var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
   --font-body: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
   --font-sans: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
   --font-mono: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
-  --font-serif: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
-  --font-condensed: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
-  --font-display-accent: var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
+  --font-serif:
+    var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
+  --font-condensed:
+    var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
+  --font-display-accent:
+    var(--font-jetbrains), ui-monospace, "JetBrains Mono", monospace;
 
   /* ── Motion: hover and state transitions share the expo-out curve ── */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

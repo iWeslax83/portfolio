@@ -110,9 +110,7 @@ export async function renderOgCard(input: {
             UAV <span style={{ color: ACCENT }}>/</span> AI{" "}
             <span style={{ color: ACCENT }}>/</span> FOUNDER
           </span>
-          <span style={{ color: DIM, fontSize: 20 }}>
-            github.com/iWeslax83
-          </span>
+          <span style={{ color: DIM, fontSize: 20 }}>github.com/iWeslax83</span>
         </div>
       </div>
     </div>,
