@@ -19,28 +19,32 @@ export default function GitHubCell({
       <p className={label}>{t.githubLabel}</p>
       {stats ? (
         <>
-          <dl
-            className={`mt-4 grid gap-4 ${
-              stats.contributions !== null
-                ? "grid-cols-1 sm:grid-cols-2"
-                : "grid-cols-1"
-            }`}
-          >
-            <div className="flex flex-col-reverse">
-              <dt className={label}>{t.publicRepos}</dt>
-              <dd data-count={stats.publicRepos} className={number}>
-                <span data-count-text>{stats.publicRepos}</span>
-              </dd>
-            </div>
-            {stats.contributions !== null && (
-              <div className="flex flex-col-reverse">
-                <dt className={label}>{t.contributions}</dt>
-                <dd data-count={stats.contributions} className={number}>
-                  <span data-count-text>{stats.contributions}</span>
-                </dd>
-              </div>
-            )}
-          </dl>
+          {(stats.publicRepos !== null || stats.contributions !== null) && (
+            <dl
+              className={`mt-4 grid grid-cols-1 gap-4 ${
+                stats.publicRepos !== null && stats.contributions !== null
+                  ? "sm:grid-cols-2"
+                  : ""
+              }`}
+            >
+              {stats.publicRepos !== null && (
+                <div className="flex flex-col-reverse">
+                  <dt className={label}>{t.publicRepos}</dt>
+                  <dd data-count={stats.publicRepos} className={number}>
+                    <span data-count-text>{stats.publicRepos}</span>
+                  </dd>
+                </div>
+              )}
+              {stats.contributions !== null && (
+                <div className="flex flex-col-reverse">
+                  <dt className={label}>{t.contributions}</dt>
+                  <dd data-count={stats.contributions} className={number}>
+                    <span data-count-text>{stats.contributions}</span>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          )}
           {stats.languages.length > 0 && (
             <div className="mt-5">
               <div className="flex h-1.5 overflow-hidden">

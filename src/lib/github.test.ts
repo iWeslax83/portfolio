@@ -90,4 +90,65 @@ describe("fetchGitHubStats", () => {
     expect(stats?.contributions).toBeNull();
     vi.resetModules();
   });
+
+  it("keeps public repo counts when another request is rate limited", async () => {
+    vi.resetModules();
+    vi.stubEnv("GITHUB_TOKEN", "x");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockImplementation(async (url: string) =>
+        url.endsWith("/users/iWeslax83")
+          ? Response.json({ public_repos: 7 })
+          : new Response(null, { status: 429 }),
+      ),
+    );
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const { fetchGitHubStats: fresh } = await import("./github");
+    await expect(fresh()).resolves.toEqual({
+      publicRepos: 7,
+      contributions: null,
+      languages: [],
+    });
+  });
+
+  it("keeps successful contributions when the public repo request times out", async () => {
+    vi.resetModules();
+    vi.stubEnv("GITHUB_TOKEN", "x");
+    const fetchMock = vi.fn(async (url: string, init: RequestInit) => {
+      if (url.endsWith("/graphql")) {
+        return Response.json({
+          data: {
+            user: {
+              contributionsCollection: {
+                contributionCalendar: {
+                  weeks: [{ contributionDays: [{ contributionCount: 9 }] }],
+                },
+              },
+            },
+          },
+        });
+      }
+      if (url.includes("/repos?")) return Response.json([]);
+      init.signal?.throwIfAborted();
+      throw new Error("Expected an aborted request");
+    });
+    const timeout = vi
+      .spyOn(AbortSignal, "timeout")
+      .mockReturnValue(
+        AbortSignal.abort(new DOMException("timeout", "TimeoutError")),
+      );
+    vi.stubGlobal("fetch", fetchMock);
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const { fetchGitHubStats: fresh } = await import("./github");
+    await expect(fresh()).resolves.toEqual({
+      publicRepos: null,
+      contributions: 9,
+      languages: [],
+    });
+    expect(timeout).toHaveBeenCalledWith(3_000);
+    expect(fetchMock).toHaveBeenCalledWith(
+      expect.stringMatching(/\/users\/iWeslax83$/),
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
+    );
+  });
 });

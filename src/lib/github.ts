@@ -1,37 +1,17 @@
-import { GitHubStats } from "./types";
+import {
+  fetchGitHubRest,
+  githubTimeout,
+  githubToken,
+  GITHUB_REVALIDATE_SECONDS,
+  rejectGitHubToken,
+} from "./github-fetch";
+import type { GitHubStats } from "./types";
 
 const GITHUB_USERNAME = "iWeslax83";
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const REVALIDATE_SECONDS = 86400;
 const MAX_REPOS_FOR_LANG_BREAKDOWN = 30;
 
-/**
- * Set once GitHub answers 401 to the token (expired or revoked). From then
- * on calls go out anonymously, so the repo count still shows instead of the
- * whole cell going to "unavailable".
- */
-let tokenRejected = false;
-const hasToken = () => Boolean(GITHUB_TOKEN) && !tokenRejected;
-
 async function githubFetch(url: string) {
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github.v3+json",
-  };
-  if (hasToken()) {
-    headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
-  }
-  const res = await fetch(url, {
-    headers,
-    next: { revalidate: REVALIDATE_SECONDS },
-  });
-  if (res.status === 401 && headers.Authorization) {
-    if (!tokenRejected) {
-      console.warn("GITHUB_TOKEN was rejected (401); using anonymous calls.");
-    }
-    tokenRejected = true;
-    return githubFetch(url);
-  }
-  if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+  const res = await fetchGitHubRest(url);
   return res.json();
 }
 
@@ -39,7 +19,8 @@ type ContributionDay = { contributionCount: number };
 type ContributionWeek = { contributionDays: ContributionDay[] };
 
 async function fetchContributions(): Promise<number | null> {
-  if (!hasToken()) {
+  const token = githubToken();
+  if (!token) {
     return null;
   }
 
@@ -62,14 +43,15 @@ async function fetchContributions(): Promise<number | null> {
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${GITHUB_TOKEN}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ query, variables: { login: GITHUB_USERNAME } }),
-    next: { revalidate: REVALIDATE_SECONDS },
+    signal: githubTimeout(),
+    next: { revalidate: GITHUB_REVALIDATE_SECONDS },
   });
 
-  if (res.status === 401) tokenRejected = true;
+  if (res.status === 401) rejectGitHubToken();
   if (!res.ok) return null;
 
   const data = await res.json();
@@ -84,15 +66,19 @@ async function fetchContributions(): Promise<number | null> {
   return total;
 }
 
-async function fetchLanguageBreakdown(
-  repos: { languages_url: string; pushed_at: string }[],
-): Promise<GitHubStats["languages"]> {
+async function fetchLanguageBreakdown(): Promise<GitHubStats["languages"]> {
   // Unauthenticated GitHub API is 60 req/hr - skip per-repo language fan-out
   // entirely when no working token is configured (one call per repo would burn
   // the quota).
-  if (!hasToken()) {
+  if (!githubToken()) {
     return [];
   }
+
+  const repos: { languages_url: string; pushed_at: string }[] =
+    await githubFetch(
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`,
+    );
+  if (!githubToken()) return [];
 
   const topRepos = [...repos]
     .sort((a, b) => +new Date(b.pushed_at) - +new Date(a.pushed_at))
@@ -134,25 +120,29 @@ async function fetchLanguageBreakdown(
     }));
 }
 
-export async function fetchGitHubStats(): Promise<GitHubStats | null> {
+async function fetchPublicRepoCount(): Promise<number | null> {
+  const user = await githubFetch(
+    `https://api.github.com/users/${GITHUB_USERNAME}`,
+  );
+  return typeof user?.public_repos === "number" ? user.public_repos : null;
+}
+
+async function statsPart<T>(name: string, request: Promise<T>, fallback: T) {
   try {
-    const [user, repos, contributions] = await Promise.all([
-      githubFetch(`https://api.github.com/users/${GITHUB_USERNAME}`),
-      githubFetch(
-        `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=pushed`,
-      ),
-      fetchContributions(),
-    ]);
-
-    const languages = await fetchLanguageBreakdown(repos);
-
-    return {
-      publicRepos: user.public_repos,
-      contributions,
-      languages,
-    };
+    return await request;
   } catch (error) {
-    console.error("Failed to fetch GitHub stats:", error);
-    return null;
+    console.error(`Failed to fetch GitHub ${name}:`, error);
+    return fallback;
   }
+}
+
+export async function fetchGitHubStats(): Promise<GitHubStats | null> {
+  const [publicRepos, contributions, languages] = await Promise.all([
+    statsPart("public repo count", fetchPublicRepoCount(), null),
+    statsPart("contributions", fetchContributions(), null),
+    statsPart("language breakdown", fetchLanguageBreakdown(), []),
+  ]);
+  return publicRepos === null && contributions === null && languages.length === 0
+    ? null
+    : { publicRepos, contributions, languages };
 }

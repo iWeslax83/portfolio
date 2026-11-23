@@ -1,36 +1,13 @@
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const REVALIDATE_SECONDS = 86400;
+import { fetchGitHubRest } from "./github-fetch";
 
 export interface RepoStats {
   commitCount: number;
   lastCommitDate: string; // ISO date, e.g. "2026-08-09"
 }
 
-/** Set once GitHub rejects the token (401); later calls go out anonymously. */
-let tokenRejected = false;
-
-async function githubFetch(url: string): Promise<Response> {
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github.v3+json",
-  };
-  if (GITHUB_TOKEN && !tokenRejected) {
-    headers.Authorization = `Bearer ${GITHUB_TOKEN}`;
-  }
-  const res = await fetch(url, {
-    headers,
-    next: { revalidate: REVALIDATE_SECONDS },
-  });
-  if (res.status === 401 && headers.Authorization) {
-    tokenRejected = true;
-    return githubFetch(url);
-  }
-  if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-  return res;
-}
-
 async function fetchOneRepoStats(repo: string): Promise<RepoStats | null> {
   try {
-    const commitsRes = await githubFetch(
+    const commitsRes = await fetchGitHubRest(
       `https://api.github.com/repos/${repo}/commits?per_page=1`,
     );
     const linkHeader = commitsRes.headers.get("link");
