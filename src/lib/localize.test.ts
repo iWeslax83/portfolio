@@ -103,12 +103,20 @@ describe("ventures, units and skills", () => {
     expect(tr.map((v) => [v.name, v.href])).toEqual(
       ventures.map((v) => [v.name, v.href]),
     );
-    tr.forEach((v, i) => expect(v.role).not.toBe(ventures[i].role));
+    tr.forEach((v, i) => {
+      if (v.name !== "Viyaro") expect(v.role).not.toBe(ventures[i].role);
+    });
     const stratos = tr.find((v) => v.units);
     expect(stratos?.units).toEqual(getStratosUnits("tr"));
     expect(getStratosUnits("tr")).toHaveLength(stratosUnits.length);
     expect(getBentoSkills("tr").map((s) => s.key)).toEqual(
       bentoSkills.map((s) => s.key),
+    );
+  });
+
+  it.each(["en", "tr"] as const)("uses Viyaro’s exact role in %s", (locale) => {
+    expect(getVentures(locale).find((v) => v.name === "Viyaro")?.role).toBe(
+      "Founding Technical Developer Member",
     );
   });
 });
