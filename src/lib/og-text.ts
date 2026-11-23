@@ -1,5 +1,7 @@
 import type { Locale } from "@/lib/locales";
 
+export const ogSize = { width: 1200, height: 630 };
+
 /**
  * Locale-aware uppercase for the OG card. Satori's CSS textTransform ignores
  * the language, so Turkish i would become I instead of İ.

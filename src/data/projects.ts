@@ -121,17 +121,11 @@ export const projects: Project[] = [
         href: "https://tofasfen.com",
         isPrimary: true,
       },
-      {
-        label: "source code",
-        href: "https://github.com/iWeslax83/tofas-fen-webapp",
-        isPrimary: false,
-      },
     ],
     image: "/images/projects/tofas-fen-webapp.png",
     featured: true,
     order: 5,
     status: "SHIPPED",
-    repo: "iWeslax83/tofas-fen-webapp",
   },
   {
     slug: "stratos-akademi",
@@ -149,7 +143,7 @@ export const projects: Project[] = [
     ],
     links: [
       {
-        label: "live",
+        label: "live (login required)",
         href: "https://akademi.stratosiha.com",
         isPrimary: true,
       },
@@ -199,7 +193,7 @@ export const projects: Project[] = [
     tag: "AI",
     tagDetail: "TEKNOFEST Finalist · ESP32S3 + React Native",
     techPills: ["React Native", "TypeScript", "ESP32S3", "Bluetooth LE"],
-    links: [],
+    links: [{ label: "live", href: "https://dur-an.vercel.app", isPrimary: true }],
     featured: false,
     order: 8,
     status: "IN_PROGRESS",
@@ -265,19 +259,11 @@ export const projects: Project[] = [
     tag: "web",
     tagDetail: "live · stratosiha.com",
     techPills: ["Next.js", "TypeScript", "Tailwind"],
-    links: [
-      { label: "live", href: "https://www.stratosiha.com", isPrimary: true },
-      {
-        label: "source code",
-        href: "https://github.com/iWeslax83/stratos-website",
-        isPrimary: false,
-      },
-    ],
+    links: [{ label: "live", href: "https://www.stratosiha.com", isPrimary: true }],
     image: "/images/projects/stratos-website.png",
     featured: false,
     order: 12,
     status: "SHIPPED",
-    repo: "iWeslax83/stratos-website",
   },
   {
     slug: "fpv-drone",

@@ -2,9 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import type { Locale } from "@/lib/locales";
-import { upperForLocale } from "@/lib/og-text";
-
-export const ogSize = { width: 1200, height: 630 };
+import { ogSize, upperForLocale } from "@/lib/og-text";
 
 // Satori needs TTF/OTF, not the woff2 next/font serves, so the OG card
 // reads its own copy of the site's face (OFL, see the license file next to
@@ -28,6 +26,7 @@ export async function renderOgCard(input: {
   kicker: string;
   title: string;
   subtitle: string;
+  signature: string;
   locale: Locale;
   /** Overrides the length-based title size (the home card is deliberately larger). */
   titleSize?: number;
@@ -106,10 +105,7 @@ export async function renderOgCard(input: {
             fontSize: 24,
           }}
         >
-          <span>
-            UAV <span style={{ color: ACCENT }}>/</span> AI{" "}
-            <span style={{ color: ACCENT }}>/</span> FOUNDER
-          </span>
+          <span>{input.signature}</span>
           <span style={{ color: DIM, fontSize: 20 }}>
             github.com/iWeslax83
           </span>

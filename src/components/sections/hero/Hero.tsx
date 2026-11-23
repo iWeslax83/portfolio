@@ -46,11 +46,11 @@ export default function Hero({
           className="mt-6 font-mono text-[clamp(2.4rem,8.5vw,6.6rem)] font-extrabold leading-[1.02] tracking-[-0.02em] text-ink"
         >
           <span className="sr-only">Emir Sakarya: </span>
-          <span data-intro="title-word" className="block">
+          <span className="block">
             UAV <span className="text-accent">/</span> AI{" "}
             <span className="text-accent">/</span>
           </span>
-          <span data-intro="title-word" className="block">
+          <span className="block">
             FOUNDER
             <span
               aria-hidden

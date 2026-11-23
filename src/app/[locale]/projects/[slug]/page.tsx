@@ -48,7 +48,14 @@ export async function generateMetadata({
     title,
     description,
     alternates: localeAlternates(locale, path),
-    ...shareMetadata({ locale, path, title, description, type: "article" }),
+    ...shareMetadata({
+      locale,
+      path,
+      title,
+      description,
+      type: "article",
+      imageAlt: title,
+    }),
   };
 }
 

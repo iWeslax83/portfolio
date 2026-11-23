@@ -72,8 +72,8 @@ identity for narrative simplicity.
 - Real, verifiable projects only: PROSE, Teluvane, Wildfire Spread Forecast,
   Tofaş Fen Webapp, Stratos Akademi, and others listed in
   `src/data/projects.ts`, most with live URLs and/or public source repos.
-  DurAn is real, in-progress work but currently has no public URL or repo -
-  do not add a placeholder link for it.
+  DurAn is real, in-progress work with a public overview at
+  [dur-an.vercel.app](https://dur-an.vercel.app), but no public source repo.
 - Teluvane is a software product (multi-tenant AI-agent audit/compliance
   platform: hash-chained event log, EU AI Act/ISO 42001/NIST AI RMF/SOC 2
   policy packs, LangGraph + Claude tribunal, MCP server, Python/JS SDKs, 117

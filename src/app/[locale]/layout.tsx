@@ -54,6 +54,7 @@ export async function generateMetadata({
       title,
       description: share,
       type: "website",
+      imageAlt: title,
     }),
     robots: { index: true, follow: true },
     alternates: localeAlternates(locale, "/"),

@@ -46,13 +46,16 @@ export const projectsTr: Record<string, ProjectCopy> = {
     description:
       "Gerçek kullanımda olan bir okul yönetim platformu. 22 MongoDB modeli, 6 kullanıcı rolü, JWT + 2FA kimlik doğrulama, GraphQL, WebSocket ile gerçek zamanlı güncelleme ve Kubernetes üzerinde dağıtım.",
     tagDetail: "canlı · React 19 + K8s",
-    links: { live: "canlı", "source code": "kaynak kod" },
+    links: { live: "canlı" },
   },
   "stratos-akademi": {
     description:
       "Kendi İHA kulübüm için yaptığım video eğitim platformu. Müfredat ağacı, atlanamayan video tamamlama, sunucuda puanlanan sınavlar, kaptan geri bildirimiyle uygulamalı görev değerlendirmesi, liderlik tablosu ve yazdırılabilir sertifikalar. Bir cron işi YouTube’dan yeni ders önerir; son kararı her zaman bir insan verir.",
     tagDetail: "canlı · Next.js 16 + Supabase",
-    links: { live: "canlı", "source code": "kaynak kod" },
+    links: {
+      "live (login required)": "canlı (giriş gerekli)",
+      "source code": "kaynak kod",
+    },
   },
   "masa-hesaplari": {
     description:
@@ -64,6 +67,7 @@ export const projectsTr: Record<string, ProjectCopy> = {
     description:
       "TEKNOFEST Bağımlılıklarla Mücadelede Teknolojik Uygulamalar Yarışması’nda finale kaldı; Stratos Root’un takım kaptanı olarak geliştirdim. Kumar bağımlılığında nükse karşı iki parçalı bir erken uyarı sistemi: ESP32S3 bileklik (MAX30102 PPG, GSR, MPU6050, DS18B20) verisi, React Native uygulamasının davranışsal sinyaliyle cihaz üzerinde birleştirilir ve istek krizleri 3 dakikalık bir pencere içinde yakalanır. Tamamen cihaz üzerinde çalışır: sunucu yok, ham veri saklanmaz, yalnızca olay zaman damgaları kaydedilir. Simüle edilmiş nüks olaylarına karşı %94 tespit doğruluğu, fizyolojik ve davranışsal hatlarda 14 geçen birim testi; arkasında giderek güçlenen üç kademeli bir müdahale akışı var (hatırlatma, duraklatma ekranı, nefes egzersizi + YEDAM hattı).",
     tagDetail: "TEKNOFEST Finalisti · ESP32S3 + React Native",
+    links: { live: "canlı" },
   },
   "smart-cane": {
     title: "Akıllı Baston Asistanı",
@@ -89,7 +93,7 @@ export const projectsTr: Record<string, ProjectCopy> = {
     description:
       "Kurduğum TEKNOFEST İHA topluluğu STRATOS İHA’nın resmi sitesi. Takım tanıtımı, departmanlar ve proje sayfaları.",
     tagDetail: "canlı · stratosiha.com",
-    links: { live: "canlı", "source code": "kaynak kod" },
+    links: { live: "canlı" },
   },
   "fpv-drone": {
     title: "FPV Dron",

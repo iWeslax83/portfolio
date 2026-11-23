@@ -22,6 +22,10 @@ describe("structured data", () => {
     });
   });
 
+  it("does not claim an alumni relationship for the current school", () => {
+    expect(personJsonLd()).not.toHaveProperty("alumniOf");
+  });
+
   it("omits url for a venture without href (Viyaro)", () => {
     const list = venturesJsonLd(ventures) as {
       itemListElement: { item: Record<string, unknown> }[];
@@ -53,6 +57,21 @@ describe("structured data", () => {
     expect(ld["@type"]).toBe("CreativeWork");
     expect(ld).not.toHaveProperty("codeRepository");
   });
+
+  it.each(["tofas-fen-webapp", "stratos-website"])(
+    "does not advertise a public repository for %s",
+    (slug) => {
+      const project = bySlug(slug);
+      expect(project.links).toEqual([
+        {
+          label: "live",
+          href: expect.stringMatching(/^https:\/\//),
+          isPrimary: true,
+        },
+      ]);
+      expect(projectJsonLd(project, "en")).not.toHaveProperty("codeRepository");
+    },
+  );
 
   it("JsonLd escapes < so a title cannot close the script tag", () => {
     const html = renderToStaticMarkup(

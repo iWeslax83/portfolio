@@ -78,16 +78,8 @@ html.lenis body {
    each element's start state, so nothing flashes before it animates. */
 .intro-pending [data-intro="header-cell"],
 .intro-pending [data-intro="mesh"],
-.intro-pending [data-intro="ticker"],
-.intro-pending #hero-title {
+.intro-pending [data-intro="ticker"] {
   visibility: hidden;
-}
-/* SplitText leaves span wrappers inline; transforms and the clip mask need
-   inline-block. Only exists while the title intro runs. */
-.intro-char,
-.intro-char-mask {
-  display: inline-block;
-  position: relative;
 }
 
 /* Phosphor scanlines: a faint fixed overlay, never interactive. */

@@ -51,6 +51,24 @@ describe("shareMetadata", () => {
     });
     expect(openGraph).toMatchObject({ url: `${SITE_URL}/notes` });
   });
+
+  it("sets localized image alt text on both social cards", () => {
+    const { openGraph, twitter } = shareMetadata({
+      ...base,
+      locale: "tr",
+      path: "/projects/prose",
+      type: "article",
+      imageAlt: "PROSE - Niyet Odaklı Programlama",
+    });
+    const image = {
+      url: `${SITE_URL}/tr/projects/prose/opengraph-image`,
+      alt: "PROSE - Niyet Odaklı Programlama",
+      width: 1200,
+      height: 630,
+    };
+    expect(openGraph).toMatchObject({ images: [image] });
+    expect(twitter).toMatchObject({ images: [image] });
+  });
 });
 
 describe("shareMetadata with a parent", () => {
