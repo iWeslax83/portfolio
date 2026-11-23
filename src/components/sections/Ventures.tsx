@@ -3,7 +3,8 @@
 import { useRef } from "react";
 import type { Messages } from "@/lib/messages";
 import type { Venture } from "@/data/ventures";
-import { gsap, SplitText, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
+import { gsap, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
+import { SplitText } from "@/lib/gsap-split-text";
 import { revealOnce } from "@/lib/reveal";
 import { SECTION_BAR } from "@/components/sections/section-bar";
 import RoomBackground from "@/components/sections/about/RoomBackground";

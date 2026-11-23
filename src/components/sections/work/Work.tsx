@@ -35,13 +35,16 @@ export default function Work() {
               </a>
             </li>
           ))}
-          <li>
-            <a href={localizedPath(locale, "/projects")} className="link-draw">
-              {t("allTitle")} · {t("count", { count: projects.length })}
-            </a>
-          </li>
         </ul>
       </nav>
+      <div className="flex justify-end border-y border-edge bg-bg px-4 py-4 sm:px-10">
+        <a
+          href={localizedPath(locale, "/projects")}
+          className="link-draw font-mono text-sm font-bold uppercase text-accent"
+        >
+          {t("allTitle")} · {t("count", { count: projects.length })}
+        </a>
+      </div>
       <div className="work-animated">
         <WorkStage items={items} locale={locale} />
       </div>

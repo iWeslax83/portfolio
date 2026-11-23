@@ -16,7 +16,7 @@
     "primaryLabel": "Ana menü",
     "openMenu": "Menüyü aç",
     "closeMenu": "Menüyü kapat",
-    "homeLabel": "Emir Sakarya, başa dön",
+    "homeLabel": "ES_: Emir Sakarya, başa dön",
     "language": "Dil",
     "langEn": "English",
     "langTr": "Türkçe"
@@ -120,6 +120,9 @@
     "title": "Emir Sakarya - Kurucu ve Mühendis",
     "description": "STRATOS İHA’nın kurucusu, elektronik ve yazılım sorumlusu. Bursa’da otonom İHA’lar, yapay zeka sistemleri ve gerçek kullanımda web uygulamaları geliştiren gömülü sistemler ve full-stack mühendisi.",
     "shareDescription": "STRATOS İHA’nın kurucusu, elektronik ve yazılım sorumlusu. Otonom İHA’ları ve onları çalıştıran yazılımı geliştiriyorum.",
+    "ogKicker": "KURUCU, ELEKTRONİK VE YAZILIM SORUMLUSU · STRATOS İHA",
+    "ogSubtitle": "Bursa’da otonom İHA’ları ve onları çalıştıran yazılımları geliştiriyorum.",
+    "ogSignature": "İHA / YAPAY ZEKA / KURUCU",
     "projectsTitle": "Projeler - Emir Sakarya",
     "projectsDescription": "Emir Sakarya’nın kurduğu ve geliştirdiği tüm proje ve girişimler: İHA’lar, yapay zeka ajanları, full-stack uygulamalar ve arkalarındaki şirketler.",
     "notesTitle": "Notlar - Emir Sakarya",

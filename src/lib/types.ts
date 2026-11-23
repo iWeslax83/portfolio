@@ -29,8 +29,8 @@ export interface StratosUnit {
 }
 
 export interface GitHubStats {
-  publicRepos: number;
-  /** null means unknown (no token or API failure), never a stand-in zero. */
+  /** null means unknown, never a stand-in zero. */
+  publicRepos: number | null;
   contributions: number | null;
   languages: { name: string; percentage: number; color: string }[];
 }

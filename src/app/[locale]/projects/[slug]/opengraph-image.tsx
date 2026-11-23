@@ -3,9 +3,10 @@ import { routing } from "../../../../../i18n/routing";
 import { projects } from "@/data/projects";
 import { getProjects } from "@/lib/localize";
 import type { Locale } from "@/lib/locales";
-import { ogSize, renderOgCard } from "@/lib/og-card";
+import { renderOgCard } from "@/lib/og-card";
+import { ogSize } from "@/lib/og-text";
 
-export const alt = "Emir Sakarya - project";
+export const alt = "Emir Sakarya";
 export const size = ogSize;
 export const contentType = "image/png";
 
@@ -25,7 +26,10 @@ export default async function ProjectOpengraphImage({
 }) {
   const { locale, slug } = (await params) as { locale: Locale; slug: string };
   const project = getProjects(locale).find((p) => p.slug === slug)!;
-  const t = await getTranslations({ locale, namespace: "status" });
+  const [t, meta] = await Promise.all([
+    getTranslations({ locale, namespace: "status" }),
+    getTranslations({ locale, namespace: "meta" }),
+  ]);
   const status = {
     SHIPPED: t("shipped"),
     IN_PROGRESS: t("inProgress"),
@@ -36,6 +40,7 @@ export default async function ProjectOpengraphImage({
     kicker: project.tagDetail,
     title: project.title,
     subtitle: `Emir Sakarya · ${status}`,
+    signature: meta("ogSignature"),
     locale,
   });
 }

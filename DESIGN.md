@@ -56,8 +56,8 @@ tracking -0.02em; body 14-17px lh 1.7; labels 10-12px uppercase tracking
 
 ## 4. Motion
 
-Lenis + GSAP unchanged: intro (header cells, mesh draw, title chars,
-tickers), scroll-driven tickers and room skew (`scrub: 1`), work-stage
+Lenis + GSAP: intro (header cells, mesh draw, tickers; the title is always
+visible), scroll-driven tickers and room skew (`scrub: 1`), work-stage
 `scrub: true` pin, revealOnce entrances, count-up GitHub numbers. New:
 CSS `cursor-blink` (1.1s steps) on hero and closing cursors. All GSAP
 under `prefers-reduced-motion: no-preference`; reduced motion keeps the

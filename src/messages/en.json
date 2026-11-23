@@ -16,7 +16,7 @@
     "primaryLabel": "Primary",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "homeLabel": "Emir Sakarya, back to top",
+    "homeLabel": "ES_: Emir Sakarya, back to top",
     "language": "Language",
     "langEn": "English",
     "langTr": "Türkçe"
@@ -120,6 +120,9 @@
     "title": "Emir Sakarya - Founder & Engineer",
     "description": "Founder & Head of Electronics & Software at STRATOS İHA. Embedded-systems and full-stack engineer building autonomous drones, AI systems, and production web apps in Bursa, Türkiye.",
     "shareDescription": "Founder & Head of Electronics & Software at STRATOS İHA. Building autonomous drones and the software behind them.",
+    "ogKicker": "FOUNDER & HEAD OF ELECTRONICS & SOFTWARE · STRATOS İHA",
+    "ogSubtitle": "Building autonomous drones and the software behind them, from Bursa, Türkiye.",
+    "ogSignature": "UAV / AI / FOUNDER",
     "projectsTitle": "Projects - Emir Sakarya",
     "projectsDescription": "Every project and venture Emir Sakarya has built: UAVs, AI agents, full-stack apps and the companies behind them.",
     "notesTitle": "Notes - Emir Sakarya",

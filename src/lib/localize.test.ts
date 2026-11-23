@@ -51,6 +51,20 @@ describe("getProjects", () => {
     });
   });
 
+  it("localizes the DurAn and sign-in-only Stratos Akademi links", () => {
+    const tr = getProjects("tr");
+    expect(tr.find((p) => p.slug === "duran")?.links).toContainEqual({
+      label: "canlı",
+      href: "https://dur-an.vercel.app",
+      isPrimary: true,
+    });
+    expect(tr.find((p) => p.slug === "stratos-akademi")?.links).toContainEqual({
+      label: "canlı (giriş gerekli)",
+      href: "https://akademi.stratosiha.com",
+      isPrimary: true,
+    });
+  });
+
   it("keeps the facts that are not copy", () => {
     const en = getProjects("en");
     getProjects("tr").forEach((p, i) => {

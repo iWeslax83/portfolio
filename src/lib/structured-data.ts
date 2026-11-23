@@ -27,10 +27,6 @@ export function personJsonLd(): object {
       name: "STRATOS İHA",
       url: "https://www.stratosiha.com",
     },
-    alumniOf: {
-      "@type": "EducationalOrganization",
-      name: "Tofaş Fen Lisesi",
-    },
     address: {
       "@type": "PostalAddress",
       addressLocality: "Bursa",
