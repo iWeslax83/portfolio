@@ -46,7 +46,7 @@ export function venturesJsonLd(ventures: Venture[]): object {
         "@type": "Organization",
         name: v.name,
         description: v.proof,
-        founder: { "@id": PERSON_ID },
+        ...(v.isFounder ? { founder: { "@id": PERSON_ID } } : {}),
         ...(v.href ? { url: v.href } : {}),
       },
     })),

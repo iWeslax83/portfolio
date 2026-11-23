@@ -16,7 +16,7 @@ export const venturesTr: Record<string, Pick<Venture, "role" | "proof">> = {
       "Yapay zeka ajanları için çok kiracılı uyumluluk platformu · hash zincirli denetim kaydı · EU AI Act / ISO 42001 / NIST AI RMF / SOC 2",
   },
   Viyaro: {
-    role: "Kurucu ve CEO",
+    role: "Founding Technical Developer Member",
     proof:
       "Otonom mobilite · BOSİAD destekli · 10’dan fazla şirkette, canlı kullanımda 50.000+ yolculuk",
   },
