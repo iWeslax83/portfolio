@@ -92,6 +92,7 @@ export default function MobileNav({
       aria-modal="true"
       aria-label={t.menu}
       aria-hidden={!open}
+      data-lenis-prevent
       className={`fixed inset-0 z-[70] flex flex-col overflow-y-auto overscroll-contain bg-deep p-6 text-ink duration-200 ${
         // Visibility flips at once on open (so the close button can take
         // focus right away) and only waits out the fade on close.
