@@ -40,7 +40,7 @@ export default async function Home({
           devops={getDevopsSkill(locale)}
           locale={locale}
         />
-        <Closing commits={commits} t={m.closing} />
+        <Closing commits={commits} t={m.closing} resumeLabel={m.nav.resume} />
       </main>
       <Footer t={m.footer} nav={m.nav} locale={locale} />
       <BackToTop label={m.common.backToTop} />

@@ -98,10 +98,9 @@
     "githubLink": "github.com/iWeslax83"
   },
   "closing": {
-    "line1": "Let’s",
-    "line2": "Build",
-    "line3": "Something",
-    "line4": "Real",
+    "headline": "Let’s build something real",
+    "invite": "Working on a project or have a question? Send me a note.",
+    "emailAction": "Email me",
     "dreamBuild": "Dream it. Build it.",
     "go": "GO",
     "goLabel": "Go: email Emir Sakarya"
@@ -110,7 +109,8 @@
     "colophon": "Designed and built by Emir Sakarya in Bursa, Türkiye.",
     "meta": "Next.js · 2026",
     "wordmark": "FOUNDER ENGINEER",
-    "contactHeading": "Contact",
+    "socialHeading": "Find me online",
+    "emailLabel": "Email",
     "navHeading": "Navigation"
   },
   "about": {
