@@ -12,6 +12,11 @@ describe("navItems", () => {
     for (const item of navItems) expect(item.href.startsWith("/")).toBe(true);
   });
 
+  it("lists home anchors in page order", () => {
+    expect(navItems.filter(({ href }) => href.startsWith("/#")).map(({ href }) => href.slice(2)))
+      .toEqual(SECTION_IDS.slice(1));
+  });
+
   it("has five cells numbered 01.. in order without notes", () => {
     expect(buildNavItems(false).map((i) => i.num)).toEqual([
       "01",

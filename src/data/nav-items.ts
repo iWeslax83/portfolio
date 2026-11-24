@@ -9,11 +9,11 @@ export interface NavItem {
 }
 
 /** Every in-page section id on the home page, in page order. */
-export const SECTION_IDS = ["home", "about", "work", "contact"] as const;
+export const SECTION_IDS = ["home", "work", "about", "contact"] as const;
 
 const sectionItems: NavItem[] = [
-  { key: "about", href: "/#about", num: "01" },
-  { key: "work", href: "/#work", num: "02" },
+  { key: "work", href: "/#work", num: "01" },
+  { key: "about", href: "/#about", num: "02" },
   { key: "projects", href: "/projects", num: "03" },
   { key: "ventures", href: "/projects#ventures", num: "04" },
   { key: "contact", href: "/#contact", num: "05" },
