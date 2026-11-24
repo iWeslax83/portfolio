@@ -25,7 +25,7 @@ describe.each([["en", en], ["tr", tr]] as const)("contact and footer (%s)", (loc
     expect(html).toContain(messages.nav.resume);
   });
 
-  it("has localized navigation and doesn't repeat all contact channels", () => {
+  it("has localized navigation and links to the English CV by default", () => {
     const html = renderToStaticMarkup(createElement(Footer, {
       t: messages.footer,
       nav: messages.nav,
@@ -34,6 +34,17 @@ describe.each([["en", en], ["tr", tr]] as const)("contact and footer (%s)", (loc
     expect(html).toContain(messages.footer.navHeading);
     expect(html).toContain(`href="${locale === "tr" ? "/tr" : ""}/projects"`);
     expect(html).toContain(`href="mailto:${CONTACT_EMAIL}"`);
+    expect(html).toContain(`href="${RESUME_PATH}" hrefLang="en"`);
+    expect(html).toContain(`>${messages.nav.resume}<span`);
+  });
+
+  it("can omit the CV when the home page already shows it", () => {
+    const html = renderToStaticMarkup(createElement(Footer, {
+      t: messages.footer,
+      nav: messages.nav,
+      locale,
+      hideResume: true,
+    }));
     expect(html).not.toContain(`href="${RESUME_PATH}"`);
   });
 });
