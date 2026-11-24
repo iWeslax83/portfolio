@@ -6,7 +6,24 @@ import {
   FLAGSHIP_COMPANION,
   metaDescription,
   orderedProjects,
+  projectDescriptionParts,
 } from "./project-nav";
+
+describe("projectDescriptionParts", () => {
+  it("preserves all copy after the summary", () => {
+    expect(projectDescriptionParts("First sentence. Technical details. Results.")).toEqual({
+      summary: "First sentence.",
+      implementation: "Technical details. Results.",
+    });
+  });
+
+  it("has no implementation section for a one-sentence description", () => {
+    expect(projectDescriptionParts("  A short description.  ")).toEqual({
+      summary: "A short description.",
+      implementation: "",
+    });
+  });
+});
 
 describe("orderedProjects", () => {
   const list = orderedProjects(projects);

@@ -38,6 +38,7 @@ export default async function Home({
           skills={m.skills}
           bentoSkills={getBentoSkills(locale)}
           devops={getDevopsSkill(locale)}
+          locale={locale}
         />
         <Closing commits={commits} t={m.closing} />
       </main>

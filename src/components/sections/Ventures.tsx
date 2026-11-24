@@ -1,131 +1,43 @@
-"use client";
-
-import { useRef } from "react";
 import type { Messages } from "@/lib/messages";
 import type { Venture } from "@/data/ventures";
-import { gsap, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
-import { SplitText } from "@/lib/gsap-split-text";
-import { revealOnce } from "@/lib/reveal";
 import { SECTION_BAR } from "@/components/sections/section-bar";
-import RoomBackground from "@/components/sections/about/RoomBackground";
-
-function Row({ venture, index }: { venture: Venture; index: number }) {
-  return (
-    <div className="grid gap-6 px-4 py-8 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:items-end lg:py-12">
-      <h3
-        data-venture-name
-        className="break-words font-display text-[clamp(1.9rem,6.5vw,5.25rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.02em] transition-colors group-hover:text-accent"
-      >
-        {venture.name}
-        {venture.href && (
-          <span
-            aria-hidden
-            className="ml-3 inline-block align-top text-[0.35em] transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"
-          >
-            ↗
-          </span>
-        )}
-      </h3>
-      <div>
-        <p className="font-mono text-xs uppercase tracking-[0.1em] text-accent">
-          [{index + 1}] {venture.role}
-        </p>
-        <p className="mt-3 text-pretty font-mono text-sm leading-[1.7] text-ink-2">
-          {venture.proof}
-        </p>
-        {venture.units && (
-          <ul className="mt-4 space-y-1 font-mono text-[11px] uppercase tracking-[0.08em] text-ink-2">
-            {venture.units.map((u) => (
-              <li key={u.name}>
-                {u.name} · {u.detail}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
-  );
-}
 
 export default function Ventures({
   t,
   ventures,
 }: {
   t: Messages["ventures"];
-  /** Already in the page's language. */
   ventures: Venture[];
 }) {
-  const scope = useRef<HTMLElement>(null);
-
-  // Rows slide in from the left, staggered, and each big name rises out of
-  // a clip. Start states are client-only, so the rows read without JS.
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        const q = gsap.utils.selector(scope);
-        const list = q("[data-venture-list]")[0];
-        const rows = q("[data-venture-row]");
-        // SplitText note: revert() restores the original markup via innerHTML,
-        // so the split nodes must stay static text (no React children or refs).
-        const split = SplitText.create(q("[data-venture-name]"), {
-          type: "words",
-          mask: "words",
-          aria: "none",
-        });
-        const tl = gsap
-          .timeline({ paused: true, onComplete: () => split.revert() })
-          .fromTo(
-            rows,
-            { x: -60, opacity: 0 },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 1.2,
-              ease: EASE.enter,
-              stagger: 0.1,
-            },
-          )
-          .fromTo(
-            split.words,
-            { yPercent: 100 },
-            { yPercent: 0, duration: 1.2, ease: EASE.enter, stagger: 0.06 },
-            0.1,
-          );
-        revealOnce(list, () => tl.play(), "top 80%");
-        return () => split.revert();
-      });
-      return () => mm.revert();
-    },
-    { scope },
-  );
-
   return (
-    <section
-      ref={scope}
-      id="ventures"
-      aria-labelledby="ventures-title"
-      className="relative overflow-clip border-t border-edge"
-    >
-      <RoomBackground className="opacity-60" />
-      <h2 id="ventures-title" className={`relative ${SECTION_BAR}`}>
-        {t.title}
-      </h2>
-      <ul data-venture-list className="relative">
-        {ventures.map((v, i) => (
-          <li key={v.name} data-venture-row className="border-b border-edge">
-            {v.href ? (
-              <a
-                href={v.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block transition-colors hover:bg-panel-2"
-              >
-                <Row venture={v} index={i} />
-              </a>
-            ) : (
-              <Row venture={v} index={i} />
-            )}
+    <section id="ventures" aria-labelledby="ventures-title" className="border-t border-edge bg-panel">
+      <h2 id="ventures-title" className={SECTION_BAR}>{t.title}</h2>
+      <ul className="mx-auto max-w-[1200px] divide-y divide-edge px-4 sm:px-10">
+        {ventures.map((venture) => (
+          <li key={venture.name} className="grid gap-2 py-6 md:grid-cols-[2fr_3fr] md:gap-x-10 md:py-8">
+            <h3 className="text-balance text-2xl font-extrabold tracking-tight sm:text-4xl">
+              {venture.href ? (
+                <a
+                  href={venture.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 items-center gap-2 text-accent underline decoration-edge underline-offset-4 hover:decoration-accent"
+                >
+                  {venture.name}<span aria-hidden className="text-base">↗</span>
+                </a>
+              ) : venture.name}
+            </h3>
+            <div>
+              <p className="text-base font-bold text-ink">{venture.role}</p>
+              <p className="mt-2 max-w-[60ch] text-pretty text-sm leading-relaxed text-ink-3">{venture.proof}</p>
+              {venture.units && (
+                <ul className="mt-3 space-y-1 text-xs leading-relaxed text-ink-3">
+                  {venture.units.map((unit) => (
+                    <li key={unit.name}><strong className="text-ink">{unit.name}</strong> · {unit.detail}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </li>
         ))}
       </ul>

@@ -36,6 +36,11 @@ export function firstSentence(text: string): string {
   return (match ? match[0] : text).trim();
 }
 
+export function projectDescriptionParts(text: string) {
+  const summary = firstSentence(text);
+  return { summary, implementation: text.trim().slice(summary.length).trim() };
+}
+
 /**
  * `text` capped at `max` characters for a meta description. Longer text is
  * cut at the last space that leaves room for a trailing "…", with trailing

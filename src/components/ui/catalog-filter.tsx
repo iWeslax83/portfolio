@@ -23,7 +23,7 @@ export default function CatalogFilter({
           type="button"
           key={f}
           onClick={() => onChange(f)}
-          className={`border px-4 py-1.5 transition-colors duration-[350ms] ${
+          className={`min-h-11 border px-4 py-1.5 transition-colors duration-[350ms] ${
             value === f
               ? "border-edge bg-ink text-bg"
               : "border-rule text-ink-3 hover:border-edge hover:text-ink focus-visible:border-edge focus-visible:text-ink"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 import Image from "next/image";
 import type { Messages } from "@/lib/messages";
 import type { Locale } from "@/lib/locales";
@@ -14,14 +14,10 @@ import {
   type CatalogFilterValue,
 } from "@/lib/catalog-filter";
 import { SECTION_BAR } from "@/components/sections/section-bar";
-import { gsap, ScrollTrigger, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
-import { revealOnce } from "@/lib/reveal";
 import { formatDay } from "@/lib/format-date";
 import { localizedPath } from "@/lib/locale-path";
-import { FLAGSHIP_COMPANION, orderedProjects } from "@/lib/project-nav";
+import { firstSentence, orderedProjects } from "@/lib/project-nav";
 import ProjectLinks from "./ProjectLinks";
-
-const FRAME = "border-2 border-accent px-6 md:px-8";
 
 /** replaceState fires no event, so the filter buttons notify directly. */
 const filterListeners = new Set<() => void>();
@@ -34,7 +30,6 @@ function subscribeToFilter(notify: () => void) {
   };
 }
 
-/** The full, accessible project list. Every project, every link. */
 export default function WorkCatalogue({
   projects,
   repoStats,
@@ -67,67 +62,6 @@ export default function WorkCatalogue({
   const ordered = orderedProjects(projects);
   const flagship = ordered[0];
   const shown = ordered.filter((p) => filter === "ALL" || p.status === filter);
-  // The flagship and its companion share one framed row when both are shown.
-  const paired =
-    shown[0]?.slug === flagship?.slug && shown[1]?.slug === FLAGSHIP_COMPANION;
-  const scope = useRef<HTMLElement>(null);
-
-  // The black title bar wipes in, then articles reveal in batches as they
-  // arrive. Only transforms and opacity move, so nothing shifts layout.
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        const q = gsap.utils.selector(scope);
-        const bar = q("[data-reveal='bar']")[0];
-        const barTl = gsap
-          .timeline({ paused: true })
-          .fromTo(
-            bar,
-            { scaleX: 0, transformOrigin: "0% 50%" },
-            { scaleX: 1, duration: 1.1, ease: EASE.enter },
-          );
-        revealOnce(bar, () => barTl.play(), "top 95%");
-
-        const articles = q("article");
-        const shown = new WeakSet<Element>();
-        const show = (els: Element[]) => {
-          const fresh = els.filter((el) => !shown.has(el));
-          if (!fresh.length) return;
-          fresh.forEach((el) => shown.add(el));
-          gsap.to(fresh, {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: EASE.enter,
-            stagger: 0.08,
-            overwrite: true,
-          });
-        };
-        gsap.set(articles, { y: 30, opacity: 0 });
-        const triggers = ScrollTrigger.batch(articles, {
-          start: "top 90%",
-          once: true,
-          onEnter: (els) => show(els),
-        });
-        // A refresh (load with restored scroll, filter change, resize) fires
-        // no callbacks, so reveal anything already at or past its start.
-        const onRefresh = () =>
-          show(
-            triggers
-              .filter((st) => st.progress > 0)
-              .map((st) => st.trigger)
-              .filter((el): el is Element => !!el),
-          );
-        ScrollTrigger.addEventListener("refresh", onRefresh);
-        onRefresh();
-        return () => ScrollTrigger.removeEventListener("refresh", onRefresh);
-      });
-      return () => mm.revert();
-    },
-    { scope },
-  );
-
   const choose = (next: CatalogFilterValue) => {
     const { pathname, search, hash } = window.location;
     window.history.replaceState(
@@ -138,88 +72,85 @@ export default function WorkCatalogue({
     filterListeners.forEach((notify) => notify());
   };
 
-  // Filtering reflows the list: re-measure every trigger below it.
-  const firstRender = useRef(true);
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
-    ScrollTrigger.refresh();
-  }, [filter]);
-
   return (
-    <section
-      ref={scope}
-      aria-labelledby="catalogue-title"
-      className="border-t border-edge bg-bg"
-    >
-      <h2 id="catalogue-title" data-reveal="bar" className={SECTION_BAR}>
-        {title}
-      </h2>
-      <div className="mx-auto max-w-[1100px] px-4 py-16 sm:px-10">
-        <CatalogFilter
-          value={filter}
-          onChange={choose}
-          labels={{ ALL: status.all, ...statusLabels }}
-        />
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2">
-          {shown.map((project, i) => (
-            <article
-              key={project.slug}
-              className={`grid content-start py-8 ${
-                paired && i === 1
-                  ? `${FRAME} border-t-0 md:border-l-0 md:border-t-2`
-                  : project.slug === flagship?.slug
-                    ? FRAME
-                    : "border-t border-edge"
-              } ${paired && i < 2 ? "" : "md:col-span-2"}`}
-            >
-              <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
-                <span className="font-mono text-xs tabular-nums text-ink-2">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2">
-                  {(t.tags as Record<string, string>)[project.tag] ??
-                    project.tag}
-                </span>
-                <StatusTag status={project.status} labels={statusLabels} />
-              </div>
-              <h3 className="text-balance font-mono text-xl font-bold leading-[1.2] text-ink">
-                <a
-                  href={localizedPath(locale, `/projects/${project.slug}`)}
-                  className="link-draw"
-                >
-                  {project.title}
-                </a>
-              </h3>
-              <p className="mt-3 max-w-2xl text-pretty font-mono text-[13px] leading-[1.7] text-ink-2">
-                {project.description}
-              </p>
-              <p className="mt-4 font-mono text-[11px] leading-relaxed text-ink-2">
-                {project.techPills.join("  ·  ")}
-              </p>
-              <ProjectLinks links={project.links} />
-              {project.image && (
-                <div className="relative mt-5 flex min-h-[160px] max-w-[280px] items-center justify-center overflow-hidden border border-edge bg-panel p-6">
-                  <Image
-                    src={project.image}
-                    alt={t.screenshotAlt.replace("{title}", project.title)}
-                    width={280}
-                    height={175}
-                    className="aspect-[16/10] h-auto w-full object-contain"
-                  />
+    <section aria-labelledby="catalogue-title" className="border-t border-edge bg-bg">
+      <h2 id="catalogue-title" className={SECTION_BAR}>{title}</h2>
+      <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-10 sm:py-12">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <CatalogFilter
+            value={filter}
+            onChange={choose}
+            labels={{ ALL: status.all, ...statusLabels }}
+          />
+          <p role="status" className="text-sm text-ink-3">
+            {t.results.replace("{count}", String(shown.length))}
+          </p>
+        </div>
+        <div className="mt-6 grid gap-5 md:grid-cols-2">
+          {shown.map((project, i) => {
+            const isFlagship = project.slug === flagship?.slug;
+            const detail = localizedPath(locale, `/projects/${project.slug}`);
+            const stats = project.repo ? repoStats[project.repo] : null;
+            const tags = project.techPills.slice(0, 3);
+            const tag = (t.tags as Record<string, string>)[project.tag] ?? project.tag;
+            return (
+              <article
+                key={project.slug}
+                className={`grid border bg-panel ${
+                  isFlagship
+                    ? "border-accent md:col-span-2 md:grid-cols-2"
+                    : "grid-rows-[auto_1fr] border-edge"
+                }`}
+              >
+                <div className={`relative grid aspect-[16/10] place-items-center overflow-hidden border-b border-edge bg-deep ${
+                  isFlagship ? "md:aspect-auto md:border-b-0 md:border-r" : ""
+                }`}>
+                  {project.image ? (
+                    <Image
+                      src={project.image}
+                      alt={project.image.endsWith(".svg") ? "" : t.screenshotAlt.replace("{title}", project.title)}
+                      fill
+                      sizes="(min-width: 1200px) 560px, (min-width: 768px) 46vw, 92vw"
+                      className="object-contain"
+                    />
+                  ) : (
+                    <p aria-hidden className="px-4 text-center text-sm font-bold uppercase tracking-wider text-ink-3">
+                      {tag} / {tags.join(" · ")}
+                    </p>
+                  )}
                 </div>
-              )}
-              {project.repo && repoStats[project.repo] && (
-                <p className="mt-4 font-mono text-[11px] text-ink-2">
-                  {repoStats[project.repo]!.commitCount} {t.commits} ·{" "}
-                  {t.lastCommit}{" "}
-                  {formatDay(repoStats[project.repo]!.lastCommitDate, locale)}
-                </p>
-              )}
-            </article>
-          ))}
+                <div className="flex flex-col p-4 sm:p-6">
+                  <div className="mb-3 flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
+                    <span className="text-xs tabular-nums text-ink-3">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-xs uppercase tracking-wider text-ink-3">{tag}</span>
+                    <StatusTag status={project.status} labels={statusLabels} />
+                  </div>
+                  <h3 className="text-balance text-xl font-bold leading-snug text-ink">{project.title}</h3>
+                  <p className="mt-2 text-sm font-bold text-accent">{project.tagDetail}</p>
+                  <p className="mt-3 max-w-[60ch] text-pretty text-sm leading-relaxed text-ink-3">
+                    {firstSentence(project.description)}
+                  </p>
+                  {tags.length > 0 && (
+                    <ul aria-label={t.technologies} className="mt-4 flex flex-wrap gap-2 text-xs text-ink-3">
+                      {tags.map((tech) => <li key={tech} className="border border-edge px-2 py-1">{tech}</li>)}
+                    </ul>
+                  )}
+                  {stats && (
+                    <p className="mt-4 text-xs text-ink-3">
+                      {stats.commitCount} {t.commits} · {t.lastCommit}{" "}
+                      {formatDay(stats.lastCommitDate, locale)}
+                    </p>
+                  )}
+                  <div className="mt-auto pt-4">
+                    <a href={detail} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-accent underline underline-offset-4">
+                      {t.viewProject}<span className="sr-only">: {project.title}</span><span aria-hidden>→</span>
+                    </a>
+                    <ProjectLinks links={project.links} />
+                  </div>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
