@@ -26,17 +26,18 @@ describe("structured data", () => {
     expect(personJsonLd()).not.toHaveProperty("alumniOf");
   });
 
-  it("omits url for a venture without href (Viyaro)", () => {
+  it("omits url and founder for Viyaro and preserves them for Teluvane", () => {
     const list = venturesJsonLd(ventures) as {
       itemListElement: { item: Record<string, unknown> }[];
     };
     const viyaro = list.itemListElement.find((e) => e.item.name === "Viyaro")!;
     expect(viyaro.item).not.toHaveProperty("url");
-    expect(viyaro.item.founder).toEqual({ "@id": `${SITE_URL}/#person` });
+    expect(viyaro.item).not.toHaveProperty("founder");
     const teluvane = list.itemListElement.find(
       (e) => e.item.name === "Teluvane",
     )!;
     expect(teluvane.item.url).toBe("https://teluvane.com");
+    expect(teluvane.item.founder).toEqual({ "@id": `${SITE_URL}/#person` });
   });
 
   it("builds the absolute localized detail URL", () => {
