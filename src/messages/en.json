@@ -29,6 +29,7 @@
     "allTitle": "All projects",
     "listLabel": "Projects in the gallery",
     "heading": "Projects",
+    "results": "Projects shown: {count}",
     "workTitle": "Selected work",
     "workIntro": "Projects in software, autonomous flight, and simulation.",
     "viewProject": "View project",
@@ -52,6 +53,11 @@
   "project": {
     "back": "All projects",
     "overview": "About the project",
+    "summary": "Summary",
+    "role": "My role",
+    "flightRole": "Electronics & Software Captain",
+    "implementation": "Implementation",
+    "evidence": "Evidence & links",
     "stack": "Built with",
     "navLabel": "Other projects",
     "previous": "Previous",
@@ -110,12 +116,21 @@
   "about": {
     "barAbout": "About",
     "barSkills": "Skills",
-    "railLeft": "Emir Sakarya · Founder & Engineer · Bursa / TR · N°01",
-    "railRight": "Section 01 · About × Skills · Scroll to explore · 2026",
-    "p1": "I build things that have to work outside a demo: a drone that has to land where it said it would, an audit log that has to hold up when someone checks it. If something on this page can’t be checked, it shouldn’t be here.",
-    "p2": "I founded STRATOS İHA, a TEKNOFEST UAV community in Bursa, and lead electronics and software for its 25-person engineering org. In its first year the program reached the TEKNOFEST 2026 rotorcraft final (16th of 3,715 teams) and the NASA Space Apps Turkey final.",
-    "p3": "On the aircraft I work with Pixhawk 6C, Raspberry Pi 5, ArduPilot and OpenCV, plus PCB design and sensor fusion. On the web it’s React, Next.js and TypeScript up front, Node.js, FastAPI, Postgres and Redis behind them, shipped with Docker, Kubernetes and Vercel. For AI I build agent systems with LangGraph and Claude.",
-    "p4": "Right now: Teluvane, a multi-tenant platform that hash-chains every AI agent action against EU AI Act, ISO 42001, NIST AI RMF and SOC 2; Viyaro, a BOSİAD-funded autonomous mobility venture with 50,000+ rides across 10+ companies; and Zero-G Pharma, first in Türkiye at NASA Space Apps 2025 (global top 50 of 6,000+ teams). Student at Tofaş Fen Lisesi, class of 2028."
+    "railLeft": "Emir Sakarya · Founder & Engineer · Bursa / TR · N°02",
+    "railRight": "Section 02 · About × Skills · Scroll to explore · 2026",
+    "summary": "I build systems that have to work outside a demo: aircraft that land where expected and audit logs that hold up to scrutiny.",
+    "flight": {
+      "heading": "Flight",
+      "body": "I founded STRATOS İHA in Bursa and lead electronics and software for its 25-person engineering team. We reached the TEKNOFEST 2026 rotorcraft final (16th of 3,715 teams) and the NASA Space Apps Turkey final in our first year. I work with Pixhawk 6C, Raspberry Pi 5, ArduPilot, OpenCV, PCB design, and sensor fusion."
+    },
+    "ai": {
+      "heading": "AI",
+      "body": "I build agent systems with LangGraph and Claude. Teluvane is a multi-tenant platform that hash-chains agent actions and audits them against EU AI Act, ISO 42001, NIST AI RMF, and SOC 2 policies. Zero-G Pharma placed first in Türkiye at NASA Space Apps 2025 and in the global top 50 of more than 6,000 teams."
+    },
+    "software": {
+      "heading": "Production software",
+      "body": "I use React, Next.js, TypeScript, Node.js, FastAPI, Postgres, and Redis, and ship with Docker, Kubernetes, and Vercel. Viyaro is a BOSİAD-funded autonomous mobility venture with 50,000+ rides across more than 10 companies. I’m a Tofaş Fen Lisesi student, class of 2028."
+    }
   },
   "status": {
     "shipped": "SHIPPED",

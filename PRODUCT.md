@@ -17,9 +17,9 @@ Mixed audience, no single dominant visitor type:
 ## Product Purpose
 
 A personal portfolio for Emir Sakarya that makes his range legible in one
-sitting: founder of three ventures (Stratos UAV, Teluvane, Viyaro) spanning
-hardware, AI software, and autonomous mobility, and a working full-stack/AI
-engineer, backed by real, checkable evidence rather than narrative alone.
+sitting: founder of Stratos UAV and Teluvane, Founding Technical Developer
+Member at Viyaro, and a working full-stack/AI engineer, backed by real,
+checkable evidence rather than narrative alone.
 Success is a visitor (recruiter, investor, or peer) coming away able to
 verify what was built, not just told a story.
 
@@ -38,8 +38,9 @@ identity for narrative simplicity.
   2028).
 - Runs Teluvane (AI-agent compliance auditing SaaS) as a separate founder
   venture; pre-revenue, no confirmed paying customers yet.
-- Founded and leads Viyaro, an autonomous mobility venture funded by BOSİAD,
-  now in daily production use across 10+ companies with 50,000+ rides logged.
+- Founding Technical Developer Member at Viyaro, an autonomous mobility venture
+  funded by BOSİAD, now in daily production use across 10+ companies with
+  50,000+ rides logged.
 - Site content is data-driven from `src/data/projects.ts`; the work catalogue,
   count, and index all derive from that file, so product/resume facts and the
   site can drift out of sync if one is edited without the other.
@@ -61,8 +62,8 @@ identity for narrative simplicity.
 
 - Name: Emir Sakarya. GitHub: iWeslax83. STRATOS İHA is his founded UAV
   community/company (stratosiha.com). Teluvane is his AI-compliance startup
-  (teluvane.com). Viyaro is his autonomous mobility venture (no public site
-  yet).
+  (teluvane.com). Viyaro is an autonomous mobility venture he works on
+  (no public site yet).
 - Visual system is documented independently in `DESIGN.md` (black frame,
   white sheet, no accent color); this file does not restate or govern
   those decisions.
