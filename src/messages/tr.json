@@ -98,10 +98,9 @@
     "githubLink": "github.com/iWeslax83"
   },
   "closing": {
-    "line1": "Hadi",
-    "line2": "Gerçek",
-    "line3": "Bir Şey",
-    "line4": "Yapalım",
+    "headline": "Hadi gerçek bir şey yapalım",
+    "invite": "Bir proje üzerinde mi çalışıyorsun, bir şey mi sormak istiyorsun? Bana yaz.",
+    "emailAction": "E-posta gönder",
     "dreamBuild": "Hayal et. Yap.",
     "go": "GO",
     "goLabel": "GO: Emir Sakarya’ya e-posta gönder"
@@ -110,7 +109,8 @@
     "colophon": "Bursa’da, Emir Sakarya tarafından tasarlanıp kodlandı.",
     "meta": "Next.js · 2026",
     "wordmark": "KURUCU MÜHENDİS",
-    "contactHeading": "İletişim",
+    "socialHeading": "Sosyal bağlantılar",
+    "emailLabel": "E-posta",
     "navHeading": "Gezinme"
   },
   "about": {

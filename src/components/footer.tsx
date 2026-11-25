@@ -1,117 +1,65 @@
-"use client";
-
 import type { Messages } from "@/lib/messages";
 import { navItems } from "@/data/nav-items";
 import { RESUME_PATH, contactLinks } from "@/data/contact";
-import DotPattern from "@/components/ui/dot-pattern";
 import { localizedPath } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";
 
-const heading =
-  "mb-5 font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-ink-2";
+const heading = "text-xs font-bold uppercase tracking-wider text-ink-3";
+const link = "inline-flex min-h-11 items-center text-sm hover:text-accent focus-visible:text-accent";
 
 export default function Footer({
   t,
   nav,
   locale,
+  hideResume = false,
 }: {
   t: Messages["footer"];
   nav: Messages["nav"];
   locale: Locale;
+  hideResume?: boolean;
 }) {
+  const footerLinks = hideResume
+    ? contactLinks.filter(({ href }) => href !== RESUME_PATH)
+    : contactLinks;
   return (
-    <footer>
-      <div className="relative h-24 bg-deep md:h-[220px]">
-        <DotPattern
-          color="rgba(77,255,124,0.3)"
-          gap={10}
-          radius={1.2}
-          className="absolute inset-0 h-full w-full"
-        />
-      </div>
-
-      <div className="relative overflow-hidden border-t border-edge bg-deep text-ink">
-        {/* Faint texture, not copy: drawn as SVG so contrast checkers do
-            not read it as low-contrast text. Font size is 10.5% of width. */}
-        <svg
-          aria-hidden
-          viewBox="0 0 1000 105"
-          className="pointer-events-none absolute inset-x-0 top-1/2 w-full -translate-y-1/2 select-none overflow-visible opacity-[0.1]"
-        >
-          <text
-            x="500"
-            y="52.5"
-            textAnchor="middle"
-            dominantBaseline="central"
-            fontSize="105"
-            fill="currentColor"
-            className="font-display"
-          >
-            {t.wordmark}
-          </text>
-        </svg>
-
-        <div className="relative mx-auto max-w-[1320px] px-6 py-14 md:px-10 md:py-20 lg:px-36">
-          <div className="grid gap-10 sm:grid-cols-2 sm:gap-24">
-            <div>
-              <p className={heading}>{t.contactHeading}</p>
-              <ul className="space-y-3">
-                {contactLinks.map((c) => {
-                  const isResume = c.href === RESUME_PATH;
-                  const external = c.href.startsWith("http") || isResume;
-                  return (
-                    <li key={c.label}>
-                      <a
-                        href={c.href}
-                        target={external ? "_blank" : undefined}
-                        rel={external ? "noopener noreferrer" : undefined}
-                        className="flex min-w-0 items-baseline justify-between gap-4 transition-opacity duration-[350ms] hover:opacity-70 focus-visible:opacity-70 active:opacity-70"
-                      >
-                        <span className="font-mono text-base">
-                          {isResume ? nav.resume : c.label}
-                        </span>
-                        <span className="min-w-0 truncate font-mono text-xs text-ink-2">
-                          {c.value}
-                        </span>
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div>
-              <p className={heading}>{t.navHeading}</p>
-              <ul className="space-y-3">
-                {navItems.map((item) => (
-                  <li key={item.key}>
-                    <a
-                      href={localizedPath(locale, item.href)}
-                      className="group flex items-baseline justify-between font-mono text-base transition-colors duration-[350ms] hover:text-accent focus-visible:text-accent active:text-accent"
-                    >
-                      {nav[item.key]}
-                      <span
-                        aria-hidden
-                        className="text-sm text-ink-2 transition-transform duration-[350ms] group-hover:-translate-y-1 group-hover:translate-x-1 group-focus-visible:-translate-y-1 group-focus-visible:translate-x-1"
-                      >
-                        ↗
-                      </span>
+    <footer className="border-t border-edge bg-deep text-ink">
+      <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-10 sm:py-12">
+        <div className="grid gap-6 sm:grid-cols-[3fr_2fr] sm:gap-12">
+          <nav aria-labelledby="footer-nav-heading">
+            <h2 id="footer-nav-heading" className={heading}>{t.navHeading}</h2>
+            <ul className="mt-2 grid grid-cols-2 gap-x-4">
+              {navItems.map((item) => (
+                <li key={item.key}>
+                  <a href={localizedPath(locale, item.href)} className={link}>{nav[item.key]}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div>
+            <h2 className={heading}>{t.socialHeading}</h2>
+            <ul className="mt-2 flex flex-wrap gap-x-6">
+              {footerLinks.map(({ href, label }) => {
+                const isResume = href === RESUME_PATH;
+                const newTab = isResume || href.startsWith("https://");
+                return (
+                  <li key={href}>
+                    <a href={href} hrefLang={isResume ? "en" : undefined} target={newTab ? "_blank" : undefined} rel={newTab ? "noopener noreferrer" : undefined} className={link}>
+                      {isResume ? nav.resume : newTab ? label : t.emailLabel}
+                      {newTab && <span aria-hidden className="ml-1 text-xs text-ink-3">↗</span>}
                     </a>
                   </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-14 flex flex-col gap-3 border-t border-rule pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2">
-              {t.colophon}
-            </p>
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-2">
-              {t.meta}
-            </p>
+                );
+              })}
+            </ul>
           </div>
         </div>
+        <div className="mt-5 flex flex-col gap-3 border-t border-edge pt-5 text-xs text-ink-3 sm:flex-row sm:justify-between">
+          <p>{t.colophon}</p>
+          <p>{t.meta}</p>
+        </div>
+        <p aria-hidden className="mt-8 hidden select-none text-[clamp(2.5rem,7.25vw,6rem)] font-extrabold leading-none tracking-tighter text-ink-3 opacity-20 md:block">
+          {t.wordmark}
+        </p>
       </div>
     </footer>
   );
