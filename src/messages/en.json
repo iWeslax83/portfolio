@@ -29,7 +29,15 @@
     "allTitle": "All projects",
     "listLabel": "Projects in the gallery",
     "heading": "Projects",
-    "workTitle": "Work",
+    "workTitle": "Selected work",
+    "workIntro": "Projects in software, autonomous flight, and simulation.",
+    "viewProject": "View project",
+    "technologies": "Technologies",
+    "showcase": {
+      "prose": "Turns a plain-language instruction into a typed, replayable agent workflow.",
+      "multicopter": "I lead the flight-controller integration, sensors, and autonomous mission planning.",
+      "wildfire": "Maps active fires from NASA FIRMS and simulates how they could spread over the next 12 to 24 hours."
+    },
     "commits": "commits",
     "lastCommit": "last commit",
     "screenshotAlt": "{title} screenshot",
@@ -58,6 +66,8 @@
   },
   "hero": {
     "prompt": "emir@bursa ~ % whoami",
+    "specialty": "I build autonomous drones, AI systems, and software for real-world use.",
+    "viewWork": "See selected work",
     "loc": "LOCATION",
     "org": "ORG",
     "team": "TEAM",

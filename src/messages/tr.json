@@ -29,7 +29,15 @@
     "allTitle": "Tüm projeler",
     "listLabel": "Galerideki projeler",
     "heading": "Projeler",
-    "workTitle": "İşler",
+    "workTitle": "Seçili işler",
+    "workIntro": "Yazılım, otonom uçuş ve simülasyon projeleri.",
+    "viewProject": "Projeyi incele",
+    "technologies": "Teknolojiler",
+    "showcase": {
+      "prose": "Doğal dilde yazılmış bir talimatı tür denetimli, yeniden yürütülebilir bir ajan iş akışına dönüştürüyor.",
+      "multicopter": "Uçuş kontrolcüsü entegrasyonunu, sensörleri ve otonom görev planlamasını yönetiyorum.",
+      "wildfire": "NASA FIRMS verileriyle aktif yangınları haritalıyor ve önümüzdeki 12 ila 24 saatte nasıl yayılabileceklerini modelliyor."
+    },
     "commits": "commit",
     "lastCommit": "son commit",
     "screenshotAlt": "{title} ekran görüntüsü",
@@ -58,6 +66,8 @@
   },
   "hero": {
     "prompt": "emir@bursa ~ % whoami",
+    "specialty": "Otonom İHA’lar, yapay zekâ sistemleri ve sahada kullanılan yazılımlar geliştiriyorum.",
+    "viewWork": "Seçili işleri gör",
     "loc": "KONUM",
     "org": "EKİP",
     "team": "KADRO",

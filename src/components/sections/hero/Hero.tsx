@@ -1,98 +1,85 @@
 import type { CommitEntry } from "@/lib/git-history";
 import type { Messages } from "@/lib/messages";
 import { buildTickerSegments } from "@/lib/ticker";
+import { RESUME_PATH } from "@/data/contact";
 import Ticker from "./Ticker";
 import HeroMesh from "./HeroMesh";
 import HeroMeshCanvas from "./HeroMeshCanvas";
 
-const teleCell =
-  "flex flex-col gap-1 border-l border-edge px-4 py-3 font-mono first:border-l-0";
-
 export default function Hero({
   commits,
   t,
+  resumeLabel,
 }: {
   commits: CommitEntry[];
   t: Messages["hero"];
+  resumeLabel: string;
 }) {
   const cells: [string, string][] = [
     [t.loc, t.locValue],
     [t.org, t.orgValue],
     [t.team, t.teamValue],
-    [t.rides, t.ridesValue],
-    [t.status, t.statusValue],
   ];
-  const logs = [t.log1, t.log2, t.log3, t.log4];
   return (
     <section id="home" aria-labelledby="hero-title">
-      <div data-intro="ticker">
-        <Ticker segments={buildTickerSegments(commits, 101)} speed={0.15} />
-      </div>
-      <div
-        data-intro="mesh"
-        className="relative h-[38vh] overflow-hidden border-b border-edge sm:h-[30vh] lg:h-[38vh]"
-      >
-        <HeroMesh />
-        <HeroMeshCanvas />
-      </div>
-
-      <div className="mx-auto max-w-[1100px] px-4 py-14 sm:px-10 sm:py-20">
-        <p className="font-mono text-sm text-ink-2">
-          <span className="text-accent">emir@bursa</span>
-          {t.prompt.replace("emir@bursa", "")}
-        </p>
-        <h1
-          id="hero-title"
-          className="mt-6 font-mono text-[clamp(2.4rem,8.5vw,6.6rem)] font-extrabold leading-[1.02] tracking-[-0.02em] text-ink"
-        >
-          <span className="sr-only">Emir Sakarya: </span>
-          <span className="block">
-            UAV <span className="text-accent">/</span> AI{" "}
-            <span className="text-accent">/</span>
-          </span>
-          <span className="block">
-            FOUNDER
+      <div className="mx-auto max-w-[1200px] px-4 pb-8 pt-9 sm:px-10 sm:pb-12 sm:pt-16">
+        <div className="grid items-center gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
+          <div>
+            <p className="font-mono text-sm text-ink-3">
+              <span className="text-accent">emir@bursa</span>
+              {t.prompt.replace("emir@bursa", "")}
+            </p>
+            <h1
+              id="hero-title"
+              className="mt-4 font-mono text-[clamp(2.1rem,6vw,4.5rem)] font-extrabold leading-none tracking-[-0.055em] text-ink"
+            >
+              Emir Sakarya
+            </h1>
+            <p className="mt-4 max-w-[42ch] text-pretty font-mono text-base leading-relaxed text-ink-3 sm:text-lg">
+              {t.specialty}
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <a
+                href="#work"
+                className="inline-flex min-h-11 items-center gap-3 border border-accent bg-accent px-4 py-2 text-sm font-bold text-bg transition-colors hover:border-ink hover:bg-ink"
+              >
+                {t.viewWork} <span aria-hidden>↓</span>
+              </a>
+              <a
+                href={RESUME_PATH}
+                hrefLang="en"
+                className="inline-flex min-h-11 items-center text-sm font-bold text-ink underline decoration-edge underline-offset-4 hover:text-accent"
+              >
+                {resumeLabel}
+              </a>
+            </div>
+          </div>
+          <div
+            aria-hidden
+            className="relative h-[120px] overflow-hidden border border-edge bg-bg sm:h-[180px] lg:h-[240px]"
+          >
+            <div data-intro="mesh" className="absolute inset-0 opacity-70">
+              <HeroMesh />
+              <HeroMeshCanvas />
+            </div>
             <span
-              aria-hidden
-              className="cursor-blink ml-3 inline-block h-[0.8em] w-[0.5em] translate-y-[0.08em] bg-accent"
+              className="cursor-blink absolute bottom-3 right-3 h-3 w-2 bg-accent"
             />
-          </span>
-        </h1>
-
-        <dl
-          data-intro="ticker"
-          className="mt-12 grid grid-cols-2 border border-edge sm:grid-cols-5"
-        >
+          </div>
+        </div>
+        <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 border-t border-edge pt-4 sm:mt-8 sm:grid-cols-3">
           {cells.map(([k, v]) => (
-            <div key={k} className={teleCell}>
-              <dt className="text-[10px] uppercase tracking-[0.2em] text-ink-2">
+            <div key={k}>
+              <dt className="text-[11px] uppercase tracking-[0.12em] text-ink-3">
                 {k}
               </dt>
-              <dd className="text-sm font-medium text-accent">{v}</dd>
+              <dd className="mt-1 text-xs font-bold text-ink sm:text-sm">{v}</dd>
             </div>
           ))}
         </dl>
-
-        <div
-          data-intro="ticker"
-          className="mt-8 font-mono text-xs leading-[2] text-ink-2 sm:text-[13px]"
-        >
-          {logs.map((line, i) => (
-            <p key={line}>
-              <span className="text-ink-3">
-                [00:0{i}.{i + 1}]
-              </span>{" "}
-              {line}
-            </p>
-          ))}
-        </div>
       </div>
-
       <div data-intro="ticker">
-        <Ticker
-          segments={buildTickerSegments(commits.slice(12), 202)}
-          speed={0.25}
-        />
+        <Ticker segments={buildTickerSegments(commits, 101)} speed={0.15} />
       </div>
     </section>
   );

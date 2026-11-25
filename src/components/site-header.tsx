@@ -6,21 +6,11 @@ import type { Messages } from "@/lib/messages";
 import { Menu } from "lucide-react";
 import { SECTION_IDS, navItems } from "@/data/nav-items";
 import { useActiveSection } from "@/lib/use-active-section";
-import { GitHubIcon, LinkedInIcon } from "@/components/ui/social-icons";
 import LocaleSwitch from "@/components/ui/locale-switch";
 import { localizedPath, stripLocale } from "@/lib/locale-path";
 import type { Locale } from "@/lib/locales";
-import { RESUME_PATH } from "@/data/contact";
 import MobileNav from "./mobile-nav";
 
-const socialCell =
-  "flex flex-1 items-center justify-center transition-colors hover:bg-ink hover:text-bg active:bg-ink active:text-bg";
-
-/**
- * Cell-grid header in normal flow (it scrolls away, like the reference's).
- * Desktop: logo, caption, nav, social, two-line tagline. Below lg: logo and
- * a burger that opens the full-screen menu.
- */
 export default function SiteHeader({
   t,
   locale,
@@ -36,7 +26,7 @@ export default function SiteHeader({
 
   return (
     <header className="relative z-40 border-b border-edge bg-bg">
-      <div data-intro="header-row" className="flex h-16 lg:h-24">
+      <div data-intro="header-row" className="mx-auto flex h-16 max-w-[1440px] lg:h-[72px]">
         {/* A plain hash link: on the home page the smooth-scroll handler takes it, elsewhere it is a normal load */}
         <a
           href={href("/#home")}
@@ -47,19 +37,10 @@ export default function SiteHeader({
           ES_
         </a>
 
-        <div
-          data-intro="header-cell"
-          className="hidden w-56 shrink-0 items-end border-r border-edge px-6 pb-3 xl:flex"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-2">
-            {t.caption}
-          </span>
-        </div>
-
         <nav
           aria-label={t.primaryLabel}
           data-intro="header-cell"
-          className="hidden flex-1 border-r border-edge lg:flex"
+          className="hidden flex-1 lg:flex"
         >
           {navItems.map((item) => {
             const isActive =
@@ -71,15 +52,8 @@ export default function SiteHeader({
                 key={item.key}
                 href={href(item.href)}
                 aria-current={isActive ? "true" : undefined}
-                className="group flex flex-1 items-center justify-center font-mono text-sm uppercase tracking-[0.05em] text-ink-2 transition-colors duration-[350ms] hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg active:bg-ink active:text-bg"
+                className="flex flex-1 items-center justify-center px-3 font-mono text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg"
               >
-                {/* Cell fills on hover; from xl an arrow also slides in, as on the reference. Below xl the Turkish labels fill their cells, so it stays out. */}
-                <span
-                  aria-hidden
-                  className="hidden w-0 overflow-hidden text-[10px] opacity-0 transition-all duration-[350ms] group-hover:mr-2 group-hover:w-2 group-hover:opacity-100 group-focus-visible:mr-2 group-focus-visible:w-2 group-focus-visible:opacity-100 xl:inline"
-                >
-                  ▸
-                </span>
                 <span className="relative py-1">
                   {t[item.key]}
                   {isActive && (
@@ -94,70 +68,22 @@ export default function SiteHeader({
           })}
         </nav>
 
-        <div
+        <div className="flex-1 lg:hidden" />
+        <p
           data-intro="header-cell"
-          className="hidden w-12 shrink-0 flex-col border-r border-edge lg:flex"
+          className="hidden shrink-0 items-center border-l border-edge px-5 font-mono text-xs text-ink-3 xl:flex"
         >
-          <a
-            href="https://github.com/iWeslax83"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className={`${socialCell} border-b border-edge`}
-          >
-            <GitHubIcon className="h-[18px] w-[18px]" />
-          </a>
-          <a
-            href="https://linkedin.com/in/emirsakarya"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className={socialCell}
-          >
-            <LinkedInIcon className="h-[18px] w-[18px]" />
-          </a>
-        </div>
-
-        <div
-          data-intro="header-cell"
-          className="hidden w-12 shrink-0 border-r border-edge lg:flex"
-        >
+          {t.statusLine1}
+        </p>
+        <div data-intro="header-cell" className="hidden shrink-0 border-l border-edge lg:flex">
           <LocaleSwitch
             locale={locale}
             labels={langLabels}
-            className="flex flex-1 flex-col [&>a:first-child]:border-b [&>a:first-child]:border-edge"
-            linkClassName={`${socialCell} font-mono text-xs uppercase tracking-[0.05em] duration-[350ms] focus-visible:bg-ink focus-visible:text-bg`}
+            className="flex"
+            linkClassName="flex items-center px-4 font-mono text-xs font-bold uppercase transition-colors hover:bg-ink hover:text-bg focus-visible:bg-ink focus-visible:text-bg"
           />
         </div>
 
-        <div
-          data-intro="header-cell"
-          className="hidden w-[22rem] shrink-0 flex-col lg:flex xl:w-[28rem]"
-        >
-          <p className="flex flex-1 items-center border-b border-edge px-5 font-mono text-xs leading-none text-ink-2">
-            {t.statusLine1}
-          </p>
-          <p className="flex flex-1 items-center gap-[0.5em] px-5 font-mono text-xs leading-none text-ink-2">
-            {t.statusLine2}
-            <a
-              href={href("/#contact")}
-              className="text-accent underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
-            >
-              {t.getInTouch}
-            </a>
-            <a
-              href={RESUME_PATH}
-              target="_blank"
-              rel="noopener noreferrer"
-              hrefLang="en"
-              className="text-accent underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] duration-[350ms] hover:decoration-[3px] focus-visible:decoration-[3px]"
-            >
-              {t.resumeShort}
-            </a>
-          </p>
-        </div>
-
-        <div data-intro="header-cell" className="flex-1 lg:hidden" />
         <button
           type="button"
           onClick={() => setOpen(true)}

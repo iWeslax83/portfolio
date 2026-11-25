@@ -196,37 +196,6 @@ section[tabindex="-1"]:focus {
 
 /* ── Drafting language ────────────────────────────────────── */
 
-/* Work stage letters: a gray copy behind the glyph, pushed to the outer
-   side and stretched a touch, reads as an extrusion rim on black. --side
-   is -1..1 across each row (set inline per letter). */
-.work-letter::before {
-  content: attr(data-letter);
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  color: var(--color-ink-2);
-  transform: translateX(calc(var(--side, 0) * 1.8px)) scale(1.05, 1.02);
-}
-
-/* Work section variants. The pinned, scroll-driven gallery runs at every
-   width for people who have not asked for reduced motion (like the
-   reference, phones included); reduced motion gets the static gallery.
-   Pure CSS, so no hydration mismatch. */
-.work-animated {
-  display: none;
-}
-.work-static {
-  display: block;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .work-animated {
-    display: block;
-  }
-  .work-static {
-    display: none;
-  }
-}
-
 /* Link underline that draws from the left on hover */
 .link-draw {
   position: relative;

@@ -30,7 +30,8 @@ export default async function Home({
     <Frame>
       <SiteHeader t={m.nav} locale={locale} />
       <main id="main" tabIndex={-1} className="outline-none">
-        <Hero commits={commits} t={m.hero} />
+        <Hero commits={commits} t={m.hero} resumeLabel={m.nav.resume} />
+        <Work />
         <AboutSkills
           stats={githubStats}
           t={m.about}
@@ -38,7 +39,6 @@ export default async function Home({
           bentoSkills={getBentoSkills(locale)}
           devops={getDevopsSkill(locale)}
         />
-        <Work />
         <Closing commits={commits} t={m.closing} />
       </main>
       <Footer t={m.footer} nav={m.nav} locale={locale} />
