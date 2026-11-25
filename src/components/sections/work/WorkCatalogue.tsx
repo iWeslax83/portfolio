@@ -18,7 +18,7 @@ import { gsap, ScrollTrigger, useGSAP, MOTION_OK, EASE } from "@/lib/gsap";
 import { revealOnce } from "@/lib/reveal";
 import { formatDay } from "@/lib/format-date";
 import { localizedPath } from "@/lib/locale-path";
-import { FLAGSHIP_COMPANION, orderedProjects } from "@/lib/project-nav";
+import { orderedProjects } from "@/lib/project-nav";
 import ProjectLinks from "./ProjectLinks";
 
 const FRAME = "border-2 border-accent px-6 md:px-8";
@@ -65,11 +65,13 @@ export default function WorkCatalogue({
     ARCHIVED: status.archived,
   };
   const ordered = orderedProjects(projects);
-  const flagship = ordered[0];
+  const [flagship, companion] = ordered;
   const shown = ordered.filter((p) => filter === "ALL" || p.status === filter);
   // The flagship and its companion share one framed row when both are shown.
   const paired =
-    shown[0]?.slug === flagship?.slug && shown[1]?.slug === FLAGSHIP_COMPANION;
+    companion != null &&
+    shown[0]?.slug === flagship.slug &&
+    shown[1]?.slug === companion.slug;
   const scope = useRef<HTMLElement>(null);
 
   // The black title bar wipes in, then articles reveal in batches as they

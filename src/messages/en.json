@@ -30,13 +30,13 @@
     "listLabel": "Projects in the gallery",
     "heading": "Projects",
     "workTitle": "Selected work",
-    "workIntro": "Projects in software, autonomous flight, and simulation.",
+    "workIntro": "Projects in web development and AI tooling.",
     "viewProject": "View project",
     "technologies": "Technologies",
     "showcase": {
       "prose": "Turns a plain-language instruction into a typed, replayable agent workflow.",
-      "multicopter": "I lead the flight-controller integration, sensors, and autonomous mission planning.",
-      "wildfire": "Maps active fires from NASA FIRMS and simulates how they could spread over the next 12 to 24 hours."
+      "stratos": "The official site for STRATOS İHA, with an overview of the team, its departments, and projects.",
+      "teluvane": "Records AI agent actions in a hash chain and audits them against compliance policies."
     },
     "commits": "commits",
     "lastCommit": "last commit",

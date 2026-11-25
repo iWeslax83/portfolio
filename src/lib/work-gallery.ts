@@ -1,9 +1,9 @@
 import type { Project } from "@/lib/types";
 
 const showcase = [
+  { slug: "stratos-website", summaryKey: "stratos", tag: "web" },
+  { slug: "teluvane", summaryKey: "teluvane", tag: "AI" },
   { slug: "prose", summaryKey: "prose", tag: "AI" },
-  { slug: "otonom-iha", summaryKey: "multicopter", tag: "competition" },
-  { slug: "live-wildfire", summaryKey: "wildfire", tag: "simulation" },
 ] as const;
 
 export function showcaseProjects(projects: Project[]) {

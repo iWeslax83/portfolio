@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { featuredProjects, projects } from "@/data/projects";
+import { projects } from "@/data/projects";
+import { getProjects } from "@/lib/localize";
 import {
   adjacentProjects,
   firstSentence,
-  FLAGSHIP_COMPANION,
   metaDescription,
   orderedProjects,
 } from "./project-nav";
@@ -11,17 +11,24 @@ import {
 describe("orderedProjects", () => {
   const list = orderedProjects(projects);
 
-  it("puts the flagship first", () => {
-    expect(list[0].slug).toBe(featuredProjects[0].slug);
-  });
-
-  it("puts the flagship's companion right after it", () => {
-    expect(list[1].slug).toBe(FLAGSHIP_COMPANION);
-  });
-
-  it("orders the rest by ascending order", () => {
-    const rest = list.slice(2).map((p) => p.order);
-    expect(rest).toEqual([...rest].sort((a, b) => a - b));
+  it.each(["en", "tr"] as const)("prioritizes the requested projects and keeps the remaining order in %s", (locale) => {
+    expect(orderedProjects(getProjects(locale)).map((p) => p.slug)).toEqual([
+      "stratos-website",
+      "teluvane",
+      "prose",
+      "tofas-fen-webapp",
+      "stratos-akademi",
+      "duran",
+      "masa-hesaplari",
+      "otonom-iha",
+      "live-wildfire",
+      "smart-cane",
+      "local-ai-assistant",
+      "zero-g-pharma",
+      "fpv-drone",
+      "vex-robotics",
+      "tmt-website",
+    ]);
   });
 
   it("keeps every project exactly once", () => {

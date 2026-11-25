@@ -35,7 +35,7 @@ export function getProjects(locale: Locale): Project[] {
   return locale === "en" ? projects : projects.map(localizeProject);
 }
 
-/** Featured projects in catalogue order (the gallery's flagship first). */
+/** Featured projects in catalogue order. */
 export function getFeaturedProjects(locale: Locale): Project[] {
   return getProjects(locale)
     .filter((p) => p.featured)
