@@ -30,13 +30,13 @@
     "listLabel": "Galerideki projeler",
     "heading": "Projeler",
     "workTitle": "Seçili işler",
-    "workIntro": "Yazılım, otonom uçuş ve simülasyon projeleri.",
+    "workIntro": "Web geliştirme ve yapay zekâ araçları üzerine projeler.",
     "viewProject": "Projeyi incele",
     "technologies": "Teknolojiler",
     "showcase": {
       "prose": "Doğal dilde yazılmış bir talimatı tür denetimli, yeniden yürütülebilir bir ajan iş akışına dönüştürüyor.",
-      "multicopter": "Uçuş kontrolcüsü entegrasyonunu, sensörleri ve otonom görev planlamasını yönetiyorum.",
-      "wildfire": "NASA FIRMS verileriyle aktif yangınları haritalıyor ve önümüzdeki 12 ila 24 saatte nasıl yayılabileceklerini modelliyor."
+      "stratos": "STRATOS İHA’nın ekibini, departmanlarını ve projelerini tanıtan resmi sitesi.",
+      "teluvane": "Yapay zekâ ajanlarının eylemlerini hash zincirine kaydediyor ve uyumluluk politikalarına göre denetliyor."
     },
     "commits": "commit",
     "lastCommit": "son commit",

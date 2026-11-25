@@ -2,19 +2,8 @@ import type { Project } from "@/lib/types";
 
 const byOrder = (a: Project, b: Project) => a.order - b.order;
 
-/** Slug of the project shown beside the flagship in the catalogue. */
-export const FLAGSHIP_COMPANION = "stratos-website";
-
-/**
- * Catalogue order: the flagship (the first featured project by `order`)
- * leads, then its companion, then everything else by `order`.
- */
 export function orderedProjects(list: Project[]): Project[] {
-  const [flagship] = list.filter((p) => p.featured).sort(byOrder);
-  const companion = list.find((p) => p.slug === FLAGSHIP_COMPANION);
-  const lead = [flagship, companion].filter((p): p is Project => !!p);
-  const rest = list.filter((p) => !lead.includes(p)).sort(byOrder);
-  return [...lead, ...rest];
+  return [...list].sort(byOrder);
 }
 
 /** The projects either side of `slug` in `list`, wrapping at both ends. */
